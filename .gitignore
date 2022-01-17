@@ -1,0 +1,17 @@
+# directories we often use
+slides
+notes
+course_materials
+prepare_data
+
+# local site rendering is not pushed
+_site
+
+# in case RStudio is used for editing/building site
+.Rhistory
+.Rproj.user
+*.Rproj
+.Rbuildignore
+
+# VS Code workspace file
+*.code-workspace
