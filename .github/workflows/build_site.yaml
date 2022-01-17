@@ -25,7 +25,9 @@ jobs:
         run: Rscript -e 'install.packages("rmarkdown")'
 
       - name: Build website
-        run: Rscript -e 'rmarkdown::render_site()'
+        run: |
+          Rscript -e 'rmarkdown::render_site()'
+          touch _site/.nojekyll
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.0
