@@ -20,26 +20,21 @@ navbar:
       href: 101-setup.html
     - text: "Materials"
       menu:
-        - text: "Under Development"
-        - text: "--------------"
         - text: "SARS-CoV-2 Genomics"
-          # href: 01-intro.html
-        - text: "Section 2"
+          href: 01-intro.html
         - text: "Unix Command Line"
-          # href: 02-unix.html
+          href: 02-unix.html
         - text: "Intro to NGS Data"
-          # href: 03-intro_ngs.html
-        - text: "Reference-based Assembly"
-          # href: 04-artic_nextflow.html
-        - text: "Quality Control"
-          # href: 05-quality_control.html
-        - text: "Lineage Assigment"
-          # href: 06-lineage_assignment.html
-        - text: "Reporting and Visualisation"
-          # href: 07-civet_nextstrain.html
-        - text: "Managing and Installing Software"
-          # href: 08-nextflow_conda_setup.html
-    - text: "Extras"
+          href: 03-intro_ngs.html
+        - text: "Consensus Assembly"
+          href: 04-artic_nextflow.html
+        - text: "Lineages and Variants"
+          href: 05-lineage_assignment.html
+        - text: "Phylogenetic Placement"
+          href: 06-phylogeny.html
+        - text: "Managing Software"
+          href: 07-nextflow_conda_setup.html
+    - text: "Resources"
       menu:
         - text: "Unix Cheatsheet"
           href: 102-unix_cheatsheet.html
