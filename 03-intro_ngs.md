@@ -21,6 +21,15 @@ pagetitle: "SARS-CoV-2 Genomics"
 :::
 
 <!--
+
+Some notes about FAST5 files: 
+- https://github.com/mw55309/EG_MinION_2016/blob/master/02_Data_Extraction_QC.md
+
+Ideas:
+
+- Provide a pre-aligned BAM file to visualise in IGV (e.g. the nanopore data are quite interesting - because there's loads of errors, highlighting the importance of high depth of sequencing).
+
+
 ## Summary
 
 :::highlight
