@@ -2,6 +2,24 @@
 
 :construction: **These materials are under active development and not ready to be used for teaching.** :construction:
 
+## Build Website Locally
+### Requirements
+* R - [https://www.r-project.org/](https://www.r-project.org/)
+* pandoc - [https://pandoc.org/installing.html](https://pandoc.org/installing.html)
+
+### Step 1
+First you need to install `rmarkdown` package. To install run:
+```bash
+Rscript -e 'install.packages("rmarkdown")'
+```
+> Note: On Windows make sure that R is added to Windows PATH. 
+
+### Step 2
+To build the website run:
+```bash
+Rscript -e 'rmarkdown::render_site()'
+```
+If there is no error then you will see a `_site` directory, under which you will find all the html files.
 
 ## License
 
