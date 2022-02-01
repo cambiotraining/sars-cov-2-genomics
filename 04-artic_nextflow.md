@@ -30,7 +30,7 @@ As analyses become more complex, workflows may include the use of many different
 Furthermore, as we want to chain multiple tools together, the inputs of one tool may be the output of another, which can become challenging to manage. 
 
 Although it is possible to code such workflows using plain _shell_ scripts, these often don't scale well across different users and compute setups. 
-To overcome these limiations, dedicated [_workflow management software_](https://en.wikipedia.org/wiki/Workflow_management_system) packages have been developed to help standardise workflows and make it easier for the user to process their data. 
+To overcome these limitations, dedicated [_workflow management software_](https://en.wikipedia.org/wiki/Workflow_management_system) packages have been developed to help standardise workflows and make it easier for the user to process their data. 
 
 Two of the most popular _workflow software_ packages are [_Snakemake_](https://snakemake.readthedocs.io/en/stable/) and [_Nextflow_](https://www.nextflow.io/). 
 We will not cover how to develop workflows with these packages, but rather how to use an existing workflow to generate consensus sequences from SARS-CoV-2 data.
@@ -148,7 +148,7 @@ This sub-workflow is similar to the other nanopore sub-workflow, the main differ
 
 In summary, the steps involved in this sub-workflow are:
 
-- Agregate and filter reads to ensure they pass minimum read length thresholds using `artic guppyplex`:
+- Aggregate and filter reads to ensure they pass minimum read length thresholds using `artic guppyplex`:
   - minimum length 400bp (can be changed with `--min_length` option)
   - maximum length 700bp (can be changed with `--max_length` option)
 - Run the `artic minion` tool, which internally does:
