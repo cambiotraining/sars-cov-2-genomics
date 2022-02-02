@@ -40,6 +40,8 @@ navbar:
           href: 102-unix_cheatsheet.html
         - text: "SARS-CoV-2 Resources"
           href: 103-tools_and_resources.html
+        - text: "How to install WSL on Windows 10/11"
+          href: "104-wsl_windows.html"
   right:
     - text: "Github"
       href: https://github.com/cambiotraining/sars-cov-2-genomics
