@@ -1,8 +1,8 @@
 ---
-pagetitle: "SARS-CoV-2 Genomics"
+pagetitle: "The Unix Shell"
 ---
 
-# Introduction to the Unix Command Line
+# The Unix Shell
 
 :::highlight
 
