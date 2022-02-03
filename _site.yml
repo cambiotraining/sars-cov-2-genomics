@@ -22,8 +22,12 @@ navbar:
       menu:
         - text: "SARS-CoV-2 Genomics"
           href: 01-intro.html
-        - text: "Unix Command Line"
-          href: 02-unix.html
+        - text: "The Unix Shell"
+          menu:
+            - text: "Basic Commands"
+              href: "02-unix-basic-commands.html" 
+            - text: "Combining Commands"
+              href: "02-unix-combining-commands.html"
         - text: "Intro to NGS Data"
           href: 03-intro_ngs.html
         - text: "Consensus Assembly"
