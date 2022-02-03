@@ -30,14 +30,14 @@ Once our local client is connected to the remote server, everything we type into
 
 SSH is a protocol which allows us to send secure encrypted information across an unsecured network, like the internet. The underlying protocol supports a number of commands we can use to move information of different types in different ways. The simplest and most straightforward is the `ssh` command which facilitates a remote login session connecting our local user and shell to any remote user we have permission to access.
 
-```{bash}
+```bash
 $ ssh ubuntu@remote-machine
 ```
 
 
 The first argument specifies the location of the remote machine (by IP address or a URL) as well as the user we want to connect to separated by an `@` sign. For the purpose of this course we've set up a container on our cluster for you to connect to the address `remote-machine` is actually a special kind of URL that only your computer will understand. In real life this would normally be an address on the internet which can be access from anywhere or at least an institutional local area network. 
 
-```{bash}
+```bash
 The authenticity of host '[192.168.1.59]:2231 ([192.168.1.59]:2231)' can't be established.
 RSA key fingerprint is SHA256:4X1kUMDOG021U52XDL2U56GFIyC+S5koImofnTHvALk.
 Are you sure you want to continue connecting (yes/no)?
@@ -45,13 +45,13 @@ Are you sure you want to continue connecting (yes/no)?
 
 When you connect to a computer for the first time you should see a warning like the one above. This signifies that the computer is trying to prove it's identity by sending a fingerprint which relates to a key that only it knows. Depending on the security of the server you are connecting to they might distribute the fingerprint ahead of time for you to compare and advise you to double check it in case it changes at a later log on. In our case it is safe to type `yes` .
 
-```{bash}
+```bash
 ubuntu@192.168.1.59's password: ********
 ```
 
 Now you are prompted for a password. In an example of terribly bad practice our password is the same as our username `ubuntu` .
 
-```{bash}
+```bash
 ubuntu@remote_machine:~$
 ```
 
@@ -63,14 +63,14 @@ You should now have a prompt very similar to the one you started with but with a
 
 Making sure we're in the `data-shell` directory let's copy the notes.txt file to the remote machine
 
-```{bash}
+```bash
 $ cd ~/Desktop/data-shell
 $ scp notes.txt ubuntu@remote-machine:/home/ubuntu
 ```
 
 The format of the command should be quite familiar when comparing to the `cp` command for local copying. The last two arguments specify the source and the destination of the copy respectively. The difference comes in that any remote locations involved in the copy must be preceded by the `username@IP` syntax used in the `ssh` command previously. The first half tells scp how to access the computer and the second half tells it where in the filesystem to operate, these two segments are separated by a `:` .
 
-```{bash}
+```bash
 notes.txt                                     100%   86   152.8KB/s   00:00
 ```
 
@@ -78,12 +78,12 @@ Now it looks like we've copied the file, but we should check.
 
 Establishing a whole ssh session just to run one command might be a bit cumbersome. Instead we can tell ssh all the commands it needs to run at the same time we connect by adding an extra argument to the end. ssh will automatically disconnect after it completes the full command string.
 
-```{bash}
+```bash
 $ ssh ubuntu@remote-machine "ls /home/ubuntu/*.txt"
 ```
 
 
-```{bash}
+```bash
 notes.txt
 ```
 
@@ -94,7 +94,7 @@ Success!
 
 Using two commands we've uploaded a file to our server and checked it was there
 
-```{bash}
+```bash
 $ scp notes.txt ubuntu@remote-machine:/home/ubuntu
 $ ssh ubuntu@remote-machine "ls /home/ubuntu/*.txt"
 ```
@@ -108,7 +108,7 @@ If you're having trouble check `man scp` for more information about how to struc
 <details>
 <summary>Answer</summary>
 
-```{bash}
+```bash
 ssh ubuntu@remote-machine "echo all done >> notes.txt"
 scp ubuntu@remote-machine:notes.txt changed_notes.txt
 ```
@@ -121,12 +121,12 @@ scp ubuntu@remote-machine:notes.txt changed_notes.txt
 
 Sometimes we need to manage a large number of files across two locations, often maintaining a specific directory structure. `scp` can handle this with it's `-r` flag. Just like `cp` this puts the command in recursive mode allowing it to copy entire directories of files
 
-```{bash}
+```bash
 $ scp -r ubuntu@remote-machine:/home/ubuntu/Course_Materials/salmon .
 ```
 
 
-```{bash}
+```bash
 meta_info.json                                100% 1857     1.6MB/s   00:00    
 observed_bias_3p.gz                           100%   54    53.7KB/s   00:00    
 obs_gc.gz                                     100%  243   577.6KB/s   00:00    
@@ -155,14 +155,14 @@ For this scenario `rsync` can be an excellent tool.
 
 First lets add some new files to our `salmon` directory using the `touch` command. This command does nothing but create an empty file or update the timestamp of an existing file.
 
-```{bash}
+```bash
 $ touch salmon/newfile1 salmon/newfile2 salmon/newfile3
 ```
 
 
 Now we have everything set up we can issue the `rsync` command to sync our two directories
 
-```{bash}
+```bash
 $ rsync -avz salmon ubuntu@remote-machine:/home/ubuntu/Course_Materials/salmon
 ```
 
@@ -173,7 +173,7 @@ The `-z` flag means that the data will be compressed in transit. This is good pr
 
 Whilst we've used rsync in mostly the same way as we did scp it has many more customisation options as we can observe on the man page
 
-```{bash}
+```bash
 $ man rsync
 ```
 
@@ -190,7 +190,7 @@ Finally `--delete` is very useful when you want to maintain an exact copy of the
 
 First we should manually delete our local copies of the empty files we created.
 
-```{bash}
+```bash
 $ rm salmon/newfile*
 ```
 
@@ -205,7 +205,7 @@ Don't worry too much though, you can always upload a new copy of the data.
 
 <details>
 <summary>Answer</summary>
-```{bash}
+```bash
 rsync -avz --delete salmon ubuntu@remote-machine:/home/ubuntu/salmon
 ```
 
@@ -218,26 +218,26 @@ rsync -avz --delete salmon ubuntu@remote-machine:/home/ubuntu/salmon
 
 Sshfs is another way of using the same ssh protocol to share files in a slightly different way. This software allows us to connect the file system of one machine with the file system of another using a "mount point". Let's start by making a directory in `/home/ubuntu/Desktop/data-shell` to act as this mount point. Convention tells us to call it `mnt`.
 
-```{bash}
+```bash
 $ mkdir /home/ubuntu/Desktop/data-shell/mnt
 ```
 
 Now we can run the `sshfs` command
 
-```{bash}
+```bash
 $ sshfs ubuntu@remote-machine:/home/ubuntu /home/ubuntu/Desktop/data-shell/mnt/
 ```
 
 
 It looks fairly similar to the previous copying commands. The first argument is a remote source, the second argument is a local destination. The difference is that now whenever we interact with our local mount point it will be as if we were interacting with the remote filesystem starting at the directory we specified `/home/sshuser`.
 
-```{bash}
+```bash
 $ cd /home/ubuntu/Desktop/data-shell/mnt/ 
 $ ls -l
 ```
 
 
-```{bash}
+```bash
 total 8
 -rw-r--r-- 1 brewmaster brewmaster    0 Sep 30 07:07 file1
 -rw-r--r-- 1 brewmaster brewmaster   95 Sep 30 05:36 notes.txt
@@ -260,12 +260,12 @@ Whilst this tool can be customised to do a wide range of tasks at its simplest i
 
 The data for this course can be downloaded as follows
 
-```{bash}
+```bash
 $ wget https://github.com/cambiotraining/UnixIntro/raw/master/data/data-shell.zip -O course_data.zip
 ```
 
 
-```{bash}
+```bash
 --2019-09-30 08:28:50--  https://github.com/cambiotraining/UnixIntro/raw/master/data/data-shell.zip
 Resolving github.com (github.com)... 140.82.118.3
 Connecting to github.com (github.com)|140.82.118.3|:443... connected.
@@ -296,7 +296,7 @@ Where tools like `wget` shine in particular is in using URLs generated by web-ba
 
 We can use bash to combine strings and form a valid query URL that meets our requirements.
 
-```{bash}
+```bash
 $ wget https://rest.ensembl.org/genetree/member/symbol/homo_sapiens/BRCA2?prune_taxon=9526;content-type=text/x-orthoxml%2Bxml;prune_species=cow
 ```
 
