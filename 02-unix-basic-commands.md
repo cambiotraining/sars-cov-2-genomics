@@ -32,10 +32,11 @@ Several commands are frequently used to create, inspect, rename, and delete file
 
 First let's find out where we are by running a command called `pwd` (which stands for "print working directory"). Directories are like *places* - at any time while we are using the shell we are in exactly one place, called our **current working directory**. Commands mostly read and write files in the current working directory, i.e. "here", so knowing where you are before running a command is important. `pwd` shows you where you are:
 
-```{bash}
+```bash
 $ pwd
 ```
-```{bash}
+
+```bash
 /home/ubuntu
 ```
 Here, the computer's response is `/home/ubuntu`, which is your **home directory**:
@@ -82,11 +83,11 @@ The user *imhotep*'s files are stored in `/home/imhotep`, user *larry*'s in `/ho
 
 Now let's learn the command that will let us see the contents of our own filesystem.  We can see what's in our home directory by running `ls`, which stands for "listing":
 
-```{bash}
+```bash
 $ ls
 ```
 
-```{bash}
+```bash
 Documents    Downloads    Music        Public
 Desktop      Movies       Pictures     Templates
 ```
@@ -100,11 +101,11 @@ Desktop      Movies       Pictures     Templates
 
 Depending on your default options, the shell might also use colors to indicate whether each entry is a file or directory.
 
-```{bash}
+```bash
 $ ls -F
 ```
 
-```{bash}
+```bash
 Documents/    Downloads/    Music/        Public/
 Desktop/      Movies/       Pictures/     Templates/
 ```
@@ -115,7 +116,7 @@ Here, we can see that our home directory contains mostly **sub-directories**. An
 
 Consider the command below as a general example of a command, which we will dissect into its component parts:
 
-```{bash}
+```bash
 $ ls -F /
 ```
 
@@ -125,7 +126,7 @@ Each part is separated by spaces: if you omit the space between `ls` and `-F` th
 
 Putting all that together, our command above gives us a listing of files and directories in the root directory `/`. An example of the output you might get from the above command is given below:
 
-```{bash}
+```bash
 $ ls -F /
 
 bin/  boot/  cdrom/  core  dev/  etc/  home/  home2/  initrd.img@  initrd.img.old@  lib/  lib32/  lib64/  lost+found/  media/  mnt/  opt/  proc/  root/  run/  sbin/  snap/  srv/  sys/  tmp/  usr/  var/
@@ -136,12 +137,12 @@ bin/  boot/  cdrom/  core  dev/  etc/  home/  home2/  initrd.img@  initrd.img.ol
 `ls` has lots of other **options**. There are two common ways to find out how to use a command and what options it accepts:
 
 1. We can pass a `--help` option to the command, such as:
-  ```{bash}
+  ```bash
   $ ls --help
   ```
 
 2. We can read its manual with `man`, such as:
-  ```{bash}
+  ```bash
   $ man ls
   ```
 
@@ -149,11 +150,11 @@ bin/  boot/  cdrom/  core  dev/  etc/  home/  home2/  initrd.img@  initrd.img.ol
 
 Many bash commands, and programs that people have written that can be run from within bash, support a `--help` option to display more information on how to use the command or program.
 
-```{bash}
+```bash
 $ ls --help
 ```
 
-```{bash}
+```bash
 Usage: ls [OPTION]... [FILE]...
 List information about the FILEs (the current directory by default).
 Sort entries alphabetically if none of -cftuvSUX nor --sort is specified.
@@ -276,11 +277,11 @@ or available locally via: info '(coreutils) ls invocation'
 ## Unsupported command-line options
 If you try to use an option (flag) that is not supported, `ls` and other commands will usually print an error message similar to:
 
-```{bash}
+```bash
 $ ls -j
 ```
 
-```{bash}
+```bash
 ls: invalid option -- 'j'
 Try 'ls --help' for more information.
  ```
@@ -290,7 +291,7 @@ Try 'ls --help' for more information.
 
 The other way to learn about `ls` is to type
 
-```{bash}
+```bash
 $ man ls
 ```
 
@@ -340,11 +341,11 @@ The `data-shell` directory, containing the data that we will use in these sessio
 
 We can look at its contents passing a directory name as an argument to `ls`:
 
-```{bash}
+```bash
 $ ls -F Desktop/data-shell
 ```
 
-```{bash}
+```bash
 creatures/          molecules/          notes.txt           solar.pdf
 data/               north-pacific-gyre/ pizza.cfg           writing/
 ```
@@ -356,7 +357,7 @@ which is a bit misleading: the command doesn't change the directory, it changes 
 
 Let's say we want to move to the `data` directory we saw above.  We can use the following series of commands to get there:
 
-```{bash}
+```bash
 $ cd Desktop
 $ cd data-shell
 $ cd data
@@ -364,31 +365,31 @@ $ cd data
 
 These commands will move us from our home directory onto our Desktop, then into the `data-shell` directory, then into the `data` directory.  You will notice that `cd` doesn't print anything.  This is normal.  Many shell commands will not output anything to the screen when successfully executed.  But if we run `pwd` after it, we can see that we are now in `/home/ubuntu/Desktop/data-shell/data`. If we run `ls` without arguments now, it lists the contents of `/home/ubuntu/Desktop/data-shell/data`, because that's where we now are:
 
-```{bash}
+```bash
 $ pwd
 ```
 
-```{bash}
+```bash
 /home/ubuntu/Desktop/data-shell/data
 ```
 
-```{bash}
+```bash
 $ ls -F
 ```
 
-```{bash}
+```bash
 amino-acids.txt   elements/     pdb/	        salmon.txt
 animals.txt       morse.txt     planets.txt     sunspot.txt
 ```
 
 We now know how to go down the directory tree, but how do we go up?  We might try the following:
 
-```{bash}
+```bash
 $ cd data-shell
 ```
 
 
-```{bash}
+```bash
 -bash: cd: data-shell: No such file or directory
 ```
 
@@ -398,27 +399,27 @@ With our methods so far, `cd` can only see sub-directories inside your current d
 
 There is a shortcut in the shell to move up one directory level that looks like this:
 
-```{bash}
+```bash
 $ cd ..
 ```
 
 `..` is a special directory name meaning "the directory containing this one", or more succinctly, the **parent** of the current directory. Sure enough, if we run `pwd` after running `cd ..`, we're back in `/home/ubuntu/Desktop/data-shell`:
 
-```{bash}
+```bash
 $ pwd
 ```
 
-```{bash}
+```bash
 /home/ubuntu/Desktop/data-shell
 ```
 
 The special directory `..` doesn't usually show up when we run `ls`.  If we want to display it, we can give `ls` the `-a` option:
 
-```{bash}
+```bash
 $ ls -F -a
 ```
 
-```{bash}
+```bash
 ./   .bash_profile  data/       north-pacific-gyre/  pizza.cfg  thesis/
 ../  creatures/     molecules/  notes.txt            solar.pdf  writing/
 ```
@@ -437,7 +438,7 @@ These then, are the basic commands for navigating the filesystem on your compute
 
 Let's try returning to the `data` directory from before.  Last time, we used three commands, but we can actually string together the list of directories to move to `data` in one step:
 
-```{bash}
+```bash
 $ cd Desktop/data-shell/data
 ```
 
@@ -451,15 +452,15 @@ However, it is possible to specify the **absolute path** to a directory by inclu
 
 This allows us to move to our `data-shell` directory from anywhere on the filesystem (including from inside `data`).  To find the absolute path we're looking for, we can use `pwd` and then extract the piece we need to move to `data-shell`.
 
-```{bash}
+```bash
 $ pwd
 ```
 
-```{bash}
+```bash
 /home/ubuntu/Desktop/data-shell/data
 ```
 
-```{bash}
+```bash
 $ cd /home/ubuntu/Desktop/data-shell
 ```
 
@@ -482,14 +483,14 @@ type the full name for example when moving with `cd`.  We can let the shell do m
 of the work > through what is called **tab completion**. 
 Let's say we are in the `/home/ubuntu/Desktop/data-shell/` and we type:
 
-```{bash}
+```bash
 $ ls nor
 ```
 
 and then press <kbd>Tab</kbd> (the tab key on the keyboard),
 the shell automatically completes the directory name:
 
-```{bash}
+```bash
 $ ls north-pacific-gyre/
 ```
 
@@ -567,7 +568,7 @@ if `pwd` displays `/Users/backup`,
 and `-r` tells `ls` to display things in reverse order,
 what command(s) will result in the following output:
 
-```{bash}
+```bash
 pnas_sub/ pnas_final/ original/
 ```
 
@@ -597,19 +598,19 @@ but how do we create them in the first place?
 Let's go back to our `data-shell` directory on the Desktop
 and use `ls -F` to see what it contains:
 
-```{bash}
+```bash
 $ pwd
 ```
 
-```{bash}
+```bash
 /home/ubuntu/Desktop/data-shell
 ```
 
-```{bash}
+```bash
 $ ls -F
 ```
 
-```{bash}
+```bash
 creatures/  data/  molecules/  north-pacific-gyre/  notes.txt  pizza.cfg  solar.pdf  writing/
 ```
 
@@ -618,7 +619,7 @@ creatures/  data/  molecules/  north-pacific-gyre/  notes.txt  pizza.cfg  solar.
 Let's create a new directory called `thesis` using the command `mkdir thesis`
 (which has no output):
 
-```{bash}
+```bash
 $ mkdir thesis
 ```
 
@@ -628,11 +629,11 @@ Since `thesis` is a relative path
 (i.e., does not have a leading slash, like `/what/ever/thesis`),
 the new directory is created in the current working directory:
 
-```{bash}
+```bash
 $ ls -F
 ```
 
-```{bash}
+```bash
 creatures/  data/  molecules/  north-pacific-gyre/  notes.txt  pizza.cfg  solar.pdf  thesis/  writing/
 ```
 
@@ -676,7 +677,7 @@ or other special characters, you should surround the name in quotes (`""`).
 
 Since we've just created the `thesis` directory, there's nothing in it yet:
 
-```{bash}
+```bash
 $ ls -F thesis
 ```
 
@@ -684,7 +685,7 @@ $ ls -F thesis
 Let's change our working directory to `thesis` using `cd`,
 then run a text editor called Nano to create a file called `draft.txt`:
 
-```{bash}
+```bash
 $ cd thesis
 $ nano draft.txt
 ```
@@ -748,11 +749,11 @@ file.
 `nano` doesn't leave any output on the screen after it exits,
 but `ls` now shows that we have created a file called `draft.txt`:
 
-```{bash}
+```bash
 $ ls
 ```
 
-```{bash}
+```bash
 draft.txt
 ```
 
@@ -762,7 +763,7 @@ draft.txt
 We have seen how to create text files using the `nano` editor.
 Now, try the following command:
 
-```{bash}
+```bash
 $ touch my_file.txt
 ```
 
@@ -825,7 +826,7 @@ when someone double-clicks it.
 ## Moving files and directories
 Returning to the `data-shell` directory,
 
-```{bash}
+```bash
 cd ~/Desktop/data-shell/
 ```
 
@@ -834,14 +835,14 @@ which isn't a particularly informative name,
 so let's change the file's name using `mv`,
 which is short for "move":
 
-```{bash}
+```bash
 $ mv thesis/draft.txt thesis/quotes.txt
 ```
 
 The first argument tells `mv` what we're "moving", while the second is where it's to go. In this case, we're moving `thesis/draft.txt` to `thesis/quotes.txt`, which has the same effect as renaming the file. Sure enough,
 `ls` shows us that `thesis` now contains one file called `quotes.txt`:
 
-```{bash}
+```bash
 $ ls thesis
 ```
 
@@ -865,14 +866,14 @@ but put the file somewhere new.
 In this case,
 the directory name we use is the special directory name `.` that we mentioned earlier.
 
-```{bash}
+```bash
 $ mv thesis/quotes.txt .
 ```
 
 The effect is to move the file from the directory it was in to the current working directory.
 `ls` now shows us that `thesis` is empty:
 
-```{bash}
+```bash
 $ ls thesis
 ```
 
@@ -880,12 +881,12 @@ Further,
 `ls` with a filename or directory name as an argument only lists that file or directory.
 We can use this to see that `quotes.txt` is still in our current directory:
 
-```{bash}
+```bash
 $ ls quotes.txt
 ```
 
 
-```{bash}
+```bash
 quotes.txt
 ```
 
@@ -897,13 +898,13 @@ We can check that it did the right thing using `ls`
 with two paths as arguments --- like most Unix commands,
 `ls` can be given multiple paths at once:
 
-```{bash}
+```bash
 $ cp quotes.txt thesis/quotations.txt
 $ ls quotes.txt thesis/quotations.txt
 ```
 
 
-```{bash}
+```bash
 quotes.txt   thesis/quotations.txt
 ```
 
@@ -912,18 +913,18 @@ We can also copy a directory and all its contents by using the
 [recursive](https://en.wikipedia.org/wiki/Recursion) option `-r`,
 e.g. to back up a directory:
 
-```{bash}
+```bash
 $ cp -r thesis thesis_backup
 ```
 
 We can check the result by listing the contents of both the `thesis` and `thesis_backup` directory:
 
-```{bash}
+```bash
 $ ls thesis thesis_backup
 ```
 
 
-```{bash}
+```bash
 thesis:
 quotations.txt
 
@@ -964,24 +965,24 @@ correct the mistake, which command could you use to do so?
 What is the output of the closing `ls` command in the sequence shown below?
 You can try the commands starting from `/home/ubuntu/Desktop/data-shell/protein-data`.
 
-```{bash}
+```bash
 $ pwd
 ```
 
-```{bash}
+```bash
 /home/ubuntu/Desktop/data-shell/protein-data
 ```
 
 
-```{bash}
+```bash
 $ ls
 ```
 
-```{bash}
+```bash
 proteins.dat
 ```
 
-```{bash}
+```bash
 $ mkdir recombine
 $ mv proteins.dat recombine/
 $ cp recombine/proteins.dat ../proteins-saved.dat
@@ -1020,17 +1021,17 @@ Returning to the `data-shell` directory,
 let's tidy up this directory by removing the `quotes.txt` file we created.
 The Unix command we'll use for this is `rm` (short for 'remove'):
 
-```{bash}
+```bash
 $ rm quotes.txt
 ```
 
 We can confirm the file has gone using `ls`:
 
-```{bash}
+```bash
 $ ls quotes.txt
 ```
 
-```{bash}
+```bash
 ls: cannot access 'quotes.txt': No such file or directory
 ```
 
@@ -1055,7 +1056,7 @@ Why would we want this protection when using `rm`?
 
 <details>
 <summary>Answer</summary>
-```{bash}
+```bash
 $ rm: remove regular file 'thesis_backup/quotations.txt'? y
 ```
 
@@ -1070,12 +1071,12 @@ By using the `-i` option, we have the chance to check that we are deleting only 
 If we try to remove the `thesis` directory using `rm thesis`,
 we get an error message:
 
-```{bash}
+```bash
 $ rm thesis
 ```
 
 
-```{bash}
+```bash
 rm: cannot remove `thesis': Is a directory
 ```
 
@@ -1085,7 +1086,7 @@ This happens because `rm` by default only works on files, not directories.
 `rm` can remove a directory *and all its contents* if we use the 
 recursive option `-r`, and it will do so *without any confirmation prompts*:
 
-```{bash}
+```bash
 $ rm -r thesis
 ```
 
@@ -1104,22 +1105,22 @@ For this exercise, you can test the commands in the `data-shell/data` directory.
 
 In the example below, what does `cp` do when given several filenames and a directory name?
 
-```{bash}
+```bash
 $ mkdir backup
 $ cp amino-acids.txt animals.txt backup/
 ```
 
 In the example below, what does `cp` do when given three or more file names?
 
-```{bash}
+```bash
 $ ls -F
 ```
 
-```{bash}
+```bash
 amino-acids.txt  animals.txt  backup/  elements/  morse.txt  pdb/  planets.txt  salmon.txt  sunspot.txt
 ```
 
-```{bash}
+```bash
 $ cp amino-acids.txt animals.txt morse.txt 
 ```
 
@@ -1133,7 +1134,7 @@ be the last argument), `cp` copies the files to the named directory.
 If given three file names, `cp` throws an error such as the one below, because it is expecting a directory
 name as the last argument.
 
-```{bash}
+```bash
 cp: target ‘morse.txt’ is not a directory
 ```
 </details>
@@ -1208,7 +1209,7 @@ The solution is `3.`
 
 Look into the `exp` directory in `~/Desktop/data-shell/data/exp` that has the following structure:
 
-```{bash}
+```bash
 exp
 ├── 2015-10-23-calibration.txt
 ├── 2015-10-23-dataset1.txt
@@ -1231,7 +1232,7 @@ Suppose you want to:
 Which commands would you use to do that? 
 
 The resulting directory structure should look like this
-```{bash}
+```bash
 exp
 ├── 2015-10-23-calibration.txt
 ├── 2015-10-23-dataset1.txt
@@ -1277,7 +1278,7 @@ exp
 
 <details>
 <summary>Answer</summary>
- ```{bash}
+ ```bash
  $ mkdir backup
  $ mkdir backup/calibration
  $ mkdir backup/datasets
@@ -1312,14 +1313,14 @@ so that your final directory structure looks like this:
 
 Which of the following set of commands would achieve this objective? What would the other commands do? Try them out in the `data-shell` directory.
 
-```{bash}
+```bash
 $ mkdir 2016-05-20
 $ mkdir 2016-05-20/data
 $ mkdir 2016-05-20/data/processed
 $ mkdir 2016-05-20/data/raw
 ```
 
-```{bash}
+```bash
 $ mkdir 2016-05-20
 $ cd 2016-05-20
 $ mkdir data
@@ -1327,12 +1328,12 @@ $ cd data
 $ mkdir raw processed
 ```
 
-```{bash}
+```bash
 $ mkdir 2016-05-20/data/raw
 $ mkdir 2016-05-20/data/processed
 ```
 
-```{bash}
+```bash
 $ mkdir 2016-05-20
 $ cd 2016-05-20
 $ mkdir data
