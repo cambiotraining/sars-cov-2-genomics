@@ -28,11 +28,11 @@ that contains six files describing some simple organic molecules.
 The `.pdb` extension indicates that these files are in Protein Data Bank format,
 a simple text format that specifies the type and position of each atom in the molecule.
 
-```{bash}
+```bash
 $ ls molecules
 ```
 
-```{bash}
+```bash
 cubane.pdb    ethane.pdb    methane.pdb
 octane.pdb    pentane.pdb   propane.pdb
 ```
@@ -44,13 +44,13 @@ it counts the number of lines, words, and characters in files (from left to righ
 The `*` in `*.pdb` matches zero or more characters,
 so the shell turns `*.pdb` into a list of all `.pdb` files in the current directory:
 
-```{bash}
+```bash
 $ cd molecules
 $ wc *.pdb
 ```
 
 
-```{bash}
+```bash
   20  156  1158  cubane.pdb
   12  84   622   ethane.pdb
    9  57   422   methane.pdb
@@ -63,11 +63,11 @@ $ wc *.pdb
 If we run `wc -l` instead of just `wc`,
 the output shows only the number of lines per file:
 
-```{bash}
+```bash
 $ wc -l *.pdb
 ```
 
-```{bash}
+```bash
   20  cubane.pdb
   12  ethane.pdb
    9  methane.pdb
@@ -106,7 +106,7 @@ It's an easy question to answer when there are only six files,
 but what if there were 6000?
 Our first step toward a solution is to run the command:
 
-```{bash}
+```bash
 $ wc -l *.pdb > lengths.txt
 ```
 
@@ -119,11 +119,11 @@ silently overwritten, which may lead to data loss and thus requires
 some caution.
 `ls lengths.txt` confirms that the file exists:
 
-```{bash}
+```bash
 $ ls lengths.txt
 ```
 
-```{bash}
+```bash
 lengths.txt
 ```
 
@@ -133,11 +133,11 @@ and it prints the contents of files one after another.
 There's only one file in this case,
 so `cat` just shows us what it contains:
 
-```{bash}
+```bash
 $ cat lengths.txt
 ```
 
-```{bash}
+```bash
   20  cubane.pdb
   12  ethane.pdb
    9  methane.pdb
@@ -167,7 +167,7 @@ Now let's use the `sort` command to sort its contents.
 
 If we run `sort` on a file containing the following lines:
 
-```{bash}
+```bash
 10
 2
 19
@@ -177,7 +177,7 @@ If we run `sort` on a file containing the following lines:
 
 the output is:
 
-```{bash}
+```bash
 10
 19
 2
@@ -187,7 +187,7 @@ the output is:
 
 If we run `sort -n` on the same input, we get this instead:
 
-```{bash}
+```bash
 2
 6
 10
@@ -212,11 +212,11 @@ numerical instead of alphanumerical.
 This does *not* change the file;
 instead, it sends the sorted result to the screen:
 
-```{bash}
+```bash
 $ sort -n lengths.txt
 ```
 
-```{bash}
+```bash
   9  methane.pdb
  12  ethane.pdb
  15  propane.pdb
@@ -232,12 +232,12 @@ just as we used `> lengths.txt` to put the output of `wc` into `lengths.txt`.
 Once we've done that,
 we can run another command called `head` to get the first few lines in `sorted-lengths.txt`:
 
-```{bash}
+```bash
 $ sort -n lengths.txt > sorted-lengths.txt
 $ head -n 1 sorted-lengths.txt
 ```
 
-```{bash}
+```bash
   9  methane.pdb
 ```
 
@@ -256,7 +256,7 @@ It's a very bad idea to try redirecting
 the output of a command that operates on a file
 to the same file. For example:
 
-```{bash}
+```bash
 $ sort -n lengths.txt > lengths.txt
 ```
 
@@ -274,24 +274,24 @@ We have seen the use of `>`, but there is a similar operator `>>` which works sl
 We'll learn about the differences between these two operators by printing some strings.
 We can use the `echo` command to print strings e.g.
 
-```{bash}
+```bash
 $ echo The echo command prints text
 ```
 
-```{bash}
+```bash
 The echo command prints text
 ```
 
 
 Now test the commands below to reveal the difference between the two operators:
 
-```{bash}
+```bash
 $ echo hello > testfile01.txt
 ```
 
 and:
 
-```{bash}
+```bash
 $ echo hello >> testfile02.txt
 ```
 
@@ -322,7 +322,7 @@ Consider the file `data-shell/data/animals.txt`.
 After these commands, select the answer that
 corresponds to the file `animals-subset.txt`:
 
-```{bash}
+```bash
 $ head -n 3 animals.txt > animals-subset.txt
 $ tail -n 2 animals.txt >> animals-subset.txt
 ```
@@ -351,12 +351,12 @@ even once you understand what `wc`, `sort`, and `head` do,
 all those intermediate files make it hard to follow what's going on.
 We can make it easier to understand by running `sort` and `head` together:
 
-```{bash}
+```bash
 $ sort -n lengths.txt | head -n 1
 ```
 
 
-```{bash}
+```bash
 9  methane.pdb
 ```
 
@@ -371,11 +371,11 @@ That is, we can for example send the output of `wc` directly to `sort`,
 and then the resulting output to `head`.
 Thus we first use a pipe to send the output of `wc` to `sort`:
 
-```{bash}
+```bash
 $ wc -l *.pdb | sort -n
 ```
 
-```{bash}
+```bash
 9 methane.pdb
 12 ethane.pdb
 15 propane.pdb
@@ -387,11 +387,11 @@ $ wc -l *.pdb | sort -n
 
 And now we send the output of this pipe, through another pipe, to `head`, so that the full pipeline becomes:
 
-```{bash}
+```bash
 $ wc -l *.pdb | sort -n | head -n 1
 ```
 
-```{bash}
+```bash
 9  methane.pdb
 ```
 
@@ -482,7 +482,7 @@ so that you and other people can put those programs into pipes to multiply their
 
 A file called `animals.txt` (in the `data-shell/data` folder) contains the following data:
 
-```{bash}
+```bash
 2012-11-05,deer
 2012-11-05,rabbit
 2012-11-05,raccoon
@@ -495,7 +495,7 @@ A file called `animals.txt` (in the `data-shell/data` folder) contains the follo
 
 What text passes through each of the pipes and the final redirect in the pipeline below?
 
-```{bash}
+```bash
 $ cat animals.txt | head -n 5 | tail -n 3 | sort -r > final.txt
 ```
 
@@ -509,7 +509,7 @@ With the `sort -r` command those 3 lines are sorted in reverse order and finally
 the output is redirected to a file `final.txt`.
 The content of this file can be checked by executing `cat final.txt`.
 The file should contain the following lines:
-```{bash}
+```bash
 2012-11-06,rabbit
 2012-11-06,deer
 2012-11-05,raccoon
@@ -525,7 +525,7 @@ The file should contain the following lines:
 
 For the file `animals.txt` from the previous exercise, consider the following command:
 
-```{bash}
+```bash
 $ cut -d , -f 2 animals.txt
 ```
 
@@ -533,7 +533,7 @@ The `cut` command is used to remove or "cut out" certain sections of each line i
 The command above uses the `-d` option to split each line by comma, and the `-f` option
 to print the second field in each line, to give the following output:
 
-```{bash}
+```bash
 deer
 rabbit
 raccoon
@@ -552,7 +552,7 @@ names)?
 <details>
 <summary>Answer</summary>
 
-```{bash}
+```bash
 $ cut -d , -f 2 animals.txt | sort | uniq
 ```
 
@@ -575,7 +575,7 @@ operations, however, we recommend going to your favourite programming language!
 
 The file `animals.txt` contains 8 lines of data formatted as follows:
 
-```{bash}
+```bash
 2012-11-05,deer
 2012-11-05,rabbit
 2012-11-05,raccoon
@@ -613,7 +613,7 @@ the pipelines (make sure you are in the `data-shell/data` directory).
 text or a combination of text and the wildcard characters we have seen before like ? and *. Like > other commands we have seen `grep` can be used on multiple files. 
 For example if we wanted to find all occurrences of name in all the text files we could write:
 
-```{bash}
+```bash
 $ grep "name" *.txt
 ```
 Using the `animals.txt` file suppose we wanted to copy all the rabbit dates to a separate file `rabbit-dates.txt`. 
@@ -622,7 +622,7 @@ Which combination of commands would achieve this?
 <details>
 <summary>Answer</summary>
 
-```{bash}
+```bash
 grep "rabbit" animals.txt | cut -d, -f 1 > rabbit-dates.txt
 ```
 
