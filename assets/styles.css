@@ -71,9 +71,10 @@ details summary > * {
 }
 
 .warning {
-  background-color: #fff6f5;
-  box-shadow: 0 0 3px 2px #fce4e1;
   background-image: url("img/warning.svg"); /* https://fonts.gstatic.com/s/i/materialiconsoutlined/error_outline/v11/24px.svg */
+  background-color: #FFEE93;
+  background-size: 20px;
+  background-position: 15px 18px;
 }
 
 .note {
@@ -118,11 +119,13 @@ details summary > * {
   padding: 2rem;
   border: 1px solid #eee;
   border-radius: 1rem;
+  background-color: #fff;
 }
 
 .caption {
-  padding-top: 0.5em;
+  margin-top: 2em;
 }
+
 .caption:before {
   counter-increment: figure;
   font-weight: bold;
