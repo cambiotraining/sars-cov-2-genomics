@@ -224,3 +224,30 @@ pre.sourceCode {
   border: 0;
   background: #F1F5F8
 }
+
+
+#TOC.tocify {
+  border: 0;
+  border-radius: 0;
+}
+
+#TOC .tocify-header,
+#TOC .tocify-subheader {
+  text-indent: 0;
+}
+
+.tocify  li.tocify-item.list-group-item {
+  padding: 1rem  2rem;
+  border-radius: 0.5rem;
+}
+
+li.list-group-item:hover {
+  font-weight: 500;
+  background-color: #eee;
+}
+
+li.list-group-item.active:hover,
+li.list-group-item.active:focus {
+  font-weight: 500;
+}
+
