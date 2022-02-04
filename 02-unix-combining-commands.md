@@ -403,7 +403,7 @@ the calculation is "head of sort of line count of `*.pdb`".
 
 The redirection and pipes used in the last few commands are illustrated below:
 
-![Redirects and Pipes](images/redirects-and-pipes.png)
+![Redirects and Pipes](images/redirects-and-pipes.svg)
 
 
 :::exercise
