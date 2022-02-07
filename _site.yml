@@ -52,6 +52,8 @@ navbar:
           href: 103-tools_and_resources.html
         - text: "Windows Subsystem for Linux"
           href: "104-wsl_windows.html"
+        - text: "Visual Studio Code"
+          href: 105-vs_code.html
   right:
     - text: "Github"
       href: https://github.com/cambiotraining/sars-cov-2-genomics
