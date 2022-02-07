@@ -6,11 +6,11 @@ pagetitle: "The Unix Shell: Loops"
 
 :::highlight
 
-## Questions
+**Questions**
 
 - How can I perform the same actions on many different files?
 
-## Learning Objectives
+**Learning Objectives**
 
 - Write a loop that applies one or more commands separately to each file in a set of files.
 - Trace the values taken on by a loop variable during execution of the loop.
@@ -72,7 +72,8 @@ CLASSIFICATION: equus monoceros
 
 :::note
 
-## Follow the Prompt
+
+**Follow the Prompt**
 
 The shell prompt changes from `$` to `>` and back again as we were
 typing in our loop. The second prompt, `>`, is different to remind
@@ -110,7 +111,7 @@ Since the list was only three items, the shell exits the `for` loop.
 
 :::note
 
-## Same Symbols, Different Meanings
+**Same Symbols, Different Meanings**
 
 Here we see `>` being used a shell prompt, whereas `>` is also
 used to redirect output.
@@ -403,7 +404,7 @@ from whatever file is being processed
 (assuming the file has at least 100 lines).
 
 :::note
-## Spaces in Names
+**Spaces in Names**
 
 Spaces are used to separate the elements of the list
 that we are going to loop over. If one of those elements
@@ -621,7 +622,7 @@ $ for datafile in NENE*[AB].txt; do echo $datafile; bash goostats $datafile stat
 
 :::note
 
-## Beginning and End
+**Beginning and End**
 
 We can move to the beginning of a line in the shell by typing `Ctrl-a`
 and to the end using `Ctrl-e`.
@@ -652,7 +653,7 @@ so she decides to get some coffee and catch up on her reading.
 
 :::note
 
-## Those Who Know History Can Choose to Repeat It
+**Those Who Know History Can Choose to Repeat It**
 
 Another way to repeat previous work is to use the `history` command to
 get a list of the last few hundred commands that have been executed, and
@@ -677,7 +678,7 @@ then she can re-run `goostats` on `NENE01729B.txt` simply by typing
 :::
 
 :::note
-## Other History Commands
+**Other History Commands**
 
 There are a number of other shortcut commands for getting at the history.
 

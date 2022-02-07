@@ -6,7 +6,7 @@ pagetitle: "The Unix Shell: Using Remote Resources"
 
 :::highlight
 
-## Questions
+**Questions**
 
 - How can I work on the unix shell of a remote computer:
 - How can I move files between computers
