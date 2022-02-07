@@ -6,11 +6,11 @@ pagetitle: "The Unix Shell: Shell Scripts"
 
 :::highlight
 
-## Questions
+**Questions**
 
 - How can I save and re-use commands?
 
-## Learning Objectives
+**Learning Objectives**
 
 - Write a shell script that runs a command or series of commands for a fixed set of files.
 - Run a shell script from the command line.
@@ -77,7 +77,7 @@ Sure enough,
 our script's output is exactly what we would get if we ran that pipeline directly.
 
 :::note
-## Text vs. Whatever
+**Text vs. Whatever**
 
 We usually call programs like Microsoft Word or LibreOffice Writer "text
 editors", but we need to be a bit more careful when it comes to
@@ -140,7 +140,7 @@ ATOM     13  H           1      -1.183   0.500  -1.412  1.00  0.00
 
 :::note
 
-## Double-Quotes Around Arguments
+**Double-Quotes Around Arguments**
 
 For the same reason that we put the loop variable inside double-quotes,
 in case the filename happens to contain any spaces,

@@ -6,7 +6,7 @@ pagetitle: "The Unix Shell: Basic Commands"
 
 :::highlight
 
-## Questions
+**Questions**
 
 - How can I move around on my computer?
 - How can I see what files and directories I have?
@@ -14,7 +14,7 @@ pagetitle: "The Unix Shell: Basic Commands"
 - How can I create, copy, and delete files and directories?
 - How can I edit files?
 
-## Learning Objectives
+**Learning Objectives**
 
 - Explain the similarities and differences between a file and a directory.
 - Translate an absolute path into a relative path and vice versa.
@@ -41,7 +41,7 @@ $ pwd
 Here, the computer's response is `/home/ubuntu`, which is your **home directory**:
 
 :::note
-## Home Directory Variation
+**Home Directory Variation**
 
 The home directory path will look different on different operating systems. On Mac it may look like `/Users/ubuntu`, and on Windows it will be similar to `C:\Documents and Settings\ubuntu` or `C:\Users\ubuntu`.
 
@@ -69,7 +69,7 @@ We know that our current working directory `/home/ubuntu` is stored inside `/hom
 
 
 :::note
-## Slashes
+**Slashes**
 
 Notice that there are two meanings for the `/` character. When it appears at the front of a file or directory name,it refers to the root directory. When it appears *inside* a name, it's just a separator.
 :::
@@ -273,7 +273,8 @@ or available locally via: info '(coreutils) ls invocation'
 ```
 
 :::note
-## Unsupported command-line options
+**Unsupported command-line options**
+
 If you try to use an option (flag) that is not supported, `ls` and other commands will usually print an error message similar to:
 
 ```{bash}
@@ -301,7 +302,7 @@ To navigate through the `man` pages, you may use <kbd>↑</kbd> and <kbd>↓</kb
 To **quit** the `man` pages, press <kbd>Q</kbd>.
 
 :::note
-## Manual pages on the web
+**Manual pages on the web**
 
 Of course there is a third way to access help for commands: searching the internet via your web browser. When using internet search, including the phrase `unix man page` in your search query will help to find relevant results.
 
@@ -428,7 +429,7 @@ $ ls -F -a
 Note that in most command line tools, multiple options can be combined with a single `-` and no spaces between the options: `ls -F -a` is equivalent to `ls -Fa`.
 
 :::note
-## Other Hidden Files
+**Other Hidden Files**
 
 In addition to the hidden directories `..` and `.`, you may also see a file called `.bashrc`. This file usually contains shell configuration settings. You may also see other files and directories beginning with `.`. These are usually files and directories that are used to configure different programs on your computer. The prefix `.` is used to prevent these configuration files from cluttering the terminal when a standard `ls` command is used.
 :::
@@ -466,7 +467,7 @@ $ cd /home/ubuntu/Desktop/data-shell
 Run `pwd` and `ls -F` to ensure that we're in the directory we expect.
 
 :::note
-## Another Shortcut
+**Another Shortcut**
 The shell interprets the character `~` (tilde) at the start of a path to
 mean "the current user's home directory". For example, for your home directory
 ,`/home/ubuntu`, then `~/data` is equivalent to
@@ -475,7 +476,7 @@ path: `here/there/~/elsewhere` is *not* `here/there/home/ubuntu/elsewhere`.
 :::
 
 :::note
-## Tab completion
+**Tab completion**
 
 Sometimes file and directory names get too long and it's tedious to have to
 type the full name for example when moving with `cd`.  We can let the shell do most 
@@ -637,7 +638,7 @@ creatures/  data/  molecules/  north-pacific-gyre/  notes.txt  pizza.cfg  solar.
 ```
 
 :::note
-## Two ways of doing the same thing
+**Two ways of doing the same thing**
 Using the shell to create a directory is no different than using a file explorer.
 If you open the current directory using your operating system's graphical file explorer,
 the `thesis` directory will appear there too.
@@ -646,7 +647,7 @@ the files and directories themselves are the same.
 :::
 
 :::note
-## Good names for files and directories
+**Good names for files and directories**
 
 Complicated names of files and directories can make your life painful
 when working on the command line. Here we provide a few useful
@@ -690,7 +691,7 @@ $ nano draft.txt
 ```
 
 :::note
-## Which Editor?
+**Which Editor?**
 
 When we say, "`nano` is a text editor," we really do mean "text": it can
 only work with plain character data, not tables, images, or any other
@@ -726,7 +727,7 @@ Once our file is saved, we can use `Ctrl-X` to quit the editor and
 return to the shell.
 
 :::note
-## Control, Ctrl, or ^ Key
+**Control, Ctrl, or ^ Key**
 
 The Control key is also called the "Ctrl" key. There are various ways
 in which using the Control key may be described. For example, you may
@@ -798,7 +799,7 @@ $ touch my_file.txt
 :::
 
 :::note
-## What's In A Name?
+**What's In A Name?**
 
 You may have noticed that all of the files in our data directory are named "something dot
 something", and in this part of the lesson, we always used the extension
@@ -1035,7 +1036,7 @@ ls: cannot access 'quotes.txt': No such file or directory
 ```
 
 :::note
-## Deleting Is Forever
+**Deleting Is Forever**
 
 The Unix shell doesn't have a trash bin that we can recover deleted
 files from (though most graphical interfaces to Unix do).  Instead,
@@ -1143,7 +1144,7 @@ cp: target ‘morse.txt’ is not a directory
 ### Using wildcards for accessing multiple files at once
 
 :::note
-## Wildcards
+**Wildcards**
 
 `*` is a **wildcard**, which matches zero or more  characters.
 Let's consider the `data-shell/molecules` directory:

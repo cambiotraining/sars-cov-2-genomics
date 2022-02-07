@@ -6,11 +6,11 @@ pagetitle: "The Unix Shell: Combining Commands"
 
 :::highlight
 
-## Questions
+**Questions**
 
 - How can I combine existing commands to do new things?
 
-## Learning Objectives
+**Learning Objectives**
 
 - Redirect a command's output to a file.
 - Process a file instead of keyboard input using redirection.
@@ -78,7 +78,7 @@ $ wc -l *.pdb
 ```
 
 :::note
-## Why Isn't It Doing Anything?
+**Why Isn't It Doing Anything?**
 
 What happens if a command is supposed to process a file, but we
 don't give it a filename? For example, what if we type:
@@ -148,7 +148,7 @@ $ cat lengths.txt
 ```
 
 :::note
-## Output Page by Page
+**Output Page by Page**
 
 We'll continue to use `cat` in this lesson, for convenience and consistency,
 but it has the disadvantage that it always dumps the whole file onto your screen.
@@ -250,7 +250,7 @@ the output of `head` must be the file with the fewest lines.
 
 
 :::note
-## Redirecting to the same file
+**Redirecting to the same file**
 
 It's a very bad idea to try redirecting
 the output of a command that operates on a file
@@ -561,7 +561,7 @@ $ cut -d , -f 2 animals.txt | sort | uniq
 :::
 
 :::note
-## Awk: a more powerful tool for text processing
+**Awk: a more powerful tool for text processing**
 
 We have seen the `cut` command that allows the selection of columns in tabular data.
 If you need more powerful manipulation of tabular data you can use the command `awk`, which
