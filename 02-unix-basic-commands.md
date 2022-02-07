@@ -40,7 +40,7 @@ $ pwd
 ```
 Here, the computer's response is `/home/ubuntu`, which is your **home directory**:
 
-:::callout
+:::note
 ## Home Directory Variation
 
 The home directory path will look different on different operating systems. On Mac it may look like `/Users/ubuntu`, and on Windows it will be similar to `C:\Documents and Settings\ubuntu` or `C:\Users\ubuntu`.
@@ -68,7 +68,7 @@ Inside that directory are several other directories:
 We know that our current working directory `/home/ubuntu` is stored inside `/home` because `/home` is the first part of its name. Similarly, we know that `/home` is stored inside the root directory `/` because its name begins with `/`.
 
 
-:::callout
+:::note
 ## Slashes
 
 Notice that there are two meanings for the `/` character. When it appears at the front of a file or directory name,it refers to the root directory. When it appears *inside* a name, it's just a separator.
@@ -272,7 +272,7 @@ Full documentation at: <http://www.gnu.org/software/coreutils/ls>
 or available locally via: info '(coreutils) ls invocation'
 ```
 
-:::callout
+:::note
 ## Unsupported command-line options
 If you try to use an option (flag) that is not supported, `ls` and other commands will usually print an error message similar to:
 
@@ -300,7 +300,7 @@ To navigate through the `man` pages, you may use <kbd>↑</kbd> and <kbd>↓</kb
 
 To **quit** the `man` pages, press <kbd>Q</kbd>.
 
-:::callout
+:::note
 ## Manual pages on the web
 
 Of course there is a third way to access help for commands: searching the internet via your web browser. When using internet search, including the phrase `unix man page` in your search query will help to find relevant results.
@@ -427,7 +427,7 @@ $ ls -F -a
 
 Note that in most command line tools, multiple options can be combined with a single `-` and no spaces between the options: `ls -F -a` is equivalent to `ls -Fa`.
 
-:::callout
+:::note
 ## Other Hidden Files
 
 In addition to the hidden directories `..` and `.`, you may also see a file called `.bashrc`. This file usually contains shell configuration settings. You may also see other files and directories beginning with `.`. These are usually files and directories that are used to configure different programs on your computer. The prefix `.` is used to prevent these configuration files from cluttering the terminal when a standard `ls` command is used.
@@ -465,7 +465,7 @@ $ cd /home/ubuntu/Desktop/data-shell
 
 Run `pwd` and `ls -F` to ensure that we're in the directory we expect.
 
-:::callout
+:::note
 ## Another Shortcut
 The shell interprets the character `~` (tilde) at the start of a path to
 mean "the current user's home directory". For example, for your home directory
@@ -474,7 +474,7 @@ mean "the current user's home directory". For example, for your home directory
 path: `here/there/~/elsewhere` is *not* `here/there/home/ubuntu/elsewhere`.
 :::
 
-:::callout
+:::note
 ## Tab completion
 
 Sometimes file and directory names get too long and it's tedious to have to
@@ -636,7 +636,7 @@ $ ls -F
 creatures/  data/  molecules/  north-pacific-gyre/  notes.txt  pizza.cfg  solar.pdf  thesis/  writing/
 ```
 
-:::callout
+:::note
 ## Two ways of doing the same thing
 Using the shell to create a directory is no different than using a file explorer.
 If you open the current directory using your operating system's graphical file explorer,
@@ -645,7 +645,7 @@ While the shell and the file explorer are two different ways of interacting with
 the files and directories themselves are the same.
 :::
 
-:::callout
+:::note
 ## Good names for files and directories
 
 Complicated names of files and directories can make your life painful
@@ -689,7 +689,7 @@ $ cd thesis
 $ nano draft.txt
 ```
 
-:::callout
+:::note
 ## Which Editor?
 
 When we say, "`nano` is a text editor," we really do mean "text": it can
@@ -725,7 +725,7 @@ press <kbd>Return</kbd> to accept the suggested default of `draft.txt`).
 Once our file is saved, we can use `Ctrl-X` to quit the editor and
 return to the shell.
 
-:::callout
+:::note
 ## Control, Ctrl, or ^ Key
 
 The Control key is also called the "Ctrl" key. There are various ways
@@ -797,7 +797,7 @@ $ touch my_file.txt
 </details>
 :::
 
-:::callout
+:::note
 ## What's In A Name?
 
 You may have noticed that all of the files in our data directory are named "something dot
@@ -1034,7 +1034,7 @@ $ ls quotes.txt
 ls: cannot access 'quotes.txt': No such file or directory
 ```
 
-:::callout
+:::note
 ## Deleting Is Forever
 
 The Unix shell doesn't have a trash bin that we can recover deleted
@@ -1142,7 +1142,7 @@ cp: target ‘morse.txt’ is not a directory
 
 ### Using wildcards for accessing multiple files at once
 
-:::callout
+:::note
 ## Wildcards
 
 `*` is a **wildcard**, which matches zero or more  characters.

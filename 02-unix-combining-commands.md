@@ -77,7 +77,7 @@ $ wc -l *.pdb
  107  total
 ```
 
-:::callout
+:::note
 ## Why Isn't It Doing Anything?
 
 What happens if a command is supposed to process a file, but we
@@ -147,7 +147,7 @@ $ cat lengths.txt
  107  total
 ```
 
-:::callout
+:::note
 ## Output Page by Page
 
 We'll continue to use `cat` in this lesson, for convenience and consistency,
@@ -249,7 +249,7 @@ Since `sorted-lengths.txt` contains the lengths of our files ordered from least 
 the output of `head` must be the file with the fewest lines.
 
 
-:::callout
+:::note
 ## Redirecting to the same file
 
 It's a very bad idea to try redirecting
@@ -560,7 +560,7 @@ $ cut -d , -f 2 animals.txt | sort | uniq
 
 :::
 
-:::callout
+:::note
 ## Awk: a more powerful tool for text processing
 
 We have seen the `cut` command that allows the selection of columns in tabular data.
