@@ -61,7 +61,7 @@ For more instructions on installing VS Code, you may visit [https://code.visuals
 
 If you open VS code for the first time it will look like the following:
 
-![No folder/directory open in VS Code](images/vscode-window.png)
+![No folder/directory is open in VS Code](images/vscode-window.png)
 
 
 You can open any folder/directory into VS Code in the following ways:
