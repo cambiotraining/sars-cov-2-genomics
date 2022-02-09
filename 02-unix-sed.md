@@ -68,7 +68,13 @@ s/regexp/replacement/[flags]
 
 As you might have guessed, 's' is for substitution. It will tell `sed` that we are going make some substitution. 's' is followed by '/' you can think of it as a delimiter. 
 
-After that, we have *regexp*, which is short for the regular expression. We use the regular expression to match the pattern against the content of a line. 
+After that, we have *regexp*, which is short for the regular expression. We use the regular expression to match the pattern against the content of a line.
+
+:::note
+**What is a regular expression?**
+
+A regular expression is a pattern formed in a standardised way that helps search in a string. Regular expressions are useful for matching common patterns of string such as email addresses, phone numbers, URLs, etc. To learn more visit: [https://cheatography.com/davechild/cheat-sheets/regular-expressions/](https://cheatography.com/davechild/cheat-sheets/regular-expressions/)
+:::
 
 The third one is the replacement. So, if `sed` finds the match, it will replace the matched text/pattern with the replacement text.
 
@@ -87,11 +93,11 @@ To learn more about the 's' command visit [https://www.gnu.org/software/sed/manu
 
 Let's go back to our first example.
 ```bash
-sed 's/hello/world' input.txt
+$ sed 's/hello/world' input.txt
 ```
 Now it is clear what is happening. The `sed` is substituting 'hello' with 'world' at every line. And we are getting the input from a file called 'input.txt'.
 
-Create a new file called 'input2.txt' and write the following text in it:
+Create a new file 'input2.txt' and write the following text in it:
 
 ```txt
 Hello, this is a test line. This is a very short line.
@@ -181,3 +187,30 @@ Hello, this is a  world. This is a very short world.
 This is  world two. In this world, we have two occurrences of the .
 This world has many occurrences of the  with different case.   .
 ```
+
+## Escape character
+
+An escape character is a character that invokes an alternative interpretation of the following character. Sometimes it is also used to insert unallowed characters in a string. An escape character is a backslash '\' followed by a character (or characters).
+
+Let's try to understand this with examples. For this tutorial, create a file 'input3.txt' and put the following text in it:
+```
+This software/application is a part of this workshop.
+```
+
+Now, what if we want to replace 'software/application' with 'material'. If we try to do something like: `sed 's/software/application/material/' input3.txt`, the `sed` will throw an error. Because '/' is a delimiter, sed will think it has to replace 'software' with 'application' but, why there is a third option. To solve this error, we have to escape one '/', we can do this by adding a '\' in front of '/'. It will tell the `sed` not to interpret '/' as a special character.
+
+```bash
+$ sed 's/software\/application/material/' input3.txt
+```
+
+```output
+This material is a part of this workshop.
+```
+
+There is also another use of escape character. It provides a way of encoding non-printable characters in patterns in a visible manner. There is no restriction on the appearance of non-printing characters in the `sed` script. But, it is usually easier to use escape characters than the binary character it represents. The list of commonly used escape characters in the `sed` is as follows:
+
+- `\n`: a newline.
+- `\r`: a carriage return.
+- `\t`: a horizontal tab.
+
+For more details visit [https://www.gnu.org/software/sed/manual/sed.html#Escapes](https://www.gnu.org/software/sed/manual/sed.html#Escapes).
