@@ -66,7 +66,7 @@ The 's' command, also known as substitute command, is probably the most importan
 s/regexp/replacement/[flags]
 ```
 
-As you have already now 's' is for substitution. It will tell `sed` that we are going make some substitution. 's' is followed by '/' you can think of it as a terminator. 
+As you might have guessed, 's' is for substitution. It will tell `sed` that we are going make some substitution. 's' is followed by '/' you can think of it as a delimiter. 
 
 After that, we have *regexp*, which is short for the regular expression. We use the regular expression to match the pattern against the content of a line. 
 
