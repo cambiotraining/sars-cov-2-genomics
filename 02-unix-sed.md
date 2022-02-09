@@ -171,7 +171,7 @@ This line has many occurrences of the hello with different case. hello hello hel
 You can combine multiple `sed` commands. Let's say in the 'input2.txt' we first want to remove all the occurrences of 'test', then we want to replace 'line' with 'world'. Here it is clear that we have to do two substitutions. One for removing 'test' and one for replacing 'line'. We can do something like this:
 
 ```bash
-$ sed 's/test//gi' input.txt | sed 's/line/world/gi'
+$ sed 's/test//gi' input2.txt | sed 's/line/world/gi'
 ```
 
 Here first we are removing 'test' with empty text, and then we are passing the output of first `sed` as the input of second `sed`. The second `sed` is replacing 'line' with 'world'. You will get an output like this:
