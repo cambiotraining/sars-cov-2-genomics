@@ -28,6 +28,8 @@ navbar:
               href: "02-unix-basic-commands.html" 
             - text: "Combining Commands"
               href: "02-unix-combining-commands.html"
+            - text: "sed - stream editor"
+              href: "02-unix-sed.html"
             - text: "Using remote resources"
               href: "02-unix-using-remote-resources.html"
             - text: "Loops"
