@@ -73,7 +73,7 @@ After that, we have *regexp*, which is short for the regular expression. We use 
 :::note
 **What is a regular expression?**
 
-A regular expression is a pattern formed in a standardised way that helps search in a string. Regular expressions are useful for matching common patterns of string such as email addresses, phone numbers, URLs, etc. To learn more visit: [https://cheatography.com/davechild/cheat-sheets/regular-expressions/](https://cheatography.com/davechild/cheat-sheets/regular-expressions/)
+A regular expression is a pattern formed in a standardised way that helps search in a string. Regular expressions are useful for matching common patterns of string such as email addresses, phone numbers, URLs, etc. To learn more visit: [https://www.keycdn.com/support/regex-cheatsheet](https://www.keycdn.com/support/regex-cheatsheet)
 :::
 
 The third one is the replacement. So, if `sed` finds the match, it will replace the matched text/pattern with the replacement text.
@@ -99,7 +99,9 @@ Now it is clear what is happening. The `sed` is substituting 'hello' with 'world
 
 Create a new file 'input2.txt' and write the following text in it:
 
-```txt
+```bash
+# Output
+
 Hello, this is a test line. This is a very short line.
 This is test line two. In this line, we have two occurrences of the test.
 This line has many occurrences of the Test with different cases. test tEst TesT.
@@ -111,7 +113,9 @@ Now try to replace 'test' with 'hello'. We can do something like this:
 $ sed 's/test/hello/' input2.txt
 ```
 
-```output
+```bash
+# Output
+
 Hello, this is a hello line. This is a very short line.
 This is hello line two. In this line, we have two occurrences of the test.
 This line has many occurrences of the Test with different case. hello tEst TesT.
@@ -124,7 +128,9 @@ You may have noticed that lines two and three still have 'test'. This is because
 $ sed 's/test/hello/g' input2.txt
 ```
 
-```output
+```bash
+# Output
+
 Hello, this is a hello line. This is a very short line.
 This is hello line two. In this line, we have two occurrences of the hello.
 This line has many occurrences of the Test with different case. hello tEst TesT.
@@ -136,7 +142,9 @@ Ah, something is still wrong with the third line. It is not replacing 'Test', 't
 $ sed 's/test/hello/gi' input2.txt
 ```
 
-```output
+```bash
+# Output
+
 Hello, this is a hello line. This is a very short line.
 This is hello line two. In this line, we have two occurrences of the hello.
 This line has many occurrences of the hello with different case. hello hello hello.
@@ -150,7 +158,9 @@ Let's say now we only want to replace all the occurrences of the 'test' at only 
 $ sed '3s/test/hello/gi' input2.txt
 ```
 
-```output
+```bash
+# Output
+
 Hello, this is a test line. This is a very short line.
 This is test line two. In this line, we have two occurrences of the test.
 This line has many occurrences of the hello with different case. hello hello hello.
@@ -165,7 +175,9 @@ $ sed '2,3s/test/hello/gi' input2.txt
 
 As you may have got the idea, it will edit lines 2 and 3. The output will be:
 
-```output
+```bash
+# Output
+
 Hello, this is a test line. This is a very short line.
 This is hello line two. In this line, we have two occurrences of the hello.
 This line has many occurrences of the hello with different case. hello hello hello.
@@ -183,6 +195,8 @@ $ sed 's/test//gi' input2.txt | sed 's/line/world/gi'
 Here first we are removing 'test' with empty text, and then we are passing the output of first `sed` as the input of second `sed`. The second `sed` is replacing 'line' with 'world'. You will get an output like this:
 
 ```bash
+# Output
+
 Hello, this is a  world. This is a very short world.
 This is  world two. In this world, we have two occurrences of the .
 This world has many occurrences of the  with different case.   .
@@ -190,7 +204,17 @@ This world has many occurrences of the  with different case.   .
 
 ## Escape character
 
-An escape character is a character that invokes an alternative interpretation of the following character. Sometimes it is also used to insert unallowed characters in a string. An escape character is a backslash '\' followed by a character (or characters).
+An escape character is a character that invokes an alternative interpretation of the following character. Sometimes it is also used to insert unallowed characters in a string. An escape character is a backslash '\' followed by a character (or characters). Some of the keywords/characters which you might to escape are as follows:
+
+- `*`: Asterisk.
+- `.`: Dot.
+- `[`: Left square bracket.
+- `]`: Right square bracket.
+- `?`: Question mark.
+- `$`: Dollar sign.
+- `^`: Caret
+- `/`: Forward slash
+- `\`: Backward slash
 
 Let's try to understand this with examples. For this tutorial, create a file 'input3.txt' and put the following text in it:
 ```
@@ -203,7 +227,9 @@ Now, what if we want to replace 'software/application' with 'material'. If we tr
 $ sed 's/software\/application/material/' input3.txt
 ```
 
-```output
+```bash
+# Output
+
 This material is a part of this workshop.
 ```
 
@@ -214,3 +240,126 @@ Escape characters are also used to provide visual representations of non-printin
 - `\t`: a horizontal tab.
 
 For more details visit [https://www.gnu.org/software/sed/manual/sed.html#Escapes](https://www.gnu.org/software/sed/manual/sed.html#Escapes).
+
+
+## Wildcards in `sed`
+
+We have already covered wildcards on the "[Basic Commands](./02-unix-basic-commands.html#Using_wildcards_for_accessing_multiple_files_at_once)" page; here, we will discuss the use of `.`, `*` and `?` in the `sed`. These wildcards are part of the regular expression. 
+
+- You can use `.` as a placeholder for any character except newline (`\n`) or empty text. For example, if you use `.` in your regular expression like `x.z` then it will match to strings like `xaz`, `xbz`, `x1z`, `xzz`, etc., but, it will not match to `xz`.
+
+- You can use `*` to match 0 or more occurrences of the previous character. For example, `xy*z` will match to strings like `xz` (0 occurrences of y), `xyz` (1 occurrence of y), `xyyz` and so on.
+
+- `?` is a bit similar to `*`. The difference is it will only match for 0 or 1 occurrence of the previous character. For example, `xy?z` will match to strings like `xz` (0 occurrences of y), `xyz` (1 occurrence of y) but not to `xyyz`.
+
+Now, let's do some coding. Create a file 'input4.txt' and copy the following sequence:
+```bash
+ATGCCTGATTGGGCTACGTCGTAAGCGATGGCTAGGTATCGTAAAGGGGTTTGGGAACCCCAATCACTAGCT
+```
+
+Let's say we want to replace anything between `A` and `G` with `U`. We can do this using the `sed`:
+
+```bash
+$ sed 's/A.G/AUG/g' input4.txt
+```
+```bash
+#Output
+
+AUGCCTGATTGGGCTAUGTCGTAUGCGAUGGCTAUGTATCGTAAUGGGGTTTGGGAACCCCAATCACTAGCT
+```
+
+
+:::exercise
+
+**Replace Me**
+
+Click on the following link to download the fasta file containing the protein sequence for one of the SARS-CoV-2, <a href="assets/exercise/envelope_gene.fa" download>`envelope_gene.fa`</a>. You have four tasks to do on this file. They are:
+
+- Replace the word `patient` with `sample`. Make sure to replace all words matching to `patient` in a case insensitive manner.
+- Replace all the `.` with `X`.
+- Remove `/incomplete` from one of the sample names.
+- Save the out to `envelope_gene_processed.fa`.
+
+<details>
+<summary>Answer</summary>
+
+We will walk through the solution step by step. At first, to replace the word `patient` with `sample`, we can do something like this:
+
+```bash
+$ sed 's/patient/sample/i' envelope_gene.fa
+```
+```bash
+# Output
+
+>sample01
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+>sample02/incomplete
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNLSLVKPSFY...................
+>sample04
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+>Sample05
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+```
+
+We have to use the flag `i` to tell the `sed` that we want to match the word `patient` in case insensitive manner. 
+
+Second we have to replace all the `.` with `X`. Remember the `.` is a keyword (or has special meaning in the `sed`). So, to have the literal meaning of `.`, we have to escape the `.` with `\`. We can replace all the `.` as follows:
+
+```bash
+$ sed 's/\./X/g' envelope_gene.fa 
+```
+```bash
+# Output
+
+>patient01
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+>Patient02/incomplete
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNLSLVKPSFYXXXXXXXXXXXXXXXXXXX
+>sample04
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+>Sample05
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+```
+
+In line 4, you can see that all the `.` is replaced by `X`. Note that to replace all the `.` we also have to use `g` flag. 
+
+Third, we have remove `\incomplete`. Again `/` is a keyword in the `sed`. We have to do something similar to the previous step.
+
+```bash
+$ sed 's/\/incomplete//' envelope_gene.fa
+```
+```bash
+# Output
+
+>patient01
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+>Patient02
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNLSLVKPSFY...................
+>sample04
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+>Sample05
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+```
+
+Now, we have to combine all three steps (this we can do by using pipe`|`) and then redirect the output to a file rather than the default output.
+
+```bash
+$ sed 's/patient/sample/i' < envelope_gene.fa | sed 's/\./X/g' | sed 's/\/incomplete//' > envelope_gene_processed.fa
+```
+
+```bash
+# You will see no output in the terminal. But you will see a new file
+# `envelope_gene_processed.fa`, which will look similar to the following
+
+>sample01
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+>sample02
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNLSLVKPSFYXXXXXXXXXXXXXXXXXXX
+>sample04
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+>Sample05
+MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
+```
+
+</details>
+:::
