@@ -4,6 +4,23 @@ pagetitle: "The Unix Shell: sed - stream editor"
 
 # The Unix Shell: `sed` - stream editor
 
+:::highlight
+
+**Questions**
+
+- What is `sed`? How to use `sed`?
+- What is the `sed` script?
+- What is the `s` command? How to use the `s` command?
+- What is an escape character?
+- How to use wildcards in the `sed`?
+
+**Learning Objectives**
+
+- Explain the basic usage of the `sed`.
+- A closer look to `sed` script.
+- Demonstrate the usage of the `sed` in processing text.
+
+:::
 
 ## Introduction
 The `sed` command is short for stream editor. A stream editor is used to perform basic text transformations on an input stream (a file or input from a pipeline). 
