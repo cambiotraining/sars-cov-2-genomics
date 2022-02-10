@@ -207,7 +207,7 @@ $ sed 's/software\/application/material/' input3.txt
 This material is a part of this workshop.
 ```
 
-There is also another use of escape character. It provides a way of encoding non-printable characters in patterns in a visible manner. There is no restriction on the appearance of non-printing characters in the `sed` script. But, it is usually easier to use escape characters than the binary character it represents. The list of commonly used escape characters in the `sed` is as follows:
+Escape characters are also used to provide visual representations of non-printing characters and characters that usually have special meanings. There is no restriction on the appearance of non-printing characters in the `sed` script. But, it is usually easier to use escape characters than the binary character it represents. The list of commonly used escape characters in the `sed` is as follows:
 
 - `\n`: a newline.
 - `\r`: a carriage return.
