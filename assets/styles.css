@@ -225,7 +225,7 @@ pre.sourceCode {
 * CSS for icons part of a link
 */
 
-span[class*=fa] {
+a span[class*=fa] {
   margin-right: 5px;
-  font-size: 16;
+  font-size: 14px;
 }
