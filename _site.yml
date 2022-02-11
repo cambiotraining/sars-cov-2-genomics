@@ -20,7 +20,7 @@ navbar:
       href: 101-setup.html
     - text: "Materials"
       menu:
-        - text: "SARS-CoV-2 Genomics"
+        - text: "SARS-CoV-2 Genomic Surveillance"
           href: 01-intro.html
         - text: "The Unix Shell"
           menu:
