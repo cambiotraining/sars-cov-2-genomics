@@ -9,12 +9,14 @@ pagetitle: "SARS-CoV-2 Genomics"
 **Questions**
 
 - What are the main variant annotation conventions for SARS-CoV-2?
+- What is the difference between a strain, a lineage, a clade and a variant?
 - How can I assign sequences to lineages and classify them as VOI/VOC?
 - How can I visually explore the results of my variant analysis?
 
 **Learning Objectives**
 
 - Understand variant annotation conventions used by Gisaid, Pango, Nextstrain and WHO and how they relate to each other. 
+- Distinguish between the concept of a strain, a lineage, a clade and a variant (and describe why the concept of a variant is sometimes ambiguous).
 - Understand the difference between a variant of interest (VOI) and variant of concern (VOC).
 - Assign sequences to Pango lineages using `pangolin`.
 - Interactively explore mutations in the assembled genomes and their phylogenetic context using _Nexstrain_'s tools.
@@ -55,16 +57,19 @@ In fact, the different teams work together to try and harmonise the nomenclature
 **What is a variant?**
 
 It is important to note that the term _variant_ can be somewhat ambiguous. 
-The term "SARS-CoV-2 variant" usually refers to the WHO definition of variants of concern/interest (e.g. the Alpha, Delta and Omicron variants), which includes sequences containing a _collection of several DNA changes_ that characterise that group.
+The term "SARS-CoV-2 variant" usually refers to the WHO definition of variants of concern/interest (e.g. the Alpha, Delta and Omicron variants), which includes sequences containing a _collection of several nucleotide changes_ that characterise that group.
 
 ![Make a schematic example of variants]()
 
-However, in DNA sequence analysis, a _variant_ has a more precise definition, which refers to an individual change in the DNA sequence. 
+However, in bioinformatic sequence analysis, a _variant_ has a more precise definition, which refers to an individual change in the DNA sequence. 
 In the example above, using this definition we would say there are 10 variants in this sample (8 SNPs and 2 indels). 
 In the [Consensus Sequence](04-artic_nextflow.html) section, we mentioned one of our workflow steps was "variant calling". 
 This was the definition of variant we were using: identifying individual SNPs and/or indels relative to the reference genome, from our sequencing data.
 
+Sometimes, the term "mutation" is used as a synonym for a variant (for example, this is what is used in [this definition from the COG consortium](https://www.cogconsortium.uk/what-do-virologists-mean-by-mutation-variant-and-strain/)). 
+
 Because of this ambiguity, it is often preferable to use the term "lineages" or "clades" instead, which have a more precise phylogenetic interpretation.
+
 :::
 
 :::exercise
@@ -219,8 +224,7 @@ To run _Pangolin_ we can use the following syntax:
 ```bash
 pangolin \
   --outdir directory/of/your/choice \
-  --outfile name_of_your_choice.csv \
-  path/to/your/sequences.fasta
+  --outfile name_of_your_choice.csv path/to/your/sequences.fasta
 ```
 
 :::exercise
