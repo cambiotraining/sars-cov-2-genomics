@@ -1227,6 +1227,7 @@ exp
 ```
 
 Suppose you want to:
+
 1. backup all dataset file to `backup/datasets`  and all calibration files to `backup/calibration`
 2. copy all the dataset files created on the 23rd to `send_to_bob/all_datasets_created_on_a_23rd` and all November files (calibration) and dataset) to `send_to_bob/all_november_files` so you can send to a colleague.
 
