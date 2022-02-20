@@ -639,6 +639,7 @@ creatures/  data/  molecules/  north-pacific-gyre/  notes.txt  pizza.cfg  solar.
 
 :::note
 **Two ways of doing the same thing**
+
 Using the shell to create a directory is no different than using a file explorer.
 If you open the current directory using your operating system's graphical file explorer,
 the `thesis` directory will appear there too.
@@ -783,11 +784,11 @@ $ touch my_file.txt
     can observe this newly generated file by typing `ls` at the 
     command line prompt.  `my_file.txt` can also be viewed in your
     GUI file explorer.
->
+
 2.  When you inspect the file with `ls -l`, note that the size of
     `my_file.txt` is 0 bytes.  In other words, it contains no data.
     If you open `my_file.txt` using your text editor it is blank.
->
+
 3.  Some programs do not generate output files themselves, but
     instead require that empty files have already been generated.
     When the program is run, it searches for an existing file to
