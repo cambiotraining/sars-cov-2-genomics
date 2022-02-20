@@ -35,7 +35,7 @@ In this tutorial, we'll use the GNU version of `sed` (available on Ubuntu and ot
 There are many instances when we want to substitute a text in a line or filter out specific lines. In such cases, we can take advantage of `sed`. 
 `sed` operates on a stream of text which it gets either from a text file or from standard input (STDIN). It means you can use the output of another command as the input of `sed` -- in short, you can combine `sed` with other commands.
 
-By default, `sed` outputs everything to standard output (STDOUT). It means, unless redirected, `sed` will print its output to the terminal/screen instead of saving it in a file.
+By default, `sed` outputs everything to standard output (STDOUT). It means, unless redirected, `sed` will print its output onto the terminal/screen instead of saving it in a file.
 
 :::note
 `sed` edits line-by-line and in a non-interactive way.
@@ -52,7 +52,7 @@ To begin this tutorial, create a file 'input.txt' and write the following line a
 hello world
 ```
 
-Now we'll use `sed` replace 'hello' with 'world':
+Now we'll use the `sed` to replace 'hello' with 'world':
 
 ```bash
 $ sed 's/hello/world/' input.txt  
@@ -66,7 +66,7 @@ Just follow this tutorial we will explain all the magic which just happened.
 
 ## `sed` script commands
 
-Let's take a closer look at the `sed` script command. In the above script (`s/hello/world`), 's' is called the `sed` command. There are many `sed` commands, but we mainly focus on the 's' command. To see a list of all `sed` commands, visit [https://www.gnu.org/software/sed/manual/html_node/sed-commands-list.html](https://www.gnu.org/software/sed/manual/html_node/sed-commands-list.html).
+Let's take a closer look at the `sed` script command. In the above script (`s/hello/world`), 's' is called the `sed` command. There are many `sed` commands, but we'll mainly focus on the 's' command. To see a list of all `sed`'s commands, visit [https://www.gnu.org/software/sed/manual/html_node/sed-commands-list.html](https://www.gnu.org/software/sed/manual/html_node/sed-commands-list.html).
 
 The basic syntax for a `sed` command is:
 ```bash
@@ -101,7 +101,7 @@ At the last of the 's' command, you can see [flags]. [flags] are optional. An 's
 
 - **g**: By default `sed` command will only substitute the first match. If the line has more than one match, all will not get replaced. It replaces only the first match. But, if we use the **g** flag, then the `sed` command will replace all matching text.
 
-- **i**:  `sed` matches the regular expression in a case-sensitive manner. It means 'A' (Uppercase A) and 'a' (Lowercase A) are different. But, if we use the **i** flag, then the `sed` will match the regular expression in a case-insensitive manner. This means now the `sed` will treat 'A' and 'a'.
+- **i**:  `sed` matches the regular expression in a case-sensitive manner. It means 'A' (Uppercase A) and 'a' (Lowercase A) are different. But, if we use the **i** flag, then the `sed` will match the regular expression in a case-insensitive manner. This means now the `sed` will treat 'A' and 'a' as same.
 
 To learn more about the 's' command visit [https://www.gnu.org/software/sed/manual/html_node/The-_0022s_0022-Command.html](https://www.gnu.org/software/sed/manual/html_node/The-_0022s_0022-Command.html).
 
@@ -112,7 +112,7 @@ Let's go back to our first example.
 ```bash
 $ sed 's/hello/world' input.txt
 ```
-Now it is clear what is happening. The `sed` is substituting 'hello' with 'world' at every line. And we are getting the input from a file called 'input.txt'.
+Now, I guess it is somewhat clear to you what is happening here. The `sed` is substituting 'hello' with 'world' at every line. And we are getting the input from a file called 'input.txt'.
 
 Create a new file 'input2.txt' and write the following text in it:
 
@@ -221,7 +221,7 @@ This world has many occurrences of the  with different case.   .
 
 ## Escape character
 
-An escape character is a character that invokes an alternative interpretation of the following character. Sometimes it is also used to insert unallowed characters in a string. An escape character is a backslash '\' followed by a character (or characters). Some of the keywords/characters which you might to escape are as follows:
+An escape character is a character that invokes an alternative interpretation of the following character. Sometimes it is also used to insert unallowed characters in a string. An escape character is a backslash `\` followed by a character (or characters). Some of the keywords/characters which you want to escape are as follows:
 
 - `*`: Asterisk.
 - `.`: Dot.
@@ -238,7 +238,7 @@ Let's try to understand this with examples. For this tutorial, create a file 'in
 This software/application is a part of this workshop.
 ```
 
-Now, what if we want to replace 'software/application' with 'material'. If we try to do something like: `sed 's/software/application/material/' input3.txt`, the `sed` will throw an error. Because '/' is a delimiter, sed will think it has to replace 'software' with 'application' but, why there is a third option. To solve this error, we have to escape one '/', we can do this by adding a '\' in front of '/'. It will tell the `sed` not to interpret '/' as a special character.
+Now, what if we want to replace 'software/application' with 'material'. If we try to do something like: `sed 's/software/application/material/' input3.txt`, the `sed` will throw an error. Because here we are using '/' as delimiter, sed will think it has to replace 'software' with 'application' but, why there is a third option. To solve this error, we have to escape one '/', we can do this by adding a '\' in front of '/'. It will tell the `sed` not to interpret '/' as a special character.
 
 ```bash
 $ sed 's/software\/application/material/' input3.txt
@@ -250,7 +250,7 @@ $ sed 's/software\/application/material/' input3.txt
 This material is a part of this workshop.
 ```
 
-Escape characters are also used to provide visual representations of non-printing characters and characters that usually have special meanings. There is no restriction on the appearance of non-printing characters in the `sed` script. But, it is usually easier to use escape characters than the binary character it represents. The list of commonly used escape characters in the `sed` is as follows:
+Escape characters are also used to provide visual representations of non-printing characters and characters that usually have special meanings. It is usually easier to use escape characters than the binary character it represents. The list of commonly used escape characters in the `sed` is as follows:
 
 - `\n`: a newline.
 - `\r`: a carriage return.
