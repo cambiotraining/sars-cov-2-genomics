@@ -28,17 +28,11 @@ navbar:
         - text: "The Unix Shell"
           menu:
             - text: "Basic Commands"
-              href: "02-unix-basic-commands.html" 
+              href: "02-unix-basic-commands.html"
             - text: "Combining Commands"
               href: "02-unix-combining-commands.html"
-            - text: "sed - stream editor"
+            - text: "Text Replacement"
               href: "02-unix-sed.html"
-            - text: "Using remote resources"
-              href: "02-unix-using-remote-resources.html"
-            - text: "Loops"
-              href: "02-unix-loops.html"
-            - text: "Shell Scripts"
-              href: "02-unix-shell-scripts.html"
         - text: "Intro to NGS Data"
           href: 03-intro_ngs.html
         - text: "Consensus Assembly"
@@ -49,17 +43,17 @@ navbar:
           href: 06-phylogeny.html
         - text: "Managing Software"
           href: 07-nextflow_conda_setup.html
-    - text: "Resources"
+    - text: "Extras"
       icon: fa-book
       menu:
         - text: "Unix Cheatsheet"
           href: 102-unix_cheatsheet.html
-        - text: "SARS-CoV-2 Resources"
-          href: 103-tools_and_resources.html
         - text: "Windows Subsystem for Linux"
-          href: "104-wsl_windows.html"
+          href: 104-wsl_windows.html
         - text: "Visual Studio Code"
           href: 105-vs_code.html
+        - text: "SARS-CoV-2 Resources"
+          href: 103-tools_and_resources.html
   right:
     - text: "Github"
       icon: fa-brands fa-github

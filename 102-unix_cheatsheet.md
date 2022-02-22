@@ -8,14 +8,7 @@ This document gives a brief summary of useful Unix commands.
 Anything within `{}` indicates a user-provided input.
 
 :::note
-If you are on Windows, you can install MobaXterm to get a Unix-like terminal. 
-
-<details><summary>Install instructions</summary>
-
-- download and install the "_Installer edition_" of [MobaXterm - Home Edition](https://mobaxterm.mobatek.net/download-home-edition.html) (do not choose the "_Portable edition_"). 
-- Unzip the file and run the `.msi` file to install using default options.
-
-</details>
+If you are on Windows, you can install the _Windows Subsystem for Linux_ following [our instructions](104-wsl_windows.html). 
 :::
 
 
