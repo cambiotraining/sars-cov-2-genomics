@@ -36,7 +36,7 @@ This led to the World Health Organisation (WHO) declaring a public health emerge
 SARS-CoV-2 is an RNA virus, composed of single-stranded RNA.
 The first **SARS-CoV-2 genome** was [published in January 2020](https://www.nature.com/articles/s41586-020-2012-7) and is approximately 30Kb long. 
 It encodes several proteins including the so-called Spike protein (or 'S' for short), which is used by the virus to interact and eventually enter human cells and cause infection. 
-This interaction happens by the binding of the S protein to the ACE2 protein receptor found in human cells (especially those in the respiratory system). 
+This interaction happens by the binding of the S protein to the ACE2 protein receptor found in human cells. 
 
 ![Genome structure of SARS-CoV-2. Source: [Rahimi, Mirzazadeh & Tavakolpour 2021](https://doi.org/10.1016/j.ygeno.2020.09.059)](https://ars.els-cdn.com/content/image/1-s2.0-S0888754320308764-gr1_lrg.jpg)
 
@@ -128,6 +128,13 @@ For example, the [outbreak.info](https://outbreak.info/location-reports) website
 
 At the end of this course you too will be able to contribute to this database, by producing full genome sequences assembled from sequencing data. 
 
+:::note
+**Create a GISAID account**
+
+Go to the [GISAID registration page](https://www.gisaid.org/registration/register/) and create an account, so you can gain access to the data stored in GISAID as well as the ability to submit your own sequences in the future. 
+
+:::
+
 
 ## SARS-CoV-2 Sequencing
 
@@ -198,7 +205,8 @@ The column names of this file are based on the PHA4GE nomenclature system.
 
 - Go to the [PHA4GE metadata collection protocol]((https://dx.doi.org/10.17504/protocols.io.btpznmp6)) and read throught the first steps to find the link to the collection templates. 
 - From that link, go to the Supporting Materials to find the "field mappings" spreadsheet, which matches naming conventions between PHA4GE and other databases such as GISAID.
-- Based on this information, how would you change the column names from our sample information table to prepare the data for GISAID?
+- Based on this information, can you match the column names from our sample information table to the fields required by GISAID?
+- What do you think is the naming convention for the isolate name? How would you adjust this when uploading the data to GISAID?
 
 <details><summary>Answer</summary>
 
