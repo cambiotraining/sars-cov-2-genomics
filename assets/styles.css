@@ -1,3 +1,8 @@
+/**
+* Importing fa icons
+*/
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
+
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 body {
@@ -213,4 +218,14 @@ details summary > * {
 pre,
 pre.sourceCode {
   overflow: auto;
+}
+
+
+/**
+* CSS for icons part of a link
+*/
+
+a span[class*=fa] {
+  margin-right: 5px;
+  font-size: 14px;
 }
