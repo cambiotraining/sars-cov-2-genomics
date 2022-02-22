@@ -16,9 +16,12 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+      icon: fa-home
     - text: "Setup"
       href: 101-setup.html
+      icon: fa-gear
     - text: "Materials"
+      icon: fa-file-lines
       menu:
         - text: "SARS-CoV-2 Genomic Surveillance"
           href: 01-intro.html
@@ -47,6 +50,7 @@ navbar:
         - text: "Managing Software"
           href: 07-nextflow_conda_setup.html
     - text: "Resources"
+      icon: fa-book
       menu:
         - text: "Unix Cheatsheet"
           href: 102-unix_cheatsheet.html
@@ -58,5 +62,6 @@ navbar:
           href: 105-vs_code.html
   right:
     - text: "Github"
+      icon: fa-brands fa-github
       href: https://github.com/cambiotraining/sars-cov-2-genomics
 
