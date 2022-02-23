@@ -71,7 +71,11 @@ Only after the first run will we have a more concrete idea of timings.
 
 ## Acknowledgements
 
-These materials have been developed as a collaboration between the [Bioinformatics Training Facility](https://bioinfotraining.bio.cam.ac.uk/) at the University of Cambridge and the [New Variant Assessment Platform (NVAP)](https://www.gov.uk/guidance/new-variant-assessment-platform) from Public Health England.
+These materials have been developed as a collaboration between the [Bioinformatics Training Facility](https://bioinfotraining.bio.cam.ac.uk/) at the University of Cambridge and the [New Variant Assessment Platform (NVAP)](https://www.gov.uk/guidance/new-variant-assessment-platform) program from the _UK Health Security Agency_.
 Our partners also include [COG Train](https://www.cogconsortium.uk/cog-train/about-cog-train/).
 
-We thank CLIMB BIG DATA for publicly sharing their [workshop videos](https://www.youtube.com/channel/UCdiGIIyryQL3x-Og5uiY1rw), which inspired some of these materials.
+We also thank the wider community for publicly sharing training resources, including: 
+
+- The [workshop video series from _CLIMB BIG DATA_](https://www.youtube.com/channel/UCdiGIIyryQL3x-Og5uiY1rw).
+- The [Carpentries](https://carpentries.org/) project, in particular for their [Unix Shell](https://swcarpentry.github.io/shell-novice/) lesson, which we adapted for this workshop. 
+
