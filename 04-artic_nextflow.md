@@ -497,6 +497,114 @@ Two possible reasons that some samples had poor coverage are:
 :::
 
 
+## Cleaning FASTQ Files
+
+To proceed with our analysis, we need a FASTA file containing _all_ of our consensus sequences.
+However, our `ncov2019-artic-nf` Nextflow workflow outputs _separate_ FASTA files for each sample and in individual directories. 
+We can see this by running (from within the `02-consensus/uk_illumina/` directory): 
+
+```console
+$ ls results/consensus/qc_pass_climb_upload/uk/
+```
+
+Also, the workflow modifies our original sample names in the FASTA file, by adding information about the steps used in the analysis. 
+For example:
+
+```console
+$ head -n 1 results/consensus/qc_pass_climb_upload/uk/ERR5761182/ERR5761182.primertrimmed.consensus.fa
+```
+
+```
+>Consensus_ERR5761182.primertrimmed.consensus_threshold_0.75_quality_20
+```
+
+What we want to do is clean these sample names, so that we end up with:
+
+```
+>ERR5761182
+```
+
+We also want to make sure to combine all the samples into a single FASTA file. 
+
+We can the command-line skills we acquired so far, in particular the use of the `cat` command to combine (or _concatenate_) the individual files and the `sed` command to replace text and clean our sample names. 
+Let's do this step by step.
+
+First, we can use the `*` _wildcard_ to combine all the FASTA files with the `cat` command:
+
+```console
+$ cat results/consensus/qc_pass_climb_upload/uk/*/*.fa
+```
+
+Running this command will print all of the sequences on the screen!
+To see what happened a little better, we could _pipe_ this command to `less` to browse up-and-down through the file:
+
+```console
+$ cat results/consensus/qc_pass_climb_upload/uk/*/*.fa | less
+```
+
+We could also check that we now have all our samples combined, we could pass the results to `grep` and search for the word `>`, which in the FASTA format indicates the sequence name:
+
+```console
+$ cat results/consensus/qc_pass_climb_upload/uk/*/*.fa | grep ">" | wc -l
+```
+
+This should give us 7 as the result (which makes sense, since we have 7 samples). 
+
+We can now proceed with cleaning the names of the sequences, by using `sed`:
+
+```bash
+cat results/consensus/qc_pass_climb_upload/uk/*/*.fa | sed 's/Consensus_//' | sed 's/.primertrimmed.consensus_threshold_0.75_quality_20//' > results/consensus/clean_sequences.fa
+```
+
+Notice how we use two rounds of text replacement, first we replace the word `Consensus_` by an empty string, and then again `.primertrimmed.consensus_threshold_0.75_quality_20` with nothing. 
+
+We also make sure to redirect the result to a new file.
+
+
+:::exercise
+
+In this exercise we will create a clean FASTA file for the samples collected in India. 
+These are found in the `02-consensus/india_nanopore` directory, so make sure to change to that directory first (on our training machines you can do: `cd ~/Course_Materials/02-consensus/india_nanopore`)
+
+If we look at one of the files
+
+```console
+$ head -n 1 results/consensus/qc_pass_climb_upload/india/india_barcode01/india_barcode01.consensus.fasta
+```
+
+```
+>india_barcode01/ARTIC/medaka MN908947.3
+```
+
+We want to clean the name of the sequences so that the result is:
+
+```
+>barcode01
+```
+
+- Use the tools `cat` and `sed` to construct a command that generates a new file called `results/consensus/clean_sequences.fa` containing all the sequences with "clean" sequence names. 
+
+<details><summary>Hint</summary>Remember the syntax for pattern replacement with `sed` is: `sed 's/replace this/with that/'`. Also remember that if you want to replace the character "/", you need to use the special _escape character_, for example: `sed 's/replace \/ slash//'`</details>
+
+<details><summary>Answer</summary>
+
+The complete code to achieve the desired outcome is:
+
+```bash
+cat results/consensus_india/qc_pass_climb_upload/india/*/*.fasta | sed 's/india_//' | sed 's/\/ARTIC\/medaka MN908947.3//' > results/consensus/clean_sequences.fa
+```
+
+Note that in order to replace the pattern `/ARTIC/medaka MN908947.3`, we needed to "_escape_" the `/` symbol by using `\/`.
+This is because `/` alone is used by `sed` to separate different parts of the command. 
+
+Look at the [section about pattern replacement](02-unix-sed.html) for a reminder of how the `sed` command works.
+
+</details>
+
+:::
+
+
+
 ## Summary
 
 :::highlight
