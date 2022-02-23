@@ -16,12 +16,12 @@ pagetitle: "SARS-CoV-2 Genomics"
 **Learning Objectives**
 
 - Enumerate some examples of how the genomic surveillance of SARS-CoV-2 has impacted public health decisions during the ongoing pandemic. 
+- Describe what a variant of concern (VOC) is and how it differs from a variant of interest (VOI). 
+- Describe the sources of information that can be obtained from GISAID, Pango, Nextstrain and the WHO nomenclature systems. 
 - Contrast different sequencing protocols (e.g. amplicon, metagenomic) and technologies (e.g. Illumina and Nanopore) commonly used for SARS-CoV-2 sequencing, including the pros and cons of each. 
 - Understand the steps involved in the widespread ARTIC protocol and the differences between its versions. 
 - List key metadata fields needed with each sample to make best use of the data and recognise some limitations related to privacy.
 - Recognise what the main steps are in processing raw sequencing data to generate consensus genome sequences, including sequence alignment, primer trimming and consensus generation. 
-- Describe the sources of information that can be obtained from GISAID, Pango, Nextstrain and the WHO nomenclature systems. 
-- Describe what a variant of concern (VOC) is and how it differs from a variant of interest (VOI). 
 
 :::
 
@@ -82,26 +82,14 @@ In addition to the WHO variant nomenclature, there are three main projects that 
 
 We will learn more about how sequences are classified into _lineages_ and _variants of concern_ in the section about [Lineage Assignment](05-lineage_assignment.html).
 
-
-:::exercise
-
-- Looking through the [WHO variants page](https://www.who.int/en/activities/tracking-SARS-CoV-2-variants/), can you find what the difference is between a _Variant of Interest_ (VOI) and a _Variant of Concern_ (VOC)?
-- Can you find the correspondence between the VOCs and their respective lineages in other classification systems (GISAID, Nextstrain and Pango)?
-- Go to the [outbreak.info](https://outbreak.info/location-reports) website and search for a country of your choice (for example, your country of origin or where you live). 
-- How many sequences are available from the last 360 days? (Note: by default only the last 60 days are shown. You can change this in the text box found on the right of the report page.)
-- What were the most common lineages of the virus in circulation in the last 360 days? Do you notice sharp changes in the frequency of WHO _Variants of Concern_?
-
-:::
-
-
 :::note
 
 **What is the difference: strain, lineage, clade, variant?**
 
-These terms are sometimes used interchangeably in informal conversations about SARS-CoV-2.
+These terms are sometimes used interchangeably in informal conversations about the different forms of SARS-CoV-2.
 For our purposes, these are the definitions we will use:
 
-A **strain** is a group of viruses are sufficiently diverged from others, so that they are quite distinct at a sequence level as well as in their biological properties. SARS-CoV-2 is still considered to be a single strain. Examples of other coronavirus strains are SARS-CoV and MERS-CoV.
+A **strain** is a group of viruses that are sufficiently diverged from others, so that they are quite distinct at a sequence level as well as in their biological properties. SARS-CoV-2 is still considered to be a single strain. Examples of other coronavirus strains are SARS-CoV and MERS-CoV.
 
 The terms **lineage** and **clade** are somewhat similar, in that both represent groups of similar sequences, inferred from a phylogenetic analysis and sharing a common ancestor. 
 Their main difference (at least in the current SARS-CoV-2 nomenclature systems) is the level of resolution. 
@@ -117,6 +105,16 @@ The term "variant" can be ambiguous when used in the field of bioinformatics, an
 
 :::
 
+
+:::exercise
+
+- Looking through the [WHO variants page](https://www.who.int/en/activities/tracking-SARS-CoV-2-variants/), can you find what the difference is between a _Variant of Interest_ (VOI) and a _Variant of Concern_ (VOC)?
+- Can you find the correspondence between the VOCs and their respective lineages in other classification systems (GISAID, Nextstrain and Pango)?
+- Go to the [outbreak.info](https://outbreak.info/location-reports) website and search for a country of your choice (for example, your country of origin or where you live). 
+- How many sequences are available from the last 360 days? (Note: by default only the last 60 days are shown. You can change this in the text box found on the right of the report page.)
+- What were the most common lineages of the virus in circulation in the last 360 days? Do you notice sharp changes in the frequency of WHO _Variants of Concern_?
+
+:::
 
 
 ## The GISAID Database
@@ -141,7 +139,7 @@ Go to the [GISAID registration page](https://www.gisaid.org/registration/registe
 Routine SARS-CoV-2 sequencing is done with a method generally referred to as _amplicon sequencing_. 
 This method relies on amplifying the genetic material using [polymerase chain reaction](https://youtu.be/aUBJtHwHASA) (PCR) with a panel of primers designed against the known SARS-CoV-2 genome. 
 
-One of the most popular methods for preparing virus RNA for sequencing have been developed by the **ARTIC** network, whose aim is to develop standardised protocols for viral sample processing.
+One of the most popular methods for preparing virus RNA for sequencing have been developed by the [**ARTIC network**](https://artic.network/), whose aim is to develop standardised protocols for viral sample processing.
 One of the key contributions of this network is to provide the community with a panel of primers that tile the whole genome of SARS-CoV-2, which are updated and optimised to work on the most common circulating lineages. 
 
 ![Schematic of the ARTIC protocol. Source: [Gohl et al. 2020](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-020-07283-6/figures/1)](images/artic_protocol.png)
@@ -171,6 +169,13 @@ However, they require substantial upfront cost to setup and equip in the lab and
 
 
 ## Sample Collection
+
+There are two big considerations when collecting samples for sequencing:
+
+- Is there enough viral material in the sample (viral load)?
+- Did I collect all the necessary information about each sample (metadata)?
+
+### Viral Load
 
 When collecting patient samples for sequencing, it is important to quantify the viral load in the sample. 
 This is usually done by [quantitative RT-PCR (RT-qPCR)](https://dx.doi.org/10.3390%2Fijms21083004), whereby the amplification of the samples is monitored by measuring a dye that is incorporated during the PCR reaction.
