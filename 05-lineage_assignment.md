@@ -39,7 +39,7 @@ One way to visualise this is by looking at a _phylogenetic tree_ showing the rel
 ![Example of global phylogeny from the [Nextstrain public server](https://nextstrain.org/ncov/gisaid/global). Colours show different Nextstrain clades. (Screenshot taken Feb 2022)](images/lineages_example.svg)
 
 In the figure above, which shows SARS-CoV-2 samples from across the world, we can see groups of similar sequences rapidly "expanding" at certain points in time. 
-Such groups of sequences, which share a collection of DNA changes, are referred to as _variants_ (see box below about the ambiguous meaning of this term).
+Such groups of sequences, which share a collection of DNA changes, are referred to as SARS-CoV-2 _variants_ (see box below about the ambiguous meaning of this term).
 In an effort to understand the spread of the virus and monitor situations of increased occurrence of such variants, several groups and institutions have developed a system to classify groups of SARS-CoV-2 sequences as _variants of interest_ and _variants of concern_. 
 
 A full explanation and definitions of such variants is given in the [World Health Organisation (WHO) variants page](https://www.who.int/en/activities/tracking-SARS-CoV-2-variants)
@@ -57,138 +57,22 @@ In fact, the different teams work together to try and harmonise the nomenclature
 **What is a variant?**
 
 It is important to note that the term _variant_ can be somewhat ambiguous. 
-The term "SARS-CoV-2 variant" usually refers to the WHO definition of variants of concern/interest (e.g. the Alpha, Delta and Omicron variants), which includes sequences containing a _collection of several nucleotide changes_ that characterise that group.
+The term "SARS-CoV-2 variant" usually refers to the [WHO definition of variants of concern/interest](https://www.who.int/en/activities/tracking-SARS-CoV-2-variants/) (e.g. the Alpha, Delta and Omicron variants), which includes sequences containing a _collection of several nucleotide changes_ that characterise that group.
+According to this definition, would say there are two variants in the schematic below (samples 1 & 2 are one variant and samples 3 & 4 another variant).
 
-![Make a schematic example of variants]()
+![](images/variants_snps_indels.svg)
 
 However, in bioinformatic sequence analysis, a _variant_ has a more precise definition, which refers to an individual change in the DNA sequence. 
-In the example above, using this definition we would say there are 10 variants in this sample (8 SNPs and 2 indels). 
+Using this definition, in the schematic above we would say there are 5 variants: 3 SNPs and 2 indels. 
 In the [Consensus Sequence](04-artic_nextflow.html) section, we mentioned one of our workflow steps was "variant calling". 
 This was the definition of variant we were using: identifying individual SNPs and/or indels relative to the reference genome, from our sequencing data.
+This is also reflected in the one of the common file formats used to store SNP/indel information, the [_VCF_ file](https://en.wikipedia.org/wiki/Variant_Call_Format), which stands for "Variant Call Format". 
 
-Sometimes, the term "mutation" is used as a synonym for a variant (for example, this is what is used in [this definition from the COG consortium](https://www.cogconsortium.uk/what-do-virologists-mean-by-mutation-variant-and-strain/)). 
+Instead of this definition of variant, sometimes the term "mutation" is used.
+For example in the [definition from the COG consortium](https://www.cogconsortium.uk/what-do-virologists-mean-by-mutation-variant-and-strain/). 
 
-Because of this ambiguity, it is often preferable to use the term "lineages" or "clades" instead, which have a more precise phylogenetic interpretation.
-
+Because of this ambiguity, it is often preferable to use the term "lineages" or "clades", which have a more precise phylogenetic interpretation.
 :::
-
-:::exercise
-
-To proceed with our analysis, we need a FASTA file containing _all_ of our consensus sequences.
-However, our `ncov2019-artic-nf` Nextflow workflow outputs _separate_ FASTA files for each sample and in individual directories. 
-
-You can see this by running `ls results/consensus_uk/qc_pass_climb_upload/uk/` and `ls results/consensus_india/qc_pass_climb_upload/india/`.
-
-Also, the workflow modifies our original sample names in the FASTA file, by adding information about the steps used in the analysis. For example:
-
-```console
-$ head -n 1 results/consensus_uk/qc_pass_climb_upload/uk/ERR5964203/ERR5964203.primertrimmed.consensus.fa
-```
-
-```
->Consensus_ERR5964203.primertrimmed.consensus_threshold_0.75_quality_20
-```
-
-And: 
-
-```console
-$ head -n 1 results/consensus_india/qc_pass_climb_upload/india/india_barcode01/india_barcode01.consensus.fasta
-```
-
-```
->india_barcode01/ARTIC/medaka MN908947.3
-```
-
-What we want is to clean these sample names, so that we end up with (using the examples above):
-
-```
->ERR5964203
-```
-
-and
-
-```
->barcode01
-```
-
-
-## {.unlisted .unnumbered .tabset}
-
-### Harder Version
-
-1. Create a new directory to output our clean FASTA files in `results/clean_sequences/`.
-1. Write a command that _concatenates_ (i.e. combines) the UK files into a file named `uk.fa` and the India samples into a file named `india.fa`. <details><summary>Hint</summary>You will need to use the `*` wildcard and the `cat` command.</details>
-1. Modify the India and UK commands you wrote above, and _pipe_ `|` it to the program `sed` to replace the undesired text from the sample names (for example the word "Consensus_" and ".primertrimmed.consensus_threshold_0.75_quality_20" from the UK samples). <details><summary>Hint</summary>Remember the syntax for pattern replacement with `sed` is: `sed 's/replace this/with that/'`. Also remember that if you want to replace the character "/", you need to use the special _escape character_, for example: `sed 's/replace \/ slash//'</details>
-1. Combine both of the cleaned files into a new file called `results/clean_sequences/all_sequences.fa`.
-1. Save all these commands in a new shell script called `scripts/clean_consensus_sequences.sh`.
-
-### Easier Version
-
-The code below does the following: 
-
-- Creates a new directory to save our clean sequences.
-- Concatenates all the UK samples using `cat`, the uses the `sed` command to do pattern-replacement to remove the unnecessary text from the samples.
-- Combines both of those files together. 
-
-However, the code needs to be fixed, and that is your job! 
-
-1. Create a new directory to output our clean FASTA files in `results/clean_sequences/`.
-1. In the `scripts/` folder, create a new shell script called `clean_consensus_sequences.sh`.
-1. Copy the code shown below and replace the word "FIXME" with the correct code.
-
-```shell
-#!/bin/bash
-
-# make output directory
-mkdir -p FIXME
-
-# concatenate and clean UK sequences (Illumina)
-cat results/FIXME/qc_pass_climb_upload/uk/*/*.fa | \
-  sed 's/Consensus_//' | \
-  sed 's/.primertrimmed.consensus_threshold_0.75_quality_20//' > \
-  results/clean_sequences/uk.fa
-
-# concatenate and clean India sequences (Nanopore)
-cat results/consensus_india/qc_pass_climb_upload/india/*/*.fasta | \
-  sed 's/FIXME//' | \
-  sed 's/\/ARTIC\/medaka MN908947.3//' > \
-  results/FIXME
-
-# combine both of these together
-cat results/clean_sequences/FIXME results/clean_sequences/uk.fa > results/clean_sequences/all_sequences.fa
-```
-
-## {.unlisted .unnumbered}
-
-<details><summary>Answer</summary>
-
-The complete code to achieve the desired outcome is:
-
-```bash
-#!/bin/bash
-# make output directory
-mkdir -p results/clean_sequences/
-
-# concatenate and clean UK sequences (Illumina)
-cat results/consensus_uk/qc_pass_climb_upload/uk/*/*.fa | \
-  sed 's/Consensus_//' | \
-  sed 's/.primertrimmed.consensus_threshold_0.75_quality_20//' > \
-  results/clean_sequences/uk.fa
-
-# concatenate and clean India sequences (Nanopore)
-cat results/consensus_india/qc_pass_climb_upload/india/*/*.fasta | \
-  sed 's/india_//' | \
-  sed 's/\/ARTIC\/medaka MN908947.3//' > \
-  results/clean_sequences/india.fa
-
-# combine both of these together
-cat results/clean_sequences/india.fa results/clean_sequences/uk.fa > results/clean_sequences/all_sequences.fa
-```
-
-</details>
-
-:::
-
 
 ## Pangolin
 
@@ -222,12 +106,13 @@ pango-designation aliases: 1.2.112
 To run _Pangolin_ we can use the following syntax:
 
 ```bash
-pangolin \
-  --outdir directory/of/your/choice \
-  --outfile name_of_your_choice.csv path/to/your/sequences.fasta
+pangolin --outdir directory/of/your/choice --outfile name_of_your_choice.csv path/to/your/sequences.fasta
 ```
 
 :::exercise
+
+Go to the course materials directory `03-lineages` (on our training machines `cd ~/Course_Materials/03-lineages`). 
+There you will find a directory called `data`, which contains a file called `all_sequences.fa`, containing both UK and India samples that we processed in the [Consensus Assembly section](04-artic_nextflow.md).
 
 Let's run `pangolin` on our sequences, but with slightly different options than the default.
 Looking at the help documentation (`pangolin --help`), identify which options you would need to use in order to:
@@ -235,8 +120,18 @@ Looking at the help documentation (`pangolin --help`), identify which options yo
 - Use _UShER_ for placing sequences on the phylogeny (instead of the default, which uses _pangoLEARN_).
 - Output the multiple sequence alignment.
 - Use 8 CPUs (or "threads") for parallel processing.
+- Output the results to a directory called `results/pangolin` (note: you have to create this directory first).
+- **Bonus:** save the command in a shell script (create a directory called `scripts` to save your script).
+- Open the results file and check whether there any variants of concern (these are found in the column called `scorpio_lineages`).
 
 <details><summary>Answer</summary>
+
+The first thing we should do is create the output directory for our results, and also a directory for our scripts: 
+
+```bash
+mkdir -p results/pangolin/
+mkdir scripts/
+```
 
 We can look at the tool's help by using `pangolin --help`. 
 From that documentation we can see the following three options that would do what we want:
@@ -247,15 +142,11 @@ From that documentation we can see the following three options that would do wha
 
 Therefore, the command to run our analysis is:
 
-```console
-pangolin \
-  --usher \
-  --alignment \
-  --outdir results/pangolin/ \
-  --outfile uk_india_report.csv \
-  --threads 8 \
-  results/clean_sequences/all_sequences.fa
+```bash
+pangolin --usher --alignment --outdir results/pangolin/ --outfile uk_india_report.csv --threads 8 data/all_sequences.fa
 ```
+
+From VS Code, we could save this command in a script (File > New File) and save it in the `scripts` folder with the filename `pangolin.sh` (or another informative name of your choice). 
 
 </details>
 
@@ -277,7 +168,7 @@ _pangoLearn_ is faster than _UShER_, but the latter seems to perform better in t
 
 Another system of clade assignment and lineage classification is provided by `nextclade`, which is part of the broader software ecosystem [_Nextstrain_](https://clades.nextstrain.org/). 
 
-_Nextclade_ can be used to analyse our sequences against the reference genome, assign sequences to clades (using their own nomenclature) and identify potential quality issues.
+_Nextclade_ can be used to analyse our sequences against the reference genome, assign sequences to clades (using _Nextclade_'s own nomenclature) and identify potential quality issues.
 This is a complementary analysis to what can be obtained with _Pangolin_, enriching our insights into the data. 
 
 There are two main ways to use _Nextclade_:
@@ -308,7 +199,16 @@ After loading your consensus sequences to [nextclade.org](https://clades.nextstr
 1. Can you identify any sequences classified as a WHO variant of concern? Does this agree with the previous analysis from _Pangolin_? <details><summary>Hint</summary>Although this information is available in the main panel, it might be easier to switch to the Phylogeny view, using the button on the top-right.</details>
 1. Check whether the canonical mutations from the Delta variant (image below) appear in the sequences classified as that variant. <details><summary>Hint</summary>Try filtering your samples for clade "21".</details>
 
-![Mutations in the Delta variant Spike protein. (source: [Wikipedia](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png))](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png)
+<div class="figure">
+  <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png" target="_blank">
+    <img align="center" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png"/>
+  </a>
+  <p class="caption">
+    Mutations in the Delta variant Spike protein. Click image to open larger size. (source: [Wikipedia](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png))
+  </p>
+</div>
+
+
 
 <details><summary>Answer</summary>
 
@@ -318,7 +218,7 @@ To look at how many samples are classified as different quality categories, we c
 <svg stroke="grey" fill="grey" stroke-width="0" viewBox="0 0 512 512" height="15" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"></path></svg>
 .
 We can tick/untick based on the way _Nextclade_ classified the sequences in quality categories.
-By selecting only those samples that have "Bad Quality", we can see that all of them are from the nanopore data. 
+By selecting only those samples that have "Bad Quality", we can see that nearly all of them are from the nanopore data. 
 One of the main errors is due to too much missing data (ambiguous bases, "N"). 
 We can see these as grey boxes in the variant panel on the right. 
 
@@ -379,7 +279,7 @@ Now that we have downloaded our data, we are ready to run our `nextclade` analys
 ```bash
 nextclade run \
    --in-order \
-   --input-fasta results/clean_sequences/all_sequences.fa \
+   --input-fasta data/all_sequences.fa \
    --input-dataset resources/nextclade_dataset/ \
    --include-reference \
    --output-dir results/nextclade \
@@ -410,8 +310,51 @@ In addition, we can upload a metadata table, which can be helpful to further exp
 Go to [auspice.us](https://auspice.us/) and drag-and-drop the `uk_india.auspice.json` file onto the browser window. 
 This should open a phylogeny panel, similar to what we previously obtained with the Web interface. 
 
-Drag-and-drop our sample metadata file (stored in `data/sample_info.csv`) into the browser window. 
-This will add this metadata to the interactive view, including a new panel showing the location of our samples.
+Drag-and-drop our sample metadata file (stored in `sample_info_nextclade.csv`) into the browser window. 
+This will add this metadata to the interactive view, including a new map panel showing the location of our samples.
+
+Take some time to explore your data using this tool. 
+
+:::
+
+:::note
+Nextclade adds the suffix "_new" to our sample names, so we created a new metadata file where we changed the name of our samples to include "_new" in their name as well. 
+This is needed when adding metadata to our results on [auspice.us](https://auspice.us/).
+Apart from that, the file is exactly the same as the `sample_info.csv` file we have been using so far. 
+:::
+
+:::exercise
+
+_Nextclade_ also outputs the protein sequences for each of the SARS-CoV-2 genes. 
+We can visualise these with the program AliView. 
+
+<img src="https://avatars.githubusercontent.com/u/7050126?s=200&v=4" alt="Nextstrain" style="float:left;width:10%">
+
+- Open AliView (this program's icon is shown on the left)
+- Go to "File > Open File" and navigate to "Course_Materials > 03-lineages > results > nextclade" to open the file "uk_india.gene.S.fasta"
+- Can you see the mutations characteristic of the Delta variant? (see image below)
+
+<div class="figure">
+  <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png" target="_blank">
+    <img align="center" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png"/>
+  </a>
+  <p class="caption">
+    Mutations in the Delta variant Spike protein. Click image to open larger size. (source: [Wikipedia](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png))
+  </p>
+</div>
+
+<details><summary>Answer</summary>
+
+AliView allows us to interactively visualise a FASTA file with protein or DNA alignments. 
+
+To help us explore these data, we can right-click the first sequence (Wuhan-Hu-1 reference) and choose "Set this sequence as template when Highlighting difference". 
+This will make it easier to see aminoacid differences in our samples. 
+
+We can scroll to the right to see that several samples contain the mutation at position 19 changing a T to an R, at position 157 there is a deletion and a change to a G, at position 452 a change from L to R, etc.
+
+If we look at these samples' names, they match the classification obtained with Nextclade and Pangolin as being the Delta variant. 
+
+</details>
 
 :::
 
