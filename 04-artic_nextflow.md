@@ -59,6 +59,8 @@ Furthermore, as we want to chain multiple tools together, the inputs of one tool
 Although it is possible to code such workflows using plain _shell_ scripts, these often don't scale well across different users and compute setups. 
 To overcome these limitations, dedicated [_workflow management software_](https://en.wikipedia.org/wiki/Workflow_management_system) packages have been developed to help standardise workflows and make it easier for the user to process their data. 
 
+<img src="https://raw.githubusercontent.com/nextflow-io/trademark/master/nextflow2014_no-bg.png" alt="Nextflow" style="float:right;width:20%">
+
 Two of the most popular _workflow software_ packages are [_Snakemake_](https://snakemake.readthedocs.io/en/stable/) and [_Nextflow_](https://www.nextflow.io/). 
 We will not cover how to develop workflows with these packages, but rather how to use an existing workflow to generate consensus sequences from SARS-CoV-2 data.
 
@@ -331,7 +333,8 @@ We will details what these files are in the following section.
 
 :::exercise
 
-Go to the `india_nanopore` directory, where you will find Nanopore sequencing data for several samples collected in India. 
+Go to the course materials directory `02-consensus/india_nanopore` (on our training machines `cd ~/Course_Materials/02-consensus/india_nanopore`). 
+This contains Nanopore sequencing data for several samples collected in India. 
 Nanopore data is organised in directories named according to the convention `barcodeXX` where `XX` is a number. 
 The `--medaka` workflow expects to be given as an input a directory containing several sub-directories named in that way (this is a standard output from the program used to generate FASTQ files from Nanopore data). 
 
