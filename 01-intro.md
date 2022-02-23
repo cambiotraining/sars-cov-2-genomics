@@ -200,8 +200,10 @@ For example, epidemiological analysis will require individual-level metadata ("p
 
 :::exercise
 
-On the X folder (**TODO: add where the file is**) you will find a CSV file with information about several samples that were sequenced and will be analysed by us later in the course. 
-The column names of this file are based on the PHA4GE nomenclature system. 
+Open the folder under "Course_Materials > 01-Unix > metadata", where you will find several CSV files with information about samples that were sequenced and will be analysed by us later in the course. 
+Double-click to open one of these files (any of them is fine), which should open them on a spreadsheet software (on our training machines it is LibreOffice, but Excel would also work).
+
+The column names of these files are based on the PHA4GE nomenclature system. 
 
 - Go to the [PHA4GE metadata collection protocol]((https://dx.doi.org/10.17504/protocols.io.btpznmp6)) and read throught the first steps to find the link to the collection templates. 
 - From that link, go to the Supporting Materials to find the "field mappings" spreadsheet, which matches naming conventions between PHA4GE and other databases such as GISAID.
