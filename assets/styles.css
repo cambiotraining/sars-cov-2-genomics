@@ -220,6 +220,10 @@ pre.sourceCode {
   overflow: auto;
 }
 
+pre code {
+  white-space: pre;
+}
+
 
 /**
 * CSS for icons part of a link
