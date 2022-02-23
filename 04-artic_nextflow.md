@@ -321,7 +321,16 @@ When you start running the workflow, you will get a list of the workflow steps a
 Once the workflow is complete, you should see something similar to the following:
 
 ```console
-[94/4d963f] process > ncovIllumina:prepareReferenceFiles:articDownloadScheme (https://github.com/artic-network/p... [100%] 1 of 1 ✔[c1/5147e1] process > ncovIllumina:prepareReferenceFiles:indexReference (nCoV-2019.reference.fasta)                 [100%] 1 of 1 ✔[62/7f03b3] process > ncovIllumina:sequenceAnalysis:readTrimming (ERR5921612)                                       [100%] 7 of 7 ✔[e8/e7df33] process > ncovIllumina:sequenceAnalysis:readMapping (ERR5932418)                                        [100%] 7 of 7 ✔[fe/71e5df] process > ncovIllumina:sequenceAnalysis:trimPrimerSequences (ERR5932418)                                [100%] 7 of 7 ✔[08/302b91] process > ncovIllumina:sequenceAnalysis:callVariants (ERR5932418)                                       [100%] 7 of 7 ✔[6b/ff2d9d] process > ncovIllumina:sequenceAnalysis:makeConsensus (ERR5932418)                                      [100%] 7 of 7 ✔[83/2dcd07] process > ncovIllumina:sequenceAnalysis:makeQCCSV (ERR5932418)                                          [100%] 7 of 7 ✔[90/2aa165] process > ncovIllumina:sequenceAnalysis:writeQCSummaryCSV (uk)                                          [100%] 1 of 1 ✔[b3/d57d1f] process > ncovIllumina:sequenceAnalysis:collateSamples (ERR5932418)                                     [100%] 7 of 7 ✔
+[94/4d963f] process > ncovIllumina:prepareReferenceFiles:articDownloadScheme (https://github.com/artic-network/p... [100%] 1 of 1 ✔  
+[c1/5147e1] process > ncovIllumina:prepareReferenceFiles:indexReference (nCoV-2019.reference.fasta)                 [100%] 1 of 1 ✔  
+[62/7f03b3] process > ncovIllumina:sequenceAnalysis:readTrimming (ERR5921612)                                       [100%] 7 of 7 ✔  
+[e8/e7df33] process > ncovIllumina:sequenceAnalysis:readMapping (ERR5932418)                                        [100%] 7 of 7 ✔  
+[fe/71e5df] process > ncovIllumina:sequenceAnalysis:trimPrimerSequences (ERR5932418)                                [100%] 7 of 7 ✔  
+[08/302b91] process > ncovIllumina:sequenceAnalysis:callVariants (ERR5932418)                                       [100%] 7 of 7 ✔  
+[6b/ff2d9d] process > ncovIllumina:sequenceAnalysis:makeConsensus (ERR5932418)                                      [100%] 7 of 7 ✔  
+[83/2dcd07] process > ncovIllumina:sequenceAnalysis:makeQCCSV (ERR5932418)                                          [100%] 7 of 7 ✔  
+[90/2aa165] process > ncovIllumina:sequenceAnalysis:writeQCSummaryCSV (uk)                                          [100%] 1 of 1 ✔  
+[b3/d57d1f] process > ncovIllumina:sequenceAnalysis:collateSamples (ERR5932418)                                     [100%] 7 of 7 ✔  
 Completed at: 22-Feb-2022 17:00:04
 Duration    : 12m 5s
 CPU hours   : 0.9
