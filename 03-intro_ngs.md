@@ -331,6 +331,7 @@ Ideas:
 
 ## Summary
 
+:::highlight
 **Key Points**
 
 - Illumina sequencing produces short reads (50bp - 200bp), typically from both ends of a DNA fragment. It is a comparatively cheap sequencing platform which produces very high-quality sequences.
