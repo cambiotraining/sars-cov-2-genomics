@@ -313,7 +313,7 @@ mkdir results
 nextflow run ncov2019-artic-nf -with-report -with-dag -profile conda --outdir results/consensus/ --prefix uk --schemeVersion V3 --directory data/reads/ --illumina
 ```
 
-If first creates a results directory (to store our output files) and then runs the `nextflow` command using the `--illumina` sub-workflow.
+It first creates a results directory (to store our output files) and then runs the `nextflow` command using the `--illumina` sub-workflow.
 
 You can run each of these commands one at a time (tip: you can use <kbd>Shift</kbd> + <bkd>Enter</kbd> to send a command from the script to the terminal).
 
