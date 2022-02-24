@@ -8,36 +8,337 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 **Questions**
 
+- What are the main technologies available for high-throughput sequencing?
 - What are some of the common file formats used in bioinformatics?
 - How do I assess the quality of Illumina sequencing data?
 
 **Learning Objectives**
 
-- Recognise the structure of common file formats in bioinformatics such as FASTA, FASTQ, FAST5 and BED.
-- Use FastQC to produce a quality report for Illumina sequences. 
+- Describe differences between sequencing data produced by Illumina and Nanopore platforms. 
+- Recognise the structure of common file formats in bioinformatics, in particular FASTA and FASTQ files.
+- Use FastQC to produce a quality report for Illumina sequences.
 - Use MultiQC to produce a report compiling multiple quality statistics.
-- Use MinIONQC to produce quality plots from ONT base calling software.
+- Examine quality reports to identify problematic samples. 
 
 :::
 
+## Next Generation Sequencing
+
+The sequencing of genomes has become more routine due to the [rapid drop in DNA sequencing costs](https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data) seen since the development of Next Generation Sequencing (NGS) technologies in 2007. 
+One main feature of these technologies is that they are _high-throughput_, allowing one to more fully characterise the genetic material in a sample of interest. 
+
+There are three main technologies in use nowadays, often referred to as 2nd and 3rd generation sequencing: 
+
+- Illumina's sequencing by synthesis (2nd generation)
+- Oxford Nanopore, shortened ONT (3rd generation)
+- Pacific Biosciences, shortened PacBio (3rd generation)
+
+The video below from the iBiology team gives a great overview of these technologies.
+
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/mI0Fo9kaWqo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+
+### Illumina Sequencing
+
+Illumina's technology has become a widely popular method, with many applications to study transcriptomes (RNA-seq), epigenomes (ATAC-seq, BS-seq), DNA-protein interactions (ChIP-seq), chromatin conformation (Hi-C/3C-Seq), population and quantitative genetics (variant detection, GWAS), de-novo genome assembly, amongst [many others](https://emea.illumina.com/content/dam/illumina-marketing/documents/products/research_reviews/sequencing-methods-review.pdf). 
+
+An overview of the sequencing procedure is shown in the animation video below. 
+Generally, samples are processed to generate so-called _sequencing libraries_, where the genetic material (DNA or RNA) is processed to generate fragments of DNA with attached oligo adapters necessary for the sequencing procedure (if the starting material is RNA, it can be converted to DNA by a step of reverse transcription). 
+Each of these DNA molecule is then sequenced from both ends, generating pairs of sequences from each molecule, i.e. _paired-end sequencing_ (single-end sequencing, where the molecule is only sequenced from one end is also possible, although much less common nowadays). 
+
+This technology is a type of _short-read sequencing_, because we only obtain short sequences from the original DNA molecules.
+Typical protocols will generate 2x50bp to 2x250bp sequences (the 2x denotes that we sequence from each end of the molecule). 
+
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/fCd6B5HRaZ8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
+
+The main advantage of Illumina sequencing is that it produces very high-quality sequence reads (current protocols generate reads with an error rate of less than <1%) at a low cost. 
+However, the fact that we only get relatively short sequences means that there are limitations when it comes to resolving particular problems such as long sequence repeats (e.g. around centromeres or transposon-rich areas of the genome), distinguishing gene isoforms (in RNA-seq), or resolving haplotypes (combinations of variants in each copy of an individual's diploid genome).
+
+
+## Nanopore Sequencing
+
+Nanopore sequencing is a type of _long-read sequencing_ technology. 
+The main advantage of this technology is that it can sequence very long DNA molecules (up to megabase-sized), thus overcoming the main shortcoming of short-read sequencing mentioned above. 
+Another big advantage of this technology is its portability, with some of its devices designed to work via USB plugged to a standard laptop. 
+This makes it an ideal technology to use in situations where it is not possible to equip a dedicated sequencing facility/laboratory (for example, when doing field work).
+
+![Overview of Nanopore sequencing showing the highly-portable MinION device. The device contains thousands of nanopores embeded in a membrane where current is applied. As individual DNA molecules pass through these nanopores they cause changes in this current, which is detected by sensors and read by a dedicated computer program. Each DNA base causes different changes in the current, allowing the software to convert this signal into base calls.](https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41587-021-01108-x/MediaObjects/41587_2021_1108_Fig1_HTML.png?as=webp)
+
+One of the bigger challenges in effectively using this technology is to produce sequencing libraries that contain high molecular weight, intact, DNA. 
+Another disadvantage is that, compared to Illumina sequencing, the error rates at higher, at around 5%. 
+
+:::note
+**Illumina or Nanopore for SARS-CoV-2 sequencing?**
+
+Both of these platforms have been widely popular for SARS-CoV-2 sequencing. 
+They can both generate data with high-enough quality for the assembly and analysis of SARS-CoV-2 genomes. 
+Mostly, which one you use will depend on what sequencing facilities you have access to. 
+
+While Illumina provides the cheapest option per sample of the two, it has a higher setup cost, requiring access to the expensive sequencing machines. 
+On the other hand, Nanopore is a very flexible platform, especially its portable MinION devices. 
+They require less up-front cost allowing getting started with sequencing very quickly in a standard molecular biology lab.
+:::
+
+## Sequencing File Formats
+
+The raw data from Illumina and Nanopore platforms is very different: Illumina generates images; Nanopore generates current signal. 
+However, they both platforms come with software that converts those raw data to a standard text-based format called FASTQ. 
+
+The use of standard file formats is an important feature of bioinformatic analysis.
+It allows software developers to create tools that work well with each other. 
+
+We will go through FASTQ files in some detail, but there are many other file formats used frequently in bioinformatics.
+We list some of the most relevant for our analysis in the table below.
+Follow the links in the table for more details on each format. 
+
+| Format | Description | File Extension |
+| :-: | :- | :- |
+| [FASTA](https://en.wikipedia.org/wiki/FASTA) | nucleotide or amino acid sequences  | `.fa` or `.fas` or `.fasta` |
+| [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) | sequences and their quality scores | `.fq` or `.fastq` (often compressed as `.fq.gz` or `.fastq.gz`) |
+| [SAM](https://en.wikipedia.org/wiki/SAM_(file_format)) | "Sequence Alignment Map" used to store sequences aligned to a reference genome | `.sam` |
+| [BAM](https://en.wikipedia.org/wiki/Binary_Alignment_Map) | same as a SAM file but compressed in binary form | `.bam` |
+| [VCF](https://en.wikipedia.org/wiki/Variant_Call_Format) | "Variant Calling Format" used to store SNP/Indel variants | `.vcf` |
+| [GFF](https://en.wikipedia.org/wiki/General_feature_format) | "General Feature Format" used to store gene coordinates and other features | `.gff` |
+| [BED](https://en.wikipedia.org/wiki/BED_(file_format)) | "Browser Extensible Data" used to store coordinates of genomic regions | `.bed` |
+| [FAST5](https://github.com/mw55309/EG_MinION_2016/blob/master/02_Data_Extraction_QC.md) | file used by Nanopore to store the called sequences (in FASTQ format) as well as the raw signal data from the pore | `.fast5` |
+
+
+### FASTQ Files
+
+FASTQ files are used to store nucleotide sequences along with a quality score for each nucleotide of the sequence. 
+These files are the typical format obtained from NGS sequencing platforms such as Illumina and Nanopore (after basecalling). 
+
+The file format is as follows:
+
+```
+@SEQ_ID                   <-- SEQUENCE NAME
+AGCGTGTACTGTGCATGTCGATG   <-- SEQUENCE
++                         <-- SEPARATOR
+%%).1***-+*''))**55CCFF   <-- QUALITY SCORES
+```
+
+In FASTQ files each sequence is always represented across 4 lines. 
+The quality scores are encoded using ASCII characters that represent a score that can vary between 0 and 93. 
+The reason single characters are used to encode the quality scores is that it saves space when storing these large files. 
+Tools that work on FASTQ files automatically convert these characters into their score, so we don't have to worry about it.
+
+The quality value in common use is called a _Phred score_ and it represents the probability that the respective base is an error. 
+For example, a base with quality 20 has a probability $10^{-2} = 0.01 = 1\%$ of being an error. 
+A base with quality 30 has $10^{-3} = 0.001 = 0.1\%$ chance of being an error. 
+Typically, a Phred score threshold of >20 or >30 is used when applying quality filters to sequencing reads. 
+
+Because FASTQ files tend to be quite large, they are often _compressed_ to save space. 
+The most common compression format is called _gzip_ and uses the extension `.gz`.
+To look at a _gzip_ file, we can use the command `zcat`, which decompresses the file and prints the output as text. 
+
+For example, we can use the following command to count the number of lines in a compressed FASTQ file:
+
+```console
+$ zcat sequences.fq.gz | wc -l
+```
+
+If we want to know how many sequences there are in the file, we can divide the result by 4 (since each sequence is always represented across four lines).
+
+
+#### FASTQ Quality Control
+
+One of the most basic tasks in Illumina sequence analysis is to run a quality control step on the FASTQ files we obtained from the sequencing machine. 
+
+The program used to assess FASTQ quality is called _FastQC_. 
+It produces several statistics and graphs for each file in a nice report that can be used to identify any quality issues with our sequences. 
+
+The basic command to run _FastQC_ is:
+
+```bash
+fastqc --outdir PATH_TO_OUTPUT_DIRECTORY   PATH_TO_SEQUENCES
+```
+
+FastQC can process several samples at once, and often we can use the `*` wildcard to do this. 
+We will see an example of this in the following exercise. 
+
+:::exercise
+
+In the course materials directory `02-consensus/uk_illumina/` we have several FASTQ files that we will use to assemble SARS-CoV-2 genomes.
+But first, we will run FastQC to check the quality of these files. 
+
+This is the command for our samples:
+
+```bash
+fastqc --outdir results/fastqc data/reads/*.fastq.gz
+```
+
+- Create the output directory for the analysis.
+- Modify the command above to add an option to run the analysis using 8 threads in parallel (or CPUs). Check the tool's help (`fastqc --help`) to see what the option to do this is called.
+- Run the analysis. 
+
+<details><summary>Answer</summary>
+
+First, we can create a directory to output our results:
+
+```bash
+mkdir results/fastqc
+```
+
+To check the options available for this tool, we can run `fastqc --help` to get the complete documentation. 
+As we scroll through the options, we can see the relevant one for running the analysis in parallel:
+
+```
+-t --threads    Specifies the number of files which can be processed
+                simultaneously.  Each thread will be allocated 250MB of
+                memory so you shouldn't run more threads than your
+                available memory will cope with, and not more than
+                6 threads on a 32 bit machine
+```
+
+Although the documentation is a little technical, this means that if we have multiple CPUs available on our computer, we can set this option to allow multiple files to be processed in parallel. 
+Our training machines have 8 CPUs, so we can run the command as follows:
+
+```bash
+fastqc -t 8 --outdir results/fastqc data/reads/*.fastq.gz
+```
+
+The analysis report generated by FastQC is given as a `.html` file (opens in a web browser). 
+We will go through the details of this below. 
+</details>
+:::
+
+Each FastQC HTML report contains a section with a different quality assessment plot.
+Each of these are explained in the online documentation:
+
+* [Basic statistics](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/1%20Basic%20Statistics.html)
+* [Per base sequence quality](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/2%20Per%20Base%20Sequence%20Quality.html)
+* [Per sequence quality scores](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/3%20Per%20Sequence%20Quality%20Scores.html)
+* [Per base sequence content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/4%20Per%20Base%20Sequence%20Content.html)
+* [Per sequence GC content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/5%20Per%20Sequence%20GC%20Content.html)
+* [Per base N content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/6%20Per%20Base%20N%20Content.html)
+* [Sequence length distribution](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/7%20Sequence%20Length%20Distribution.html)
+* [Sequence duplication levels](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/8%20Duplicate%20Sequences.html)
+* [Overrepresented sequences](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/9%20Overrepresented%20Sequences.html)
+* [Adapter content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/10%20Adapter%20Content.html)
+* [Per tile sequence quality](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/12%20Per%20Tile%20Sequence%20Quality.html)
+
+For example, looking at the "Per base sequence quality" section for one of our samples, we can see a very high quality score, which is typical of Illumina data nowadays.
+
+![Sequence quality plot from FastQC for one of our samples. The blue line shows the average across all samples. This sample is very high quality as all sequences have quality > 20 across the entire length of the reads.](images/fastqc_quality.png)
+
+:::note
+Although FastQC can run its analysis on any FASTQ files, it has been designed for Illumina data specifically. 
+
+For Nanopore data, running FastQC on the basecalled files is not a standard procedure. 
+Instead, you can use [MinIONQC](https://github.com/roblanf/minion_qc), which takes as input the `sequence_summary.txt` file, which is a standard output file from the Guppy software used to convert Nanopore electrical signal to sequence calls. 
+:::
+
+
+#### Quality Reports
+
+We've seen the example of using the program _FastQC_ to assess the quality of our FASTQ sequencing files.
+In bioinformatic analysis we may use many tools that report similar quality statistics for their analysis. 
+For example, when we align sequencing reads to a genome, we may want to know what percentage of the reads aligned to the reference genome. 
+
+When processing multiple samples at once, it can become hard to check all of these quality metrics individually for each sample. 
+This is the problem that the software _MultiQC_ tries to solve. 
+This software automatically scans a directory and looks for files it recognises as containing quality statistics. 
+It then compiles all those statistics in a single report, so that we can more easily look across dozens or even hundreds of samples at once. 
+
+Here is the command to run MultiQC and compile our FastQC reports:
+
+```bash
+mkdir results/multiqc
+multiqc --outdir results/multiqc/  results/fastqc/
+```
+
+_MultiQC_ generates a report, in this example in `results/multiqc/multiqc_report.html`.
+From this report we can get an overview of the quality across all our samples. 
+
+![Snapshot of some of the report sections from MultiQC. In this example we can see the "General Statistics" table and the "Sequence Quality Histograms" plot. One of the samples has lower quality towards the end of the read compared to other samples (red line in the bottom panel).](images/multiqc.svg)
+
+For example, from the section "General Statistics" we can see that the number of reads varies a lot between samples. 
+Sample ERR5926784 has around 0.1 million reads, which is substantially lower than other samples that have over 1 million reads. 
+This may affect the quality of the consensus assembly that we will do afterwards. 
+
+From the section "Sequence Quality Histograms", we can see that one sample in particular - ERR5926784 - has lower quality in the second pair of the read. 
+We can open the original FastQC report and confirm that several sequences even drop below a quality score of 20 (1% change of error). 
+A drop in sequencing quality towards the end of a read can often happen, especially for longer reads. 
+Usually, analysis workflows include a step to remove reads with low quality so these should not affect downstream analysis too badly. 
+However, it's always good to make a note of potentially problematic samples, and see if they produce lower quality results downstream.
+
+
+### FASTA Files
+
+Another very common file that we should consider is the FASTA format.
+FASTA files are used to store nucleotide or amino acid sequences.
+
+The general structure of a FASTA file is illustrated below:
+
+```
+>sample01                 <-- NAME OF THE SEQUENCE
+AGCGTGTACTGTGCATGTCGATG   <-- SEQUENCE ITSELF
+```
+
+Each sequence is represented by a name, which always starts with the character `>`, followed by the actual sequence.
+
+A FASTA file can contain several sequences, for example:
+
+```
+>sample01
+AGCGTGTACTGTGCATGTCGATG
+>sample02
+AGCGTGTACTGTGCATGTCGATG
+```
+
+Each sequence can sometimes span multiple lines, and separate sequences can always be identified by the `>` character. For example, this contains the same sequences as above:
+
+```
+>sample01      <-- FIRST SEQUENCE STARTS HERE
+AGCGTGTACTGT
+GCATGTCGATG
+>sample02      <-- SECOND SEQUENCE STARTS HERE
+AGCGTGTACTGT
+GCATGTCGATG
+```
+
+To count how many sequences there are in a FASTA file, we can use the following command:
+
+```console
+grep ">" sequences.fa | wc -l
+```
+
+In two steps:
+
+* find the lines containing the character ">", and then
+* count the number of lines of the result.
+
+We will see FASTA files several times throughout this course, so it's important to be familiar with them. 
+
+
 <!--
+Maybe include a SAM file in the Unix folder? 
 
-Some notes about FAST5 files: 
-- https://github.com/mw55309/EG_MinION_2016/blob/master/02_Data_Extraction_QC.md
+### SAM/BAM Files
 
+SAM/BAM files are used to store the result of aligning sequence reads to a reference genome. 
+These files contain the same information, but one is a plain text file (SAM) and the other is a compressed file in binary form (BAM). 
+BAM files are more commonly used, because they take much less space. 
+
+We will generate this kind file in the [Consensus Assembly section](04-artic_nextflow.md) and explore some of its contents then. 
+-->
+
+<!--
 Ideas:
 
 - Provide a pre-aligned BAM file to visualise in IGV (e.g. the nanopore data are quite interesting - because there's loads of errors, highlighting the importance of high depth of sequencing).
+-->
 
 
 ## Summary
 
-:::highlight
-
 **Key Points**
 
-- one
-- two
+- Illumina sequencing produces short reads (50bp - 200bp), typically from both ends of a DNA fragment. It is a comparatively cheap sequencing platform which produces very high-quality sequences.
+- Nanopore sequencing produces very long reads (typically hundreds of kilobases long). It is comparatively more expensive and has higher error rates. However, it is more flexible with some of its platforms being fully portable. 
+- Sequencing reads are stored in a file format called FASTQ. This file contains both the nucleotide sequence and quality of each base. 
+- The quality of Illumina sequence reads can be assessed using the software _FastQC_. 
+- The software _MultiQC_ can be used to generate a single reports that compiles statistics across several samples. 
+- FASTA files are used to store simple nucleotide or amino acid sequences (no quality information is contained in these files). This is a standard format that assembled genomes are stored as. 
 
 :::
--->
+
