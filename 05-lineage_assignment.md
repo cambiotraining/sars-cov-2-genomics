@@ -205,7 +205,7 @@ Nextclade will show a progress of its analysis at the top of the page, and the r
 
 :::exercise
 
-After loading your consensus sequences to [nextclade.org](https://clades.nextstrain.org/), answer the following questions:
+Now that we have loaded our consensus sequences to [nextclade.org](https://clades.nextstrain.org/), answer the following questions:
 
 1. Are there any samples that were classified as "bad" quality? If so, what is the main reason for their low quality? How does this relate with your previous look at the sequencing coverage in these datasets? <details><summary>Hint</summary>Use the data filters to help you answer this question.</details>
 1. Can you identify any sequences classified as a WHO variant of concern? Does this agree with the previous analysis from _Pangolin_? <details><summary>Hint</summary>Although this information is available in the main panel, it might be easier to switch to the Phylogeny view, using the button on the top-right.</details>
