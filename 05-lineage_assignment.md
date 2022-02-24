@@ -121,7 +121,8 @@ To run `pangolin` on our sequences with default options, we would use the follow
 pangolin --outdir results/pangolin/ --outfile uk_india_report.csv data/all_sequences.fa
 ```
 
-- Looking at the help documentation (`pangolin --help`), modify the command above to add options for:
+- Create a directory for the output.
+- Look at the help documentation (`pangolin --help`) and modify the command above to add options for:
   - Using _UShER_ for placing sequences on the phylogeny (instead of the default, which uses _pangoLEARN_).
   - Output the multiple sequence alignment generated during the analysis.
   - Use 8 CPUs (or "threads") for parallel processing.
@@ -194,7 +195,7 @@ _Nextclade_ offers a convenient interface, which can be used to run the default 
 
 - Go to [nextclade.org](https://clades.nextstrain.org/)
 - Select **SARS-CoV-2** and click **Next**
-- Click **Select a file** to browse your computer and upload the FASTA file with all your cleaned consensus sequences.
+- Click **Select a file** to browse your computer and upload the FASTA file with the cleaned consensus sequences (`data/all_sequences.fa`).
 - Click **Run**
 
 Nextclade will show a progress of its analysis at the top of the page, and the results of several quality control metrics in the main panel (see Figure). 
@@ -208,14 +209,14 @@ After loading your consensus sequences to [nextclade.org](https://clades.nextstr
 
 1. Are there any samples that were classified as "bad" quality? If so, what is the main reason for their low quality? How does this relate with your previous look at the sequencing coverage in these datasets? <details><summary>Hint</summary>Use the data filters to help you answer this question.</details>
 1. Can you identify any sequences classified as a WHO variant of concern? Does this agree with the previous analysis from _Pangolin_? <details><summary>Hint</summary>Although this information is available in the main panel, it might be easier to switch to the Phylogeny view, using the button on the top-right.</details>
-1. Check whether the canonical mutations from the Delta variant (image below) appear in the sequences classified as that variant. <details><summary>Hint</summary>Try filtering your samples for clade "21".</details>
+1. The image below shows the positions of the mutations that characterise the Delta variant. On the Nextclade browser, select "Protein S" and in the right panel confirm that those mutations occur in the sequences classified as Delta. <details><summary>Hint</summary>To make this exploration easier, try filtering your samples for clade "21".</details>
 
 <div class="figure">
   <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png" target="_blank">
     <img align="center" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png"/>
   </a>
   <p class="caption">
-    Mutations in the Delta variant Spike protein. Click image to open larger size. (source: [Wikipedia](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png))
+    Mutations in the Delta variant Spike protein. The position of each mutation relative to the Wuhan-Hu-1 reference genome is shown. For example: "T19R" means that a T (Threonine) changed to a R (Arginine) in position 19 of the protein; "Δ157-158" means that there is a deletion in position 157-158 of the protein. Click the image to open a larger size. (source: [Wikipedia](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/SARS-CoV-2_Delta_variant.svg/6878px-SARS-CoV-2_Delta_variant.svg.png))
   </p>
 </div>
 
