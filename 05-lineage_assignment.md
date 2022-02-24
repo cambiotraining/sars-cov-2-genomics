@@ -56,22 +56,23 @@ In fact, the different teams work together to try and harmonise the nomenclature
 :::note
 **What is a variant?**
 
-It is important to note that the term _variant_ can be somewhat ambiguous. 
-The term "SARS-CoV-2 variant" usually refers to the [WHO definition of variants of concern/interest](https://www.who.int/en/activities/tracking-SARS-CoV-2-variants/) (e.g. the Alpha, Delta and Omicron variants), which includes sequences containing a _collection of several nucleotide changes_ that characterise that group.
-According to this definition, would say there are two variants in the schematic below (samples 1 & 2 are one variant and samples 3 & 4 another variant).
+It is important to note that the term _variant_ can be sometimes ambiguous. 
+
+The term "**SARS-CoV-2 variant**" usually refers to the [WHO definition of variants of concern/interest](https://www.who.int/en/activities/tracking-SARS-CoV-2-variants/) (e.g. the Alpha, Delta and Omicron variants), which includes sequences containing a _collection of several nucleotide changes_ that characterise that group.
+According to this definition, we have two variants in the example below (samples 1 & 2 are one variant and samples 3 & 4 another variant).
 
 ![](images/variants_snps_indels.svg)
 
-However, in bioinformatic sequence analysis, a _variant_ has a more precise definition, which refers to an individual change in the DNA sequence. 
-Using this definition, in the schematic above we would say there are 5 variants: 3 SNPs and 2 indels. 
+However, in bioinformatic sequence analysis, a **sequence variant** refers to an individual change in the DNA sequence (a SNP or an insertion/deletion). 
+Using this definition, in the example above we have 5 variants: 3 SNPs and 2 indels. 
 In the [Consensus Sequence](04-artic_nextflow.html) section, we mentioned one of our workflow steps was "variant calling". 
 This was the definition of variant we were using: identifying individual SNPs and/or indels relative to the reference genome, from our sequencing data.
-This is also reflected in the one of the common file formats used to store SNP/indel information, the [_VCF_ file](https://en.wikipedia.org/wiki/Variant_Call_Format), which stands for "Variant Call Format". 
+This is also reflected in the one of the common file formats used to store SNP/indel information, the [_VCF_ file](https://en.wikipedia.org/wiki/Variant_Call_Format), which means "Variant Call Format". 
 
-Instead of this definition of variant, sometimes the term "mutation" is used.
-For example in the [definition from the COG consortium](https://www.cogconsortium.uk/what-do-virologists-mean-by-mutation-variant-and-strain/). 
+Sometimes the term "mutation" is used to refer to SNP/indel variants.
+For example see this [definition from the COG consortium](https://www.cogconsortium.uk/what-do-virologists-mean-by-mutation-variant-and-strain/). 
 
-Because of this ambiguity, it is often preferable to use the term "lineages" or "clades", which have a more precise phylogenetic interpretation.
+Because of this ambiguity, the terms "lineages" or "clades" are often used instead of "variants" when referring to groups of similar SARS-CoV-2 sequences, because they have a phylogenetic interpretation.
 :::
 
 ## Pangolin
@@ -114,15 +115,20 @@ pangolin --outdir directory/of/your/choice --outfile name_of_your_choice.csv pat
 Go to the course materials directory `03-lineages` (on our training machines `cd ~/Course_Materials/03-lineages`). 
 There you will find a directory called `data`, which contains a file called `all_sequences.fa`, containing both UK and India samples that we processed in the [Consensus Assembly section](04-artic_nextflow.md).
 
-Let's run `pangolin` on our sequences, but with slightly different options than the default.
-Looking at the help documentation (`pangolin --help`), identify which options you would need to use in order to:
+To run `pangolin` on our sequences with default options, we would use the following command: 
 
-- Use _UShER_ for placing sequences on the phylogeny (instead of the default, which uses _pangoLEARN_).
-- Output the multiple sequence alignment.
-- Use 8 CPUs (or "threads") for parallel processing.
-- Output the results to a directory called `results/pangolin` (note: you have to create this directory first).
-- **Bonus:** save the command in a shell script (create a directory called `scripts` to save your script).
-- Open the results file and check whether there any variants of concern (these are found in the column called `scorpio_lineages`).
+```bash
+pangolin --outdir results/pangolin/ --outfile uk_india_report.csv data/all_sequences.fa
+```
+
+- Looking at the help documentation (`pangolin --help`), modify the command above to add options for:
+  - Using _UShER_ for placing sequences on the phylogeny (instead of the default, which uses _pangoLEARN_).
+  - Output the multiple sequence alignment generated during the analysis.
+  - Use 8 CPUs (or "threads") for parallel processing.
+- Run the modified command on the terminal. (**Bonus:** save the command in a new shell script for reproducibility.)
+- Using the file explorer <i class="fa-solid fa-folder"></i>, open the results CSV file and:
+  - Check whether there any variants of concern (these are found in the column called `scorpio_call`).
+  - Check whether there are any problematic samples.
 
 <details><summary>Answer</summary>
 
@@ -147,6 +153,11 @@ pangolin --usher --alignment --outdir results/pangolin/ --outfile uk_india_repor
 ```
 
 From VS Code, we could save this command in a script (File > New File) and save it in the `scripts` folder with the filename `pangolin.sh` (or another informative name of your choice). 
+
+We can open the `uk_india_report.csv` file on our spreadsheet software to look at the results. 
+In the column called "scorpio_call" we can see several samples that were classified as "Alpha" and "Delta" variants. 
+Looking at the column "status", we can see that one of the samples failed the quality control applied by `pangolin`. 
+This is the nanopore sample `barcode01`, which we had already identified as being slightly problematic, with a high percentage of ambiguous 'N' bases. 
 
 </details>
 
@@ -328,9 +339,9 @@ Apart from that, the file is exactly the same as the `sample_info.csv` file we h
 _Nextclade_ also outputs the protein sequences for each of the SARS-CoV-2 genes. 
 We can visualise these with the program AliView. 
 
-<img src="https://avatars.githubusercontent.com/u/7050126?s=200&v=4" alt="Nextstrain" style="float:left;width:10%">
+<img src="https://avatars.githubusercontent.com/u/7050126?s=200&v=4" alt="Nextstrain" style="float:right;width:5%">
 
-- Open AliView (this program's icon is shown on the left)
+- Open AliView (this program's icon is shown on the right)
 - Go to "File > Open File" and navigate to "Course_Materials > 03-lineages > results > nextclade" to open the file "uk_india.gene.S.fasta"
 - Can you see the mutations characteristic of the Delta variant? (see image below)
 
