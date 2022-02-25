@@ -238,7 +238,7 @@ Let's try to understand this with examples. For this tutorial, create a file 'in
 This software/application is a part of this workshop.
 ```
 
-Now, what if we want to replace 'software/application' with 'material'. If we try to do something like: `sed 's/software/application/material/' input3.txt`, the `sed` will throw an error. Because here we are using '/' as delimiter, sed will think it has to replace 'software' with 'application' but, why there is a third option. To solve this error, we have to escape one '/', we can do this by adding a '\' in front of '/'. It will tell the `sed` not to interpret '/' as a special character.
+Now, what if we want to replace 'software/application' with 'material'. If we try to do something like: `sed 's/software/application/material/' input3.txt`, the `sed` will throw an error. Because here we are using '/' as delimiter, sed will think it has to replace 'software' with 'application' but, why there is a third option. To solve this error, we have to escape one '/', we can do this by adding a `\` in front of '/'. It will tell the `sed` not to interpret '/' as a special character.
 
 ```bash
 $ sed 's/software\/application/material/' input3.txt
@@ -250,7 +250,7 @@ $ sed 's/software\/application/material/' input3.txt
 This material is a part of this workshop.
 ```
 
-Escape characters are also used to provide visual representations of non-printing characters and characters that usually have special meanings. It is usually easier to use escape characters than the binary character it represents. The list of commonly used escape characters in the `sed` is as follows:
+Escape characters are also used to provide visual representations of non-printing characters and characters that usually have special meanings. The list of commonly used escape characters in the `sed` is as follows:
 
 - `\n`: a newline.
 - `\r`: a carriage return.
