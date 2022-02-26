@@ -561,10 +561,10 @@ MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*
 **Key Points**
 
 - The `head` and `tail` commands can be used to look at the top or bottom of a file, respectively.
-- The `less` command can be used to interactively investigate the content of a file.
+- The `less` command can be used to interactively investigate the content of a file. Use <kbd>↑</kbd> and <kbd>↓</kbd> to browse the file and <kbd>Q</kbd> to quit and return to the console.
 - The `cat` command can be used to combine multiple files together. The `zcat` command can be used instead if the files are compressed.
 - The `>` operator redirects the output of a command into a file. If the file already exists, it's content will be overwritten.
-- The `>>` operatior also redictects the output of a command into a file, but _appends_ it to any content that already exists. 
+- The `>>` operator also redictects the output of a command into a file, but _appends_ it to any content that already exists. 
 - The `grep` command can be used to find the lines in a text file that match a text pattern.
-- The `sed` tool can be used for advanced text manipulation. One of its functionalities is the "substitute" command: `sed 's/pattern/replacement/'`, which replaces a "pattern" with some other text.
+- The `sed` tool can be used for advanced text manipulation. The "substitute" command can be used to text replacement: `sed 's/pattern/replacement/options'`.
 :::

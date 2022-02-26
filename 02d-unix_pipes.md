@@ -150,6 +150,14 @@ fox
 ```
 
 </details>
+:::
 
+## Summary
+
+:::highlight
+
+**Key Points**
+
+- The `|` pipe allows to chain several commands together. The output of the command on the left of the pipe is sent as input to the command on the right.
 
 :::

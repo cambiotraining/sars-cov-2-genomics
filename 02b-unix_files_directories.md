@@ -546,8 +546,20 @@ We can check the files are all there with `ls backup/*protein.fa`.
 
 **Key Points**
 
-- one
-- two
-
+- The file system is organised in a hierarchical way.
+- Every user has a home directory, which on Linux is typically `/home/username/`.
+- Locations in the filesystem are represented by a **path**:
+  - The `/` used at the _start_ of a path means the "root" directory (the start of the filesystem). 
+  - `/` used in the _middle_ of the path separates different directories. 
+- Some of the commands used to navigate the filesystem are:
+  - `pwd` to print the working directory (or the current directory)
+  - `ls` to list files and directories
+  - `cd` to change directory
+- Directories can be created with the `mkdir` command.
+- Files can be moved and/or renamed using the `mv` command.
+- Files can be copied with the `cp` command. To copy an entire directory (and its contents) we need to use `cp -r` (the `-r` option will copy files **r**ecursively).
+- Files can be removed with the `rm` command. To remove an entire directory (and its contents) we need to use `rm -r`  (the `-r` option will remove files **r**ecursively).
+  - Deleting files from the command line is _permanent_.
+- We can operate on multiple files using the `*` wildcard, which matches "zero or more characters". For example `ls *.txt` would list all files that have a `.txt` file extension.
 :::
 

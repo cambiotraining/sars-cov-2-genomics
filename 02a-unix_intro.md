@@ -2,7 +2,19 @@
 pagetitle: "The Unix Shell"
 ---
 
-# The Unix Shell: Intro
+:::note
+These materials are based on the [Carpentries Shell Lesson](https://swcarpentry.github.io/shell-novice/) with credit to their authors and contributors.
+
+<a href="https://creativecommons.org/licenses/by/4.0/legalcode"><img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by.png" alt="CC BY 4.0" style="float:left;padding-top:25px;padding-bottom:25px;padding-right:3px;width:10%;"></a>
+
+Gabriel A. Devenyi (Ed.), Gerard Capes (Ed.), Colin Morris (Ed.), Will Pitchers (Ed.),
+Greg Wilson, Gerard Capes, Gabriel A. Devenyi, Christina Koch, Raniere Silva, Ashwin Srinath, … Vikram Chhatre.
+(2019, July). swcarpentry/shell-novice: Software Carpentry: the UNIX shell, June 2019 (Version v2019.06.1).
+Zenodo. http://doi.org/10.5281/zenodo.3266823
+:::
+
+
+# The Unix Shell: Introduction
 
 :::highlight
 
@@ -38,6 +50,7 @@ The Unix shell is both a **command-line interface** (CLI) and a scripting langua
 With the proper commands, the shell can repeat tasks with or without some modification as many times as we want.
 Using the shell, the task in the literature example can be accomplished in seconds.
 
+![An example of listing some files from a command line interface (the Unix terminal, on the left) and the same files shown on a graphical user interface (in this example a file browser, on the right).](images/gui_vs_cli.png)
 
 ## The Shell
 
@@ -78,7 +91,7 @@ The prompt is followed by a **text cursor**, a character that indicates the posi
 The cursor is usually a flashing or solid block, but it can also be an underscore or a pipe.
 You may have seen it in a text editor program, for example.
 
-So let's try our first command, `ls` which is short for listing.
+So let's try our first command, `ls` which is short for "listing".
 This command will list the contents of the current directory:
 
 ```console
@@ -165,7 +178,9 @@ Try 'ls --help' for more information.
 :::
 
 :::note
-The man page is not available for every software. 
+**Manual Page**
+
+The `man` page is not available for every software. 
 For example, specialist software (such as bioinformatics packages) only have the documentation available through the `--help` option. 
 We will see several examples of this during the course.
 :::
@@ -173,10 +188,8 @@ We will see several examples of this during the course.
 :::exercise
 **Exploring More `ls` Flags**
 
-You can also use two options at the same time. 
-
 - What does the command `ls` do when used with the `-l` option? 
-- What about if you use both the `-l` and the `-h` option? 
+- What about if you use both the `-l` and the `-h` option? (You can use more than one option at once).
 
 Some of its output is about properties that we do not cover in this lesson (such as file permissions and ownership), but the rest should be useful nevertheless.
 
@@ -202,8 +215,9 @@ If you use both the `-h` option and the `-l` option, this makes the file size "*
 
 **Key Points**
 
-- one
-- two
+- The Unix Command Line can allow running complex operations with a few commands.
+- Many specialist software in bioinformatics is only written for Linux and runs from the command line.
+- The basic syntax of a command is: `command -options argument`. For example, `ls -l /home/ubuntu/` would **l**ist the contents of the `/home/ubuntu/` directory in a **l**ong format.
 
 :::
 
