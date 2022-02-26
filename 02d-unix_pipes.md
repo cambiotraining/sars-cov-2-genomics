@@ -21,26 +21,26 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 Now that we know a few basic commands, we can finally look at the shell's most powerful feature: the ease with which it lets us combine existing programs in new ways.
 
-Earlier, we counted how many files we had in the `data/sequences/` directory in two steps:
+If we wanted to count how many files we have in the `data/sequencing_run1/` directory, we could do it in two steps:
 
 ```console
-$ ls data/sequences/ > sequences.txt
-$ wc -l sequences.txt
+$ ls data/sequencing_run1/ > sequencing_files.txt
+$ wc -l sequencing_files.txt
 ```
 
-- We used the `ls` command to list the files and save the output in a text file (with the `>` redirect output).
-- And then we counted the lines in that file. 
+- Used the `ls` command to list the files and save the output in a text file (with the `>` redirect operator).
+- And then count the lines in the resulting file. 
 
-But what if we wanted to do this without creating the file first?
+But what if we wanted to do this without creating the file?
 It turns out we can send the output of one command and pass it on to another using a special operator `|` called the **pipe**.
 Like this:
 
 ```console
-$ ls data/sequences/ | wc -l
+$ ls data/sequencing_run1/ | wc -l
 ```
 
 ```
-
+4
 ```
 
 What happened there is that the output of `ls` was sent "through the pipe" to the `wc` command. 
@@ -71,6 +71,10 @@ We can chain all the commands together like this:
 
 ```console
 $ cat artic_primers_pool*.bed | grep "LEFT" | wc -l
+```
+
+```
+109
 ```
 
 </details>

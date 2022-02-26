@@ -9,14 +9,14 @@ pagetitle: "SARS-CoV-2 Genomics"
 **Questions**
 
 - How can I inspect the content of and manipulate text files?
+- How can I find and replace text patterns within files?
 
 **Learning Objectives**
 
-- Use command line tools to look at the content of text files.
-- Combine multiple files together. 
-- Redirect a command's output to a file.
-- Find text patterns within a file.
-- Replace a text pattern in a file.
+- Inspect the content of text files (`head`, `tail`, `cat`, `zcat`, `less`).
+- Use the `*` wildcard to work with multiple files at once.
+- Redirect the output of a command to a file (`>`, `>>`).
+- Find a pattern in a text file (`grep`) and do basic pattern replacement (`sed`).
 
 :::
 
@@ -119,11 +119,41 @@ wc -l artic_primers_pool*.bed
 218  total
 ```
 
-
 :::exercise
 
-Count length of reference genome. 
+- Use the `less` command to look inside the file `data/reference_genome.fa`.
+- How many lines does this file contain?
+- Use the `less` command again but with the option `-S`. Can you understand what this option does?
 
+<details><summary>Answer</summary>
+
+We can investigate the content of the reference file using `less data/reference_genome.fa`.
+From this view, it looks like this file contains several lines of content: the genome is almost 30kb long, so it's not surprising we see so much text!
+We can use <kbd>Q</kbd> to quit and go back to the console. 
+
+To check the number of lines in the file, we can use the `wc -l data/reference_genome.fa` command.
+The answer is only 2.  
+
+If we use `less -S data/reference_genome.fa` the display is different this time. 
+We see only two lines in the output. 
+If we use the <kbd>→</kbd> and <kbd>←</kbd> arrows we can see that the text now goes "out of the screen". 
+So, what happens is that by default `less` will "wrap" long lines, so if a line of text is too long, it will continue it on the next line of the screen.
+When we use the option `-S` it instead displays each line individually, and we can use the arrow keys to see the content that does not fit on the screen. 
+
+</details>
+:::
+
+
+:::note
+The primer files we just looked into are in a format called [BED](https://en.wikipedia.org/wiki/BED_(file_format)). 
+This is a standard bioinformatic file format used to store coordinates of genomic regions. 
+In this case, it corresponds to the coordinates of each primer start and end position in the SARS-CoV-2 reference genome (Wuhan-Hu-1).
+
+In the exercise we looked at another standard file format called [FASTA](https://en.wikipedia.org/wiki/FASTA). 
+This one is used to store nucleotide or amino acid sequences. 
+In this case, the complete nucleotide sequence of the SARS-CoV-2 reference genome.
+
+We will learn more about these files in [Intro to NGS](03-intro_ngs.html).
 :::
 
 
@@ -156,15 +186,18 @@ Let's see this in practice in the next exercise.
 
 :::exercise
 
-- List the files in the `data/uk_sequencing/` directory. Save the result in a file called "sequencing_files.txt".
-- What happens if you run the command `ls data/india_sequencing/ > sequencing_files.txt`?
+1. List the files in the `data/sequencing_run1/` directory. Save the output in a file called "sequencing_files.txt".
+2. What happens if you run the command `ls data/sequencing_run2/ > sequencing_files.txt`?
+3. The operator `>>` can be used to _append_ the output of a command to an existing file. Try re-running both of the previous commands, but instead using the `>>` operator. What happens now?
 
 <details><summary>Answer</summary>
+
+**Task 1**
 
 To list the files in the directory we use `ls`, followed by `>` to save the output in a file:
 
 ```console
-$ ls data/uk_sequencing/ > sequencing_files.txt
+$ ls data/sequencing_run1/ > sequencing_files.txt
 ```
 
 We can check the content of the file:
@@ -174,25 +207,56 @@ $ cat sequencing_files.txt
 ```
 
 ```
-
+sample1_run1.fastq
+sample2_run1.fastq
+sample3_run1.fastq
+sample4_run1.fastq
 ```
 
-If we then run `ls data/india_sequencing/ > sequencing_files.txt`, we will replace the content of the file:
+----
+
+**Task 2**
+
+If we run `ls data/sequencing_run2/ > sequencing_files.txt`, we will replace the content of the file:
 
 ```console
 $ cat sequencing_files.txt
 ```
 
 ```
-
+sample1_run2.fastq
+sample2_run2.fastq
+sample3_run2.fastq
+sample4_run2.fastq
+sample5_run2.fastq
+sample6_run2.fastq
 ```
 
-Instead, if we wanted to append this list of files to the UK samples, we should use the `>>` operator instead:
+----
+
+**Task 3**
+
+If we start again from the beggining, but instead use the `>>` operator the second time we run the command, we will append the output to the file instead of replacing it:
 
 ```console
-$ ls data/uk_sequencing/ > sequencing_files.txt
-$ ls data/india_sequencing/ >> sequencing_files.txt
+$ ls data/sequencing_run1/ > sequencing_files.txt
+$ ls data/sequencing_run2/ >> sequencing_files.txt
+$ cat sequencing_files.txt
 ```
+
+```
+sample1_run1.fastq
+sample2_run1.fastq
+sample3_run1.fastq
+sample4_run1.fastq
+sample1_run2.fastq
+sample2_run2.fastq
+sample3_run2.fastq
+sample4_run2.fastq
+sample5_run2.fastq
+sample6_run2.fastq
+```
+
 </details>
 :::
 
@@ -217,9 +281,36 @@ We can see the result is all the lines that matched this word pattern.
 
 :::exercise
 
-Find Delta variants. Save in a file. 
-Use wc to count how many. 
+Consider the file we previously saved in `results/variants.tsv`.
 
+1. Create a new file called `results/delta.tsv` that contains only the Alpha variant samples. <details><summary>Hint</summary>You can use `grep` to find a pattern in a file.</details>
+2. How many samples are you left with?
+
+<details><summary>Answer</summary>
+
+**Task 1**
+
+We can use `grep` to find a pattern in our text file and use `>` to save the output in a new file:
+
+```console
+$ grep "Alpha" results/variants.tsv > results/delta.tsv
+```
+
+We could investigate the output of our command using `less results/delta.tsv`.
+
+----
+
+**Task 2**
+
+We can use `wc` to count the lines of the newly created file:
+
+```console
+$ wc -l results/delta.tsv
+```
+
+Giving us 31 as the result.
+
+</details>
 :::
 
 
@@ -253,7 +344,7 @@ $ echo "Hello world. How are you world?" > hello.txt
 If we do:
 
 ```console
-sed 's/world/participant/' hello.txt
+$ sed 's/world/participant/' hello.txt
 ```
 
 This is the result
@@ -267,7 +358,7 @@ This is the default behaviour of `sed`: only the first pattern it finds in a lin
 We can modify this by using the `g` option after the last `/`:
 
 ```console
-sed 's/world/participant/g' hello.txt
+$ sed 's/world/participant/g' hello.txt
 ```
 
 ```
@@ -331,6 +422,8 @@ So:
 
 ```console
 $ sed 's/workshop\/course/tutorial/' hello.txt
+                  ↑
+             This / is "escaped" with \ beforehand
 ```
 
 This looks a little strange, but the main thing to remember is that `\/` will be interpreted as the character "/" rather than the separator of `sed`'s substitute command. 
@@ -361,7 +454,7 @@ Use `sed` to achive the following:
 
 1. Substitute the word `patient` with `sample`. <details><summary>Hint</summary>Similarly to how you can use the `g` option to go "global" substitution, you can also use the `i` option to do case-**i**nsensitive text substitution.</details>
 1. Substitute the word `/incomplete` with `-missing`.
-1. The character `.` is also a keyword (used in _regular expressions_ to mean "any character"). How would you substitute the character `.` with `X`?
+1. The character `.` is also a keyword used in _regular expressions_ to mean "any character". See what happens if you run the command `sed 's/./X/g' data/envelope_protein.fa`. How would you fix this command to literally only substitute the character `.` with `X`?
 
 
 <details><summary>Answer</summary>

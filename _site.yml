@@ -27,12 +27,14 @@ navbar:
           href: 01-intro.html
         - text: "The Unix Shell"
           menu:
+            - text: "Intro to Unix"
+              href: 02a-unix_intro.html
             - text: "Files and Directories"
-              href: "02-unix_files_directories.html"
+              href: 02b-unix_files_directories.html
             - text: "Text Manipulation"
-              href: "02-unix_text_manipulation.html"
+              href: 02c-unix_text_manipulation.html
             - text: "Combining Commands"
-              href: "02-unix_pipes.html"
+              href: 02d-unix_pipes.html
         - text: "Intro to NGS Data"
           href: 03-intro_ngs.html
         - text: "Consensus Assembly"
