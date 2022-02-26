@@ -10,7 +10,7 @@ output:
       collapsed: false
     includes:
       after_body: assets/footer.html
-      before_body: assets/pre_alpha_warning.html
+      # before_body: assets/pre_alpha_warning.html
 navbar:
   title: "UoC BioinfoTraining"
   left:
@@ -41,10 +41,10 @@ navbar:
           href: 04-artic_nextflow.html
         - text: "Lineages and Variants"
           href: 05-lineage_assignment.html
-        - text: "Phylogenetic Placement"
-          href: 06-phylogeny.html
-        - text: "Managing Software"
-          href: 07-nextflow_conda_setup.html
+        # - text: "Phylogenetic Placement"
+        #   href: 06-phylogeny.html
+        # - text: "Managing Software"
+        #   href: 07-nextflow_conda_setup.html
     - text: "Extras"
       icon: fa-book
       menu:
@@ -56,6 +56,9 @@ navbar:
           href: 105-vs_code.html
         - text: "SARS-CoV-2 Resources"
           href: 103-tools_and_resources.html
+    - text: "Homework"
+      icon: fa-pencil
+      href: 100-homework.html
   right:
     - text: "Github"
       icon: fa-brands fa-github

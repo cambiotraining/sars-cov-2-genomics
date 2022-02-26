@@ -49,7 +49,7 @@ Those with prior experience in bioinformatics may also benefit from the later se
 We assume no prior bioinformatics experience or experience with the tools introduced in this course. 
 An elementary knowledge of molecular and viral biology is assumed (concepts such as: DNA, RNA, PCR, primers, SNPs).
 
-
+<!-- 
 ## Schedule 
 
 :::warning
@@ -67,7 +67,7 @@ Only after the first run will we have a more concrete idea of timings.
 |       | [Building phylogenetic trees](06-phylogeny.html) | 2h |
 | Day 4 | [Managing and Installing Software](07-nextflow_conda_setup.html) | 2h |
 |       | Q&A | 1h |
-
+ -->
 
 ## Acknowledgements
 

@@ -454,21 +454,13 @@ What does `cp` do when given several filenames and a directory name?
 
 ```console
 $ mkdir backup
-$ cp metadata/india_samples.csv metadata/uk_samples.csv backup/
+$ cp metadata/run1_samples.csv metadata/run2_samples.csv backup/
 ```
 
 In the example below, what does `cp` do when given three or more file names?
 
 ```console
-$ ls metadata
-```
-
-```
-india_samples.csv  southafrica_samples.csv  uk_samples.csv
-```
-
-```console
-$ cp india_samples.csv  southafrica_samples.csv  uk_samples.csv
+$ cp run1_samples.csv  run2_samples.csv  run3_samples.csv
 ```
 
 
