@@ -24,6 +24,11 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 :::
 
+:::note
+
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1D3d5y8AixJWbp-hGEre2y-twaGvdANt8yeSI3_T5rcQ/edit?usp=sharing" target="_blank">slide deck</a>.
+
+:::
 
 ## What is SARS-CoV-2?
 
@@ -202,6 +207,9 @@ Generally, samples with **Ct > 30** are not worth sequencing, as their genome co
 
 One important consideration when collecting samples, is to record as much information as possible about each sample. 
 The Public Health Alliance for Genomic Epidemiology (PHA4GE) coalition provides several [guidelines](https://www.preprints.org/manuscript/202008.0220/v1) and [a protocol](https://dx.doi.org/10.17504/protocols.io.btpznmp6) to aid in metadata collection. 
+There are also essential metadata needed to upload new SARS-CoV-2 genome sequences to the GISAID database (Figure). 
+
+![Snapshot of the GISAID upload template metadata sheet.](images/gisaid_metadata.png)
 
 Two key pieces of information for genomic surveillance are the date of sample collection and the geographic location of that sample. 
 This information can be used to understand which variants are circulating in an area at any given time.
@@ -210,6 +218,8 @@ Privacy concerns need to be considered when collecting and storing sensitive dat
 However, it should be noted that sensitive data can still be collected, even if it is not shared publicly (e.g. via the GISAID database). 
 Such sensitive information may still be useful for the relevant public health authorities, who may use those sensitive information for a finer analysis of the data. 
 For example, epidemiological analysis will require individual-level metadata ("person, place, time") to be available, in order to track the dynamics of transmission within a community.
+
+This is the general advice when it comes to metadata collection: **record as much information about each sample as possible**!
 
 :::exercise
 
