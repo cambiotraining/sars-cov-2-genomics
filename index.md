@@ -6,7 +6,10 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 :::highlight
 
-This course will teach you how to analyse sequencing data from SARS-CoV-2 amplicon samples to generate consensus sequences ready to be uploaded to public databases such as GISAID and to be used in other downstream analysis such as variant annotation and phylogeny. We will teach the use of a standardised analysis pipeline (following the widely used ARTIC protocol), which can work with both Illumina and Nanopore data. We will also cover how to assign sequences to lineages, identify variants of interest/concern and produce visualisations to communicate your findings. Along the way, you will gain foundational bioinformatic skills, including the use of the Unix command line and learn to write simple scripts to ensure your analysis is reproducible. 
+This course will teach you how to analyse sequencing data from SARS-CoV-2 amplicon samples to generate consensus sequences ready to be uploaded to public databases such as GISAID and to be used in other downstream analysis such as variant annotation and phylogeny. 
+We will teach the use of a standardised analysis pipeline, which can work with both Illumina and Nanopore data. 
+We will also cover how to assign sequences to lineages, identify variants of interest/concern and produce visualisations to communicate your findings. 
+Along the way, you will gain foundational bioinformatic skills, including the use of the Unix command line and learn to write simple scripts to ensure your analysis is reproducible. 
 
 :::
 
@@ -33,8 +36,7 @@ By the end of this course, learners should be able to:
 - Assess the quality of the consensus sequences and identify high-quality sequences suitable for downstream analyses and submission to public databases.
 - Assign sequences to lineages and variants using `pangolin` and `nextclade`.
 - Interactively explore data and produce visualisations using _Nextstrain_ tools.
-- Produce basic phylogenetic trees using _FastTree_ and place sequences in the global phylogeny using _Usher_.
-- Manage and install bioinformatics software using _Conda_ and set up _Nextflow_ pipelines from scratch.
+- Manage and install bioinformatics software using _Conda_ and set up _Nextflow_ workflows.
 
 
 ## Target Audience
