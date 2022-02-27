@@ -21,7 +21,6 @@ pagetitle: "SARS-CoV-2 Genomics"
 - Contrast different sequencing protocols (e.g. amplicon, metagenomic) and technologies (e.g. Illumina and Nanopore) commonly used for SARS-CoV-2 sequencing, including the pros and cons of each. 
 - Understand the steps involved in the widespread ARTIC protocol and the differences between its versions. 
 - List key metadata fields needed with each sample to make best use of the data and recognise some limitations related to privacy.
-- Recognise what the main steps are in processing raw sequencing data to generate consensus genome sequences, including sequence alignment, primer trimming and consensus generation. 
 
 :::
 
@@ -139,19 +138,28 @@ Go to the [GISAID registration page](https://www.gisaid.org/registration/registe
 Routine SARS-CoV-2 sequencing is done with a method generally referred to as _amplicon sequencing_. 
 This method relies on amplifying the genetic material using [polymerase chain reaction](https://youtu.be/aUBJtHwHASA) (PCR) with a panel of primers designed against the known SARS-CoV-2 genome. 
 
-One of the most popular methods for preparing virus RNA for sequencing have been developed by the [**ARTIC network**](https://artic.network/), whose aim is to develop standardised protocols for viral sample processing.
-One of the key contributions of this network is to provide the community with a panel of primers that tile the whole genome of SARS-CoV-2, which are updated and optimised to work on the most common circulating lineages. 
+One of the most popular methods for preparing virus RNA for sequencing is **amplicon sequencing**. 
+This method consists of amplifying the genetic material by PCR using a panel of primers that covers the entire genome of the target virus. 
+This is required, since the starting amount of viral genetic material in a sample is typically very low (most of the material will belong to the host - in this case, human RNA).
 
-![Schematic of the ARTIC protocol. Source: [Gohl et al. 2020](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-020-07283-6/figures/1)](images/artic_protocol.png)
+The most popular protocol for amplicon sequencing has been developed by the [ARTIC network](https://artic.network/), whose aim is to develop standardised protocols for viral sample processing.
+The group has designed and tested a panel of primers that work well to amplify the SARS-CoV-2 genome in a mostly unbiased way. 
+This is a challenging task, as the protocol involves pooling hundreds of primers together in a single reaction!
+Also, as the virus mutates in the population, primers that used to work in the original template genome may no longer work in the new variants circulating in the population. 
+Therefore, the ARTIC primers have gone through several versions, which are updated and optimised to work on the most common circulating lineages. 
+These are called "primer schemes" and are made publicly available in a [public repository](https://github.com/artic-network/primer-schemes).
 
-Other methods of sequencing can also be used.
-For example, **metagenomic RNA sequencing** was the method used to assemble the [first SARS-CoV-2 genome](https://doi.org/10.1038/s41586-020-2012-7) and one of the [first sequences in Cambodia](https://doi.org/10.1101/2020.03.02.968818). 
-This method consists of extracting viral RNA (using commercially available kits) followed by high-throughput RNA-seq. 
-The resulting sequences are then compared with nucleotide databases of known organisms, and viral sequences selected for de-novo assembly.
+![Schematic of the ARTIC protocol. The RNA is reverse-transcribed to cDNA, then two pools of primers (that cover the entire SARS-CoV-2 genome) are used to PCR-amplify the material. This material is used to prepare sequencing libraries for the relevant platform that will be used downstream (Illumina or Nanopore). Source: [Gohl et al. 2020](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-020-07283-6/figures/1)](images/artic_protocol.png)
 
-**Sequence capture** protocols are also available, whereby the samples are enriched for the target virus by using a panel of probes against the SARS-CoV-2 genome, followed by sequencing and de-novo assembly. 
+Besides amplicon sequencing, other methods can also be used to obtain SARS-Cov-2 genomes:
 
-Despite these alternative methods, amplicon sequencing remains one of the most popular methods for large-scale viral surveillance due to its low cost and relatively high-throughput nature. 
+- **Metagenomic RNA sequencing** was the method used to assemble the [first SARS-CoV-2 genome](https://doi.org/10.1038/s41586-020-2012-7) and one of the [first sequences in Cambodia](https://doi.org/10.1101/2020.03.02.968818). 
+  This method consists of extracting viral RNA (using commercially available kits) followed by high-throughput RNA-seq. 
+  The resulting sequences are then compared with nucleotide databases of known organisms, and viral sequences selected for _de-novo assembly_.
+
+- **Sequence capture** protocols are also available, whereby the samples are enriched for the target virus by using a panel of probes against the SARS-CoV-2 genome, followed by sequencing and de-novo assembly. 
+
+Despite these alternative methods, _amplicon sequencing_ remains one of the most popular methods for large-scale viral surveillance due to its **low cost** and **high-throughput**. 
 The data generated from this method will be the focus of this course. 
 
 :::note
@@ -210,14 +218,45 @@ Double-click to open one of these files (any of them is fine), which should open
 
 The column names of these files are based on the PHA4GE nomenclature system. 
 
-- Go to the [PHA4GE metadata collection protocol]((https://dx.doi.org/10.17504/protocols.io.btpznmp6)) and read throught the first steps to find the link to the collection templates. 
+- Go to the [PHA4GE metadata collection protocol](https://dx.doi.org/10.17504/protocols.io.btpznmp6) and read throught the first steps to find the link to the collection templates. 
 - From that link, go to the Supporting Materials to find the "field mappings" spreadsheet, which matches naming conventions between PHA4GE and other databases such as GISAID.
 - Based on this information, can you match the column names from our sample information table to the fields required by GISAID?
 - What do you think is the naming convention for the isolate name? How would you adjust this when uploading the data to GISAID?
 
 <details><summary>Answer</summary>
 
-TODO
+The first step of this protocol provides with a link to a GitHub repository containing several template files: https://github.com/pha4ge/SARS-CoV-2-Contextual-Data-Specification.
+
+If we follow that link, we will see several spreadsheet files (for Excel or LibreOffice) with templates that can be used to record samples metadata. 
+In the "Supporting Materials" we find a link to "[PHA4GE to WHO and sequence repository field mappings](https://github.com/pha4ge/SARS-CoV-2-Contextual-Data-Specification#pha4ge-to-who-and-sequence-repository-field-mappings)".
+If we download and open that file we will see a spreadhseet with 4 tabs. 
+Each of the tabs shows the equivalence between the _PHA4GE_ column names and the equivalent names used by other platforms. 
+
+Looking at the equivalence between the column names in our metadata sheets and the GISAID nomenclature, we can identify only some of them:
+
+| Our Name                   | GISAID equivalent     | Comments                                                                               |
+|----------------------------|-----------------------|----------------------------------------------------------------------------------------|
+| sample                     |                       |                                                                                        |
+| sample_collection_date     | Collection date       |                                                                                        |
+| geo_loc_country            | Location              |                                                                                        |
+| geo_loc_region             | Location              | In GISAID the field “Location” is used for “Continent / Country or Territory / Region” |
+| latitude                   |                       |                                                                                        |
+| longitude                  |                       |                                                                                        |
+| sequencing_instrument      | Sequencing technology |                                                                                        |
+| sample_collection_year     |                       |                                                                                        |
+| sample_collection_month    |                       |                                                                                        |
+| sample_collection_day      |                       |                                                                                        |
+| organism                   |                       |                                                                                        |
+| isolate                    | Virus name            |                                                                                        |
+| sequencing_protocol_name   |                       |                                                                                        |
+| amplicon_pcr_primer_scheme |                       |                                                                                        |
+| sequencing_protocol        |                       |                                                                                        |
+
+Looking at this spreadhseet, we can also see this explanation about the "Virus Name" field:
+
+> While the meanings and structures of the GISAID field "Virus name" and the PHA4GE field "isolate" overlap, GISAID requires a slightly different structure for Virus name. e.g. PHA4GE structure: SARS-CoV-2/country/sampleID/2020, GISAID structure: hCov-19/country/sampleID/2020. Change "SARS-CoV-2" to "hCov-19" in the isolate name.
+
+So, in order to upload our data to GISAID we would need to change the name of the virus accordingly.
 
 </details>
 
@@ -241,9 +280,17 @@ We will turn to these topics in the following sessions.
 :::highlight
 **Key Points**
 
-- one
-- two
-- three
+- The sequencing of SARS-CoV-2 genomes has allowed the tracking of new variants throughout the pandemic. 
+- The World Health Organisation defines _Variants of Concern_ as SARS-CoV-2 forms with characteristics of public health concern. This includes increased transmissibility, virulence, disease symptoms or vaccine resistance. 
+- GISAID, Pango and Nextstrain are organisations whose work includes the classification of SARS-CoV-2 genomes into groups that may later be classified as variants of concern by WHO.
+- GISAID also plays a key role as the main database for assembled SARS-CoV-2 genomes, submitted by the community.
+- Routine SARS-CoV-2 sequencing is usually done by _amplicon sequencing_ (amplifying an infected sample by PCR using primers that cover the entire genome). The most popular protocol has been developed by the ARTIC network.
+- Other methods of sequencing include _metagenomic_ and _sequence capture_. However, these methods require more sequencing and therefore are not commonly used for sequencing at a population scale.
+- Both Illumina and Nanopore platforms can be used for sequencing SARS-CoV-2 amplicon samples.
+- Metadata collection is essential for interpreting the results of the sequencing. 
+  - For genomic surveillance purposes recording of geographic location and date of sampling are crucial.
+  - Other useful information includes details about the sequencing (e.g. sample preparation protocols and sequencing platforms used).
+- 
 
 :::
 

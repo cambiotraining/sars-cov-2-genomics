@@ -13,7 +13,7 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 **Learning Objectives**
 
-- Summarise the steps in the bioinformatic pipeline used for reference-based assembly of SARS-CoV-2 genomes from high-throughput amplicon sequencing.
+- Recognise what the main steps are in processing raw sequencing data to generate consensus genome sequences, including sequence alignment, primer trimming and consensus generation. 
 - Recognise the differences between Illumina and Nanopore pipelines.
 - Apply the `connor-lab/ncov2019-artic-nf` _Nextflow_ pipeline to generate a consensus sequence from Illumina and Nanopore data.
 - Troubleshoot issues when running a _Nextflow_ pipeline and resume the pipeline in case of a failure.
