@@ -432,7 +432,7 @@ This happens because `rm` by default only works on files, not directories.
 recursive option `-r`, and it will do so *without any confirmation prompts*:
 
 ```console
-$ rm -r results
+$ rm -r backup
 ```
 
 Given that there is no way to retrieve files deleted using the shell, `rm -r` *should be used with great caution* (you might consider adding the interactive option `rm -r -i`).
