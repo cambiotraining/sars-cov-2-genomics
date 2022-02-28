@@ -117,9 +117,10 @@ AGCGTGTACTGTGCATGTCGATG   <-- SEQUENCE
 ```
 
 In FASTQ files each sequence is always represented across 4 lines. 
-The quality scores are encoded using ASCII characters that represent a score that can vary between 0 and 93. 
+The quality scores are encoded in a compact form, using a single character. 
+They represent a score that can vary between 0 and 40 (see [Illumina's Quality Score Encoding](https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/QualityScoreEncoding_swBS.htm)). 
 The reason single characters are used to encode the quality scores is that it saves space when storing these large files. 
-Tools that work on FASTQ files automatically convert these characters into their score, so we don't have to worry about it.
+Software that work on FASTQ files automatically convert these characters into their score, so we don't have to worry about doing this conversion ourselves.
 
 The quality value in common use is called a _Phred score_ and it represents the probability that the respective base is an error. 
 For example, a base with quality 20 has a probability $10^{-2} = 0.01 = 1\%$ of being an error. 
@@ -168,7 +169,7 @@ fastqc --outdir results/fastqc data/reads/*.fastq.gz
 
 - Create the output directory for the analysis.
 - Modify the command above to add an option to run the analysis using 8 threads in parallel (or CPUs). Check the tool's help (`fastqc --help`) to see what the option to do this is called.
-- Run the analysis. 
+- Run the analysis. You will know it is running successfully because it prints progress of its analysis on the screen.
 
 <details><summary>Answer</summary>
 

@@ -154,16 +154,16 @@ In summary, the steps performed by the `--illumina` sub-workflow are:
 
 </details>
 
-To run our pipeline on Illumina data, we use the following command:
+To run the pipeline on Illumina data, we use the following general command:
 
 ```console
 nextflow run ncov2019-artic-nf \
   -with-report -with-dag \
   -profile conda \
-  --outdir results/consensus/ \
-  --prefix run_name \
+  --outdir OUTPUT_DIRECTORY \
+  --prefix NAME_OF_YOUR_ANALYSIS_RUN \
   --schemeVersion V3 \
-  --directory data/reads/ \
+  --directory DIRECTORY_WITH_FASTQ_FILES \
   --illumina
 ```
 
@@ -198,10 +198,10 @@ To run our pipeline on basecalled data (FASTQ files), we use the following comma
 nextflow run ncov2019-artic-nf \
   -with-report -with-dag \
   -profile conda \
-  --outdir results/consensus/ \
-  --prefix run_name \
+  --outdir OUTPUT_DIRECTORY \
+  --prefix NAME_OF_YOUR_ANALYSIS_RUN \
   --schemeVersion V3 \
-  --basecalled_fastq data/reads/ \
+  --basecalled_fastq DIRECTORY_WITH_FASTQ_FILES \
   --medaka
 ```
 
@@ -245,11 +245,11 @@ To run our pipeline on signal-level data (FAST5 files), we use the following com
 nextflow run ncov2019-artic-nf \
   -with-report -with-dag \
   -profile conda \
-  --outdir results/consensus/ \
-  --prefix run_name \
+  --outdir OUTPUT_DIRECTORY \
+  --prefix NAME_OF_YOUR_ANALYSIS_RUN \
   --schemeVersion V3 \
-  --fast5_pass data/sequences/ \
-  --sequencing_summary data/reads/sequencing_summary.txt \
+  --fast5_pass DIRECTORY_WITH_FAST5_FILES \
+  --sequencing_summary SEQUENCING_SUMMARY_FILE \
   --nanopolish
 ```
 
@@ -348,8 +348,8 @@ Nanopore data is organised in directories named according to the convention `bar
 The `--medaka` workflow expects to be given as an input a directory containing several sub-directories named in that way (this is a standard output from the program used to generate FASTQ files from Nanopore data). 
 
 - From VS Code, open the script found in `india_nanopore/scripts/run_workflow.sh`.
-- Fix the code in the script where the word _FIXME_ appears. Output the results to a directory called `results/consensus/`.
-- Run the fixed nextflow command on the terminal. This may take ~5 minutes to complete.
+- Fix the code in the script where you see the word "_FIXME_". Output the results to a directory called `results/consensus/`.
+- Run the nextflow command on the terminal. This may take ~5 minutes to complete.
 - Once complete, use the file explorer <i class="fa-solid fa-folder"></i> and go to the results folder to open the file in `pipeline_info/execution_report.html`.
   - How long did the workflow take to run?
   - Which step of the pipeline took the longest to run?
