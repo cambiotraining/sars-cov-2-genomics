@@ -21,6 +21,11 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 :::
 
+:::note
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1EaChXxDC0J8HGt4AhwAaEJ9yfodlB38YGI-VV62Rwqk/edit?usp=sharing" target="_blank">slide deck</a>.
+:::
+
+
 ## SARS-CoV-2 Consensus Assembly
 
 As we discussed [earlier in the course](01-intro.html), the starting material for sequencing SARS-CoV-2 samples from infected patients is PCR-amplified DNA generated with a panel of primers that covers the whole SARS-CoV-2 genome (these panels are developed and updated by the ARTIC network). 
@@ -46,6 +51,18 @@ The general data processing steps are:
 This is because the primer sequence is retained during PCR instead of the original sequence of the sample. 
 Because the PCR amplicons overlap with each other, we can trim the primers from each read and do variant calling after trimming. 
 An example of this is shown in the Figure above.
+
+<!--
+Consider adding some notes about sequence length (for Illumina), whether it spans the whole amplicon or not, whether reads without primers can be retained.
+
+Depends on the library prep method:
+- Ligation-based (e.g. Kappa kit from [this paper](https://www.biorxiv.org/content/10.1101/2020.06.16.154286v1.full)). See this [ligation illustration](https://sfvideo.blob.core.windows.net/sitefinity/images/default-source/default-album/decoded-temp-image-storage/19_ng_lib-prep-frag.png?sfvrsn=9e0a1b07_4).
+- Tagmentation-based (e.g. Nextera kits from the same paper). See this [tagmentation illustration](https://upcvmda-pl480.weebly.com/uploads/8/3/9/0/83900706/tagmentation_1_orig.png).
+
+As I understand it, with ligation-based method there is no fragmentation, adapters are ligated directly to the amplicon.
+With tagmentation-based methods the fragment may sometimes not contain the primer, if the transposome cuts the amplicon in half or something like that. 
+
+-->
 :::
 
 

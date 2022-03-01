@@ -22,6 +22,13 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 :::
 
+
+:::note
+
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1EaChXxDC0J8HGt4AhwAaEJ9yfodlB38YGI-VV62Rwqk/edit?usp=sharing" target="_blank">slide deck</a>.
+
+:::
+
 ## Next Generation Sequencing
 
 The sequencing of genomes has become more routine due to the [rapid drop in DNA sequencing costs](https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data) seen since the development of Next Generation Sequencing (NGS) technologies in 2007. 
