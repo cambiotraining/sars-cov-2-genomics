@@ -105,7 +105,7 @@ We pipe the output of `ls` to the `wc` command using the option `-l` to count th
 </details>
 :::
 
-<!--
+
 ## FASTQ Quality Control
 
 **This exercise uses the skills covered in [Introduction to NGS](03-intro_ngs.html).**
@@ -124,10 +124,13 @@ We will run a basic quality control of these reads using FastQC and compile the 
 :::box
 <details><summary>Answer</summary>
 
-To check the data quality of our reads, we can write a shell script including all the commands that we want to run.
+To check the data quality of our reads, we can use the following commands.
 Make sure these commands are run from within the `homework/southafrica` directory.
 
 ```bash
+# move to the directory
+cd ~/Course_Materials/homework/southafrica/
+
 # make directory
 mkdir -p results/fastqc
 mkdir -p results/multiqc
@@ -143,11 +146,11 @@ multiqc --outdir results/multiqc/ results/fastqc/
 This script starts by having some code to create the necessary output directories. 
 The `-p` option ensures that we don't get an error in case the directory already exists. 
 
-We then run `fastqc`, being careful to specify that we have 8 CPUs (with the `-t` option). 
-We also use the `*` _wildcard_ to pattern-match all the files ending with the file extension ".fastq.gz", so that FastQC will automatically process all the files in parallel. 
+We then run `fastqc`, being careful to specify that we have 8 CPUs (with the `-t` option) to process the data in parallel. 
+We also use the `*` _wildcard_ to pattern-match all the files ending with the file extension ".fastq.gz", so that FastQC will automatically process all the files. 
 
 We then use the _output_ directory of the `fastqc` step as the _input_ for `multiqc`. 
-This is just like a mini-workflow or our own! Outputs of one tool feeding into the next tool.
+This is just like a mini bioinformatics workflow or our own: outputs of one tool feeding into the next tool!
 
 After looking at the quality report from `multiqc`, we can notice that:
 
@@ -163,7 +166,7 @@ We should keep an eye on the samples with very low read numbers and check if the
 </details>
 :::
 
-
+<!--
 ## Consensus Assembly
 
 **This exercise uses the skills covered in [Consensus Assembly](04-artic_nextflow.html).**
