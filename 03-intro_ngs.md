@@ -181,7 +181,7 @@ fastqc --outdir results/fastqc data/reads/*.fastq.gz
 First, we can create a directory to output our results:
 
 ```bash
-mkdir results/fastqc
+mkdir -p results/fastqc
 ```
 
 To check the options available for this tool, we can run `fastqc --help` to get the complete documentation. 
