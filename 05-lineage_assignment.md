@@ -24,6 +24,11 @@ pagetitle: "SARS-CoV-2 Genomics"
 :::
 
 
+:::note
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1rRrsHD6v0a9kH9MYxJZNMw56dRKAeLxgNjdG9w7Bic4/edit?usp=sharing" target="_blank">slide deck</a>.
+:::
+
+
 ## SARS-CoV-2 Variants
 
 As viruses (or any other organism) evolve, random DNA changes occur in the population, for example due to replication errors.
@@ -178,10 +183,17 @@ _pangoLearn_ is faster than _UShER_, but the latter seems to perform better in t
 
 <img src="https://raw.githubusercontent.com/nextstrain/nextclade/master/docs/assets/nextstrain_logo.svg" alt="Nextstrain" style="float:right;width:10%">
 
-Another system of clade assignment and lineage classification is provided by `nextclade`, which is part of the broader software ecosystem [_Nextstrain_](https://clades.nextstrain.org/). 
-
-_Nextclade_ can be used to analyse our sequences against the reference genome, assign sequences to clades (using _Nextclade_'s own nomenclature) and identify potential quality issues.
+Another system of clade assignment is provided by `nextclade`, which is part of the broader software ecosystem [_Nextstrain_](https://clades.nextstrain.org/). 
 This is a complementary analysis to what can be obtained with _Pangolin_, enriching our insights into the data. 
+
+_Nextclade_ does similar steps as _Pangolin_, with some differences in the algorithms that are used:
+
+- Each sequence is aligned with the _Wuhan-Hu-1_ reference genome using a local alignment algorithm.
+- Samples are placed in the global phylogeny using a distance-based metric (placing the sequence on the tree where it has the highest similarity with).
+- Clade assignment is done based on the previous phylogeny placement step.
+
+You can find more details about _Nextclade_'s methods on [its documentation](https://docs.nextstrain.org/projects/nextclade/en/stable/user/algorithm/index.html).
+_Nextclade_ also provides several quality control metrics, which are very useful to identify problematic samples. 
 
 There are two main ways to use _Nextclade_:
 
