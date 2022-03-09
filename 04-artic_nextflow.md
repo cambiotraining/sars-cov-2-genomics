@@ -103,7 +103,7 @@ $ cd ~/Course_Materials/02-consensus
 This directory contains two sets of sequencing data, from Illumina and Nanopore platforms. 
 These data were generated using the ARTIC protocol with V3 primer scheme.
 
-To generate consensus SARS-CoV-2 genomes from these data, we will use a _Nextflow_ workflow that was developed by the [O'Connor Lab](https://github.com/connor-lab/ncov2019-artic-nf). 
+To generate consensus SARS-CoV-2 genomes from these data, we will use a _Nextflow_ workflow that was developed by the [Connor Lab](https://github.com/connor-lab/ncov2019-artic-nf). 
 Its objective was to harmonise the assembly of SARS-CoV-2 genomes from both Illumina and Nanopore amplicon sequencing data.
 This workflow therefore includes different sub-workflows, which are launched depending on the type of sequence data we have.
 
