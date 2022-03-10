@@ -9,15 +9,12 @@ pagetitle: "SARS-CoV-2 Genomics"
 **Questions**
 
 - What are the main variant annotation conventions for SARS-CoV-2?
-- What is the difference between a strain, a lineage, a clade and a variant?
-- How can I assign sequences to lineages and classify them as VOI/VOC?
+- How can I assign sequences to lineages and classify them as variants of interest/concern?
 - How can I visually explore the results of my variant analysis?
 
 **Learning Objectives**
 
 - Understand variant annotation conventions used by Gisaid, Pango, Nextstrain and WHO and how they relate to each other. 
-- Distinguish between the concept of a strain, a lineage, a clade and a variant (and describe why the concept of a variant is sometimes ambiguous).
-- Understand the difference between a variant of interest (VOI) and variant of concern (VOC).
 - Assign sequences to Pango lineages using `pangolin`.
 - Interactively explore mutations in the assembled genomes and their phylogenetic context using _Nexstrain_'s tools.
 
@@ -394,8 +391,10 @@ This is because _Pangolin_ masks the first 265bp and last 229bp of each sequence
 
 **Key Points**
 
-- one
-- two
+- Groups of similar SARS-CoV-2 sequences are classified into lineages or clades by different groups. The main nomenclature systems in use are _Nextstrain_, _Pangolin_ and _GISAID_. 
+- In addition, the World Health Organisation (WHO) classifies some forms of SARS-CoV-2 as _variants of concern_ or _variants of interest_. These are forms of the virus that have been determined to have a significant public health impact. 
+- The software `pangolin` can be used to assign consensus sequences to lineages and WHO variants.
+- _Nextclade_ can also be used to assign sequences to clades and WHO variant classification. _Nextclade_ can be run from a web interface and the command line (`nextclade`). 
 
 :::
 
