@@ -74,8 +74,8 @@ Only after the first run will we have a more concrete idea of timings.
 ## Acknowledgements
 
 These materials have been developed as a collaboration between the [Bioinformatics Training Facility](https://bioinfotraining.bio.cam.ac.uk/) at the University of Cambridge and the [New Variant Assessment Platform (NVAP)](https://www.gov.uk/guidance/new-variant-assessment-platform) program from the _UK Health Security Agency_.
-Our partners also include [COG Train](https://www.cogconsortium.uk/cog-train/about-cog-train/).
 
+Our partners also include [COG Train](https://www.cogconsortium.uk/cog-train/about-cog-train/).
 We also thank the wider community for publicly sharing training resources, including: 
 
 - The [workshop video series from _CLIMB BIG DATA_](https://www.youtube.com/channel/UCdiGIIyryQL3x-Og5uiY1rw).
