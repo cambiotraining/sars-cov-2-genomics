@@ -310,17 +310,21 @@ ACAGACTGACGCTGTNNNNNNNNNNNNNGATAGGCTGATGGCGAGTGACTCGAG
 
 ### Running the Workflow
 
-Let's see an example in action by using some example data:
+Let's see an example in action by using some example data.
+If you go to the directory `02-consensus/uk_illumina/` in the course materials, you will find several FASTQ files in the `data` directory. 
+There is also a _shell script_ (in `scripts/run_illumina_workflow.sh`) that contains the commands we will use to run the workflow on these data.
 
+<!--
 - Open _VS Code_.
 - Go to _File > Open Folder..._ and navigate to the directory called `02-consensus/`.
 - Open a terminal by going to _Terminal > New Terminal_.
-- From the file explorer panel (on the left) open the shell script found in `uk_illumina/scripts/run_workflow.sh`.
+- From the file explorer panel (on the left) open the shell script found in `uk_illumina/scripts/run_illumina_workflow.sh`.
 - On the terminal window, change directory to `cd uk_illumina` and take some time to explore the files found in there (in particular look at the `data` directory).
 
 (Note: if you need a reminder on how to use _VS Code_, check our [VS Code overview](105-vs_code.html))
+-->
 
-The script we just opened contains the following commands: 
+Opening the script, we can see the following commands: 
 
 ```bash
 # create output directory
@@ -331,8 +335,8 @@ nextflow run ncov2019-artic-nf -with-report -with-dag -profile conda --outdir re
 ```
 
 It first creates a results directory (to store our output files) and then runs the `nextflow` command using the `--illumina` sub-workflow.
-
-You can run each of these commands one at a time (tip: you can use <kbd>Shift</kbd> + <bkd>Enter</kbd> to send a command from the script to the terminal).
+We could run these commands one at a time by copy/pasting them to the terminal. 
+Or alternatively, we can run the entire script using `bash scripts/run_illumina_workflow.sh`
 
 When you start running the workflow, you will get a list of the workflow steps and their progress. 
 Once the workflow is complete, you should see something similar to the following:
@@ -355,7 +359,7 @@ Succeeded   : 52
 ```
 
 You should also get several output files in the results folder specified with our `nextflow` command. 
-We will details what these files are in the following section. 
+We will detail what these files are in the following section. 
 
 :::exercise
 
@@ -364,7 +368,7 @@ This contains Nanopore sequencing data for several samples collected in India.
 Nanopore data is organised in directories named according to the convention `barcodeXX` where `XX` is a number. 
 The `--medaka` workflow expects to be given as an input a directory containing several sub-directories named in that way (this is a standard output from the program used to generate FASTQ files from Nanopore data). 
 
-- From VS Code, open the script found in `india_nanopore/scripts/run_workflow.sh`.
+- Using `nano`, open the script found in `india_nanopore/scripts/run_medaka_workflow.sh`.
 - Fix the code in the script where you see the word "_FIXME_". Output the results to a directory called `results/consensus/`.
 - Run the nextflow command on the terminal. This may take ~5 minutes to complete.
 - Once complete, use the file explorer <i class="fa-solid fa-folder"></i> and go to the results folder to open the file in `pipeline_info/execution_report.html`.
@@ -377,7 +381,7 @@ The fixed code is:
 
 ```bash
 # create output directory
-mkdir results
+mkdir -p results
 
 # run the workflow
 nextflow run ncov2019-artic-nf -with-report -with-dag -profile conda --outdir results/consensus/ --prefix india --schemeVersion V3 --basecalled_fastq data/reads/ --medaka
@@ -385,7 +389,6 @@ nextflow run ncov2019-artic-nf -with-report -with-dag -profile conda --outdir re
 
 What we did to fix it was:
 
-- Create a directory for the results
 - Set the output directory to `results/consensus/`
 - Provide the path to the directory containing the FASTQ files for each sample, within their respective `barcodeXX` sub-directories. 
 
@@ -501,7 +504,7 @@ Open the `india.qc.csv` file containing quality control metrics.
 - How many samples passed the default quality control filters?
 - Which of these samples would you consider uploading to GISAID?
 - Go to the `qc_plots` folder and compare the results in these plots with the summary in the QC file.
-- Can you think of any reasons why the coverage of some samples is lower than for others?
+- Can you think of possible reasons why the coverage of some samples is lower than for others?
 
 <details><summary>Answer</summary>
 

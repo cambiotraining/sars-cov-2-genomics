@@ -139,7 +139,7 @@ The first thing we should do is create the output directory for our results, and
 
 ```bash
 mkdir -p results/pangolin/
-mkdir scripts/
+mkdir -p scripts/
 ```
 
 We can look at the tool's help by using `pangolin --help`. 
@@ -155,7 +155,7 @@ Therefore, the command to run our analysis is:
 pangolin --usher --alignment --outdir results/pangolin/ --outfile uk_india_report.csv --threads 8 data/all_sequences.fa
 ```
 
-From VS Code, we could save this command in a script (File > New File) and save it in the `scripts` folder with the filename `pangolin.sh` (or another informative name of your choice). 
+Using a text editor like `nano`, we could include this command in a script and save it in the `scripts` folder with the filename `pangolin.sh` (or another informative name of your choice). 
 
 We can open the `uk_india_report.csv` file on our spreadsheet software to look at the results. 
 In the column called "scorpio_call" we can see several samples that were classified as "Alpha" and "Delta" variants. 
