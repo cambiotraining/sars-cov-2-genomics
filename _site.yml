@@ -1,6 +1,6 @@
 name: "SARS-CoV-2 Genomics"
 output_dir: "_site"
-exclude: ["data", "course_files", "notes", "slides"]
+exclude: ["course_materials", "notes", "slides", "prepare_data"]
 output:
   html_document:
     highlight: pygments
@@ -33,7 +33,7 @@ navbar:
               href: 02b-unix_files_directories.html
             - text: "Text Manipulation"
               href: 02c-unix_text_manipulation.html
-            - text: "Combining Commands"
+            - text: "Combining Commands & Writing Scripts"
               href: 02d-unix_pipes.html
         - text: "Intro to NGS Data"
           href: 03-intro_ngs.html
