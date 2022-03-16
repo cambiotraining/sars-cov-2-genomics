@@ -287,7 +287,7 @@ We can see the result is all the lines that matched this word pattern.
 
 Consider the file we previously saved in `results/variants.tsv`.
 
-1. Create a new file called `results/delta.tsv` that contains only the Alpha variant samples. <details><summary>Hint</summary>You can use `grep` to find a pattern in a file.</details>
+1. Create a new file called `results/alpha.tsv` that contains only the Alpha variant samples. <details><summary>Hint</summary>You can use `grep` to find a pattern in a file.</details>
 2. How many samples are you left with?
 
 <details><summary>Answer</summary>
@@ -297,10 +297,10 @@ Consider the file we previously saved in `results/variants.tsv`.
 We can use `grep` to find a pattern in our text file and use `>` to save the output in a new file:
 
 ```console
-$ grep "Alpha" results/variants.tsv > results/delta.tsv
+$ grep "Alpha" results/variants.tsv > results/alpha.tsv
 ```
 
-We could investigate the output of our command using `less results/delta.tsv`.
+We could investigate the output of our command using `less results/alpha.tsv`.
 
 ----
 
