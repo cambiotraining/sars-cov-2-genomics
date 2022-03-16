@@ -13,6 +13,9 @@ Greg Wilson, Gerard Capes, Gabriel A. Devenyi, Christina Koch, Raniere Silva, As
 Zenodo. http://doi.org/10.5281/zenodo.3266823
 :::
 
+:::note
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1lhN16pFpphxz2oO1T9x8xnSj6JRHeV9PLNXhK0FJZ2c/edit?usp=sharing" target="_blank">slide deck</a>.
+:::
 
 # The Unix Shell: Introduction
 

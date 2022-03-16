@@ -21,6 +21,10 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 :::
 
+:::note
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1lhN16pFpphxz2oO1T9x8xnSj6JRHeV9PLNXhK0FJZ2c/edit?usp=sharing" target="_blank">slide deck</a>.
+:::
+
 ## The `|` Pipe
 
 Now that we know a few basic commands, we can finally look at the shell's most powerful feature: the ease with which it lets us combine existing programs in new ways.

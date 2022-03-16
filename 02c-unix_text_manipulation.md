@@ -20,6 +20,10 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 :::
 
+:::note
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1lhN16pFpphxz2oO1T9x8xnSj6JRHeV9PLNXhK0FJZ2c/edit?usp=sharing" target="_blank">slide deck</a>.
+:::
+
 ## Looking Inside Files
 
 Often we want to investigate the content of a file, without having to open it in a text editor. 
