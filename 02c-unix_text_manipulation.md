@@ -309,7 +309,7 @@ We could investigate the output of our command using `less results/alpha.tsv`.
 We can use `wc` to count the lines of the newly created file:
 
 ```console
-$ wc -l results/delta.tsv
+$ wc -l results/alpha.tsv
 ```
 
 Giving us 31 as the result.
