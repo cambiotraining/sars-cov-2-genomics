@@ -41,6 +41,8 @@ navbar:
           href: 04-artic_nextflow.html
         - text: "Lineages and Variants"
           href: 05-lineage_assignment.html
+        - text: "Building Phylogenies"
+          href: 06-phylogeny.html
         # - text: "Phylogenetic Placement"
         #   href: 06-phylogeny.html
         # - text: "Managing Software"

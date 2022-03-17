@@ -21,7 +21,7 @@ pagetitle: "SARS-CoV-2 Genomics"
 :::
 
 :::note
-This section has an accompanying <a href="" target="_blank">slide deck</a>.
+This section has an accompanying <a href="https://drive.google.com/file/d/19MCiM8JhWgtSwvQdotfJRlyv7Z7CVJwz/view?usp=sharing" target="_blank">slide deck</a>.
 :::
 
 <!--
@@ -32,7 +32,40 @@ TODO:
 - brief intro to phylogenetics, based on Nicola's presentation. 
 - Mention interpretation of branch length in particular SARS-CoV-2 has ~2 mutations per month (probably replication errors), leading to very short branch lengths and polytomies. 
 - Note about bootstraping - should probably be avoided, since there are usually too few sites for meaningful results. 
+
+### Tree Inference
+
+There are broadly three types of methods: 
+
+- distance
+- parsimony
+- maximum likelihood
+
+#### Distance Phylogenies
+
+These methods rely on calculating the distance between each pair of sequences.
+Popular methods of this kind are _neighbour-joining_ (NJ) or 
+
+#### Maximum Parsimony
+
+Infers a tree that requires the fewest number of mutations needed along each branch of the tree to explain the data. 
+
+This method can be inaccurate when there are long branches in the tree (this problem is referred to as "long branch attaction"). 
+For SARS-CoV-2 in particular, this is not a big problem, because the sequences tend to be very similar to each other. 
+
+#### Maximum Likelihood
+
+- Model of evolution:
+  - DNA substituion model
+    - JC69 assumes only one mutation rate
+    - HKY85 assumes different mutation rates (transitions have different rates)
+    - GTR is another one
+  - Rate heterogeneity:
+    - Invariant sites 
+    - Rate variation (Gamma models used)
+- Generally, more complex models give better results (but take longer to run and require more data)
 -->
+
 
 ## SARS-CoV-2 Phylogeny
 
