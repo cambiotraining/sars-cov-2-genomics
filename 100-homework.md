@@ -166,7 +166,7 @@ We should keep an eye on the samples with very low read numbers and check if the
 </details>
 :::
 
-<!--
+
 ## Consensus Assembly
 
 **This exercise uses the skills covered in [Consensus Assembly](04-artic_nextflow.html).**
@@ -232,7 +232,7 @@ $ grep "TRUE" results/consensus/india.qc.csv | wc -l
 </details>
 :::
 
-
+<!--
 ## Lineages & Variants
 
 -->
