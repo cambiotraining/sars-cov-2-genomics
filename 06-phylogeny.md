@@ -10,7 +10,6 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 - How can I build a phylogenetic tree from my consensus sequences?
 - How can I produce multiple sequence alignment of the consensus sequences?
-- (TODO) How can I place my consensus sequences in the global phylogeny?
 
 **Learning Objectives**
 
@@ -19,10 +18,13 @@ pagetitle: "SARS-CoV-2 Genomics"
 - Recognise the limitations and challenges in building phylogenies for SARS-CoV-2.
 - Use _IQ-Tree_ for phylogenetic tree inference.
 - Use _MAFFT_ to produce a multiple sequence alignment.
-- (TODO) Use _UShER_ to place sequences in the global phylogeny. 
-
 :::
 
+:::note
+This section has an accompanying <a href="" target="_blank">slide deck</a>.
+:::
+
+<!--
 ## Phylogenetics Basics
 
 TODO: 
@@ -30,7 +32,7 @@ TODO:
 - brief intro to phylogenetics, based on Nicola's presentation. 
 - Mention interpretation of branch length in particular SARS-CoV-2 has ~2 mutations per month (probably replication errors), leading to very short branch lengths and polytomies. 
 - Note about bootstraping - should probably be avoided, since there are usually too few sites for meaningful results. 
-
+-->
 
 ## SARS-CoV-2 Phylogeny
 
@@ -43,9 +45,14 @@ However, several researchers have dedicated their time to identifying tools and 
 For example, the [global phylogenies repository](https://github.com/roblanf/sarscov2phylo) from Rob Lanfear provide with several tips on building phylogenetic trees for this organism.
 Their trees are regularly updated and available to download from the GISAID website (which requires an account). 
 
+Global phylogenies are also available from the groups of Russell Corbett-Detig and Yatish Turakhia, who have developed [efficient methods and tools](https://doi.org/10.1093/molbev/msab264) for dealing with large phylogenies. 
+These tools include _UShER_ and _matUtils_, introducing a new and efficient file format for storing phylogenetic trees, mutations and other annotations (such as lineages) called _mutation-annotated trees_ (MAT format). 
+Their phylogenies are updated daily and are [publicly available for download](http://hgdownload.soe.ucsc.edu/goldenPath/wuhCor1/UShER_SARS-CoV-2/). 
+(Note: Course materials covering these tools are still under development.)
+
 Two popular tools used for phylogenetic inference via maximum-likelihood are **_FastTree_** and **_IQ-Tree_**.
-Generally, when building a tree from a collection of samples, it may be worth including the Wuhan reference sequence as an outgroup to root the tree. 
-Optionally, we can also add a collection of sequences from around the world (and across time) to contextualise our own samples in the global diversity. 
+Generally, when building a tree from a collection of samples you can include the Wuhan-Hu-1 reference sequence as an outgroup to root the tree. 
+Optionally, you can also add a collection of sequences from around the world (and across time) to contextualise your samples in the global diversity. 
 
 As an input, these programs need a _multiple sequence alignment_ FASTA file. 
 For now we will use the alignment we previously obtained from `nextclade`, but we will see alternatives and other considerations later on.
@@ -55,13 +62,19 @@ For now we will use the alignment we previously obtained from `nextclade`, but w
 
 _IQ-TREE_ supports [many substitution models](http://www.iqtree.org/doc/Substitution-Models), including models with _rate heterogeneity_ across sites. 
 
-Let's start by running the program with default options (we set `--prefix` to ensure output files go to a new folder):
+Let's start by creating an output directory for our results:
 
 ```bash
-iqtree2 -s data/uk_india.aligned.fasta --prefix results/iqtree/uk_india
+mkdir -p results/iqtree
 ```
 
-Without specifying any options, `iqtree2` uses [_ModelFinder_](https://www.nature.com/articles/nmeth.4285) to find the substituion model that maximizes the likelihood of the data, while at the same time taking into account the complexity of each model (using information criteria metrics popular in statistics). 
+And then run the program with default options (we set `--prefix` to ensure output files go to the directory we just created and are named "uk_india"):
+
+```bash
+iqtree2 -s data/uk_india.nextclade.alignment.fa --prefix results/iqtree/uk_india
+```
+
+Without specifying any options, `iqtree2` uses [_ModelFinder_](https://www.nature.com/articles/nmeth.4285) to find the substituion model that maximizes the likelihood of the data, while at the same time taking into account the complexity of each model (using information criteria metrics commonly used to assess statistical models). 
 
 From the information printed on the console after running the command, we can see that the chosen model for our alignment was "GTR+F+I", a [_generalised time reversible_ (GTR) substitution model](https://en.wikipedia.org/wiki/Substitution_model#Generalised_time_reversible). 
 This model requires an estimate of each base frequency in the population of samples, which in this case is estimated by simply counting the frequencies of each base from the alignment (this is indicated by "+F" in the model name). 
@@ -206,17 +219,35 @@ So far, we have used the alignment generated by _Nextclade_.
 This is suitable for most purposes, however it is also possible to generate our own alignment. 
 
 A widely used alignment software is called **_MAFFT_**.
-This software provides several methods for alignment, with tradeoffs between speed and accuracy. 
-We can look at the full documentation using `mafft --man` (`mafft --help` will give a shorter description of the main options). 
+For SARS-CoV-2, a reference-based alignment approach is often used, which is suitable for closely-related genomes. 
+MAFF provides this functionality, which is detailed in its [documentation](https://mafft.cbrc.jp/alignment/software/closelyrelatedviralgenomes.html).
 
-From its documentation we can see that the most precise alignment can be obtained with the options `--localpair --maxiterate 1000`. 
-However, this is substantially slow and may not be feasible for more than a few hundred samples.
-
-We will run _MAFFT_ with the default option, for the purposes of speed: 
+Let's create a directory for our alignment:
 
 ```bash
-mafft data/all_sequences.fa > results/mafft_alignment.fa
+mkdir results/mafft
 ```
+
+The command we will use to run our reference-based alignment is:
+
+```bash
+mafft --6merpair --maxambiguous 0.1 --addfragments data/all_sequences.fa resources/reference.fa > results/mafft/alignment.fa
+```
+
+The meaning of the options used is: 
+
+- `--6merpair` is a fast method for estimating the distances between sequences, based on the number of short 6bp sequences shared between each pair of sequences. This is less accurate than other options available (like `--localpair` and `--globalpair`), but runs much faster in whole genome data like we have.
+- `--maxambiguous 0.1` automatically removes samples with more than 10% ambiguous 'N' bases (or any other value of our choice). This is a convenient way to remove samples with poor genome coverage from our analysis. 
+- `--addfragments data/all_sequences.fa` is the file with the sequences we want to align.
+- finally, at the end of the command we give the reference genome as the input sequence to align our sequences against. 
+
+MAFFT provides several other methods for alignment, with tradeoffs between speed and accuracy. 
+You can look at the full documentation using `mafft --man` (`mafft --help` will give a shorter description of the main options). 
+For example, from its documentation we can see that the most precise alignment can be obtained with the options `--localpair --maxiterate 1000`. 
+However, this is quite slow and may not be feasible for whole genome data of SARS-CoV-2.
+
+
+### Visualising alignments 
 
 We can visualise our alignment using the software [AliView](https://ormbunkar.se/aliview/), which is both lightweight and fast, making it ideal for large alignments. 
 Visualising the alignment can be useful for example to identify regions with missing data (more about this below). 
@@ -227,36 +258,42 @@ Visualising the alignment can be useful for example to identify regions with mis
 :::exercise
 
 - Use `iqtree2` to build a new phylogenetic tree using the _MAFFT_ alignment we just created. 
-Use the "GTR+G" substitution model and save the output with prefix `results/iqtree/uk_india_mafft`. 
+Use the _GTR+G_ substitution model and save the output with prefix `results/iqtree/uk_india_mafft`. **Bonus:** save the command in a shell script.
 - Visualise the new tree using _FigTree_ and import the TSV file with information about each sample. Use the "Highlight" tool to colour clades corresponding to variants of concern. 
-- Can you identify any major differences between this new tree and the previous tree we made from the Nextclade alignment? 
 
 <details><summary>Hint</summary>
 To set the model used by IQ-Tree you can use the option `-m GTR+G`.
 </details> 
 
 <details><summary>Answer</summary>
-TODO
+
+The command to run the analysis is: 
 
 ```bash
-iqtree2 -s results/mafft_alignment.fa --prefix results/iqtree/uk_india.mafft
+iqtree2 -m GTR+G -s results/mafft/alignment.fa --prefix results/iqtree/uk_india_mafft
 ```
+
+We have used the option `-m GTR+G` to tell _IQ-Tree_ to use that specific substition model, instead of trying to infer the best model for our data. 
+The other options are similar to what we used before, expect we use our MAFFT alinment as input and use a new output prefix for this run. 
+
+We can open a new _FigTree_ window and go to <kbd>File > Open...</kbd> to open the file named `uk_india_mafft.treefile`. 
+This should display our new tree. 
+We can then go to <kbd>File > Import Annotation...</kbd> to import our metadata sheet. 
+Going to <kbd>Tip Labels</kbd> on the menu on the left, we can then name our tips according to the `scorpio_call` column, which includes the _Variant of Concern_ classification done by the _Scorpio_ software (part of _Pangolin_).
+
+Once we identify the clade in our tree corresponding to variants of concern, we can use the "Highlight" button on the top to add colour annotations to our tree. 
 </details> 
 :::
 
 :::note
-**Very large alignments**
+**Other Alignment Strategies**
 
-*MAFFT* may be substantially slower for a large number of samples. 
-However, it does provide a functionality for adding sequences to an existing alignment (this is one of the methods used for inferring the global SARS-CoV-2 phylogeny). 
-This can be done with the `--add` option and its documentation found on the [MAFFT website](https://mafft.cbrc.jp/alignment/software/addsequences.html).
+There are other commonly used alignment tools used for SARS-CoV-2 genomes:
 
-One of the alternatives to _MAFFT_ include the [`minimap2`](https://lh3.github.io/minimap2/) software, which aligns each consensus sequence to the reference genome. 
-In this case, insertions are not considered during the alignment, since gaps are not introduced in the reference genome. 
-This is the tool used by _Pangolin_.
+- The [`minimap2`](https://lh3.github.io/minimap2/) software has been designed for aligning long sequences to a reference genome. It can therefore be used to align each consensus sequence to the Wuhan-Hu-1 genome. This is the tool internally used by _Pangolin_.
+- _Nextclade_ uses an internal alignment algorithm where each consensus sequence is aligned with the reference genome. The alignment from this tool can also be used for phylogenetic inference, as we have done earlier. 
 
-_Nextclade_ also uses an alignment algorithm where each consensus sequence is aligned with the reference genome. 
-The alignment from this tool can also be used for phylogenetic inference, as we have done earlier. 
+It is worth mentioning that when doing reference-based alignment, insertions relative to the reference genome are not considered. 
 :::
 
 
@@ -264,56 +301,65 @@ The alignment from this tool can also be used for phylogenetic inference, as we 
 
 So far, we have been using all of our assembled samples in the phylogenetic analysis. 
 However, we know that some of these have poorer quality (for example the "barcode01" sample from India had only ~50% genome coverage). 
-Sequences with poor quality result in too many missing or ambiguous bases, which in turn are discarded during phylogenetic tree reconstruction. 
+Although, generally speaking, sequences with missing data are unlikely to substantially affect the phylogenetic results, their placement in the phylogeny will be more uncertain (since several variable sites may be missing data). 
 Therefore, for phylogenetic analysis, it is best if we remove samples with low sequencing coverage, and instead focus on high-quality samples (e.g. with >90% coverage). 
 
-Even in samples with high quality, there is often a high percentage of missing data at the start and end of the consensus sequence. 
-Therefore, it is common to _mask_ the first and last few hundred bases of the alignment, to avoid including spurious variable sites in the analysis. 
+A more serious issue affecting phylogenies is the presence of recurrent errors in certain positions of the genome. 
+One of the regions with a higher prevalence of errors is the start and end of the consensus sequence, which also typically contains many missing data (see example in Figure 2).
+Therefore, it is common to _mask_ the first and last few bases of the alignment, to avoid including spurious variable sites in the analysis. 
 
-Finally, work by [Turakhia, de Maio, Thornlow, et al. (2020)](https://doi.org/10.1371/journal.pgen.1009175) has identified several sites that show an unexpected mutation pattern. 
-This includes for example mutations that unexpectedly occur multiple times in different parts of the tree ([homoplasies](https://en.wikipedia.org/wiki/Homoplasy)) and often coincide with primer binding sites (from amplicon-based protocols) and can even be lab-specific (e.g. due to their protocols and data processing pipelines). 
+Additionally, work by [Turakhia, de Maio, Thornlow, et al. (2020)](https://doi.org/10.1371/journal.pgen.1009175) has identified several sites that show an unexpected mutation pattern. 
+This includes, for example, mutations that unexpectedly occur multiple times in different parts of the tree ([homoplasies](https://en.wikipedia.org/wiki/Homoplasy)) and often coincide with primer binding sites (from amplicon-based protocols) and can even be lab-specific (e.g. due to their protocols and data processing pipelines). 
 The work from this team has led to the creation of a list of [problematic sites](https://virological.org/t/masking-strategies-for-sars-cov-2-alignments/480), which are recommended to be _masked_ before running the phylogenetic analysis. 
 
 ![Example of errors in phylogenetic inference due to recurrent sequencing errors. Source: [Figure 1 in Turakhia, de Maio, Thornlow et al. (2020)](https://journals.plos.org/plosgenetics/article/figure?id=10.1371/journal.pgen.1009175.g001)](https://journals.plos.org/plosgenetics/article/figure/image?size=inline&id=10.1371/journal.pgen.1009175.g001)
 
-So, let's try to improve our alignment by:
-
-- Masking the first and last 100bp of the sequences in the alignment.
-- Masking the positions identified as problematic sites.
-
-To mask a fasta file we can use the `bedtools` software, which comes with a collection of tools for genomic analysis.
-One of the tools provided is called `bedtools maskfasta` and can mask a FASTA file based on either a VCF, BED or GFF file (see the [common file formats page](03-intro_ngs.html#Sequencing_File_Formats) if you need a reminder of what these are). 
-
-Let's start by masking the problematic sites, which are [provided as a VCF file](https://raw.githubusercontent.com/W-L/ProblematicSites_SARS-CoV2/master/problematic_sites_sarsCov2.vcf).
-We have already downloaded this file to our course materials folder, so we can go ahead and use this tool to mask our file:
+So, let's try to improve our alignment by masking the problematic sites, which are [provided as a VCF file](https://raw.githubusercontent.com/W-L/ProblematicSites_SARS-CoV2/master/problematic_sites_sarsCov2.vcf).
+This file also includes the first and last positions of the genome as targets for masking (positions 1–55 and 29804–29903, relative to the Wuhan-Hu-1 reference genome MN908947.3). 
+The authors also provide a [python script](https://github.com/W-L/ProblematicSites_SARS-CoV2/blob/master/src/mask_alignment_using_vcf.py) for masking a multiple sequence alignment. 
+We have already downloaded these files to our course materials folder, so we can go ahead and use the script to mask our file:
 
 ```bash
-bedtools maskfasta -fi results/alignment.fa -bed resources/problematic_sites_mask.vcf -fo results/alignment_problematic_sites_masked.fa
+python scripts/mask_alignment_using_vcf.py --mask -v resources/problematic_sites.vcf -i results/mafft/alignment.fa -o results/mafft/alignment_masked.fa
 ```
 
 If we open the output file with AliView, we can confirm that the positions specified in the VCF file have now been masked with the missing 'N' character.
 
+:::note
+**Using Python Scripts**
+
+Bioinformaticians often write custom scripts for particular tasks. 
+In this example, the authors of the "problematic sites" wrote a _Python_ script that takes as input the FASTA file we want to mask as well as a VCF with the list of sites to be masked. 
+
+Python scripts are usually run with the `python` program and often accept options in a similar way to other command-line tools, using the syntax `--option` (this is not always the case, but most professionally written scripts follow this convention). 
+To see how to use the script we can use the option `--help`. 
+For our case, we could run: 
+
+```console
+$ python scripts/mask_alignment_using_vcf.py --help
+```
+:::
+
 :::exercise
-- Apply another mask to the file we just created, but this time using the BED file `resources/start_end_mask.bed` as the mask. Save the output as a new file called `results/alignment_fully_masked.fa`. 
-- Open the new file in AliView and confirm that all the positions at the start and end of the alignment have been converted to the 'N' character.
-- Re-run the phylogenetic inference using IQ-Tree using the "GTR+G" substitution model. 
+
+- Build a new phylogenetic tree from the masked alignment, using the _GTR+G_ substitution model. Save the output with prefix `results/iqtree/uk_india_mafft_masked`
+- Open this new tree on FigTree and compare with the previous tree generated from the non-masked alignment. Are the trees very different? 
 
 <details><summary>Answer</summary>
-TODO
+
+We can run `iqtree2` similarly to how we've done before: 
+
+```bash
+iqtree2 -m GTR+G -s results/mafft/alignment_masked.fa --prefix results/iqtree/uk_india_mafft_masked
+```
+
+Opening both trees with FigTree and comparing them side-by-side, we can see that they are generally similar, with the same samples clustering together in both. 
+One of the most noticeable differences is that the branch lengths have changed. 
+This makes sense, because masking the genomes should have removed mutations that are errors rather than true variation, leading to differences in the estimated distances between samples. 
+
 </details>
-:::
 
-:::note
-Add note about processing the VCF file used for masking. 
-We can use bcftools to filter sites marked as "mask" and not the ones marked as "caution". 
 :::
-
-<!--
-- These can be found here: https://github.com/W-L/ProblematicSites_SARS-CoV2
-- more info here (note that not all sites in the VCF should be masked): https://virological.org/t/masking-strategies-for-sars-cov-2-alignments/480
-- This script shows how these are masked: https://github.com/roblanf/sarscov2phylo/blob/master/scripts/mask_alignment.sh
-- We could also use the more standard https://bedtools.readthedocs.io/en/latest/content/tools/maskfasta.html
--->
 
 
 ## Summary
@@ -322,7 +368,12 @@ We can use bcftools to filter sites marked as "mask" and not the ones marked as 
 
 **Key Points**
 
-- one
-- two
+- Methods for phylogenetic inference include _parsimony_ and _maximum likelihood_. Maximum likelihood methods are preferred because they include more features of the evolutionary process. However, they are computationally more demanding than parsimony-based methods. 
+- To build a phylogenetic tree we need a _multiple sequence alignment_ of the sequences we want to infer a tree from. 
+- In SARS-CoV-2, alignments are usually done against the Wuhan-Hu-1 reference genome.
+- We can use the software `mafft` to produce a multiple sequence alignment. The option `--addfragments` is used to produce an alignment against the reference genome. 
+- The software `iqtree` can be used for inferring trees from an alignment using maximum likelihood. This software supports a wide range of _substitution models_ and a method to identify the model that maximizes the likelihood of the data.
+- Some of the substituion models that have been used to build global SARS-CoV-2 phylogenies are "GTR+G" and "GTR+I". 
+- Before building a phylogeny, we should be careful to _mask_ problematic sites that can lead to misleading placements of samples in the tree. The [SARS-CoV-2 Problematic Sites repository](https://github.com/W-L/ProblematicSites_SARS-CoV2) provides with an updated list of sites that should be masked.
 
 :::
