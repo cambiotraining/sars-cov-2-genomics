@@ -106,11 +106,14 @@ pango-designation used by pangoLEARN/Usher: v1.2.101
 pango-designation aliases: 1.2.112
 ```
 
-To run _Pangolin_ we can use the following syntax:
+To run _Pangolin_ we can use the following command:
 
 ```bash
-pangolin --outdir directory/of/your/choice --outfile name_of_your_choice.csv path/to/your/sequences.fasta
+pangolin --outdir directory/of/your/choice path/to/your/sequences.fasta
 ```
+
+This will generate a "comma-separated values" (CSV) file called `lineage_report.csv` in the output directory we specify. 
+The file will contain information about the lineage assignment analysis from _Pangolin_, including WHO variants of concern identified using the _Scorpio_ software. 
 
 :::exercise
 
@@ -120,16 +123,16 @@ There you will find a directory called `data`, which contains a file called `all
 To run `pangolin` on our sequences with default options, we would use the following command: 
 
 ```bash
-pangolin --outdir results/pangolin/ --outfile uk_india_report.csv data/all_sequences.fa
+pangolin --outdir results/pangolin/ data/all_sequences.fa
 ```
 
-- Create a directory for the output.
-- Look at the help documentation (`pangolin --help`) and modify the command above to add options for:
-  - Using _UShER_ for placing sequences on the phylogeny (instead of the default, which uses _pangoLEARN_).
+- Create a directory for the output (look at the command above to see what this directory should be called).
+- Look at _Pangolin_'s help documentation (`pangolin --help`) and look for the options you can use to modify the command above to:
+  - Use _UShER_ for placing sequences on the phylogeny (instead of the default, which uses _pangoLEARN_).
   - Output the multiple sequence alignment generated during the analysis.
   - Use 8 CPUs (or "threads") for parallel processing.
 - Run the modified command on the terminal. (**Bonus:** save the command in a new shell script for reproducibility.)
-- Using the file explorer <i class="fa-solid fa-folder"></i>, open the results CSV file and:
+- Using the file explorer <i class="fa-solid fa-folder"></i>, go to the output directory and open the file named `lineage_report.csv` (this will open with the spreadsheet software).
   - Check whether there any variants of concern (these are found in the column called `scorpio_call`).
   - Check whether there are any problematic samples.
 
@@ -152,12 +155,12 @@ From that documentation we can see the following three options that would do wha
 Therefore, the command to run our analysis is:
 
 ```bash
-pangolin --usher --alignment --outdir results/pangolin/ --outfile uk_india_report.csv --threads 8 data/all_sequences.fa
+pangolin --usher --alignment --outdir results/pangolin/ --threads 8 data/all_sequences.fa
 ```
 
 Using a text editor like `nano`, we could include this command in a script and save it in the `scripts` folder with the filename `pangolin.sh` (or another informative name of your choice). 
 
-We can open the `uk_india_report.csv` file on our spreadsheet software to look at the results. 
+We can open the `pangolin_report.csv` file on our spreadsheet software to look at the results. 
 In the column called "scorpio_call" we can see several samples that were classified as "Alpha" and "Delta" variants. 
 Looking at the column "status", we can see that one of the samples failed the quality control applied by `pangolin`. 
 This is the nanopore sample `barcode01`, which we had already identified as being slightly problematic, with a high percentage of ambiguous 'N' bases. 
