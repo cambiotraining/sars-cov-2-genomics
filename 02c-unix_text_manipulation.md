@@ -286,8 +286,9 @@ We can see the result is all the lines that matched this word pattern.
 :::exercise
 
 Consider the file we previously saved in `results/variants.tsv`.
+(Note, if you don't have this file, run the following commands: `mkdir -p results; mv output.tsv results/variants.tsv`)
 
-1. Create a new file called `results/alpha.tsv` that contains only the Alpha variant samples. <details><summary>Hint</summary>You can use `grep` to find a pattern in a file.</details>
+1. Create a new file called `results/alpha.tsv` that contains only the Alpha variant samples. <details><summary>Hint</summary>You can use `grep` to find a pattern in a file. You can use `>` to _redirect_ the output of a command to a new file.</details>
 2. How many samples are you left with?
 
 <details><summary>Answer</summary>
