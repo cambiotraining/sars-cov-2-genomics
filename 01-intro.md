@@ -150,11 +150,12 @@ This is required, since the starting amount of viral genetic material in a sampl
 The most popular protocol for amplicon sequencing has been developed by the [ARTIC network](https://artic.network/), whose aim is to develop standardised protocols for viral sample processing.
 The group has designed and tested a panel of primers that work well to amplify the SARS-CoV-2 genome in a mostly unbiased way. 
 This is a challenging task, as the protocol involves pooling hundreds of primers together in a single reaction!
-Also, as the virus mutates in the population, primers that used to work in the original template genome may no longer work in the new variants circulating in the population. 
+Also, as the virus mutates in the population, primers that used to work in the original template genome may no longer work in the new variants circulating in the population ("primer erosion"). 
 Therefore, the ARTIC primers have gone through several versions, which are updated and optimised to work on the most common circulating lineages. 
 These are called "primer schemes" and are made publicly available in a [public repository](https://github.com/artic-network/primer-schemes).
 
 ![Schematic of the ARTIC protocol. The RNA is reverse-transcribed to cDNA, then two pools of primers (that cover the entire SARS-CoV-2 genome) are used to PCR-amplify the material. This material is used to prepare sequencing libraries for the relevant platform that will be used downstream (Illumina or Nanopore). Source: [Gohl et al. 2020](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-020-07283-6/figures/1)](images/artic_protocol.png)
+
 
 Besides amplicon sequencing, other methods can also be used to obtain SARS-Cov-2 genomes:
 
@@ -177,6 +178,23 @@ This gives them great flexibility, making them an excellent solution for rapidly
 
 By comparison, _Illumina_ platforms give higher throughput, are cheaper to run per sample and have lower error rates. 
 However, they require substantial upfront cost to setup and equip in the lab and take longer to run.
+
+:::
+
+
+:::
+**Alternative Amplicon Sequencing Protocols**
+
+Although the ARTIC protocol is one of the most popular used in routine SARS-CoV-2 sequencing, there are alternative sets of primers and protocols available. 
+
+For example, Thermo Fisher has the [Ion AmpliSeq SARS-CoV-2](https://www.thermofisher.com/uk/en/home/life-science/sequencing/dna-sequencing/microbial-sequencing/microbial-identification-ion-torrent-next-generation-sequencing/viral-typing/coronavirus-research.html) kit, designed to work with _Ion Torrent_ sequencing platforms.
+
+An alternative protocol that has been developed by the community is the [_midnight protocol_](https://www.protocols.io/view/sars-cov2-genome-sequencing-protocol-1200bp-amplic-rm7vz8q64vx1/v6). 
+This protocol consists of amplifying larger PCR fragments, thus requiring fewer primer pairs than the ARTIC protocol. 
+This leads to a lower complexity in the multiplex PCR reaction and fewer chances of PCR dropout due to mis-priming againts new variants. 
+However, because it uses longer PCR fragments, it can only be used with long-read sequencing (_Nanopore_) and not short-read sequencing (_Illumina_).
+
+The [_Coronavirus Method Development Community_](https://www.protocols.io/workspaces/coronavirus-method-development-community) on the protocols.io platform is a good source of alternative sequencing protocols for SARS-CoV-2.
 
 :::
 
