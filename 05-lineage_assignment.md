@@ -48,12 +48,17 @@ A full explanation and definitions of such variants is given in the [World Healt
 The main classification systems currently in use are: 
 
 - [GISAID clades](https://www.gisaid.org/references/statements-clarifications/clade-and-lineage-nomenclature-aids-in-genomic-epidemiology-of-active-hcov-19-viruses/)
-- [Nextstrain clades](https://nextstrain.org/blog/2020-06-02-SARSCoV2-clade-naming)
+- [Nextstrain clades](https://github.com/nextstrain/ncov/blob/master/defaults/clades.tsv)
 - [Pango lineages](https://cov-lineages.org/lineage_list.html)
 - [World Health Organisation (WHO) variants](https://www.who.int/en/activities/tracking-SARS-CoV-2-variants)
 
 In practice, there is a big overlap between these different nomenclature systems, with WHO variants having a direct match to Pango lineages and Nextstrain clades. 
 In fact, the different teams work together to try and harmonise the nomenclature used, and thus facilitate the interpretation of sequence analysis.
+
+The two most popular systems - _Nextclade_ and _Pangolin_ - have slightly different levels of resolution. 
+_Nextclade_'s [nomenclature system](https://nextstrain.org/blog/2021-01-06-updated-SARS-CoV-2-clade-naming) was developed to highlight diversity patterns at a larger scale, allowing discussions of SARS-CoV-2 diversity at a global level and over larger time scales. 
+On the other hand, _Pangolin_'s [nomenclature system](https://www.pango.network/the-pango-nomenclature-system/statement-of-nomenclature-rules/) is more fine-grained, aiming to follow the dynamics of the pandemic as it unfolds. 
+The two systems are complementary to each other, and our analysis of SARS-CoV-2 sequences should include both tools. 
 
 :::note
 **What is a variant?**
