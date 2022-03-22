@@ -166,15 +166,22 @@ We will see an example of this in the following exercise.
 In the course materials directory `02-consensus/uk_illumina/` we have several FASTQ files that we will use to assemble SARS-CoV-2 genomes.
 But first, we will run FastQC to check the quality of these files. 
 
-This is the command for our samples:
+This is the basic command we could use in our samples:
 
 ```bash
 fastqc --outdir results/fastqc data/reads/*.fastq.gz
 ```
 
-- Create the output directory for the analysis.
-- Modify the command above to add an option to run the analysis using 8 threads in parallel (or CPUs). Check the tool's help (`fastqc --help`) to see what the option to do this is called.
-- Run the analysis. You will know it is running successfully because it prints progress of its analysis on the screen.
+- Create the output directory for the analysis (`results/fastqc`).
+<details><summary>Hint</summary>
+The command to create directories is `mkdir`. 
+By default, the `mkdir` directory only creates one directory at a time. 
+In this case we need to create first the `results` directory and then the `results/fastqc` within it. 
+Alternatively, both directories can be created at once using the `-p` option.
+</details>
+- Modify the `fastqc` command shown above to add an option to run the analysis using 8 threads in parallel (or CPUs). Check the tool's help (`fastqc --help`) to see what the option to do this is called.
+- Run the command. You will know it is running successfully because it prints progress of its analysis on the screen.
+
 
 <details><summary>Answer</summary>
 
@@ -184,7 +191,10 @@ First, we can create a directory to output our results:
 mkdir -p results/fastqc
 ```
 
-To check the options available for this tool, we can run `fastqc --help` to get the complete documentation. 
+The `-p` option ensures that both directories are created in one step. 
+Otherwise, since the parent directory `results` did not exist, `mkdir` would throw an error. 
+
+To check the options available with _FastQC_ we can run `fastqc --help` to get the complete documentation. 
 As we scroll through the options, we can see the relevant one for running the analysis in parallel:
 
 ```
@@ -227,10 +237,13 @@ For example, looking at the "Per base sequence quality" section for one of our s
 ![Sequence quality plot from FastQC for one of our samples. The blue line shows the average across all samples. This sample is very high quality as all sequences have quality > 20 across the entire length of the reads.](images/fastqc_quality.png)
 
 :::note
-Although FastQC can run its analysis on any FASTQ files, it has been designed for Illumina data specifically. 
+**Quality Control Nanopore Reads**
 
-For Nanopore data, running FastQC on the basecalled files is not a standard procedure. 
-Instead, you can use [MinIONQC](https://github.com/roblanf/minion_qc), which takes as input the `sequence_summary.txt` file, which is a standard output file from the Guppy software used to convert Nanopore electrical signal to sequence calls. 
+Although FastQC can run its analysis on any FASTQ files, it has mostly been designed for Illumina data. 
+You can still run FastQC on basecalled Nanopore data, but some of the output modules may not be as informative. 
+FastQC can also run on FAST5 files, using the option `--nano`. 
+
+You can also use [MinIONQC](https://github.com/roblanf/minion_qc), which takes as input the `sequence_summary.txt` file, which is a standard output file from the Guppy software used to convert Nanopore electrical signal to sequence calls. 
 :::
 
 
