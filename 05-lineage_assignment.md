@@ -112,8 +112,13 @@ To run _Pangolin_ we can use the following command:
 pangolin --outdir directory/of/your/choice path/to/your/sequences.fasta
 ```
 
-This will generate a "comma-separated values" (CSV) file called `lineage_report.csv` in the output directory we specify. 
+This will generate a "comma-separated values" (CSV) file called `lineage_report.csv` in the output directory that we specify. 
 The file will contain information about the lineage assignment analysis from _Pangolin_, including WHO variants of concern identified using the _Scorpio_ software. 
+A detailed explanation of the columns of this file is given in the [Pangolin documentation page](https://cov-lineages.org/resources/pangolin/output.html).
+
+One thing to note is that first _Pangolin_ will check if the sequence is identical to a representative sequence of a lineage (a representative sequence is one that is used to train the models that assign sequences to lineages). 
+If it is, then `pangoline` doesn't run the lineage assignment step with _pangoLearn_/_Usher_ nor the variant classification with _Scorpio_.
+In these cases, the sequence will have the note "Assigned from designation hash" in the output CSV report file.
 
 :::exercise
 
@@ -161,9 +166,13 @@ pangolin --usher --alignment --outdir results/pangolin/ --threads 8 data/all_seq
 Using a text editor like `nano`, we could include this command in a script and save it in the `scripts` folder with the filename `pangolin.sh` (or another informative name of your choice). 
 
 We can open the `pangolin_report.csv` file on our spreadsheet software to look at the results. 
-In the column called "scorpio_call" we can see several samples that were classified as "Alpha" and "Delta" variants. 
-Looking at the column "status", we can see that one of the samples failed the quality control applied by `pangolin`. 
-This is the nanopore sample `barcode01`, which we had already identified as being slightly problematic, with a high percentage of ambiguous 'N' bases. 
+From this table, we can make several observations: 
+
+- In the column called "scorpio_call" we can see several samples that were classified as "Alpha" and "Delta" variants. 
+- Looking at the column "status", we can see that one of the samples failed the quality control applied by `pangolin`. This is the nanopore sample `barcode01`, which we had already identified as being slightly problematic, with a high percentage of ambiguous 'N' bases. 
+- The samples `barcode03`, `barcode26` and `barcode27` were not assigned a lineage. In this case, the reason is that the _Scorpio_ result disagreed with the lineage assigned by _UShER_. This could be because of missing data in key identifying mutations that led to a discrepancy between the tools. 
+- Ten of our samples were identical to the representative sequence of certain lineages, which is indicated by the "note" column that says "Assigned from designation hash". In these cases, `pangolin` does not run the Scorpio analysis. These are "AY" lineages, which is the Pangolin designation for sub-lineages of B.1.617.2, the Delta variant lineage (see the [lineage list page](https://cov-lineages.org/lineage_list.html)). We could later manually annotate these as also being Delta variant.
+- Some samples have a "conflict" score > 0. In these cases, we can see that UShER found several possible lineages where the sequence could fit. We should take care in checking these results later in our analysis, perhaps complementing them with other tools such as _Nextclade_ or building a phylogeny from our samples. 
 
 </details>
 
@@ -258,6 +267,10 @@ phylogeny button on the top-right.
 From there, we can see several variants classifed as "Delta" and "Alpha". 
 Looking at some specific ones, we can see they are the same samples that _Pangolin_ identified as variants of concern. 
 For example, sample ERR5921254 is classified as "21J (Delta)" by _Nextclade_ and as "Delta (AY.4-like)" by _Pangolin/Scorpio_.
+
+There were some samples that _Pangolin_ had not assigned a lineage because there was a conflict between _UShER_ and _Scorpio_ (samples `barcode03`, `barcode26` and `barcode27`). 
+_Nexclade_ does classify these sequences as B.1.1.7 (Alpha), which seems to agree with the _UShER_ assignment. 
+However, these samples are highlighted as having too much missing data, which may be the reason why _Scorpio_ did not classify them as a variant of concern. 
 
 
 **A3.**
