@@ -83,28 +83,16 @@ On the other hand, Nanopore is a very flexible platform, especially its portable
 They require less up-front cost allowing getting started with sequencing very quickly in a standard molecular biology lab.
 :::
 
-## Sequencing File Formats
 
-The raw data from Illumina and Nanopore platforms is very different: Illumina generates images; Nanopore generates current signal. 
-However, they both platforms come with software that converts those raw data to a standard text-based format called FASTQ. 
+## Sequencing File Formats
 
 The use of standard file formats is an important feature of bioinformatic analysis.
 It allows software developers to create tools that work well with each other. 
+For example, the raw data from Illumina and Nanopore platforms is very different: Illumina generates images; Nanopore generates electrical current signal. 
+However, both platforms come with software that converts those raw data to a standard text-based format called **FASTQ**. 
 
 We will go through FASTQ files in some detail, but there are many other file formats used frequently in bioinformatics.
-We list some of the most relevant for our analysis in the table below.
-Follow the links in the table for more details on each format. 
-
-| Format | Description | File Extension |
-| :-: | :- | :- |
-| [FASTA](https://en.wikipedia.org/wiki/FASTA) | nucleotide or amino acid sequences  | `.fa` or `.fas` or `.fasta` |
-| [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) | sequences and their quality scores | `.fq` or `.fastq` (often compressed as `.fq.gz` or `.fastq.gz`) |
-| [SAM](https://en.wikipedia.org/wiki/SAM_(file_format)) | "Sequence Alignment Map" used to store sequences aligned to a reference genome | `.sam` |
-| [BAM](https://en.wikipedia.org/wiki/Binary_Alignment_Map) | same as a SAM file but compressed in binary form | `.bam` |
-| [VCF](https://en.wikipedia.org/wiki/Variant_Call_Format) | "Variant Calling Format" used to store SNP/Indel variants | `.vcf` |
-| [GFF](https://en.wikipedia.org/wiki/General_feature_format) | "General Feature Format" used to store gene coordinates and other features | `.gff` |
-| [BED](https://en.wikipedia.org/wiki/BED_(file_format)) | "Browser Extensible Data" used to store coordinates of genomic regions | `.bed` |
-| [FAST5](https://github.com/mw55309/EG_MinION_2016/blob/master/02_Data_Extraction_QC.md) | file used by Nanopore to store the called sequences (in FASTQ format) as well as the raw signal data from the pore | `.fast5` |
+Check out our page on [Extras → File Formats](106-file_formats.html) to learn more about them.
 
 
 ### FASTQ Files
@@ -327,25 +315,6 @@ In two steps:
 * count the number of lines of the result.
 
 We will see FASTA files several times throughout this course, so it's important to be familiar with them. 
-
-
-<!--
-Maybe include a SAM file in the Unix folder? 
-
-### SAM/BAM Files
-
-SAM/BAM files are used to store the result of aligning sequence reads to a reference genome. 
-These files contain the same information, but one is a plain text file (SAM) and the other is a compressed file in binary form (BAM). 
-BAM files are more commonly used, because they take much less space. 
-
-We will generate this kind file in the [Consensus Assembly section](04-artic_nextflow.md) and explore some of its contents then. 
--->
-
-<!--
-Ideas:
-
-- Provide a pre-aligned BAM file to visualise in IGV (e.g. the nanopore data are quite interesting - because there's loads of errors, highlighting the importance of high depth of sequencing).
--->
 
 
 ## Summary
