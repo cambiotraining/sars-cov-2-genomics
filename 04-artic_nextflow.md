@@ -368,7 +368,7 @@ This contains Nanopore sequencing data for several samples collected in India.
 Nanopore data is organised in directories named according to the convention `barcodeXX` where `XX` is a number. 
 The `--medaka` workflow expects to be given as an input a directory containing several sub-directories named in that way (this is a standard output from the program used to generate FASTQ files from Nanopore data). 
 
-- Using `nano`, open the script found in `india_nanopore/scripts/run_medaka_workflow.sh`.
+- Using `nano`, open the script found in `scripts/run_medaka_workflow.sh`.
 - Fix the code in the script where you see the word "_FIXME_". Output the results to a directory called `results/consensus/`.
 - Run the nextflow command on the terminal. This may take ~5 minutes to complete.
 - Once complete, use the file explorer <i class="fa-solid fa-folder"></i> and go to the results folder to open the file in `pipeline_info/execution_report.html`.
@@ -529,7 +529,7 @@ Two possible reasons that some samples had poor coverage are:
 :::
 
 
-## Cleaning FASTQ Files
+## Cleaning FASTA Files
 
 To proceed with our analysis, we need a FASTA file containing _all_ of our consensus sequences.
 However, our `ncov2019-artic-nf` Nextflow workflow outputs _separate_ FASTA files for each sample and in individual directories. 
