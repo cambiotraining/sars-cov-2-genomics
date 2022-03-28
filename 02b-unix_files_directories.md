@@ -476,7 +476,7 @@ be the last argument), `cp` copies the files to the named directory.
 If given three file names, `cp` throws an error such as the one below, because it is expecting a directory name as the last argument.
 
 ```console
-cp: target 'uk_samples.csv' is not a directory
+cp: target 'run3_samples.csv' is not a directory
 ```
 
 </details>
@@ -513,7 +513,9 @@ data/envelope_protein.fa  data/reference_genome.fa  data/spike_protein.fa
 
 :::exercise
 
-Use the `*` wildcard together with the copy command to copy all the protein files in the `data` folder to the `backup` folder that we created earlier. <details><summary>Hint</summary>Remember the "**c**o**p**y" command is `cp`.</details>
+Use the `*` wildcard together with the copy command to copy all the protein files in the `data` folder to the `backup` folder that we created earlier. 
+
+<details><summary>Hint</summary>Remember the "**c**o**p**y" command is `cp`.</details>
 
 <details><summary>Answer</summary>
 
@@ -530,9 +532,6 @@ We can check the files are all there with `ls backup/*protein.fa`.
 </details>
 
 :::
-
-
-
 
 
 ## Summary
