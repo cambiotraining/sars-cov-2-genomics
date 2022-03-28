@@ -15,9 +15,8 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 - Recognise what the main steps are in processing raw sequencing data to generate consensus genome sequences, including sequence alignment, primer trimming and consensus generation. 
 - Recognise the differences between Illumina and Nanopore pipelines.
-- Apply the `connor-lab/ncov2019-artic-nf` _Nextflow_ pipeline to generate a consensus sequence from Illumina and Nanopore data.
-- Troubleshoot issues when running a _Nextflow_ pipeline and resume the pipeline in case of a failure.
-- Check basic data quality metrics on the assembled sequences and identify sequences for downstream analyses.
+- Apply the `nf-core/viralrecon` _Nextflow_ pipeline to generate a consensus sequence from Illumina and Nanopore data.
+- Interpret and critically evaluate data quality reports from the assembled sequences and identify sequences suitable for downstream analyses.
 
 :::
 
@@ -28,7 +27,7 @@ This section has an accompanying <a href="https://docs.google.com/presentation/d
 
 ## SARS-CoV-2 Consensus Assembly
 
-As we discussed [earlier in the course](01-intro.html), the starting material for sequencing SARS-CoV-2 samples from infected patients is PCR-amplified DNA generated with a panel of primers that covers the whole SARS-CoV-2 genome (these panels are developed and updated by the ARTIC network). 
+As we discussed [earlier in the course](01-intro.html), the starting material for sequencing SARS-CoV-2 samples from infected patients is PCR-amplified DNA generated with a panel of primers that covers the whole SARS-CoV-2 genome (for example the primers developed by the ARTIC network). 
 This material can then be sequenced using either _Illumina_ or _Nanopore_ platforms. 
 
 Although different sotware tools are used depending on which kind of sequencing platform was used, the main goal is the same: to align the sequencing reads to the reference genome, and identify any DNA changes (SNPs or Indels) relative to the reference genome (_Wuhan-Hu-1_).
@@ -41,7 +40,6 @@ The general data processing steps are:
 - Trim the primers from the aligned reads based on the primer location file (BED file).
 - Perform variant calling (SNPs and indels) to identify changes relative to the reference sequence.
 - Generate a consensus sequence for the sample based on those variants.
-- "Mask" low-quality positions to avoid mis-identifying variants.
 
 ![Overview of the consensus assembly procedure from amplicon sequencing reads. In this schematic, each read spans the whole length of a PCR amplicon, which is what is expected from Nanopore reads. With Illumina data, there would be two pairs of reads starting at each end of the PCR amplicon.](images/workflow_overview.svg)
 
@@ -69,12 +67,12 @@ With tagmentation-based methods the fragment may sometimes not contain the prime
 ## Bioinformatic Workflows/Pipelines
 
 As can already be seen from the brief description above, bioinformatic analyses always involve multiple steps where data is gathered, cleaned and integrated to give a final set of processed files of interest to the user. 
-These sequences of steps are called a _workflow_ or _pipeline_. 
-As analyses become more complex, workflows may include the use of many different software tools, each requiring a specific set of inputs and options to be defined. 
+These sequences of steps are called a **workflow** or **pipeline**. 
+As analyses become more complex, pipelines may include the use of many different software tools, each requiring a specific set of inputs and options to be defined. 
 Furthermore, as we want to chain multiple tools together, the inputs of one tool may be the output of another, which can become challenging to manage. 
 
 Although it is possible to code such workflows using plain _shell_ scripts, these often don't scale well across different users and compute setups. 
-To overcome these limitations, dedicated [_workflow management software_](https://en.wikipedia.org/wiki/Workflow_management_system) packages have been developed to help standardise workflows and make it easier for the user to process their data. 
+To overcome these limitations, dedicated [_workflow/pipeline management software_](https://en.wikipedia.org/wiki/Workflow_management_system) packages have been developed to help standardise pipelines and make it easier for the user to process their data. 
 
 <img src="https://raw.githubusercontent.com/nextflow-io/trademark/master/nextflow2014_no-bg.png" alt="Nextflow" style="float:right;width:20%">
 
@@ -92,9 +90,30 @@ These are some of the key advantages of using a standardised workflow for our an
 - Checkpoint and resume - if a workflow fails in one of the tasks, it can be resumed at a later time.
 
 
-## SARS-CoV-2 Workflow {.tabset}
+## SARS-CoV-2 Pipeline {.tabset}
 
-For this section, we will be working from the following directory:
+To generate consensus SARS-CoV-2 genomes from these data, we will use a pipeline that was developed by the _Nextflow_ core team called [`nf-core/viralrecon`](https://nf-co.re/viralrecon) (which was itself inspired by a [previous pipeline from the Connor Lab](https://github.com/connor-lab/ncov2019-artic-nf)). 
+Its objective is to harmonise the assembly of SARS-CoV-2 genomes from both Illumina and Nanopore amplicon sequencing data.
+It can also work with metagenomic data, which we will not cover in this workshop.
+This pipeline therefore includes different sub-pipelines, which are launched depending on the type of sequence data we have.
+Watch the video below to learn more about the development of this pipeline.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7BfuAOjFCFw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Generally speaking, _Nextflow_ pipelines are run with the command `nextflow run PIPELINE_NAME`, where "PIPELINE_NAME" is the name of the pipeline. 
+Pipelines are usually shared in a public repository such as GitHub, and `nextflow` will automatically download the pipeline if it hasn't been downloaded already to your computer.
+
+Let's test our pipeline by looking at its help documentation: 
+
+```console
+$ nextflow run nf-core/viralrecon --help
+```
+
+The command should print a long list of options available with this pipeline.
+Although the `--help` page can be helpful, for pipelines developed by the _Nextflow_ core team it is easier to consult the documentation available online: https://nf-co.re/viralrecon.
+This page includes many details about the pipeline, which tools are used in different steps of the data processing and how to use the pipeline for different types of data. 
+
+To see this pipeline in action, let's change to the following directory of our course materials:
 
 ```console
 $ cd ~/Course_Materials/02-consensus
@@ -103,48 +122,16 @@ $ cd ~/Course_Materials/02-consensus
 This directory contains two sets of sequencing data, from Illumina and Nanopore platforms. 
 These data were generated using the ARTIC protocol with V3 primer scheme.
 
-To generate consensus SARS-CoV-2 genomes from these data, we will use a _Nextflow_ workflow that was developed by the [Connor Lab](https://github.com/connor-lab/ncov2019-artic-nf). 
-Its objective was to harmonise the assembly of SARS-CoV-2 genomes from both Illumina and Nanopore amplicon sequencing data.
-This workflow therefore includes different sub-workflows, which are launched depending on the type of sequence data we have.
-
-To see all the options available with this workflow, we run: 
-
-```console
-$ nextflow run ncov2019-artic-nf --help
-```
-
-```
-Usage:
-  nextflow run connor-lab/ncov2019-artic-nf -profile (singularity,docker,conda) ( --illumina | --nanpolish | --medaka ) --prefix [prefix] [workflow-options]
-
-Description:
-  Turn Nanopore or Illumina SARS-CoV2 sequencing reads generated by ARTIC tiling amplification protocols into consensus sequences.
-    - Nanopore: ARTIC (https://github.com/artic-network/fieldbioinformatics)
-    - Illumina: iVar (https://github.com/andersen-lab/ivar)
-
-  All options set via CLI can be set in conf directory
-
-Nextflow arguments (single DASH):
-  -profile                  Allowed values: conda, singularity, docker, [COG-UK institutional profile]
-
-Mandatory workflow arguments (mutually exclusive):
-  --illumina                Run the Illumina workflow
-  --nanopolish              Run the Nanopore/Nanopolish workflow (https://github.com/jts/nanopolish)
-  --medaka                  Run the Nanopore/Medaka workflow (https://github.com/nanoporetech/medaka)
-
-[...further output omitted...]
-```
-
-From the help output printed above, we can see that there are three mandatory workflow arguments named `--illumina`, `--nanopolish` and `--medaka`. 
-These are the options used to launch each of the sub-workflows available to us, which we detail below.
 
 :::note
+**Reference Genome and Primer Locations**
+
 The _Wuhan-Hu-1_ reference genome sequence and the amplicon primer locations (in BED file format) can all be found on the ARTIC [Primer Schemes repository](https://github.com/artic-network/primer-schemes/tree/master/nCoV-2019). 
-The workflow we will use takes care of downloading these files for us automatically, however it can be useful to know where to find them, in case you want to use other tools that require these files. 
+The pipeline we are using takes care of downloading these files for us automatically, however it can be useful to know where to find them, in case you want to use other tools that require these files. 
 :::
 
 
-### Illumina (FASTQ)
+### Illumina
 
 The Illumina sub-workflow is based on several standard bioinformatic tools and, importantly, on the [iVar](https://andersen-lab.github.io/ivar/html/) software, which was developed for analysing amplicon-based sequencing data.
 
