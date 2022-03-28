@@ -22,7 +22,7 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 
 :::note
-This section has an accompanying <a href="https://docs.google.com/presentation/d/1rRrsHD6v0a9kH9MYxJZNMw56dRKAeLxgNjdG9w7Bic4/edit?usp=sharing" target="_blank">slide deck</a>.
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1urubrzjF6VzpWfknqnYMjbMcIQwcO2p1OQSE9-paAUI/edit?usp=sharing" target="_blank">slide deck</a>.
 :::
 
 

@@ -19,7 +19,7 @@ pagetitle: "The Unix Shell"
 :::
 
 :::note
-This section has an accompanying <a href="https://docs.google.com/presentation/d/1lhN16pFpphxz2oO1T9x8xnSj6JRHeV9PLNXhK0FJZ2c/edit?usp=sharing" target="_blank">slide deck</a>.
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1DJFWHu9sbJx3CmexGFxhb6gbK5gOmuXpPMEH8Mj-Sk4/edit?usp=sharing" target="_blank">slide deck</a>.
 :::
 
 ## Working Directory
