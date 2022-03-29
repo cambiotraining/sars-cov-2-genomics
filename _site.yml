@@ -52,6 +52,8 @@ navbar:
       menu:
         - text: "Unix Cheatsheet"
           href: 102-unix_cheatsheet.html
+        - text: "Common File Formats"
+          href: 106-file_formats.md
         - text: "Windows Subsystem for Linux"
           href: 104-wsl_windows.html
         - text: "Visual Studio Code"
