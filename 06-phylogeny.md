@@ -33,6 +33,26 @@ TODO:
 - Mention interpretation of branch length in particular SARS-CoV-2 has ~2 mutations per month (probably replication errors), leading to very short branch lengths and polytomies. 
 - Note about bootstraping - should probably be avoided, since there are usually too few sites for meaningful results. 
 
+
+- Multifurcations happen when several samples have the same sequence, so the branch lengths between them are zero, so they all collapse to a single node. This can happen for example if you have a local outbreak of a variant where every sample has the same variant.
+- Recombination can cause problems in phylogenies. This is when two viral sequences recombine with each other, so now the new sequence has part of its genome closely-related to one parent and the other from the other parent. This can cause problems with phylogenetic trees. There are software that can detect recombination events. In particular the software RIPPLES can work with large sample sizes.
+
+### Alignment
+
+To build a phylogenetic tree we need to start with all our sequences aligned to each other. 
+The alignment might result in _gaps_ in some sequences, where missing nucleotides in some sequences are represented with `-` character. 
+The alignment is usually stored as a FASTA file, and all sequences have to be of the same length (because they are aligned to each other). 
+
+Gaps (`-`) and ambiguous positions (`N`) are treated as missing data by the phylogenetic methods. 
+
+Something to note is that phylogenetic inference assumes that the alignments we give are correct. 
+However, errors in the consensus sequence or missing data can sometimes lead to poor alignments.
+One thing to pay attention to is whether there are very long branches in our trees, suggesting a sample with an unusual high number of mutations. 
+Inspecting these samples may reveal errors in the alignment, for example due to high proportion of missing data that leads to poor alignments, which may result in false variable positions. 
+
+Other errors are harder to detect but work from Turakaia et al was able to build a collection of recurrent errors that affect phylogenies.
+
+
 ### Tree Inference
 
 There are broadly three types of methods: 
@@ -51,19 +71,24 @@ Popular methods of this kind are _neighbour-joining_ (NJ) or
 Infers a tree that requires the fewest number of mutations needed along each branch of the tree to explain the data. 
 
 This method can be inaccurate when there are long branches in the tree (this problem is referred to as "long branch attaction"). 
-For SARS-CoV-2 in particular, this is not a big problem, because the sequences tend to be very similar to each other. 
+However, for SARS-CoV-2 this is not a big problem, because the sequences tend to be very similar to each other. 
+
+In fact, a recent tool called _UShER_ has been developed for SARS-CoV-2 analysis using a parsimony-based method. 
+This tool was developed to be very efficient at working with millions of samples, which is harder with maximum likelihood methods. 
 
 #### Maximum Likelihood
 
+- Uses a probabilistic model for genome evolution.
 - Model of evolution:
   - DNA substituion model
     - JC69 assumes only one mutation rate
     - HKY85 assumes different mutation rates (transitions have different rates)
     - GTR is another one
   - Rate heterogeneity:
-    - Invariant sites 
-    - Rate variation (Gamma models used)
-- Generally, more complex models give better results (but take longer to run and require more data)
+    - Invariant sites - the model will assume that a certain proportion of the sites in the genome might never change.
+    - Rate variation (Gamma models used) - the model will assume that different sites of the genome might evolve at different rates.
+- Generally, more complex models give better results (but are more computationally demanding and require more data)
+-  
 -->
 
 
