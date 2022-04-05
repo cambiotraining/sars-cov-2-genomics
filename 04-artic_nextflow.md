@@ -471,7 +471,7 @@ For each sequence, it contains information about:
 - `sample_name` The name of the sample.
 - `pct_N_bases` The percentage of bases in the consensus sequence that were marked as ambiguous ('N'). These are bases that didn't pass the minimum sequencing depth threshold (10x for Illumina or 20x for Nanopore).
 - `pct_covered_bases` The percentage of bases that were called (i.e. above the sequencing depth threshold).
-- `longest_no_N_run` The maximum length of consecutive ambiguous 'N' bases in the consensus sequence.
+- `longest_no_N_run` The maximum length of consecutive non-missing ('N') bases in the consensus sequence.
 - `num_aligned_reads` Total number of reads aligned to the reference genome.
 - `fasta` Name of the FASTA file.
 - `bam` Name of the BAM file.
@@ -479,9 +479,9 @@ For each sequence, it contains information about:
 
 The **default quality thresholds are very permissive** (and unfortunately cannot be changed). 
 A sample "passes" as high quality if at least 50% of the genome is covered. 
-This is not a very high threshold, and typical recommendations are to only use samples in downstream analysis if at they have at least 90% coverage. 
+This is not a very high threshold, and typical recommendations are to only use samples in downstream analysis if at they have at least 80-90% coverage. 
 
-Therefore, it is always good to open this file and sort the samples by each of these quality metrics to identify any problematic samples (and exclude them from downstream analysis). 
+Therefore, it is always good to open this file and sort the samples by each of these quality metrics to identify any problematic samples (and consider excluding them from downstream analysis). 
 
 Another helpful quality control output are the plots found in the `qc_plots` folder.
 
