@@ -38,9 +38,9 @@ navbar:
         - text: "Intro to NGS Data"
           href: 03-intro_ngs.html
         - text: "Consensus Assembly"
-          href: 04-artic_nextflow.html
+          href: 04-consensus.html
         - text: "Lineages and Variants"
-          href: 05-lineage_assignment.html
+          href: 05-lineage_analysis.html
         - text: "Building Phylogenies"
           href: 06-phylogeny.html
         # - text: "Phylogenetic Placement"
@@ -53,7 +53,7 @@ navbar:
         - text: "Unix Cheatsheet"
           href: 102-unix_cheatsheet.html
         - text: "Common File Formats"
-          href: 106-file_formats.md
+          href: 106-file_formats.html
         - text: "Windows Subsystem for Linux"
           href: 104-wsl_windows.html
         - text: "Visual Studio Code"

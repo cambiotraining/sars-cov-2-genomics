@@ -2,6 +2,14 @@
 pagetitle: "SARS-CoV-2 Genomics"
 ---
 
+:::warning
+**Update May 2022** 
+
+Please note that this is an old version of this lesson for workshops that ran prior to May 2022. 
+We kept this in the materials as a reference, but would recommend that you look at the [new version of the lesson](05-lineage_analysis.html) instead.
+:::
+
+
 # Lineage Assignment and Variant Classification
 
 ::: highlight

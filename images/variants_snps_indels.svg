@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="193.94745mm"
+   width="209.5558mm"
    height="36.007191mm"
-   viewBox="0 0 193.94745 36.007191"
+   viewBox="0 0 209.5558 36.007191"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
@@ -42,8 +42,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="379.84178"
-     inkscape:cy="28.214358"
+     inkscape:cx="283.0678"
+     inkscape:cy="111.78333"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -72,7 +72,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(13.769481,-41.566963)">
+     transform="translate(29.377828,-41.566963)">
     <circle
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.30000001;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3552"
@@ -331,46 +331,46 @@
     <text
        id="text3622"
        y="53.10162"
-       x="-11.205173"
+       x="-26.575809"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        xml:space="preserve"><tspan
          style="font-size:4.23333311px;stroke-width:0.26458332"
          y="53.10162"
-         x="-11.205173"
+         x="-26.575809"
          id="tspan3620"
-         sodipodi:role="line">sample 1</tspan></text>
+         sodipodi:role="line">[delta] sample 1</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="-11.1721"
+       x="-26.542736"
        y="58.480408"
        id="text3626"><tspan
          sodipodi:role="line"
          id="tspan3624"
-         x="-11.1721"
+         x="-26.542736"
          y="58.480408"
-         style="font-size:4.23333311px;stroke-width:0.26458332">sample 2</tspan></text>
+         style="font-size:4.23333311px;stroke-width:0.26458332">[delta] sample 2</tspan></text>
     <text
        id="text3630"
        y="63.859188"
-       x="-11.256849"
+       x="-27.640345"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        xml:space="preserve"><tspan
          style="font-size:4.23333311px;stroke-width:0.26458332"
          y="63.859188"
-         x="-11.256849"
+         x="-27.640345"
          id="tspan3628"
-         sodipodi:role="line">sample 3</tspan></text>
+         sodipodi:role="line">[alpha] sample 3</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="-11.358135"
+       x="-27.741631"
        y="69.237999"
        id="text3634"><tspan
          sodipodi:role="line"
          id="tspan3632"
-         x="-11.358135"
+         x="-27.741631"
          y="69.237999"
-         style="font-size:4.23333311px;stroke-width:0.26458332">sample 4</tspan></text>
+         style="font-size:4.23333311px;stroke-width:0.26458332">[alpha] sample 4</tspan></text>
   </g>
 </svg>
