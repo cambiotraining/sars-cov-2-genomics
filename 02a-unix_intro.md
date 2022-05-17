@@ -2,7 +2,7 @@
 pagetitle: "The Unix Shell"
 ---
 
-:::note
+:::box
 These materials are based on the [Carpentries Shell Lesson](https://swcarpentry.github.io/shell-novice/) with credit to their authors and contributors.
 
 <a href="https://creativecommons.org/licenses/by/4.0/legalcode"><img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by.png" alt="CC BY 4.0" style="float:left;padding-top:25px;padding-bottom:25px;padding-right:3px;width:10%;"></a>
@@ -13,9 +13,6 @@ Greg Wilson, Gerard Capes, Gabriel A. Devenyi, Christina Koch, Raniere Silva, As
 Zenodo. http://doi.org/10.5281/zenodo.3266823
 :::
 
-:::note
-This section has an accompanying <a href="https://docs.google.com/presentation/d/1DJFWHu9sbJx3CmexGFxhb6gbK5gOmuXpPMEH8Mj-Sk4/edit?usp=sharing" target="_blank">slide deck</a>.
-:::
 
 # The Unix Shell: Introduction
 
@@ -30,7 +27,10 @@ This section has an accompanying <a href="https://docs.google.com/presentation/d
 
 - List some advantages of using the Unix command line, compared to graphical user interfaces.
 - Run and modify the behaviour of a simple command.
+:::
 
+:::note
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1DJFWHu9sbJx3CmexGFxhb6gbK5gOmuXpPMEH8Mj-Sk4/edit?usp=sharing" target="_blank">slide deck</a>.
 :::
 
 ## Overview
