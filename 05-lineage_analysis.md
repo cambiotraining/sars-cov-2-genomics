@@ -164,13 +164,12 @@ When using the _Nextclade_ web application, the data does not leave your compute
 
 :::exercise
 
-In this exercise we will work with 48 consensus sequences from the UK, processed with the `nf-core/viralrecon` pipeline. 
-This is similar to what we did in the [previous section](04-consensus.html), but including more samples.
+In this exercise we will work with 48 consensus sequences from the UK, processed with the `nf-core/viralrecon` pipeline and covered in the [previous section](04-consensus.html).
 
-Go to [nextclade.org](https://clades.nextstrain.org/) and load the sequences provided in `04-lineages/results/clean_consensus_sequences.fa`.
+Go to [nextclade.org](https://clades.nextstrain.org/) and load the sequences provided in `03-consensus/uk_illumina/preprocessed/clean_consensus_sequences.fa`.
 
 1. Are there any samples that were classified as "bad" quality? If so, what is the main reason?
-1. Sort the table by the "Clade" column. Looking at the mutations in gene S on the right, you can see that all sequences classified as "Alpha" have a deletion in positions 21992-21994. Samples classified as "Delta" do not have this deletion and instead have a deletion in positions 22029-22034. However, there is one exception: sample GB39, classified as "Delta" has both deletions. Investigate if this mutation is accurate using IGV:
+2. Sort the table by the "Clade" column. Looking at the mutations in gene S on the right, you can see that all sequences classified as "Alpha" have a deletion in positions 21992-21994. Samples classified as "Delta" do not have this deletion and instead have a deletion in positions 22029-22034. However, there is one exception: sample GB39, classified as "Delta" has both deletions. Investigate if this mutation is accurate using IGV:
     - Open the BAM alignment file for this sample (the alignment file is in `results/viralrecon/variants/bowtie2/GB39.ivar_trim.sorted.bam`). 
     - Open the BAM alignment file for one of the "Alpha" samples as a comparison.
     - Open the ARTIC primer files (two BED files found in `resources/primers/`).
@@ -194,10 +193,11 @@ There are separate reasons for the two bad quality samples:
 **Question 2**
 
 Sort the table by the "Clade" column. Looking at the mutations in gene S on the right, you can see that all sequences classified as "Alpha" have a deletion in positions 21992-21994. Samples classified as "Delta" do not have this deletion and instead have a deletion in positions 22029-22034. However, there is one exception: sample GB39, classified as "Delta" has both deletions. Investigate if this mutation is accurate using IGV:
-    - Open the BAM alignment file for this sample (the alignment file is in `results/viralrecon/variants/bowtie2/GB39.ivar_trim.sorted.bam`). 
-    - Open the BAM alignment file for one of the "Alpha" samples as a comparison.
-    - Open the ARTIC primer files (two BED files found in `resources/primers/`).
-    - Go to the position where this deletion was identified and investigate if it seems clear from the mapped reads.
+
+- Open the BAM alignment file for this sample (the alignment file is in `preprocessed/variants/bowtie2/GB39.ivar_trim.sorted.bam`). 
+- Open the BAM alignment file for one of the "Alpha" samples as a comparison.
+- Open the ARTIC primer files (two BED files found in `resources/primers/`).
+- Go to the position where this deletion was identified and investigate if it seems clear from the mapped reads.
 
 By sorting the table by "Clade", we can see that although sample GB39 was classified as a _Delta_ variant, it has two deletions in gene S that are present in _Alpha_ variants, as shown in this snapshot (click the image to view a bigger size):
 

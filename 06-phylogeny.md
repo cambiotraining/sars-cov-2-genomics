@@ -118,7 +118,7 @@ As an input, these programs need a _multiple sequence alignment_ FASTA file, whi
 :::note
 **Data for this section**
 
-We will work from the course materials folder called `05-phylogeny`, which contains the following files: 
+We will work from the course materials folder called `04-phylogeny`, which contains the following files: 
 
 - `data/uk_consensus.fa` and `data/india_consensus.fa` are consensus sequences from the UK and India, respectively. These are the sequences previously assembled using the `nf-core/viralrecon` pipeline. 
 - `sample_annotation.tsv` is a tab-separated values (TSV) file with information about each sample such as the date of collection and lineage/clade they were assiged to from our analysis. We will use this table to annotate our phylogenetic trees. This table can also be opened in a spreadsheet program such as Excel. 
@@ -516,10 +516,6 @@ A more serious issue affecting phylogenies is the presence of recurrent errors i
 One of the regions with a higher prevalence of errors is the start and end of the consensus sequence, which also typically contains many missing data (see example in Figure 2).
 Therefore, it is common to _mask_ the first and last few bases of the alignment, to avoid including spurious variable sites in the analysis. 
 
-Additionally, work by [Turakhia, de Maio, Thornlow, et al. (2020)](https://doi.org/10.1371/journal.pgen.1009175) has identified several sites that show an unexpected mutation pattern. 
-This includes, for example, mutations that unexpectedly occur multiple times in different parts of the tree ([homoplasies](https://en.wikipedia.org/wiki/Homoplasy)) and often coincide with primer binding sites (from amplicon-based protocols) and can even be lab-specific (e.g. due to their protocols and data processing pipelines). 
-The work from this team has led to the creation of a list of [problematic sites](https://virological.org/t/masking-strategies-for-sars-cov-2-alignments/480), which are recommended to be _masked_ before running the phylogenetic analysis. 
-
 :::note
 The term **masking** is often used to refer to the process of converting sequence bases to the ambiguous character 'N'. 
 You may come across this term in the documentation of certain tools, for example: 
@@ -537,6 +533,10 @@ ACAGACTGACGCTGTcatgtatgtcgacGATAGGCTGATGGCGAGTGACTCGAG
 ACAGACTGACGCTGTNNNNNNNNNNNNNGATAGGCTGATGGCGAGTGACTCGAG
 ```
 :::
+
+Additionally, work by [Turakhia, de Maio, Thornlow, et al. (2020)](https://doi.org/10.1371/journal.pgen.1009175) has identified several sites that show an unexpected mutation pattern. 
+This includes, for example, mutations that unexpectedly occur multiple times in different parts of the tree ([homoplasies](https://en.wikipedia.org/wiki/Homoplasy)) and often coincide with primer binding sites (from amplicon-based protocols) and can even be lab-specific (e.g. due to their protocols and data processing pipelines). 
+The work from this team has led to the creation of a list of [problematic sites](https://virological.org/t/masking-strategies-for-sars-cov-2-alignments/480), which are recommended to be _masked_ before running the phylogenetic analysis. 
 
 ![Example of errors in phylogenetic inference due to recurrent sequencing errors. Source: [Figure 1 in Turakhia, de Maio, Thornlow et al. (2020)](https://journals.plos.org/plosgenetics/article/figure?id=10.1371/journal.pgen.1009175.g001)](https://journals.plos.org/plosgenetics/article/figure/image?size=inline&id=10.1371/journal.pgen.1009175.g001)
 

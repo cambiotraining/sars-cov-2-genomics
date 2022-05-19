@@ -316,7 +316,7 @@ Opening the script, we can see the following commands:
 mkdir results
 
 # run the workflow
-nextflow run nf-core/viralrecon --input samplesheet.csv --outdir results/viralrecon --protocol amplicon --genome 'MN908947.3' --primer_set artic --primer_set_version 3 --platform illumina --skip_assembly -profile singularity
+nextflow run nf-core/viralrecon --input samplesheet.csv --outdir results/viralrecon --protocol amplicon --genome 'MN908947.3' --primer_set artic --primer_set_version 3 --platform illumina --skip_assembly -profile conda
 ```
 
 It first creates a results directory (to store our output files) and then runs the `nextflow` command using the Illumina sub-workflow.
@@ -324,12 +324,36 @@ We could run these commands one at a time by copy/pasting them to the terminal.
 Or alternatively, we can run the entire script using `bash scripts/run_illumina_workflow.sh`
 
 When you start running the workflow, you will get a list of the workflow steps and their progress. 
-Once the workflow is complete, you should see something similar to the following:
+This may take quite a while to run, depending on the computer resources you have available. 
+Once the workflow is complete, you should see a message similar to the following:
 
-![TODO]()
+```
+-[nf-core/viralrecon] 8/8 samples passed Bowtie2 1000 mapped read threshold:
+    280038: GB16
+    2946614: GB28
+    252871: GB09
+    3269412: GB21
+    103742: GB23
+    3016474: GB36
+    ..see pipeline reports for full list
+-
+-[nf-core/viralrecon] Pipeline completed successfully-
+Completed at: 18-May-2022 08:08:25
+Duration    : 1h 13m
+CPU hours   : 8.1
+Succeeded   : 343
+```
 
 You should also get several output files in the results folder specified with our `nextflow` command. 
 We will detail what these files are in the next section. 
+
+:::note
+**Running the pipeline on our training computers**
+
+Our training computers don't have the high specifications needed for routine bioinformatic analysis, so the _Illumina_ pipeline takes up to 1h to complete. 
+
+We provide already pre-processed results for 48 samples in the folder `03-consensus/uk_illumina/preprocessed`, which you can use to follow the next section. 
+:::
 
 
 ## Output Files {.tabset}
@@ -479,21 +503,25 @@ We already provide this file in `samplesheet.csv`.
 
 1. Run these samples through the `nf-core/viralrecon` pipeline.
     - Using `nano`, open the script found in `scripts/run_medaka_workflow.sh`.
-    - Fix the code in the script where you see the word "_FIXME_". Output the results to a directory called `results/viralrecon/`.
-    - Run the script using `bash`. This may take ~5 minutes to complete.
-1. Once complete, use the file explorer <i class="fa-solid fa-folder"></i> and go to the results folder to open the file in `pipeline_info/execution_report.html`.
+    - Fix the code in the script where you see the word "_FIXME_":
+        - Output the results to a directory called `results/viralrecon/`.
+        - The input sample sheet is in the file `samplesheet.csv` (check the [pipeline documentation](https://nf-co.re/viralrecon/2.4.1/usage#nanopore-input-format) to review what the format of this samplesheet should be for the Nanopore pipeline).
+        - The FASTQ files are in a folder `data/fastq_pass`.
+    - Run the script using `bash`. This may take ~15 minutes to complete.
+2. While you wait for the pipeline to complete, use the file explorer <i class="fa-solid fa-folder"></i> to open the folder called `preprocessed`, which contains already pre-processed results from a larger run with 48 samples. 
+    - Open the file in `pipeline_info/execution_report.html`.
     - How long did the workflow take to run?
     - Which step of the pipeline took the longest to run?
-1. Open the _MultiQC_ report found in `results/viralrecon/multiqc/medaka/multiqc_report.hmlt` and answer the following questions: 
+3. Open the _MultiQC_ report found in `preprocessed/multiqc/medaka/multiqc_report.hmlt` and answer the following questions: 
     - Produce a plot between median depth of coverage and #Ns. What do you think is the average coverage needed for <10% of missing data. 
     - Were there any PCR amplicons with a dropout (i.e. very low depth of coverage) across multiple samples?
     - Do any of these dropout amplicons coincide with gene "S" (Spike protein gene)? Note: you can see the ARTIC PCR primer location from the [online repository](https://github.com/artic-network/artic-ncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV-2019.bed) and the gene locations in the [SARS-CoV-2 NCBI genome browser](https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512).
-2. Based on any amplicons that you identified in the previous question, find if there are any mutations coinciding with their primer locations. You can use the mutation variant table in `results/viralrecon/medaka/variants_long_table.csv`.
-3. With the mutation variants table open in a spreadsheet program (LibreOffice on our training machines):
+4. Based on any amplicons that you identified in the previous question, find if there are any mutations coinciding with their primer locations. You can use the mutation variant table in `preprocessed/medaka/variants_long_table.csv`.
+5. With the mutation variants table open in a spreadsheet program (LibreOffice on our training machines):
     - Use the filter button <svg stroke="grey" fill="grey" stroke-width="0" viewBox="0 0 512 512" height="15" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"></path></svg> to look for mutations in gene "S" (encodes for the Spike protein). 
-    - Identify the sample and position of a mutation of the type "disruptive_inframe_deletion". 
-    - Using IGV, open the BAM file for that sample. Note: BAM files are located in `results/viralrecon/medaka/`. 
-    - Go to the location of that mutation. From the read alignment, how confident are you about this mutation? What could you do to confirm it?
+    - Identify the samples and positions of mutations of the type "disruptive_inframe_deletion". 
+    - Using IGV, open the BAM file for one of those samples. Note: BAM files are located in `preprocessed/medaka/SAMPLE.primertrimmed.rg.sorted.bam` (were 'SAMPLE' is the sample name). 
+    - Go to the location of those mutations. From the read alignment, how confident are you about it? What could you do to confirm it?
 
 <details><summary>Answer</summary>
 
@@ -540,19 +568,23 @@ To run the script we can do `bash scripts/run_medaka_workflow.sh`.
 After the workflow completes, we get a message similar to this one:
 
 ```
-TODO
+-[nf-core/viralrecon] Pipeline completed successfully-
+Completed at: 18-May-2022 08:08:25
+Duration    : 1h 13m
+CPU hours   : 8.1
+Succeeded   : 343
 ```
 
 ----
 
 **Question 2**
 
-From the message that prints on the screen after the pipeline runs, we can see that it took around TODO minutes to run. 
+From the message that prints on the screen after the pipeline runs, we can see that it took around 25 minutes to run. 
 This information is also available from the file `results/viralrecon/pipeline_info/execution_report_DATE.html` (where `DATE` will be the date/time of when you ran the pipeline).
 This report also gives us information about how long each individual step of the pipeline took the longest to run (and other information such as which used more CPU or RAM memory). 
 For example, in the section "Job Duration" we can see a graph that looks like this:
 
-![TODO]()
+![](images/viralrecon_pipeline_info_duration.png)
 
 This indicates that the step running the `artic minion` tool takes the longest. 
 This is not surprising as this is the step where most of the work is happening (mapping, primer trimming and making a consensus sequence). 
@@ -566,7 +598,7 @@ When opening the _MultiQC_ report, we can see the first section contains a table
 We can produce a plot from this table, by pressing the "Plot" button above the table. 
 The plot we were asked for is the following: 
 
-![TODO]()
+![This plot can be produced by clicking the <kbd>Plot</kbd> button on top of the table and then selecting the variables "Coverage median" and "# Ns per 100kb consensus".](images/viralrecon_multiqc_plot.png)
 
 The y-axis of the plot tells us the number of 'N' per 100kb of sequence. 
 If we divide those numbers by 100 we get a percentage and from these samples it seems like a median depth of coverage of around 200 reads generates samples with less than 10% of missing bases. 
@@ -604,11 +636,11 @@ However, this only occurs for one of the samples, suggesting the reason for the 
 
 **Question 5**
 
-After filtering our table for gene _S_ (Spike gene), we can see a single mutation of type "disruptive_inframe_deletion" in sample IN27 position 21990. 
-To look at the reads with this mutation, we open the BAM file for this sample _IGV_: 
+After filtering our table for gene _S_ (Spike gene), we can see only a couple of mutations of type "disruptive_inframe_deletion" in some of the samples at positions 21764 and 21990. 
+To look at the reads with this mutation, we open the BAM file for one of these samples in _IGV_ (for example sample IN22): 
 
 - Go to <kbd>File → Load from file...</kbd>. 
-- In the file browser that opens go to the folder `results/viralrecon/medaka` and select the file `IN27.primertrimmed.rg.sorted.bam` to open it.
+- In the file browser that opens go to the folder `results/viralrecon/medaka` and select the file `IN22.primertrimmed.rg.sorted.bam` to open it.
 - In the search box we can type "NC_045512.2:21990" which will zoom-in on the region around the deletion.
 
 From looking at the reads aligned to this position of the genome, we can see several of them containing a 3bp deletion. 
