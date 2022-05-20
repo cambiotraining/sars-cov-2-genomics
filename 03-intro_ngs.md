@@ -59,7 +59,7 @@ The main advantage of Illumina sequencing is that it produces very high-quality 
 However, the fact that we only get relatively short sequences means that there are limitations when it comes to resolving particular problems such as long sequence repeats (e.g. around centromeres or transposon-rich areas of the genome), distinguishing gene isoforms (in RNA-seq), or resolving haplotypes (combinations of variants in each copy of an individual's diploid genome).
 
 
-## Nanopore Sequencing
+### Nanopore Sequencing
 
 Nanopore sequencing is a type of _long-read sequencing_ technology. 
 The main advantage of this technology is that it can sequence very long DNA molecules (up to megabase-sized), thus overcoming the main shortcoming of short-read sequencing mentioned above. 
@@ -84,15 +84,16 @@ They require less up-front cost allowing getting started with sequencing very qu
 :::
 
 
-## Sequencing File Formats
+## Sequencing Analysis
 
-The use of standard file formats is an important feature of bioinformatic analysis.
+In this section we will demonstrate two common tasks in sequencing data analysis: sequence quality control and mapping to a reference genome. 
+There are many other tasks involved in analysing sequencing data, but looking at these two examples will demonstrate the principles of running bioinformatic programs.
+We will later see how bioinformaticians can automate more complex analyses in the [consensus assembly section](04-consensus.html).
+
+One of the main features in bioinformatic analysis is the use of standard file formats.
 It allows software developers to create tools that work well with each other. 
 For example, the raw data from Illumina and Nanopore platforms is very different: Illumina generates images; Nanopore generates electrical current signal. 
 However, both platforms come with software that converts those raw data to a standard text-based format called **FASTQ**. 
-
-We will go through FASTQ files in some detail, but there are many other file formats used frequently in bioinformatics.
-Check out our page on [Extras → File Formats](106-file_formats.html) to learn more about them.
 
 
 ### FASTQ Files
@@ -133,7 +134,7 @@ $ zcat sequences.fq.gz | wc -l
 If we want to know how many sequences there are in the file, we can divide the result by 4 (since each sequence is always represented across four lines).
 
 
-#### FASTQ Quality Control
+### FASTQ Quality Control
 
 One of the most basic tasks in Illumina sequence analysis is to run a quality control step on the FASTQ files we obtained from the sequencing machine. 
 
@@ -235,22 +236,81 @@ You can also use [MinIONQC](https://github.com/roblanf/minion_qc), which takes a
 :::
 
 
-#### Quality Reports
+### Read Mapping
+
+A common task in processing sequencing reads is to align them to a reference genome, which is typically referred to as **read mapping** or **read alignment**. 
+We will continue exemplifying how this works for Illumina data, however the principle is similar for Nanopore data (although the software used is often different, due to the higher error rates and longer reads typical of these platforms). 
+
+Generally, these are the steps involved in read mapping:
+
+- **Genome Indexing |** Because reference genomes can be quite long, most mapping algorithms require that the genome is pre-processed, which is called genome indexing. You can think of a genome index in a similar way to an index at the end of a textbook, which tells you in which pages of the book you can find certain keywords. Similarly, a genome index is used by mapping algorithms to quickly search through its sequence and find a good match with the reads it is trying to align against it. Each mapping software requires its own index, but we **only have to generate the genome index once**. 
+- **Read mapping |** This is the actual step of aligning the reads to a reference genome. There are different popular read mapping programs such as `bowtie2` or `bwa`. The input to these programs includes the genome index (from the previous step) and the FASTQ file(s) with reads. The output is an alignment in a file format called SAM (text-based format - takes a lot of space) or BAM (compressed binary format - much smaller file size). 
+- **BAM Sorting |** The mapping programs output the sequencing reads in a random order (the order in which they were processed). But, for downstream analysis, it is good to _sort_ the reads by their position in the genome, which makes it faster to process the file. 
+- **BAM Indexing |** This is similar to the genome indexing we mentioned above, but this time creating an index for the alignment file. This index is often required for downstream analysis and for visualising the alignment with programs such as IGV. 
+
+We have already prepared the SARS-CoV-2 genome index for the `bowtie2` aligner. 
+We have also prepared a shell script with the code to run the three steps above as an example.
+Let's look at the content of this file (you can open it with `nano scripts/mapping.sh`):
+
+```bash
+# mapping
+bowtie2 -x resources/reference/bowtie2/sarscov2 -1 data/reads/ERR6129126_1.fastq.gz -2 data/reads/ERR6129126_2.fastq.gz --threads 5 | samtools sort -o results/bowtie2/ERR6129126.bam -
+
+# index mapped file
+samtools index results/bowtie2/ERR6129126.bam
+
+# obtain some mapping statistics
+samtools stats results/bowtie2/ERR6129126.bam > results/bowtie2/ERR6129126.stats.txt
+```
+
+In the first step, mapping, we are using two tools: `bowtie2` and `samtools`. 
+`bowtie2` is the mapping program and `samtools` is a program used to manipulate SAM/BAM alignment files. 
+In this case we used the `|` pipe to send the output of `bowtie2` directly to `samtools`:
+
+- `-x` is the prefix of the reference genome index.
+- `-1` is the path to the first read in paired-end sequencing.
+- `-2` is the path to the second read in paired-end sequencing.
+- ` --threads 5` indicates we want to use 5 CPUs (or threads) to do parallel processing of the data.
+- `|` is the pipe that sends the output from `bowtie2` to `samtools sort`.
+- `-o` is the name of the output file. By setting the file extension of this file to `.bam`, `samtools` will automatically save the file in the compressed format (which saves a lot of space).
+- The `-` symbol at the end of the `samtools` command indicates that the input is coming from the `|` pipe. 
+
+We also have a step that creates an index file for the BAM file using `samtools index`. 
+This creates a file with the same name and `.bai` extension. 
+
+Finally, the script also contains a step that collects some basic statistics from the alignment, which we save in a text file.
+We will see how this file can be used to produce a quality control report below. 
+
+
+### Visualising BAM Files in IGV
+
+One thing that can be useful is to visualise the alignments produced in this way. 
+We can use the program _IGV_ (Integrative Genome Viewer) to do this:
+
+- Open _IGV_ and go to <kbd>File → Load from file...</kbd>. 
+- In the file browser that opens go to the folder `results/bowtie2/` and select the file `ERR6129126.bam` to open it.
+- Go back to <kbd>File → Load from file...</kbd> and this time load the BED files containing the primer locations. These can be found in `resources/primers/artic_primers_pool1.bed` and `resources/primers/artic_primers_pool2.bed`.
+
+There are several ways to search and browse through our alignments, exemplified in the figure below. 
+
+![Screenshot IGV program. The search box at the top can be used to go to a specific region in the format "CHROM:START-END". In the case of SARS-CoV-2 there is only one "chromosome" called NC_045512.2 (this is the name of the reference genome), so if we wanted to visualise the region between positions 21563 and 25384 (the Spike gene) we would write "NC_045512.2:21563-25384".](images/igv_overview.svg)
+
+
+### Quality Reports
 
 We've seen the example of using the program _FastQC_ to assess the quality of our FASTQ sequencing files.
-In bioinformatic analysis we may use many tools that report similar quality statistics for their analysis. 
-For example, when we align sequencing reads to a genome, we may want to know what percentage of the reads aligned to the reference genome. 
+And we have also seen an example of using the program `samtools stats` to obtain some quality statistics of our read mapping step. 
 
 When processing multiple samples at once, it can become hard to check all of these quality metrics individually for each sample. 
 This is the problem that the software _MultiQC_ tries to solve. 
 This software automatically scans a directory and looks for files it recognises as containing quality statistics. 
 It then compiles all those statistics in a single report, so that we can more easily look across dozens or even hundreds of samples at once. 
 
-Here is the command to run MultiQC and compile our FastQC reports:
+Here is the command to run MultiQC and compile several quality statistics into a single report:
 
 ```bash
 mkdir results/multiqc
-multiqc --outdir results/multiqc/  results/fastqc/
+multiqc --outdir results/multiqc/  results/
 ```
 
 _MultiQC_ generates a report, in this example in `results/multiqc/multiqc_report.html`.
@@ -267,6 +327,17 @@ We can open the original FastQC report and confirm that several sequences even d
 A drop in sequencing quality towards the end of a read can often happen, especially for longer reads. 
 Usually, analysis workflows include a step to remove reads with low quality so these should not affect downstream analysis too badly. 
 However, it's always good to make a note of potentially problematic samples, and see if they produce lower quality results downstream.
+
+
+## Bioinformatic File Formats
+
+Like we said above, bioinformatics uses many standard file formats to store different types of data.
+We have just seen two of these file formats: FASTQ for sequencing reads and BAM files to store reads mapped to a genome.
+
+Another very common file format is the FASTA file, which is the format that our reference genome is stored as.
+The consensus sequences that we will generate are also stored as FASTA files. 
+We detail this format below, but there are many other formats. 
+Check out our page on [Extras → File Formats](106-file_formats.html) to learn more about them.
 
 
 ### FASTA Files
@@ -326,8 +397,12 @@ We will see FASTA files several times throughout this course, so it's important 
 - Nanopore sequencing produces very long reads (typically hundreds of kilobases long). It is comparatively more expensive and has higher error rates. However, it is more flexible with some of its platforms being fully portable. 
 - Sequencing reads are stored in a file format called FASTQ. This file contains both the nucleotide sequence and quality of each base. 
 - The quality of Illumina sequence reads can be assessed using the software _FastQC_. 
+- One common task in bioinformatics is to align or map reads to a reference genome. This involves:
+  - Creating a genome index - this only needs to be done once.
+  - Mapping the reads to the reference genome (e.g. using `bowtie2`) - the output is in SAM format.
+  - Sorting the reads in the mapped file (using `samtools sort`) - the output is in BAM format.
+  - Indexing the BAM alignment file (using `samtools index`).
 - The software _MultiQC_ can be used to generate a single reports that compiles statistics across several samples. 
-- FASTA files are used to store simple nucleotide or amino acid sequences (no quality information is contained in these files). This is a standard format that assembled genomes are stored as. 
-
+- Bioinformatics uses many standard file formats. One of the most common ones is the FASTA format, which is used to store nucleotide or amino acid sequences (no quality information is contained in these files). This is a standard format that assembled genomes are stored as. 
 :::
 
