@@ -182,7 +182,7 @@ However, they require substantial upfront cost to setup and equip in the lab and
 :::
 
 
-:::
+:::note
 **Alternative Amplicon Sequencing Protocols**
 
 Although the ARTIC protocol is one of the most popular used in routine SARS-CoV-2 sequencing, there are alternative sets of primers and protocols available. 

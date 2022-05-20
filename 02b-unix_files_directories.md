@@ -188,20 +188,17 @@ In this case, pressing <kbd>Tab</kbd> twice brings up a list of all the files.
 
 :::exercise
 
-**Relative Path Resolution**
+Using the filesystem diagram below, if `pwd` displays `/Users/thing`, what will `ls ../backup` display?
 
-Using the filesystem diagram below, if `pwd` displays `/Users/thing`,
-what will `ls ../backup` display?
+1. `../backup: No such file or directory`
+2. `2012-12-01 2013-01-08 2013-01-27`
+3. `original pnas_final pnas_sub`
 
-1.  `../backup: No such file or directory`
-2.  `2012-12-01 2013-01-08 2013-01-27`
-3.  `original pnas_final pnas_sub`
-
-![File System for Challenge Questions](images/filesystem-challenge.svg)
+![](images/filesystem-challenge.svg)
 
 <details>
 <summary>Answer</summary>
-  1. No: there *is* a directory `backup` in `/Users`.
+  1. No: from the diagram, we can see that there *is* a directory `backup` in `/Users`.
   2. No: this is the content of `Users/thing/backup`, but with `..` we asked for one level further up.
   3. **Yes:** `../backup/` refers to `/Users/backup/`.
 </details>

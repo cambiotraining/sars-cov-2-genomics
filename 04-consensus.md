@@ -28,7 +28,7 @@ We recommend switching to the new pipeline introduced here, but if you want to u
 :::
 
 :::note
-This section has an accompanying <a href="https://docs.google.com/presentation/d/1bFfRh4TgICAILpJv337TbXTMb_YMVmUSmXHR53z8djA/edit?usp=sharing" target="_blank">slide deck</a>.
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1EbuH6KjK3oW5BUfSU43rVH_b-tPTKtubDWl86eAH47U/edit?usp=sharing" target="_blank">slide deck</a>.
 :::
 
 
@@ -432,7 +432,7 @@ Let's investigate this in more detail by looking at the alignment file:
 
 - Open _IGV_ and go to <kbd>File → Load from file...</kbd>. 
 - In the file browser that opens go to the folder `results/viralrecon/variants/bowtie2/` and select the file `GB36.ivar_trim.sorted.bam` to open it.
-- Go back to <kbd>File → Load from file...</kbd> and this time load the BED files containing the primer locations. These can be found in `resources/artic_primers_pool1.bed` and `resources/artic_primers_pool2.bed`.
+- Go back to <kbd>File → Load from file...</kbd> and this time load the BED files containing the primer locations. These can be found in `resources/primers/artic_primers_pool1.bed` and `resources/primers/artic_primers_pool2.bed`.
 
 Once you have IGV open, you can navigate to the region where this amplicon is located by searching for the name of one of the primers - "ncov-2019_83_LEFT" - in the search box at the top. 
 By zooming in to the region where this primer is located, we can see there is a mutation right at the start of this primer, which suggests that this may be the reason why this PCR fragment fails to amplify in this sample. 
