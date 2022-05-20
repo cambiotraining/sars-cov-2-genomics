@@ -162,8 +162,12 @@ Besides amplicon sequencing, other methods can also be used to obtain SARS-Cov-2
 - **Metagenomic RNA sequencing** was the method used to assemble the [first SARS-CoV-2 genome](https://doi.org/10.1038/s41586-020-2012-7) and one of the [first sequences in Cambodia](https://doi.org/10.1101/2020.03.02.968818). 
   This method consists of extracting viral RNA (using commercially available kits) followed by high-throughput RNA-seq. 
   The resulting sequences are then compared with nucleotide databases of known organisms, and viral sequences selected for _de-novo assembly_.
+  This approach is suitable when the virus sequence is unknown, but requires a high sequencing depth, increasing its costs.
 
-- **Sequence capture** protocols are also available, whereby the samples are enriched for the target virus by using a panel of probes against the SARS-CoV-2 genome, followed by sequencing and de-novo assembly. 
+- **Sequence capture** protocols are also available, whereby the samples are enriched for the target virus by using a panel of probes against the SARS-CoV-2 genome, followed by sequencing and reference-based assembly. 
+  This approach is more similar to amplicon sequencing, as it works by enriching the sample for the known virus.
+
+![Simplified diagram of the main steps involved in metagenomic and amplicon sequencing approaches. In amplicon sequencing the cDNA material is first PCR-amplified with virus-specific primers to enrich the sample, followed by sequencing and downstream bioinformatic analysis. With the metagenomic approach the mixed cDNA material is sequenced and the resulting sequences are bioinformatically separated between known sequences (from other organisms) and unknown sequences. The unknown sequences can then be de-novo assembled into a new genome.](images/metagenomic_vs_amplicon.svg)
 
 Despite these alternative methods, _amplicon sequencing_ remains one of the most popular methods for large-scale viral surveillance due to its **low cost** and **high-throughput**. 
 The data generated from this method will be the focus of this course. 
