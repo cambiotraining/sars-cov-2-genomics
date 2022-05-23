@@ -16,53 +16,6 @@ We advise that you pick one of the datasets (for example, the one that uses data
 After you complete them, you can start again with the other dataset.
 
 
-## Metadata {.tabset}
-
-**This exercise uses the skills covered in [SARS-CoV-2 Genomic Surveillance](01-intro.html).**
-
-Open the `homework` folder using the file browser <i class="fa-solid fa-folder"></i>.
-
-1. Looking inside the each country's folder, open the `README.txt` file to understand what kind of sequencing platform was used for these samples.
-1. Open the metadata sheet (`sample_info.csv`) for one of the countries and look at the dates when these samples were collected. 
-1. Visit [outbreak.info](https://outbreak.info/location-reports) and look at the location report for the country you chose. What variants might you expect to be find in these data?
-
-### South Africa
-
-:::box
-<details><summary>Answer</summary>
-
-From the README we can see that using paired-end Illumina sequencing.
-This will need to be considered when we run our consensus assembly workflow.
-
-Double-clicking the `sample_info.csv` file opens it with our spreadsheet software (on our training machines this is LibreOffice, but Excel would also open CSV files).
-The second column contains the sample collection dates, and we can see these samples are from Nov 2021 to Jan 2022. 
-
-We visit [outbreak.info](https://outbreak.info/location-reports) and search for "South Africa". 
-If we scroll down to the section "Tracked lineages over time in South Africa" we can see that in late 2021 and the start of 2022 we have mostly the "Omicron" SARS-CoV-2 variant circulating in the population. 
-This suggests that our samples may mostly be this variant. 
-
-</details>
-:::
-
-### Switzerland
-
-:::box
-<details><summary>Answer</summary>
-
-From the README we can see that these samples were sequenced using a Nanopore MinION platform.
-The raw Nanopore signal data was already processed to generate FASTQ files using Guppy. 
-This will need to be considered when we run our consensus assembly workflow.
-
-Double-clicking the `sample_info.csv` file opens it with our spreadsheet software (on our training machines this is LibreOffice, but Excel would also open CSV files).
-The second column contains the sample collection dates, and we can see these samples are from Nov/Dec 2021 to Jan 2022. 
-
-We visit [outbreak.info](https://outbreak.info/location-reports) and search for "Switzerland". 
-If we scroll down to the section "Tracked lineages over time in Switzerland" we can see that around that period of 2021-2022 we had both Delta and Omicron variants circulating in the population, so we may expect to see these in our samples.
-
-</details>
-:::
-
-
 ## Unix {.tabset}
 
 **This exercise uses the skills covered in [Introduction to Unix](02a-unix_intro.html).**
@@ -110,6 +63,53 @@ $ ls data/fastq_pass/ | wc -l
 ```
 
 We pipe the output of `ls` to the `wc` command using the option `-l` to count the number of lines coming out of the `ls` command. 
+
+</details>
+:::
+
+
+## Metadata {.tabset}
+
+**This exercise uses the skills covered in [SARS-CoV-2 Genomic Surveillance](01-intro.html).**
+
+Open the `homework` folder using the file browser <i class="fa-solid fa-folder"></i>.
+
+1. Looking inside the each country's folder, open the `README.txt` file to understand what kind of sequencing platform was used for these samples.
+1. Open the metadata sheet (`sample_info.csv`) for one of the countries and look at the dates when these samples were collected. 
+1. Visit [outbreak.info](https://outbreak.info/location-reports) and look at the location report for the country you chose. What variants might you expect to be find in these data?
+
+### South Africa
+
+:::box
+<details><summary>Answer</summary>
+
+From the README we can see that using paired-end Illumina sequencing.
+This will need to be considered when we run our consensus assembly workflow.
+
+Double-clicking the `sample_info.csv` file opens it with our spreadsheet software (on our training machines this is LibreOffice, but Excel would also open CSV files).
+The second column contains the sample collection dates, and we can see these samples are from Nov 2021 to Jan 2022. 
+
+We visit [outbreak.info](https://outbreak.info/location-reports) and search for "South Africa". 
+If we scroll down to the section "Tracked lineages over time in South Africa" we can see that in late 2021 and the start of 2022 we have mostly the "Omicron" SARS-CoV-2 variant circulating in the population. 
+This suggests that our samples may mostly be this variant. 
+
+</details>
+:::
+
+### Switzerland
+
+:::box
+<details><summary>Answer</summary>
+
+From the README we can see that these samples were sequenced using a Nanopore MinION platform.
+The raw Nanopore signal data was already processed to generate FASTQ files using Guppy. 
+This will need to be considered when we run our consensus assembly workflow.
+
+Double-clicking the `sample_info.csv` file opens it with our spreadsheet software (on our training machines this is LibreOffice, but Excel would also open CSV files).
+The second column contains the sample collection dates, and we can see these samples are from Nov/Dec 2021 to Jan 2022. 
+
+We visit [outbreak.info](https://outbreak.info/location-reports) and search for "Switzerland". 
+If we scroll down to the section "Tracked lineages over time in Switzerland" we can see that around that period of 2021-2022 we had both Delta and Omicron variants circulating in the population, so we may expect to see these in our samples.
 
 </details>
 :::
@@ -661,3 +661,20 @@ Two samples (CH38 and CH26) have also been highlighted as having too many privat
 
 </details>
 
+<!--
+## Phylogenetics {.tabset}
+
+### South Africa
+
+:::box
+<details><summary>Answer</summary>
+
+</details>
+
+### Switzerland
+
+:::box
+<details><summary>Answer</summary>
+
+</details>
+-->
