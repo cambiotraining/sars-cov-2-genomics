@@ -32,7 +32,7 @@ By the end of this course, learners should be able to:
 - Use the Unix command line to navigate a filesystem, manipulate files, launch programs and write scripts for reproducible analysis.
 - Recognise the structure of common sequence file formats in bioinformatics and run basic quality control tools on them.
 - Summarise the steps in the bioinformatic pipeline used for assembling SARS-CoV-2 genomes from high-throughput amplicon sequencing.
-- Apply the `connor-lab/ncov2019-artic-nf` _Nextflow_ pipeline to generate a consensus sequence from Illumina and Nanopore data.
+- Apply the `nf-core/viralrecon` _Nextflow_ pipeline to generate a consensus sequence from Illumina and Nanopore data.
 - Assess the quality of the consensus sequences and identify high-quality sequences suitable for downstream analyses and submission to public databases.
 - Assign sequences to lineages and variants using `pangolin` and `nextclade`.
 - Interactively explore data and produce visualisations using _Nextstrain_ tools.
