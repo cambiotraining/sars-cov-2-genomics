@@ -241,12 +241,14 @@ You can also use [MinIONQC](https://github.com/roblanf/minion_qc), which takes a
 A common task in processing sequencing reads is to align them to a reference genome, which is typically referred to as **read mapping** or **read alignment**. 
 We will continue exemplifying how this works for Illumina data, however the principle is similar for Nanopore data (although the software used is often different, due to the higher error rates and longer reads typical of these platforms). 
 
-Generally, these are the steps involved in read mapping:
+Generally, these are the steps involved in read mapping (figure below):
 
 - **Genome Indexing |** Because reference genomes can be quite long, most mapping algorithms require that the genome is pre-processed, which is called genome indexing. You can think of a genome index in a similar way to an index at the end of a textbook, which tells you in which pages of the book you can find certain keywords. Similarly, a genome index is used by mapping algorithms to quickly search through its sequence and find a good match with the reads it is trying to align against it. Each mapping software requires its own index, but we **only have to generate the genome index once**. 
 - **Read mapping |** This is the actual step of aligning the reads to a reference genome. There are different popular read mapping programs such as `bowtie2` or `bwa`. The input to these programs includes the genome index (from the previous step) and the FASTQ file(s) with reads. The output is an alignment in a file format called SAM (text-based format - takes a lot of space) or BAM (compressed binary format - much smaller file size). 
 - **BAM Sorting |** The mapping programs output the sequencing reads in a random order (the order in which they were processed). But, for downstream analysis, it is good to _sort_ the reads by their position in the genome, which makes it faster to process the file. 
 - **BAM Indexing |** This is similar to the genome indexing we mentioned above, but this time creating an index for the alignment file. This index is often required for downstream analysis and for visualising the alignment with programs such as IGV. 
+
+![Diagram illustrating the steps involved in mapping sequencing reads to a reference genome. Mapping programs allow some differences between the reads and the reference genome (red mutation shown as an example). Before doing the mapping, reads are usually filtered for high-quality and to remove any sequencing adapters. The reference genome is also indexed before running the mapping step. The mapped file (BAM format) can be used in many downstream analyses. See text for more details.](images/ngs_mapping.svg)
 
 We have already prepared the SARS-CoV-2 genome index for the `bowtie2` aligner. 
 We have also prepared a shell script with the code to run the three steps above as an example.
