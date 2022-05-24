@@ -152,7 +152,7 @@ We will see an example of this in the following exercise.
 
 :::exercise
 
-In the course materials directory `02-consensus/uk_illumina/` we have several FASTQ files that we will use to assemble SARS-CoV-2 genomes.
+In the course materials directory `02-ngs/` we have several FASTQ files that we will use to assemble SARS-CoV-2 genomes.
 But first, we will run FastQC to check the quality of these files. 
 
 This is the basic command we could use in our samples:
