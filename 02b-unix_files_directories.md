@@ -460,7 +460,7 @@ $ cp metadata/run1_samples.csv metadata/run2_samples.csv backup/
 In the example below, what does `cp` do when given three or more file names?
 
 ```console
-$ cp run1_samples.csv  run2_samples.csv  run3_samples.csv
+$ cp metadata/run1_samples.csv  metadata/run2_samples.csv  metadata/run3_samples.csv
 ```
 
 

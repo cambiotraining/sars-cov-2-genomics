@@ -203,7 +203,7 @@ Some of the key options are:
 
 - `--platform nanopore` makes sure that the correct sub-workflow will be used. 
 - `--artic_minion_caller medaka` indicates we want to use the `medaka` program to do the variant/consensus calling (directly from the basecalled FASTQ files, rather than from the raw signal in the FAST5 files).
-- `--artic_minion_medaka_model` specifies the model used by the `guppy_basecaller` software to do the basecalling. The model name follows the structure `{pore}_{device}_{caller variant}_{caller version}`. See more details about this in the [medaka models documentation](https://github.com/nanoporetech/medaka#models).
+- `--artic_minion_medaka_model` specifies the model used by the `guppy_basecaller` software to do the basecalling. The model name follows the structure `{pore}_{device}_{caller variant}_{caller version}`. See more details about this in the [medaka models documentation](https://github.com/nanoporetech/medaka#models). **Note:** for recent versions of Guppy (>6) there is no exact matching model from `medaka`. The recommendation is to use the model for the latest version available; a list of supported models can be found on the [`medaka` GitHub repository](https://github.com/nanoporetech/medaka/tree/master/medaka/data).
 - `--fastq_dir` specifies the directory containing the FASTQ files. This directory should contain sub-directories for each barcoded sample following the naming convention `barcodeXXXX` (where X is a number between 0 and 9). By default, the `guppy_basecaller` software from Nanopore generates a folder called "fastq_pass" which follows this convention. 
 
 <details><summary>Click to see more details about this sub-workflow</summary>
@@ -282,8 +282,8 @@ Apart from the specific options used by each sub-workflow, there are some genera
 - `--outdir` specifies the output directory to store all our results.
 - `--protocol amplicon` sets the pipeline for PCR amplicon data (the other option is `--protocol metagenomic`, which we do not cover in this course).
 - `--genome 'MN908947.3'` this is the standard name of the [Wuhan-Hu-1 reference genome](https://www.ncbi.nlm.nih.gov/nuccore/MN908947.3).
-- `--primer_set artic` at the moment only "artic" primers are available by default. It is possible to use custom primers with the Illumina workflow (see details [here](https://nf-co.re/viralrecon/2.4.1/parameters#primer_bed)).
-- `--primer_set_version` the version of the [ARTIC primer scheme](https://github.com/artic-network/primer-schemes) used.
+- `--primer_set artic` at the moment only "artic" primers are available by default. It is possible to use custom primers with the Illumina workflow (see details [here](https://nf-co.re/viralrecon/2.4.1/parameters#primer_bed)). 
+- `--primer_set_version` the version of the [ARTIC primer scheme](https://github.com/artic-network/primer-schemes) used. The [viralrecon primer config file](https://github.com/nf-core/configs/blob/master/conf/pipeline/viralrecon/genomes.config) indicates the available primer shemes are: `1`, `2`, `3`, `4`, `4.1` and also `1200` (the 1200bp amplicon protocol, also known as "midnight").
 - `--skip_assembly` this is used to skip de-novo assembly of the genome. This step is unnecessary in amplicon protocols, which instead rely on mapping reads to the reference genome (reference-based assembly). De-novo assembly is necessary for metagenomic protocols.
 
 There is one more option we used: `-profile`. This is a general `nextflow` option (not specific to our SARS-CoV-2 pipeline), which can be used to specify how the software used by the pipeline is managed. 
