@@ -148,7 +148,7 @@ nextflow run nf-core/viralrecon \
   --primer_set_version PRIMER_VERSION \
   --skip_assembly \
   --platform illumina \
-  -profile singularity
+  -profile conda,singularity,docker
 ```
 
 One of the key options is `--platform illumina`, which makes sure that the correct sub-workflow will be used. 
@@ -196,7 +196,7 @@ nextflow run nf-core/viralrecon \
   --artic_minion_caller medaka \
   --artic_minion_medaka_model MEDAKA_MODEL \
   --fastq_dir fastq_pass/ \
-  -profile singularity
+  -profile conda,singularity,docker
 ```
 
 Some of the key options are:
@@ -264,7 +264,7 @@ nextflow run nf-core/viralrecon \
   --fastq_dir fastq_pass/ \
   --fast5_dir fast5_pass/ \
   --sequencing_summary sequencing_summary.txt \
-  -profile singularity
+  -profile conda,singularity,docker
 ```
 
 Some of the key options are:
@@ -509,11 +509,11 @@ We already provide this file in `samplesheet.csv`.
         - The FASTQ files are in a folder `data/fastq_pass`.
     - Run the script using `bash`. This may take ~15 minutes to complete.
 2. While you wait for the pipeline to complete, use the file explorer <i class="fa-solid fa-folder"></i> to open the folder called `preprocessed`, which contains already pre-processed results from a larger run with 48 samples. 
-    - Open the file in `pipeline_info/execution_report.html`.
-    - How long did the workflow take to run?
+    - Open the file in `pipeline_info/execution_report_DATE.html` (where "DATE" is the date when the files were processed).
+    - How long did the workflow on the bigger data take to run?
     - Which step of the pipeline took the longest to run?
-3. Open the _MultiQC_ report found in `preprocessed/multiqc/medaka/multiqc_report.hmlt` and answer the following questions: 
-    - Produce a plot between median depth of coverage and #Ns. What do you think is the average coverage needed for <10% of missing data. 
+3. Open the _MultiQC_ report found in `preprocessed/multiqc/medaka/multiqc_report.html` and answer the following questions: 
+    - Produce a plot between median depth of coverage (x-axis) and #Ns (y-axis). What do you think is the average coverage needed for <10% of missing data. 
     - Were there any PCR amplicons with a dropout (i.e. very low depth of coverage) across multiple samples?
     - Do any of these dropout amplicons coincide with gene "S" (Spike protein gene)? Note: you can see the ARTIC PCR primer location from the [online repository](https://github.com/artic-network/artic-ncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV-2019.bed) and the gene locations in the [SARS-CoV-2 NCBI genome browser](https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512).
 4. Based on any amplicons that you identified in the previous question, find if there are any mutations coinciding with their primer locations. You can use the mutation variant table in `preprocessed/medaka/variants_long_table.csv`.
@@ -552,7 +552,7 @@ nextflow run nf-core/viralrecon \
   --fastq_dir data/fastq_pass/ \
   --artic_minion_caller medaka \
   --artic_minion_medaka_model r941_min_high_g360 \
-  -profile singularity
+  --max_cpus 8 --max_memory "56.GB" -profile conda
 ```
 
 What we did to fix the code was:
@@ -570,17 +570,20 @@ After the workflow completes, we get a message similar to this one:
 ```
 -[nf-core/viralrecon] Pipeline completed successfully-
 Completed at: 18-May-2022 08:08:25
-Duration    : 1h 13m
-CPU hours   : 8.1
-Succeeded   : 343
+Duration    : 13m 22s
+CPU hours   : 1.6
+Succeeded   : 167
 ```
+
+Note that the exact time that the workflow takes to run may differ from what we show here. 
+The time depends on how many samples you are processing and how big the computer you are using is. 
 
 ----
 
 **Question 2**
 
-From the message that prints on the screen after the pipeline runs, we can see that it took around 25 minutes to run. 
-This information is also available from the file `results/viralrecon/pipeline_info/execution_report_DATE.html` (where `DATE` will be the date/time of when you ran the pipeline).
+We open the file found in `preprocessed/pipeline_info/execution_report_2022-05-04_12-41-12.html`, which contains information about the pipeline that was run on a set of 48 samples.
+We can see at the top of the report that it took ~15 minutes to run. 
 This report also gives us information about how long each individual step of the pipeline took the longest to run (and other information such as which used more CPU or RAM memory). 
 For example, in the section "Job Duration" we can see a graph that looks like this:
 
@@ -610,7 +613,7 @@ We can check the [ARTIC V3 primer BED file online](https://github.com/artic-netw
 Here is an example: 
 
 ```console
-$ cat resources/primers/artic_version3_pool*.bed | grep "_51"
+$ cat resources/primers/artic_version3_pool*.bed | grep "_51_"
 ```
 
 ```
@@ -626,7 +629,7 @@ If we do the same analysis for the other primers, we will see that none of them 
 
 **Question 4**
 
-To investigate whether this amplicon dropout is due to mutations in the primer regions we can open the mutations table `results/medaka/variants_long_table.csv`. 
+To investigate whether this amplicon dropout is due to mutations in the primer regions we can open the mutations table `preprocessed/medaka/variants_long_table.csv`. 
 If we sort the table by the column "POS", we can scroll to the location of each primer pair. 
 
 We can see that in only one case there is a mutation coinciding one of the primers: in sample "IN33" position 28687 there is a `C > T` mutation, which coincides with primer nCoV-2019_95_LEFT.
@@ -640,7 +643,7 @@ After filtering our table for gene _S_ (Spike gene), we can see only a couple of
 To look at the reads with this mutation, we open the BAM file for one of these samples in _IGV_ (for example sample IN22): 
 
 - Go to <kbd>File → Load from file...</kbd>. 
-- In the file browser that opens go to the folder `results/viralrecon/medaka` and select the file `IN22.primertrimmed.rg.sorted.bam` to open it.
+- In the file browser that opens go to the folder `preprocessed/medaka` and select the file `IN22.primertrimmed.rg.sorted.bam` to open it.
 - In the search box we can type "NC_045512.2:21990" which will zoom-in on the region around the deletion.
 
 From looking at the reads aligned to this position of the genome, we can see several of them containing a 3bp deletion. 
@@ -648,7 +651,7 @@ However, we can also see some reads that do not contain the deletion, and others
 If we were interested in confirming this mutation, we could do an independent PCR followed by Sanger sequencing, for example.
 
 Although this was not part of the question, it is also worth noting that the primer "nCoV-2019_73_LEFT" starts very near this deletion. 
-And we can see that this PCR amplicon had very poor amplification in this sample. 
+In the MultiQC report, we can see that this PCR amplicon had very poor amplification in this sample. 
 One possibility is that the deletion interfered with the primer efficiency in this sample. 
 
 Generally, we don't need to confirm every single mutation obtained from our analysis. 
