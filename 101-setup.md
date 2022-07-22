@@ -36,7 +36,7 @@ Installing Ubuntu on the computer will remove any other operating system you had
 1. Download the _Miniconda_ installer by running: `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
 1. Run the installation script just downloaded: `bash Miniconda3-latest-Linux-x86_64.sh`
 1. Follow the installation instructions accepting default options (answering 'yes' to any questions)
-1. Run `conda config --add channels conda-forge; conda config --add channels bioconda`.
+1. Run `conda config --add channels defaults; conda config --add channels bioconda; conda config --add channels conda-forge; conda config --set channel_priority strict`.
 
 
 ### Install Software
