@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>SARS-CoV-2 Genomics</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UoC BioinfoTraining</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="101-setup.html">
+    <span class="fa fa-gear"></span>
+     
+    Setup
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-file-lines"></span>
+     
+    Materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Unix Shell</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="02a-unix_intro.html">Intro to Unix</a>
+        </li>
+        <li>
+          <a href="02b-unix_files_directories.html">Files and Directories</a>
+        </li>
+        <li>
+          <a href="02c-unix_text_manipulation.html">Text Manipulation</a>
+        </li>
+        <li>
+          <a href="02d-unix_pipes.html">Combining Commands &amp; Writing Scripts</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="01-intro.html">SARS-CoV-2 Genomic Surveillance</a>
+    </li>
+    <li>
+      <a href="03-intro_ngs.html">Intro to NGS Data</a>
+    </li>
+    <li>
+      <a href="04-consensus.html">Consensus Assembly</a>
+    </li>
+    <li>
+      <a href="05-lineage_analysis.html">Lineages and Variants</a>
+    </li>
+    <li>
+      <a href="06-phylogeny.html">Building Phylogenies</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="102-unix_cheatsheet.html">Unix Cheatsheet</a>
+    </li>
+    <li>
+      <a href="106-file_formats.html">Common File Formats</a>
+    </li>
+    <li>
+      <a href="104-wsl_windows.html">Windows Subsystem for Linux</a>
+    </li>
+    <li>
+      <a href="105-vs_code.html">Visual Studio Code</a>
+    </li>
+    <li>
+      <a href="103-tools_and_resources.html">SARS-CoV-2 Resources</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="100-homework.html">
+    <span class="fa fa-pencil"></span>
+     
+    Homework
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/cambiotraining/sars-cov-2-genomics">
+    <span class="fa fa-brands fa-github"></span>
+     
+    Github
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div class="warning">
+<p><strong>Update May 2022</strong></p>
+<p>For participants who attended our workshops prior to May 2022, please note that this lesson has been updated to use a more recent <em>Nextflow</em> pipeline. We recommend switching to the new pipeline introduced here, but if you want to use the older pipeline you can still access the <a href="04-artic_nextflow.html">previous version of the lesson here</a>.</p>
+</div>
+<div id="consensus-assembly" class="section level1">
+<h1>Consensus Assembly</h1>
+<div class="highlight">
+<p><strong>Questions</strong></p>
+<ul>
+<li>What are the steps involved in assembling SARS-CoV-2 genome from amplicon sequencing (Illumina and Nanopore)?</li>
+<li>How can I do reference-based assembly of SARS-CoV-2 genomes?</li>
+</ul>
+<p><strong>Learning Objectives</strong></p>
+<ul>
+<li>Recognise what the main steps are in processing raw sequencing data to generate consensus genome sequences, including sequence alignment, primer trimming and consensus generation.</li>
+<li>Recognise the differences between Illumina and Nanopore pipelines.</li>
+<li>Apply the <code>nf-core/viralrecon</code> <em>Nextflow</em> pipeline to generate a consensus sequence from Illumina and Nanopore data.</li>
+<li>Interpret and critically evaluate data quality reports from the assembled sequences and identify sequences suitable for downstream analyses.</li>
+</ul>
+</div>
+<div class="note">
+<p>This section has an accompanying <a href="https://docs.google.com/presentation/d/1EbuH6KjK3oW5BUfSU43rVH_b-tPTKtubDWl86eAH47U/edit?usp=sharing" target="_blank">slide deck</a>.</p>
+</div>
+<div id="sars-cov-2-consensus-assembly" class="section level2">
+<h2>SARS-CoV-2 Consensus Assembly</h2>
+<p>As we discussed <a href="01-intro.html">earlier in the course</a>, the starting material for sequencing SARS-CoV-2 samples from infected patients is PCR-amplified DNA generated with a panel of primers that covers the whole SARS-CoV-2 genome (for example the primers developed by the ARTIC network). This material can then be sequenced using either <em>Illumina</em> or <em>Nanopore</em> platforms.</p>
+<p>Although different sotware tools are used depending on which kind of sequencing platform was used, the main goal is the same: to align the sequencing reads to the reference genome, and identify any DNA changes (SNPs or Indels) relative to the reference genome (<em>Wuhan-Hu-1</em>). This is called <strong>consensus assembly</strong>, since we are <em>assembling</em> the genome of our sample from the PCR-amplified fragments and generating a <em>consensus</em> sequence based on changes present in several reads covering a particular position of the genome.</p>
+<p>The general data processing steps are:</p>
+<ul>
+<li>Filter high-quality sequencing reads.</li>
+<li>Map the reads to the <em>Wuhan-Hu-1</em> reference genome.</li>
+<li>Trim the primers from the aligned reads based on the primer location file (BED file).</li>
+<li>Perform variant calling (SNPs and indels) to identify changes relative to the reference sequence.</li>
+<li>Generate a consensus sequence for the sample based on those variants.</li>
+</ul>
+<div class="figure">
+<img src="images/workflow_overview.svg" alt="" />
+<p class="caption">Overview of the consensus assembly procedure from amplicon sequencing reads. In this schematic, each read spans the whole length of a PCR amplicon, which is what is expected from Nanopore reads. With Illumina data, there would be two pairs of reads starting at each end of the PCR amplicon.</p>
+</div>
+<div class="note">
+<p><strong>Primer trimming</strong> is a key step of the data processing, otherwise SNPs might be missed at the primer sites, on the final consensus sequence. This is because the primer sequence is retained during PCR instead of the original sequence of the sample. Because the PCR amplicons overlap with each other, we can trim the primers from each read and do variant calling after trimming. An example of this is shown in the Figure above.</p>
+<!--
+Consider adding some notes about sequence length (for Illumina), whether it spans the whole amplicon or not, whether reads without primers can be retained.
+
+Depends on the library prep method:
+- Ligation-based (e.g. Kappa kit from [this paper](https://www.biorxiv.org/content/10.1101/2020.06.16.154286v1.full)). See this [ligation illustration](https://sfvideo.blob.core.windows.net/sitefinity/images/default-source/default-album/decoded-temp-image-storage/19_ng_lib-prep-frag.png?sfvrsn=9e0a1b07_4).
+- Tagmentation-based (e.g. Nextera kits from the same paper). See this [tagmentation illustration](https://upcvmda-pl480.weebly.com/uploads/8/3/9/0/83900706/tagmentation_1_orig.png).
+
+As I understand it, with ligation-based method there is no fragmentation, adapters are ligated directly to the amplicon.
+With tagmentation-based methods the fragment may sometimes not contain the primer, if the transposome cuts the amplicon in half or something like that. 
+
+-->
+</div>
+</div>
+<div id="bioinformatic-workflowspipelines" class="section level2">
+<h2>Bioinformatic Workflows/Pipelines</h2>
+<p>As can already be seen from the brief description above, bioinformatic analyses always involve multiple steps where data is gathered, cleaned and integrated to give a final set of processed files of interest to the user. These sequences of steps are called a <strong>workflow</strong> or <strong>pipeline</strong>. As analyses become more complex, pipelines may include the use of many different software tools, each requiring a specific set of inputs and options to be defined. Furthermore, as we want to chain multiple tools together, the inputs of one tool may be the output of another, which can become challenging to manage.</p>
+<p>Although it is possible to code such workflows using <em>shell</em> scripts, these often don’t scale well across different users and compute setups. To overcome these limitations, dedicated <a href="https://en.wikipedia.org/wiki/Workflow_management_system"><em>workflow/pipeline management software</em></a> packages have been developed to help standardise pipelines and make it easier for the user to process their data.</p>
+<p><img src="https://raw.githubusercontent.com/nextflow-io/trademark/master/nextflow2014_no-bg.png" alt="Nextflow" style="float:right;width:20%"></p>
+<p>Two of the most popular <em>workflow software</em> packages are <a href="https://snakemake.readthedocs.io/en/stable/"><em>Snakemake</em></a> and <a href="https://www.nextflow.io/"><em>Nextflow</em></a>. We will not cover how to develop workflows with these packages, but rather how to use an existing workflow to generate consensus sequences from SARS-CoV-2 data.</p>
+<div id="why-use-a-standardised-workflow" class="section level3 unlisted unnumbered">
+<h3 class="unlisted unnumbered">Why Use a Standardised Workflow?</h3>
+<p>These are some of the key advantages of using a standardised workflow for our analysis:</p>
+<ul>
+<li>Fewer errors - because the workflow automates the process of managing input/output files, there are less chances for errors or bugs in the code to occur.</li>
+<li>Consistency and reproducibility - analysis ran by different people should result in the same output, regardless of their computational setup.</li>
+<li>Software installation - all software dependencies are automatically installed for the user using solutions such as <em>Conda</em>, <em>Docker</em> and <em>Singularity</em> (more about these in a later section of the course).</li>
+<li>Scalability - workflows can run on a local desktop or scale up to run on <em>high performance compute clusters</em>.</li>
+<li>Checkpoint and resume - if a workflow fails in one of the tasks, it can be resumed at a later time.</li>
+</ul>
+</div>
+</div>
+<div id="sars-cov-2-pipeline" class="section level2 tabset">
+<h2 class="tabset">SARS-CoV-2 Pipeline</h2>
+<p>To generate consensus SARS-CoV-2 genomes from these data, we will use a pipeline that was developed by the <em>Nextflow</em> core team called <a href="https://nf-co.re/viralrecon"><code>nf-core/viralrecon</code></a> (which was itself inspired by a <a href="https://github.com/connor-lab/ncov2019-artic-nf">previous pipeline from the Connor Lab</a>). Its objective is to harmonise the assembly of SARS-CoV-2 genomes from both Illumina and Nanopore amplicon sequencing data. It can also work with metagenomic data, which we will not cover in this workshop. This pipeline therefore includes different sub-pipelines, which are launched depending on the type of sequence data we have. Watch the video below to learn more about the development of this pipeline.</p>
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7BfuAOjFCFw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<p align="center">
+<p>Generally speaking, <em>Nextflow</em> pipelines are run with the command <code>nextflow run PIPELINE_NAME</code>, where “PIPELINE_NAME” is the name of the pipeline. Pipelines are usually shared in a public repository such as GitHub, and <code>nextflow</code> will automatically download the pipeline if it hasn’t been downloaded already to your computer.</p>
+<p>Let’s test our pipeline by looking at its help documentation:</p>
+<pre class="console"><code>$ nextflow run nf-core/viralrecon --help</code></pre>
+<p>The command should print a long list of options available with this pipeline. For pipelines developed by the <em>Nextflow</em> core team you can also consult the documentation available online, which is easier to read: <a href="https://nf-co.re/viralrecon" class="uri">https://nf-co.re/viralrecon</a>. This page includes many details about the pipeline: which tools are used in different steps of the data processing, how to use the pipeline for different types of data, a detailed documentation of all the options of the pipeline and explanation of the output files generated by it.</p>
+<p>Below, we give an overview of the pipelines used for Illumina and Nanopore amplicon data.</p>
+<div class="note">
+<p><strong>Reference Genome and Primer Locations</strong></p>
+<p>The <em>Wuhan-Hu-1</em> reference genome sequence and the amplicon primer locations (in BED file format) can all be found on the ARTIC <a href="https://github.com/artic-network/primer-schemes/tree/master/nCoV-2019">Primer Schemes repository</a>. The pipeline we are using takes care of downloading these files for us automatically, however it can be useful to know where to find them, in case you want to use other tools that require these files.</p>
+</div>
+<div id="illumina" class="section level3">
+<h3>Illumina</h3>
+<p>The Illumina sub-workflow is based on several standard bioinformatic tools and, importantly, on the <a href="https://andersen-lab.github.io/ivar/html/">iVar</a> software, which was developed for analysing amplicon-based sequencing data.</p>
+<div class="figure">
+<img src="images/viralrecon_workflow_illumina.svg" alt="" />
+<p class="caption">Schematic of the key steps in the Illumina sub-workflow.</p>
+</div>
+<p>To run the pipeline on Illumina data, we use the following general command:</p>
+<pre class="console"><code>nextflow run nf-core/viralrecon \
+  --input SAMPLESHEET_CSV \
+  --outdir OUTPUT_DIRECTORY \
+  --protocol amplicon \
+  --genome &#39;MN908947.3&#39; \
+  --primer_set artic \
+  --primer_set_version PRIMER_VERSION \
+  --skip_assembly \
+  --platform illumina \
+  -profile conda,singularity,docker</code></pre>
+<p>One of the key options is <code>--platform illumina</code>, which makes sure that the correct sub-workflow will be used.</p>
+<details>
+<summary>
+Click to see more details about this sub-workflow
+</summary>
+<p>In summary, the steps performed by the Illumina sub-workflow are:</p>
+<ul>
+<li>Adapter trimming - this consists of trimming (or “cutting”) the sequences to remove low-quality bases and any Illumina adapter sequences that are present in the sequences.</li>
+<li>Removing human (host) reads - when doing the sequencing it is possible that many reads are still from human material and this step removes them from the rest of the analysis.</li>
+<li>Read mapping - aligning (or mapping) the reads to the <em>Wuhan-Hu-1</em> reference genome.
+<ul>
+<li>The software used for mapping is <code>bowtie2</code>.</li>
+<li>The software <code>samtools</code> is used to convert the mapped file to BAM (instead of SAM) and sort the reads by coordinate (which is necessary for downstream steps).</li>
+</ul></li>
+<li>Trim Primers - primers are removed from the aligned reads using <code>ivar trim</code> (using the primer BED file).</li>
+<li>Call variants - identify SNPs and indels using <code>ivar variants</code>.</li>
+<li>Annotate variants - the called variants are annotated according to their potential effect on the genes/proteins they are located in. For example, if a mutation introduces a new stop codon, or causes a frameshift.</li>
+<li>Make consensus - apply the SNPs and indels from the previous step to the reference FASTA file.
+<ul>
+<li>There are two tools that can be used in this step: <code>bcftools consensus</code> (default) or <code>ivar consensus</code> (can be set with the option <code>--consensus_caller ivar</code>).</li>
+</ul></li>
+<li>Lineage assignment - the consensus sequences are assigned to lineages or clades using the <code>pangolin</code> and <code>nextclade</code> programs. These are two of the main lineage/clade nomenclature systems in use. They also identify <em>variants of concern</em> from the consensus sequences.</li>
+<li>Quality control - at several steps in the pipeline different tools are used to collect quality metrics and these are compiled into a report using <code>multiqc</code>.</li>
+</ul>
+</details>
+</div>
+<div id="nanoporemedaka-basecalled-fastq" class="section level3">
+<h3>Nanopore/medaka (basecalled FASTQ)</h3>
+<p>The nanopore sub-workflow is based on the <a href="https://artic.network/ncov-2019/ncov2019-bioinformatics-sop.html">ARTIC bioinformatics protocol</a> and uses several of the tools from the accompanying <a href="https://artic.readthedocs.io/en/latest/"><code>artic</code> software package</a>.</p>
+<p>This sub-workflow is similar to the other nanopore sub-workflow, the main difference is the software used for generating a consensus sequence (<code>medaka</code> instead of <code>nanopolish</code>).</p>
+<div class="figure">
+<img src="images/viralrecon_workflow_medaka.svg" alt="" />
+<p class="caption">Schematic of the key steps in the Medaka sub-workflow.</p>
+</div>
+<p>To run our pipeline on basecalled data (FASTQ files), we use the following command:</p>
+<pre class="console"><code>nextflow run nf-core/viralrecon \
+  --input SAMPLESHEET_CSV \
+  --outdir OUTPUT_DIRECTORY \
+  --protocol amplicon \
+  --genome &#39;MN908947.3&#39; \
+  --primer_set artic \
+  --primer_set_version PRIMER_VERSION \
+  --skip_assembly \
+  --platform nanopore \
+  --artic_minion_caller medaka \
+  --artic_minion_medaka_model MEDAKA_MODEL \
+  --fastq_dir fastq_pass/ \
+  -profile conda,singularity,docker</code></pre>
+<p>Some of the key options are:</p>
+<ul>
+<li><code>--platform nanopore</code> makes sure that the correct sub-workflow will be used.</li>
+<li><code>--artic_minion_caller medaka</code> indicates we want to use the <code>medaka</code> program to do the variant/consensus calling (directly from the basecalled FASTQ files, rather than from the raw signal in the FAST5 files).</li>
+<li><code>--artic_minion_medaka_model</code> specifies the model used by the <code>guppy_basecaller</code> software to do the basecalling. The model name follows the structure <code>{pore}_{device}_{caller variant}_{caller version}</code>. See more details about this in the <a href="https://github.com/nanoporetech/medaka#models">medaka models documentation</a>. <strong>Note:</strong> for recent versions of Guppy (&gt;6) there is no exact matching model from <code>medaka</code>. The recommendation is to use the model for the latest version available; a list of supported models can be found on the <a href="https://github.com/nanoporetech/medaka/tree/master/medaka/data"><code>medaka</code> GitHub repository</a>.</li>
+<li><code>--fastq_dir</code> specifies the directory containing the FASTQ files. This directory should contain sub-directories for each barcoded sample following the naming convention <code>barcodeXXXX</code> (where X is a number between 0 and 9). By default, the <code>guppy_basecaller</code> software from Nanopore generates a folder called “fastq_pass” which follows this convention.</li>
+</ul>
+<details>
+<summary>
+Click to see more details about this sub-workflow
+</summary>
+<p>In summary, the steps performed by the Medaka sub-workflow are:</p>
+<ul>
+<li>Aggregate reads from each sequencing barcode (when multiple files are availble for each barcode)</li>
+<li>Run the <code>artic minion</code> tool, which internally does several steps:
+<ul>
+<li>Map reads to the reference genome using <code>minimap2</code> (can be changed to use <code>bwa mem</code> with the option <code>--artic_minion_aligner bwa</code>).</li>
+<li>Trim primers from the aligned reads based on the known primer positions in the BED file (using a custom python script called <code>align_trim.py</code>).</li>
+<li>Call consensus sequences and SNP/indel variants using <code>medaka consensus</code> and <code>medaka variant</code>:
+<ul>
+<li>Positions with less than 20x depth are treated as missing data and converted to the ambiguous base ‘N’. It is not advised to go below this threshold as the models used to call variants do not perform as well.</li>
+</ul></li>
+</ul></li>
+<li>Annotate variants - the called variants are annotated according to their potential effect on the genes/proteins they are located in. For example, if a mutation introduces a new stop codon, or causes a frameshift.</li>
+<li>Lineage assignment - the consensus sequences are assigned to lineages or clades using the <code>pangolin</code> and <code>nextclade</code> programs. These are two of the main lineage/clade nomenclature systems in use. They also identify <em>variants of concern</em> from the consensus sequences.</li>
+<li>Quality control - at several steps in the pipeline different tools are used to collect quality metrics and these are compiled into a report using <code>multiqc</code>.</li>
+</ul>
+</details>
+</div>
+<div id="nanoporenanopolish-signal-level-fast5" class="section level3">
+<h3>Nanopore/nanopolish (signal-level FAST5)</h3>
+<p>The nanopore sub-workflow is based on the <a href="https://artic.network/ncov-2019/ncov2019-bioinformatics-sop.html">ARTIC bioinformatics protocol</a> and uses several of the tools from the accompanying <a href="https://artic.readthedocs.io/en/latest/"><code>artic</code> software package</a>.</p>
+<p>This sub-workflow is similar to the other nanopore sub-workflow, the main difference is the software used for generating a consensus sequence (<code>nanopolish</code> instead of <code>medaka</code>).</p>
+<div class="figure">
+<img src="images/viralrecon_workflow_nanopolish.svg" alt="" />
+<p class="caption">Schematic of the key steps in the Nanopolish sub-workflow. (Under development)</p>
+</div>
+<details>
+<summary>
+Click to see more details about this sub-workflow
+</summary>
+<p>In summary, the steps performed by the Nanopolish sub-workflow are:</p>
+<ul>
+<li>Filter reads to ensure they pass minimum read length thresholds:
+<ul>
+<li>minimum length 400bp (can be changed with <code>--min_length</code> option)</li>
+<li>maximum length 700bp (can be changed with <code>--max_length</code> option)</li>
+</ul></li>
+<li>Run the <code>artic minion</code> tool, which internally does:
+<ul>
+<li>Read alignment to reference genome using <code>minimap2</code> (can be changed to use <code>bwa mem</code> with the <code>--bwa</code> option).</li>
+<li>Trim primers from the aligned reads (based on the known primer positions in the BED file).</li>
+<li>Call consensus sequences and variants using <code>nanopolish variants</code> if using signal-level FAST5 files.
+<ul>
+<li>Positions with less than 20x depth are assigned the ambiguous base ‘N’. It is not advised to go below this threshold as the models used to call variants do not perform as well.</li>
+</ul></li>
+</ul></li>
+<li>Annotate variants - the called variants are annotated according to their potential effect on the genes/proteins they are located in. For example, if a mutation introduces a new stop codon, or causes a frameshift.</li>
+<li>Lineage assignment - the consensus sequences are assigned to lineages or clades using the <code>pangolin</code> and <code>nextclade</code> programs. These are two of the main lineage/clade nomenclature systems in use. They also identify <em>variants of concern</em> from the consensus sequences.</li>
+<li>Quality control - at several steps in the pipeline different tools are used to collect quality metrics and these are compiled into a report using <code>multiqc</code>.</li>
+</ul>
+</details>
+<p>To run our pipeline on signal-level data (FAST5 files), we use the following command:</p>
+<pre class="console"><code>nextflow run nf-core/viralrecon \
+  --input SAMPLESHEET_CSV \
+  --outdir OUTPUT_DIRECTORY \
+  --protocol amplicon \
+  --genome &#39;MN908947.3&#39; \
+  --primer_set artic \
+  --primer_set_version PRIMER_VERSION \
+  --skip_assembly \
+  --platform nanopore \
+  --fastq_dir fastq_pass/ \
+  --fast5_dir fast5_pass/ \
+  --sequencing_summary sequencing_summary.txt \
+  -profile conda,singularity,docker</code></pre>
+<p>Some of the key options are:</p>
+<ul>
+<li><code>--platform nanopore</code> makes sure that the correct sub-workflow will be used.</li>
+<li><code>--fastq_dir</code> specifies the directory containing the FASTQ files generated by the <code>guppy_basecaller</code> program (this is the standard software from Nanopore that processes the raw signal data from the sequencing device). This directory should contain sub-directories for each barcoded sample following the naming convention <code>barcodeXXXX</code> (where X is a number between 0 and 9). By default, <code>guppy_basecaller</code> generates a folder called “fastq_pass” which follows this convention.</li>
+<li><code>--fast5_dir</code> specifies the directory containing the FAST5 files generated by <code>guppy_basecaller</code>. This directory follows the same naming convention as above and is usually in a folder called “fast5_pass”.</li>
+<li><code>--sequencing_summary</code> is a path to the “sequencing_summary.txt” text file generated by <code>guppy_basecaller</code>.</li>
+</ul>
+</div>
+</div>
+<div id="section" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered"></h2>
+<p>Apart from the specific options used by each sub-workflow, there are some general options that are used:</p>
+<ul>
+<li><code>--input</code> specifies a CSV file with details about our samples. The format of this file depends on the specific sub-workflow you are using. See the details in the <a href="https://nf-co.re/viralrecon/2.4.1/usage#samplesheet-format">samplesheet documentation page</a>.</li>
+<li><code>--outdir</code> specifies the output directory to store all our results.</li>
+<li><code>--protocol amplicon</code> sets the pipeline for PCR amplicon data (the other option is <code>--protocol metagenomic</code>, which we do not cover in this course).</li>
+<li><code>--genome 'MN908947.3'</code> this is the standard name of the <a href="https://www.ncbi.nlm.nih.gov/nuccore/MN908947.3">Wuhan-Hu-1 reference genome</a>.</li>
+<li><code>--primer_set artic</code> at the moment only “artic” primers are available by default. It is possible to use custom primers with the Illumina workflow (see details <a href="https://nf-co.re/viralrecon/2.4.1/parameters#primer_bed">here</a>).</li>
+<li><code>--primer_set_version</code> the version of the <a href="https://github.com/artic-network/primer-schemes">ARTIC primer scheme</a> used. The <a href="https://github.com/nf-core/configs/blob/master/conf/pipeline/viralrecon/genomes.config">viralrecon primer config file</a> indicates the available primer shemes are: <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>4.1</code> and also <code>1200</code> (the 1200bp amplicon protocol, also known as “midnight”).</li>
+<li><code>--skip_assembly</code> this is used to skip de-novo assembly of the genome. This step is unnecessary in amplicon protocols, which instead rely on mapping reads to the reference genome (reference-based assembly). De-novo assembly is necessary for metagenomic protocols.</li>
+</ul>
+<p>There is one more option we used: <code>-profile</code>. This is a general <code>nextflow</code> option (not specific to our SARS-CoV-2 pipeline), which can be used to specify how the software used by the pipeline is managed. In our case, we are using a software called <em>Singularity</em>, which creates a “virtual operating system” (called a container) where all the necessary software is run from. This ensures that all of the software is automatically installed and runs on any Linux computer.</p>
+<div class="note">
+<p><strong>Conda, Singularity, Docker?</strong></p>
+<p>Generally speaking, workflow management software such as <em>Nextflow</em> or <em>Snakemake</em> support three solutions for managing software dependencies:</p>
+<ul>
+<li><a href="https://docs.docker.com/"><em>Docker</em></a> is a software that allows to package a small virtual operating system (or a “container”) containing all the software and data necessary for running an analysis.</li>
+<li><a href="https://sylabs.io/guides/3.5/user-guide/index.html"><em>Singularity</em></a> also creates software containers, similarly to <em>Docker</em>. However, it can more easily interface with the user’s filesystem, without the need to have special permissions.</li>
+<li><a href="https://docs.conda.io/en/latest/"><em>Conda</em></a> is a package manager, also very popular in bioinformatics. Instead of creating virtual OS containers, <em>Conda</em> instead creates software environments (think of them as directories) where all the software is locally installed, including all its dependencies. The use of individual environments ensures that software packages with incompatible dependencies can still be used within the same pipeline.</li>
+</ul>
+<p>Of the three, <strong><em>Singularity</em> is the recommended choice</strong>, although <em>Conda</em> is also a good alternative.</p>
+</div>
+<div id="running-the-workflow" class="section level3">
+<h3>Running the Workflow</h3>
+<p>Let’s see an example in action by using some example data. If you go to the directory <code>03-consensus/uk_illumina/</code> in the course materials, you will find several FASTQ files in the <code>data</code> directory. There is also a <em>shell script</em> (<code>scripts/run_illumina_workflow.sh</code>) that contains the commands we will use to run the workflow on these data.</p>
+<p>Opening the script, we can see the following commands:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create output directory</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the workflow</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="at">--input</span> samplesheet.csv <span class="at">--outdir</span> results/viralrecon <span class="at">--protocol</span> amplicon <span class="at">--genome</span> <span class="st">&#39;MN908947.3&#39;</span> <span class="at">--primer_set</span> artic <span class="at">--primer_set_version</span> 3 <span class="at">--platform</span> illumina <span class="at">--skip_assembly</span> <span class="at">-profile</span> conda</span></code></pre></div>
+<p>It first creates a results directory (to store our output files) and then runs the <code>nextflow</code> command using the Illumina sub-workflow. We could run these commands one at a time by copy/pasting them to the terminal. Or alternatively, we can run the entire script using <code>bash scripts/run_illumina_workflow.sh</code></p>
+<p>When you start running the workflow, you will get a list of the workflow steps and their progress. This may take quite a while to run, depending on the computer resources you have available. Once the workflow is complete, you should see a message similar to the following:</p>
+<pre><code>-[nf-core/viralrecon] 8/8 samples passed Bowtie2 1000 mapped read threshold:
+    280038: GB16
+    2946614: GB28
+    252871: GB09
+    3269412: GB21
+    103742: GB23
+    3016474: GB36
+    ..see pipeline reports for full list
+-
+-[nf-core/viralrecon] Pipeline completed successfully-
+Completed at: 18-May-2022 08:08:25
+Duration    : 1h 13m
+CPU hours   : 8.1
+Succeeded   : 343</code></pre>
+<p>You should also get several output files in the results folder specified with our <code>nextflow</code> command. We will detail what these files are in the next section.</p>
+<div class="note">
+<p><strong>Running the pipeline on our training computers</strong></p>
+<p>Our training computers don’t have the high specifications needed for routine bioinformatic analysis, so the <em>Illumina</em> pipeline takes up to 1h to complete.</p>
+<p>We provide already pre-processed results for 48 samples in the folder <code>03-consensus/uk_illumina/preprocessed</code>, which you can use to follow the next section.</p>
+</div>
+</div>
+</div>
+<div id="output-files" class="section level2 tabset">
+<h2 class="tabset">Output Files</h2>
+<p>After running our pipeline, we get several output directories and files. The directories we get depend on which version of the workflow was used (Illumina or Nanopore). The description of the output is detailed in the <a href="https://nf-co.re/viralrecon/2.4.1/output">pipeline documentation</a>. Although there are many output files, most of these contain results that are aggregated in an interactive <em>MultiQC</em> report, which makes their analysis easier. We highlight some of the main files of interest below.</p>
+<div id="illumina-1" class="section level3">
+<h3>Illumina</h3>
+<ul>
+<li>The file <code>multiqc/multiqc_report.html</code> contains a MultiQC quality and analysis report for the consensus assemblies generated by the pipeline.</li>
+<li>The folder <code>variants/bowtie2/</code> contains individual BAM files, which can be visualised with <em>IGV</em> if we want to look at the reads mapped to the reference genome.</li>
+<li>The folder <code>variants/ivar/consensus/bcftools</code> contains individual FASTA files (named <code>*.consensus.fa</code>) for each sample’s consensus genome sequence.</li>
+<li>The file <code>variants/ivar/variants_long_table.csv</code> contains a table with the aggregated results of all the variants detected in each sample.</li>
+</ul>
+</div>
+<div id="nanoporemedaka" class="section level3">
+<h3>Nanopore/medaka</h3>
+<ul>
+<li>The file <code>multiqc/medaka/multiqc_report.html</code> contains a MultiQC quality and analysis report for the consensus assemblies generated by the pipeline.</li>
+<li>The folder <code>medaka/</code> contains:
+<ul>
+<li>Individual BAM files (named <code>*.primertrimmed.rg.sorted.bam</code>), which can be visualised with <em>IGV</em> if we want to look at the reads mapped to the reference genome.</li>
+<li>Individual FASTA files (named <code>*.consensus.fasta</code>) for each sample’s consensus genome sequence.</li>
+<li>A file called <code>variants_long_table.csv</code> with a table of all the variants detected in each sample.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="section-1" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered"></h2>
+</div>
+<div id="quality-control" class="section level2">
+<h2>Quality Control</h2>
+<p>The <code>viralrecon</code> pipeline produces many quality control metrics, which are conveniently compiled in an interactive report with <em>MultiQC</em>, as mentioned above. We will not detail here every section of the report (check the <a href="https://nf-co.re/viralrecon/2.4.1/output">pipeline documentation</a> for a full description), but only highlight some of the sections that can be used for a first assessment of the quality of our samples.</p>
+<div id="variant-calling-metrics" class="section level3">
+<h3>Variant Calling Metrics</h3>
+<p>The first section or the report - <strong>Variant Calling Metrics</strong> - contains a summary table with several statistics for each sample, including the total number of reads, the number/percentage of reads mapped to the reference genome, the depth of coverage, the number of SNPs (single-nucleotide polymorphisms) and INDELs (insertions/deletions), the number of missense variants (mutations that result in an aminoacid change) and the fraction of ambiguous bases ‘N’ per 100kb.</p>
+<p>Looking at these basic metrics gives us a good first idea of whether some of the samples have a high fraction of missing bases (marked as <code>N</code> in the FASTA file), leading to a poorer assembly. We can quickly check this by sorting the table by the column named “# Ns per 100kb consensus” (you can convert the values in this column to a percentage by dividing the numbers by 100). There is also the ability to produce simple scatterplots from the data in this table, which can be useful to look at the relationship between the different metrics (see an example in the figure below).</p>
+<p>This table also contains information about the lineage/clade assigned to each sample by the programs <em>Pangolin</em> and <em>Nextclade</em>. This gives us an idea of which samples may be more similar to each other, and where they fit in the global context of other sequences available publicly. We will talk more about this topic in the <a href="05-lineage_analysis.html">lineage assignment section</a>.</p>
+<div class="figure">
+<img src="images/viralrecon_multiqc_variant_metrics.svg" alt="" />
+<p class="caption">Snapshot of the “Variant Metrics” section of the <code>viralrecon</code> <em>MultiQC</em> report. Simple scatterplots can be made from the data on this table using the <kbd>Plot</kbd> button. For example, at the bottom we show a scatterplot showing the relationship between the median depth of coverage and the number of ambiguous bases ‘N’ per 100kb. For the data in this example, we can see that when the average depth of coverage drops below around 200 reads we start getting higher number of missing bases in the assembly.</p>
+</div>
+<div class="note">
+<p><strong>Terminology Alert!</strong></p>
+<p>The word <strong>coverage</strong> is sometimes used in an ambiguous way by bioinformaticians. It can mean two things:</p>
+<ul>
+<li>The number of reads aligning to a position of the genome. This is sometimes called <strong>sequencing depth</strong> or <strong>depth of coverage</strong> (we will use these terms in the materials to avoid confusion). For example, we may say that the average depth of coverage of the genome is 20x, meaning that on average there are 20 reads aligned to a position of the genome.</li>
+<li>The fraction of a genome that has a sufficient number of reads for analysis. For example, if 90% of the genome has a sufficient number of reads to be analysed (for example, at a threshold of 10x), we would say it has 90% coverage (we “covered” 90% of the genome with enough data). In the context of genome assembly, we sometimes use the word “coverage” to refer to the percentage of the consensus genome without ambiguous ‘N’ bases.</li>
+</ul>
+<p><strong>In the <code>viralrecon</code> <em>MultiQC</em> report the word “coverage” is used to mean “depth of coverage”.</strong></p>
+</div>
+</div>
+<div id="amplicon-depth-of-coverage" class="section level3">
+<h3>Amplicon Depth of Coverage</h3>
+<p>The next section of the report - <strong>Amplicon Coverage Heatmap</strong> - contains a graphical representation of the average depth of coverage for each PCR amplicon in the ARTIC protocol (i.e. the average number of reads mapped to each amplicon interval). This plot is extremely useful to identify common PCR dropouts occurring across many samples. This may be an indication that our PCR primer scheme is not working for some of the forms of the virus circulating in our population (for example due to mutations that accumulate in the primer site).</p>
+<div class="figure">
+<img src="images/viralrecon_coverage_heatmap.png" alt="" />
+<p class="caption">Example heatmap showing the depth of coverage for a set of samples. The failure of an amplicon to be sequenced in several samples can be seen as a “column” of dark cells in the heatmap.</p>
+</div>
+<p>We can investigate primer dropout in more detail, for example by looking at the BAM files with mapped reads using <em>IGV</em>.</p>
+<p>From our heatmap (shown in the Figure above) we can see one of the PCR fragments - <em>ncov-2019_83</em> - seems to have poor amplification across many of our samples. Let’s investigate this in more detail by looking at the alignment file:</p>
+<ul>
+<li>Open <em>IGV</em> and go to <kbd>File → Load from file…</kbd>.</li>
+<li>In the file browser that opens go to the folder <code>results/viralrecon/variants/bowtie2/</code> and select the file <code>GB36.ivar_trim.sorted.bam</code> to open it.</li>
+<li>Go back to <kbd>File → Load from file…</kbd> and this time load the BED files containing the primer locations. These can be found in <code>resources/primers/artic_primers_pool1.bed</code> and <code>resources/primers/artic_primers_pool2.bed</code>.</li>
+</ul>
+<p>Once you have IGV open, you can navigate to the region where this amplicon is located by searching for the name of one of the primers - “ncov-2019_83_LEFT” - in the search box at the top. By zooming in to the region where this primer is located, we can see there is a mutation right at the start of this primer, which suggests that this may be the reason why this PCR fragment fails to amplify in this sample.</p>
+<div class="figure">
+<img src="images/igv_amplicon_dropout.svg" alt="" />
+<p class="caption">Screenshot from the IGV program showing an example of a region with PCR amplicon dropout. This is shown by a lack of reads mapped to this region of the genome. Because the PCR fragments from the ARTIC protocol overlap between the two pools, we can see if there are mutations occurring at the primer sites. In this example, a mutation in the left primer of amplicon 83 suggests this may be the reason for the dropout in this sample.</p>
+</div>
+</div>
+</div>
+<div id="mutationvariant-analysis" class="section level2">
+<h2>Mutation/Variant Analysis</h2>
+<p>One of the output files produced by the pipeline is a <strong>table SNP and indel variants detected in our samples</strong> saved as a CSV file in <strong><code>variants/ivar/variants_long_table.csv</code></strong>. This table can be useful to investigate if particular mutations are particularly frequent in our samples and what their likely effects are.</p>
+<p>The columns in this table are:</p>
+<ul>
+<li><code>SAMPLE</code> is the name of our sequenced sample.</li>
+<li><code>CHROM</code> is the name of the “chromosome”, which in our case is just the name of the reference genome (“MN908947.3”).</li>
+<li><code>POS</code> is the position of the genome where the mutation occurs.</li>
+<li><code>REF</code> is the reference nucleotide.</li>
+<li><code>ALT</code> is the alternative nucleotide, that is the nucleotide that was observed in our sample.</li>
+<li><code>FILTER</code> indicates whether the SNP passed quality filters from the variant calling software (“PASS”) or whether some other issue was observed (for example “dp” means that the depth of sequencing was unusually high or low).</li>
+<li><code>REF_DP</code> is the depth of sequencing of the reference allele, meaning how many reads contained the reference nucleotide.</li>
+<li><code>ALT_DP</code> is the depth of sequencing of the alternative allele, meaning how many reads contained the alternative nucleotide.</li>
+<li><code>AF</code> is the allele frequence of the alternative allele, meaning the proportion of reads that contained the alternative nucleotide (this column is equivalent to <code>ALT_DP</code>/(<code>ALT_DP</code> + <code>REF_DP</code>)).</li>
+<li><code>GENE</code> is the name of the gene in the SARS-CoV-2 annotation.</li>
+<li><code>EFFECT</code> this is the predicted effect of the mutation in the gene. This output comes from the <code>snpeff</code> software and uses <a href="http://www.sequenceontology.org/browser/obob.cgi">The Sequence Ontology</a> nomenclature (follow the link to search for each term).</li>
+<li><code>HGVS_C</code>, <code>HGVS_P</code> and <code>HGVS_P_1LETTER</code> is the DNA or amino acid change using <a href="https://varnomen.hgvs.org/">HGVS nomenclature</a>. For example, “c.1112C&gt;T” means a C changed to a T at position 1112 of the genome; and “p.Pro371Leu” would mean that a Proline changed to a Leucine at position 371 of the respective protein.</li>
+<li><code>CALLER</code> is the software used for variant calling.</li>
+<li><code>LINEAGE</code> is the Pangolin lineage that the sample was assigned to.</li>
+</ul>
+<p>Fully exploring this table benefits from the use of dedicated data analysis packages such as <em>R</em> or <em>Python/pandas</em>, which we will not cover in this workshop. However, some exploration can be done using spreadsheet programs such as Excel. For example, one could filter the table for mutations with a particular effect to try and identify mutations occurring in multiple samples or increasing in frequency over time.</p>
+<p>For example, let’s identify how many samples contain the mutation we previously identified in the “<em>ncov-2019_83_LEFT</em>” primer (we saw this was in position 25,003 of the genome). We can do this by sorting our table by the column “POS” (position) and then scrolling down to find the samples with this mutation. We will find that only 3 of the samples contain this mutation, suggesting some other additional causes are leading to the dropout in this PCR fragment.</p>
+<div class="warning">
+<p><strong>ORF1b Annotation Issues</strong></p>
+<p>The annotation of the <em>ORF1b</em> gene had some changes between the first original assembly and newer versions of this annotation. In particular, there is a frameshift that is not considered in the annotation used by most software, and this causes a discrepancy in the results between <code>viralrecon</code> and other tools such as <em>Nextclade</em> (which we will cover in the next section).</p>
+<p>This issue is <a href="https://github.com/nf-core/viralrecon/issues/263">under investigation</a> by the developers of <code>viralrecon</code> and may be corrected in future versions of the pipeline.</p>
+<p>For now, the advice is to <strong>ignore the variant effects of ORF1b</strong> as these correspond to an older version of the annotated gene.</p>
+</div>
+<div class="note">
+<p><strong>Keep Original Files Intact</strong></p>
+<p>When you analyse the results of a CSV file in a spreadsheet software (such as Excel), it may be a good idea to create a copy of your file to avoid accidentally modifying the original table. For example, if you accidentally sort one column of the table but forget to sort other columns, of if you accidentally filter the results and delete some of the rows from the table, etc.</p>
+<p>You can save a copy of the file by going to <kbd>File → Save As…</kbd>. You may want to save the copy as an Excel file format, to include graphs and colours. (Remember that the CSV format is a plain text file - it does not support graphs or coloured cells.)</p>
+</div>
+<div class="exercise">
+<p>Go to the course materials directory <code>03-consensus/india_nanopore</code> (on our training machines <code>cd ~/Course_Materials/03-consensus/india_nanopore</code>). This contains <strong>Nanopore sequencing</strong> data for several samples collected in India. Nanopore data is organised in directories named as <code>barcodeXX</code> (where <code>XX</code> is a number) - this is the standard output from the <em>Guppy</em> software used to do basecalling and generate FASTQ files.</p>
+<p>The Nanopore <em>Medaka</em> workflow expects to be given as an input a CSV file with two columns: sample name and barcode number. We already provide this file in <code>samplesheet.csv</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Run these samples through the <code>nf-core/viralrecon</code> pipeline.
+<ul>
+<li>Using <code>nano</code>, open the script found in <code>scripts/run_medaka_workflow.sh</code>.</li>
+<li>Fix the code in the script where you see the word “<em>FIXME</em>”:
+<ul>
+<li>Output the results to a directory called <code>results/viralrecon/</code>.</li>
+<li>The input sample sheet is in the file <code>samplesheet.csv</code> (check the <a href="https://nf-co.re/viralrecon/2.4.1/usage#nanopore-input-format">pipeline documentation</a> to review what the format of this samplesheet should be for the Nanopore pipeline).</li>
+<li>The FASTQ files are in a folder <code>data/fastq_pass</code>.</li>
+</ul></li>
+<li>Run the script using <code>bash</code>. This may take ~15 minutes to complete.</li>
+</ul></li>
+<li>While you wait for the pipeline to complete, use the file explorer <i class="fa-solid fa-folder"></i> to open the folder called <code>preprocessed</code>, which contains already pre-processed results from a larger run with 48 samples.
+<ul>
+<li>Open the file in <code>pipeline_info/execution_report_DATE.html</code> (where “DATE” is the date when the files were processed).</li>
+<li>How long did the workflow on the bigger data take to run?</li>
+<li>Which step of the pipeline took the longest to run?</li>
+</ul></li>
+<li>Open the <em>MultiQC</em> report found in <code>preprocessed/multiqc/medaka/multiqc_report.html</code> and answer the following questions:
+<ul>
+<li>Produce a plot between median depth of coverage (x-axis) and #Ns (y-axis). What do you think is the average coverage needed for &lt;10% of missing data.</li>
+<li>Were there any PCR amplicons with a dropout (i.e. very low depth of coverage) across multiple samples?</li>
+<li>Do any of these dropout amplicons coincide with gene “S” (Spike protein gene)? Note: you can see the ARTIC PCR primer location from the <a href="https://github.com/artic-network/artic-ncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV-2019.bed">online repository</a> and the gene locations in the <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512">SARS-CoV-2 NCBI genome browser</a>.</li>
+</ul></li>
+<li>Based on any amplicons that you identified in the previous question, find if there are any mutations coinciding with their primer locations. You can use the mutation variant table in <code>preprocessed/medaka/variants_long_table.csv</code>.</li>
+<li>With the mutation variants table open in a spreadsheet program (LibreOffice on our training machines):
+<ul>
+<li>Use the filter button <svg stroke="grey" fill="grey" stroke-width="0" viewBox="0 0 512 512" height="15" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"></path></svg> to look for mutations in gene “S” (encodes for the Spike protein).</li>
+<li>Identify the samples and positions of mutations of the type “disruptive_inframe_deletion”.</li>
+<li>Using IGV, open the BAM file for one of those samples. Note: BAM files are located in <code>preprocessed/medaka/SAMPLE.primertrimmed.rg.sorted.bam</code> (were ‘SAMPLE’ is the sample name).</li>
+<li>Go to the location of those mutations. From the read alignment, how confident are you about it? What could you do to confirm it?</li>
+</ul></li>
+</ol>
+<details>
+<summary>
+Answer
+</summary>
+<p><strong>Question 1</strong></p>
+<p>We can open the script with <em>Nano</em> using the command:</p>
+<pre class="console"><code>$ nano scripts/run_medaka_workflow.sh</code></pre>
+<p>The fixed code is:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create output directory</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the workflow</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="dt">\</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> samplesheet.csv <span class="dt">\</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> results/viralrecon <span class="dt">\</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--platform</span> nanopore <span class="dt">\</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--protocol</span> amplicon <span class="dt">\</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome</span> <span class="st">&#39;MN908947.3&#39;</span> <span class="dt">\</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set</span> artic <span class="dt">\</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set_version</span> 3 <span class="dt">\</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_assembly</span> <span class="dt">\</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fastq_dir</span> data/fastq_pass/ <span class="dt">\</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">--artic_minion_caller</span> medaka <span class="dt">\</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">--artic_minion_medaka_model</span> r941_min_high_g360 <span class="dt">\</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max_cpus</span> 8 <span class="at">--max_memory</span> <span class="st">&quot;56.GB&quot;</span> <span class="at">-profile</span> conda</span></code></pre></div>
+<p>What we did to fix the code was:</p>
+<ul>
+<li>Set <code>--input</code> as <code>samplesheet.csv</code>, which is the CSV file with two columns: sample name and Nanopore barcode number. The format of this file is detailed in the <a href="https://nf-co.re/viralrecon/2.4.1/usage#samplesheet-format"><code>nf-core/viralrecon</code> documentation</a>.</li>
+<li>Set <code>--outdir</code> as <code>results/viralrecon/</code>, which is the directory where we want to output our results.</li>
+<li>Set <code>--fastq_dir</code> as <code>data/fastq_pass</code>, which is the directory containing the FASTQ file folders named as <code>barcodeXX</code> (where <code>XX</code> is a number). This is the standard output from the <em>Guppy</em> software used to do basecalling of Nanopore data to produce FASTQ files.</li>
+</ul>
+<p>When we finish editing the file we can hit <kbd>Ctrl</kbd> + <kbd>X</kbd> to exit <em>Nano</em>. Before it closes it will ask us if we want to save the file and we can type “Y” for yes.</p>
+<p>To run the script we can do <code>bash scripts/run_medaka_workflow.sh</code>. After the workflow completes, we get a message similar to this one:</p>
+<pre><code>-[nf-core/viralrecon] Pipeline completed successfully-
+Completed at: 18-May-2022 08:08:25
+Duration    : 13m 22s
+CPU hours   : 1.6
+Succeeded   : 167</code></pre>
+<p>Note that the exact time that the workflow takes to run may differ from what we show here. The time depends on how many samples you are processing and how big the computer you are using is.</p>
+<hr />
+<p><strong>Question 2</strong></p>
+<p>We open the file found in <code>preprocessed/pipeline_info/execution_report_2022-05-04_12-41-12.html</code>, which contains information about the pipeline that was run on a set of 48 samples. We can see at the top of the report that it took ~15 minutes to run. This report also gives us information about how long each individual step of the pipeline took the longest to run (and other information such as which used more CPU or RAM memory). For example, in the section “Job Duration” we can see a graph that looks like this:</p>
+<p><img src="images/viralrecon_pipeline_info_duration.png" /></p>
+<p>This indicates that the step running the <code>artic minion</code> tool takes the longest. This is not surprising as this is the step where most of the work is happening (mapping, primer trimming and making a consensus sequence). You can revise the steps of the workflow in the <a href="04-consensus.html#SARS-CoV-2_Workflow">respective section above</a></p>
+<hr />
+<p><strong>Question 3</strong></p>
+<p>When opening the <em>MultiQC</em> report, we can see the first section contains a table with several statistics about the quality of each sample. We can produce a plot from this table, by pressing the “Plot” button above the table. The plot we were asked for is the following:</p>
+<div class="figure">
+<img src="images/viralrecon_multiqc_plot.png" alt="" />
+<p class="caption">This plot can be produced by clicking the <kbd>Plot</kbd> button on top of the table and then selecting the variables “Coverage median” and “# Ns per 100kb consensus”.</p>
+</div>
+<p>The y-axis of the plot tells us the number of ‘N’ per 100kb of sequence. If we divide those numbers by 100 we get a percentage and from these samples it seems like a median depth of coverage of around 200 reads generates samples with less than 10% of missing bases.</p>
+<p>From the section of the report “Amplicon coverage heatmap” we can see the average depth of coverage for each PCR amplicon from the ARTIC protocol. There are 3 amplicons in particular that have very low depth of coverage: nCoV-2019_51, nCoV-2019_62 and nCoV-2019_95.</p>
+<p>We can check the <a href="https://github.com/artic-network/artic-ncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV-2019.bed">ARTIC V3 primer BED file online</a> to look at the location of these primers, or we could look for it using command-line tools. Here is an example:</p>
+<pre class="console"><code>$ cat resources/primers/artic_version3_pool*.bed | grep &quot;_51_&quot;</code></pre>
+<pre><code>MN908947.3      15171   15193   nCoV-2019_51_LEFT       1       +
+MN908947.3      15538   15560   nCoV-2019_51_RIGHT      1       -</code></pre>
+<p>For this example, we can see the amplicon is between positions 15171 - 15560 of the genome. Looking at the <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512">SARS-CoV-2 NCBI genome browser</a>, we can see this coincides with <em>ORF1ab</em>. If we do the same analysis for the other primers, we will see that none of them coincides with gene S.</p>
+<hr />
+<p><strong>Question 4</strong></p>
+<p>To investigate whether this amplicon dropout is due to mutations in the primer regions we can open the mutations table <code>preprocessed/medaka/variants_long_table.csv</code>. If we sort the table by the column “POS”, we can scroll to the location of each primer pair.</p>
+<p>We can see that in only one case there is a mutation coinciding one of the primers: in sample “IN33” position 28687 there is a <code>C &gt; T</code> mutation, which coincides with primer nCoV-2019_95_LEFT. However, this only occurs for one of the samples, suggesting the reason for the PCR dropout might be related to other factors.</p>
+<hr />
+<p><strong>Question 5</strong></p>
+<p>After filtering our table for gene <em>S</em> (Spike gene), we can see only a couple of mutations of type “disruptive_inframe_deletion” in some of the samples at positions 21764 and 21990. To look at the reads with this mutation, we open the BAM file for one of these samples in <em>IGV</em> (for example sample IN22):</p>
+<ul>
+<li>Go to <kbd>File → Load from file…</kbd>.</li>
+<li>In the file browser that opens go to the folder <code>preprocessed/medaka</code> and select the file <code>IN22.primertrimmed.rg.sorted.bam</code> to open it.</li>
+<li>In the search box we can type “NC_045512.2:21990” which will zoom-in on the region around the deletion.</li>
+</ul>
+<p>From looking at the reads aligned to this position of the genome, we can see several of them containing a 3bp deletion. However, we can also see some reads that do not contain the deletion, and others that seem to be mis-aligned. If we were interested in confirming this mutation, we could do an independent PCR followed by Sanger sequencing, for example.</p>
+<p>Although this was not part of the question, it is also worth noting that the primer “nCoV-2019_73_LEFT” starts very near this deletion. In the MultiQC report, we can see that this PCR amplicon had very poor amplification in this sample. One possibility is that the deletion interfered with the primer efficiency in this sample.</p>
+<p>Generally, we don’t need to confirm every single mutation obtained from our analysis. But if we see a mutation occurring many times, then it may be worth further investigation, especially if it is disruptive and in an important gene such as the Spike gene.</p>
+</details>
+</div>
+</div>
+<div id="cleaning-fasta-files" class="section level2">
+<h2>Cleaning FASTA Files</h2>
+<p>To proceed with our analysis, we need a FASTA file containing <em>all</em> of our consensus sequences. However, our <code>viralrecon</code> pipeline outputs <em>separate</em> FASTA files for each sample. We can see this by running (from within the <code>03-consensus/uk_illumina/</code> directory):</p>
+<pre class="console"><code>$ ls results/viralrecon/variants/ivar/consensus/bcftools/</code></pre>
+<p>Also, the workflow modifies our original sample names in the FASTA file, by adding extra information to the sequence name. For example:</p>
+<pre class="console"><code>$ head -n 1 results/viralrecon/variants/ivar/consensus/bcftools/ERR5728910.consensus.fa</code></pre>
+<pre><code>&gt;ERR5728910 MN908947.3</code></pre>
+<p>What we want to do is clean these sample names, so that we end up with:</p>
+<pre><code>&gt;ERR5728910</code></pre>
+<p>We also want to make sure to combine all the samples into a single FASTA file.</p>
+<p>We can the command-line skills we acquired so far, in particular the use of the <code>cat</code> command to combine (or <em>concatenate</em>) the individual files and the <code>sed</code> command to replace text and clean our sample names. Let’s do this step by step.</p>
+<p>First, we can use the <code>*</code> <em>wildcard</em> to combine all the FASTA files with the <code>cat</code> command:</p>
+<pre class="console"><code>$ cat results/viralrecon/variants/ivar/consensus/bcftools/*.fa</code></pre>
+<p>Running this command will print all of the sequences on the screen! To see what happened a little better, we could <em>pipe</em> this command to <code>less</code> to browse up-and-down through the file:</p>
+<pre class="console"><code>$ cat results/viralrecon/variants/ivar/consensus/bcftools/*.fa | less</code></pre>
+<p>We could also check that we now have all our samples combined, we could pass the results to <code>grep</code> and search for the word <code>&gt;</code>, which in the FASTA format indicates the sequence name:</p>
+<pre class="console"><code>$ cat results/viralrecon/variants/ivar/consensus/bcftools/*.fa | grep &quot;&gt;&quot; | wc -l</code></pre>
+<p>This should give us 7 as the result (which makes sense, since we have 7 samples).</p>
+<p>We can now proceed with cleaning the names of the sequences, by using <code>sed</code>:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/viralrecon/variants/ivar/consensus/bcftools/<span class="pp">*</span>.fa <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/ MN908947.3//&#39;</span> <span class="op">&gt;</span> results/viralrecon/clean_sequences.fa</span></code></pre></div>
+<p>Notice that in this last command we make sure to redirect the result to a new file using <code>&gt;</code>.</p>
+<div class="exercise">
+<p>In this exercise we will create a clean FASTA file for the samples collected in India. These are found in the <code>03-consensus/india_nanopore</code> directory, so make sure to change to that directory first (on our training machines you can do: <code>cd ~/Course_Materials/03-consensus/india_nanopore</code>)</p>
+<p>In this case, the output FASTA files are in the folder <code>results/viralrecon/medaka</code> and have the file extension <code>.fasta</code>. If we look at one of the files:</p>
+<pre class="console"><code>$ head -n 1 results/viralrecon/medaka/IN42.consensus.fasta</code></pre>
+<pre><code>&gt;IN42/ARTIC/medaka MN908947.3</code></pre>
+<p>We can see that the name has a lot of extra information attached to it. We want to clean the name of the sequences so that the result is:</p>
+<pre><code>&gt;IN42</code></pre>
+<ul>
+<li>Use the tools <code>cat</code> and <code>sed</code> to construct a command that generates a new file called <code>results/consensus/clean_sequences.fa</code> containing all the sequences with “clean” sequence names.</li>
+</ul>
+<details>
+<summary>
+Hint
+</summary>
+Remember the syntax for pattern replacement with <code>sed</code> is: <code>sed 's/replace this/with that/'</code>. Also remember that if you want to replace the character “/”, you need to use the special <em>escape character</em>, for example: <code>sed 's/replace \/ slash//'</code>
+</details>
+<details>
+<summary>
+Answer
+</summary>
+<p>The complete code to achieve the desired outcome is:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/viralrecon/medaka/<span class="pp">*</span>.consensus.fasta <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/\/ARTIC\/medaka MN908947.3//&#39;</span> <span class="op">&gt;</span> results/viralrecon/clean_sequences.fa</span></code></pre></div>
+<p>Note that in order to replace the pattern <code>/ARTIC/medaka MN908947.3</code>, we needed to “<em>escape</em>” the <code>/</code> symbol by using <code>\/</code>. This is because <code>/</code> alone is used by <code>sed</code> to separate different parts of the command.</p>
+<p>Look at the <a href="02-unix-sed.html">section about pattern replacement</a> for a reminder of how the <code>sed</code> command works.</p>
+</details>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<div class="highlight">
+<p><strong>Key Points</strong></p>
+<ul>
+<li>The main steps to generate SARS-CoV-2 consensus sequences are: filter high-quality reads, map reads to reference genome, trim PCR primers and variant/mutation calling, which is finally used to produce a consensus sequence.</li>
+<li>Other steps that can be done include annotating the variants/mutations (what their effects in each gene might be) and assigning sequencences to known lineages/clades.</li>
+<li><em>Nextflow</em> is a software used for building workflows/pipelines involving multiple tools and data processing steps. Using established pipelines helps with automation, reproducibility, consistency of results and reduces the chances of data processing errors.</li>
+<li>The <code>nf-core/viralrecon</code> pipeline implements the steps to generate SARS-CoV-2 consensus sequences from <em>Illumina</em> or <em>Nanopore</em> data.</li>
+<li>The command <code>nextflow run nf-core/viralrecon</code> is used to run the pipeline, using specific options depending on the data we have.</li>
+<li>The output of the pipeline includes, among others:
+<ul>
+<li>A detailed <em>MultiQC</em> report, including information about genome coverage, the depth of sequencing for each amplicon, as well as other quality metrics that can help to troubleshoot problematic samples.</li>
+<li>A table with SNP and indel mutation variants identified in each sample.</li>
+<li>Information about SARS-CoV-2 lineages/clades/variants, which is detailed in the <a href="05-lineage_analysis.html">next section</a>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.img-container-left {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.img-container-right {
+  float: right;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+<hr>
+<div class="clearfix">
+  <div class="img-container-left">
+    <img src="assets/img/logo_btf.png" alt="UoC Bioinformatics Training Facility" style="width:100%">
+  </div>
+  <div class="img-container-right">
+    <img src="assets/img/logo_ukhsa.svg" alt="UK Public Health England" style="width:40%">
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

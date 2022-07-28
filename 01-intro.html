@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>SARS-CoV-2 Genomics</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UoC BioinfoTraining</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="101-setup.html">
+    <span class="fa fa-gear"></span>
+     
+    Setup
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-file-lines"></span>
+     
+    Materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Unix Shell</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="02a-unix_intro.html">Intro to Unix</a>
+        </li>
+        <li>
+          <a href="02b-unix_files_directories.html">Files and Directories</a>
+        </li>
+        <li>
+          <a href="02c-unix_text_manipulation.html">Text Manipulation</a>
+        </li>
+        <li>
+          <a href="02d-unix_pipes.html">Combining Commands &amp; Writing Scripts</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="01-intro.html">SARS-CoV-2 Genomic Surveillance</a>
+    </li>
+    <li>
+      <a href="03-intro_ngs.html">Intro to NGS Data</a>
+    </li>
+    <li>
+      <a href="04-consensus.html">Consensus Assembly</a>
+    </li>
+    <li>
+      <a href="05-lineage_analysis.html">Lineages and Variants</a>
+    </li>
+    <li>
+      <a href="06-phylogeny.html">Building Phylogenies</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="102-unix_cheatsheet.html">Unix Cheatsheet</a>
+    </li>
+    <li>
+      <a href="106-file_formats.html">Common File Formats</a>
+    </li>
+    <li>
+      <a href="104-wsl_windows.html">Windows Subsystem for Linux</a>
+    </li>
+    <li>
+      <a href="105-vs_code.html">Visual Studio Code</a>
+    </li>
+    <li>
+      <a href="103-tools_and_resources.html">SARS-CoV-2 Resources</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="100-homework.html">
+    <span class="fa fa-pencil"></span>
+     
+    Homework
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/cambiotraining/sars-cov-2-genomics">
+    <span class="fa fa-brands fa-github"></span>
+     
+    Github
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="sars-cov-2-genomic-surveillance" class="section level1">
+<h1>SARS-CoV-2 Genomic Surveillance</h1>
+<div class="highlight">
+<p><strong>Questions</strong></p>
+<ul>
+<li>How can genomic surveillance help during a pandemic?</li>
+<li>What protocols and technologies are used for SARS-Cov-2 genome sequencing?</li>
+<li>What factors should be considered when collecting samples for sequencing?</li>
+<li>What are some of the main SARS-CoV-2 data repositories and projects?</li>
+</ul>
+<p><strong>Learning Objectives</strong></p>
+<ul>
+<li>Enumerate some examples of how the genomic surveillance of SARS-CoV-2 has impacted public health decisions during the ongoing pandemic.</li>
+<li>Describe what a variant of concern (VOC) is and how it differs from a variant of interest (VOI).</li>
+<li>Describe the sources of information that can be obtained from GISAID, Pango, Nextstrain and the WHO nomenclature systems.</li>
+<li>Contrast different sequencing protocols (e.g. amplicon, metagenomic) and technologies (e.g. Illumina and Nanopore) commonly used for SARS-CoV-2 sequencing, including the pros and cons of each.</li>
+<li>Understand the steps involved in the widespread ARTIC protocol and the differences between its versions.</li>
+<li>List key metadata fields needed with each sample to make best use of the data and recognise some limitations related to privacy.</li>
+</ul>
+</div>
+<div class="note">
+<p>This section has an accompanying <a href="https://docs.google.com/presentation/d/1lN3fHMcDKmP2vHTaPCpPDlqxapi_QWaxAqmKw1bq4E8/edit?usp=sharing" target="_blank">slide deck</a>.</p>
+</div>
+<div id="what-is-sars-cov-2" class="section level2">
+<h2>What is SARS-CoV-2?</h2>
+<p>SARS-CoV-2 (Severe acute respiratory syndrome coronavirus 2) is a <em>betacoronavirus</em> resposible for the COVID-19 disease and caused a global outbreak leading to an ongoing pandemic. The initial spread of this virus started in the city of Wuhan, in China. Despite early efforts to contain its spread in China (through several lockdowns in the country), the virus spread to other provinces within China and, eventually, to other countries across the world. This led to the World Health Organisation (WHO) declaring a public health emergency on 30 January 2020 and then a pandemic on 11 March 2020.</p>
+<p>SARS-CoV-2 is an RNA virus, composed of single-stranded RNA. The first <strong>SARS-CoV-2 genome</strong> was <a href="https://www.nature.com/articles/s41586-020-2012-7">published in January 2020</a> and is approximately 30Kb long. It encodes several proteins including the so-called Spike protein (or ‘S’ for short), which is used by the virus to interact and eventually enter human cells and cause infection. This interaction happens by the binding of the S protein to the ACE2 protein receptor found in human cells.</p>
+<div class="figure">
+<img src="https://ars.els-cdn.com/content/image/1-s2.0-S0888754320308764-gr1_lrg.jpg" alt="" />
+<p class="caption">Genome structure of SARS-CoV-2. Source: <a href="https://doi.org/10.1016/j.ygeno.2020.09.059">Rahimi, Mirzazadeh &amp; Tavakolpour 2021</a></p>
+</div>
+<p>The genome sequence of SARS-CoV-2 has been a huge contributor to our ability to manage current pandemic. Namely:</p>
+<ul>
+<li>It allowed the development of a vaccine to target the S protein.</li>
+<li>It allowed the development of diagnostic tests for positive cases (lateral flow test and PCR-based test).</li>
+<li>It allowed the development of protocols for whole-genome sequencing of the virus from positive human samples.</li>
+</ul>
+<p>This last point is the focus of our workshop, and we will spend some time looking at how to analyse these data.</p>
+<!--
+Very brief and general intro to coronavirus biology (see: https://www.nature.com/articles/s41586-021-04188-6)
+
+- genus betacoronavirus
+- phylogenetic context in relation to other viruses
+- SARS-CoV-2 spike protein (binds to human ACE2); its structure, e.g. receptor binding domain, furin-cleavage site
+  - mutations in spike protein might cause immune escape and/or vaccine inefficiency
+- current pandemic overview
+-->
+</div>
+<div id="genomic-surveillance" class="section level2">
+<h2>Genomic Surveillance</h2>
+<p>The number of SARS-CoV-2 genomes sequenced is the largest of a pathogen ever done. As such, it has enabled us to <a href="https://www.nature.com/articles/s41586-021-04188-6"><strong>track how the virus evolves and spreads</strong></a> both at a local and global scale at an unprecendented resolution. This allowed the identification of mutations that affect characteristics of the virus, such as its transmissibility or severity of the disease, and testing new strains of the virus to understand whether they are effectively neutralised by current or future vaccines.</p>
+<p>One of the main applications of SARS-CoV-2 sequencing is to infer relationships between the different circulating forms of the virus. This is done by comparing these sequences and building <strong>phylogenetic trees</strong> that reflect their sequence similarities. From these, it is possible to identify particular clusters of similar sequences that spread faster than expected, and may therefore be associated with mutations that increase the virus’ fitness.</p>
+<div class="figure">
+<img src="images/lineages_example.svg" alt="" />
+<p class="caption">Example of global phylogeny from the <a href="https://nextstrain.org/ncov/gisaid/global">Nextstrain public server</a>. Colours show clusters of similar sequences. (Screenshot taken Feb 2022)</p>
+</div>
+<p>For example, one of the first mutations identified from these sequencing efforts was A23403G (an adenine was replaced by a guanine in position 23,403 of the genome), which caused an aminoacid substitution in the S protein that increased virus infectivity and transmissibility. Since then, many new forms of the virus have been identified as being of particular concern for public health, and have been <a href="https://www.who.int/en/activities/tracking-SARS-CoV-2-variants/">classified by the WHO as <strong>Variants of Concern</strong></a>. These have been named based on letters of the Greek alphabet, and have been a crucial way to inform public health policy and containment measures around the world.</p>
+<p>In addition to the WHO variant nomenclature, there are three main projects that have been instrumental in grouping SARS-CoV-2 sequences into similar groups:</p>
+<ul>
+<li>The <a href="https://www.gisaid.org/">GISAID nomenclature</a> classifies sequences based on key mutations that define particular groups of sequences in the global phylogeny. It also complements its classification by borrowing information from the <em>Pango</em> nomenclature system.</li>
+<li>The <a href="https://www.pango.network/the-pango-nomenclature-system/statement-of-nomenclature-rules/">Pango nomenclature</a> is based on the phylogeny of SARS-CoV-2 and defined as groups of sequences that share a common ancestor and a distinctive sequence feature (for example, all share the same single nucleotide change). This nomenclature is also sometimes referred as “<a href="https://doi.org/10.1038/s41564-020-0770-5">Rambaut et al. 2020</a>” after the respective publication.</li>
+<li>The <a href="https://nextstrain.org/blog/2020-06-02-SARSCoV2-clade-naming">Nextstrain nomenclature</a> is slightly more informal than the above, its main purpose being to facilitate public health discussions. Despite this, it is still informed by the phylogenetic placement of sequences in a tree and therefore has a large overlap with the <em>Pango</em> nomenclature.</li>
+</ul>
+<p>We will learn more about how sequences are classified into <em>lineages</em> and <em>variants of concern</em> in the section about <a href="05-lineage_assignment.html">Lineage Assignment</a>.</p>
+<div class="note">
+<p><strong>What is the difference: strain, lineage, clade, variant?</strong></p>
+<p>These terms are sometimes used interchangeably in informal conversations about the different forms of SARS-CoV-2. For our purposes, these are the definitions we will use:</p>
+<p>A <strong>strain</strong> is a group of viruses that are sufficiently diverged from others, so that they are quite distinct at a sequence level as well as in their biological properties. SARS-CoV-2 is still considered to be a single strain. Examples of other coronavirus strains are SARS-CoV and MERS-CoV.</p>
+<p>The terms <strong>lineage</strong> and <strong>clade</strong> are somewhat similar, in that both represent groups of similar sequences, inferred from a phylogenetic analysis and sharing a common ancestor. Their main difference (at least in the current SARS-CoV-2 nomenclature systems) is the level of resolution. Clades tend to be more broadly defined and therefore include more sequences within it. They are useful to discuss long-term trends during a pandemic. Lineages have a finer resolution, being useful to identify patterns related to a recent outbreak.</p>
+<p>Since a phylogenetic tree is inherently hierarchical, there isn’t always a clear-cut way of defining where one lineage/clade starts and another ends. That is why lineage classification is a partially manual process, involving human curation by experts.</p>
+<p>Finally, the term <strong>variant</strong> is usually used to refer to WHO’s <em>variants of interest</em> or <em>variants of concern</em> (e.g. the Alpha, Delta and Omicron variants). Variants are distinct from each other by the <em>combination of all sequence changes</em> in their genomes. The term “variant” can be ambiguous when used in the field of bioinformatics, and we return to this in the section about <a href="05-lineage_assignment.md">Lineage Assigment</a></p>
+</div>
+<div class="exercise">
+<ul>
+<li>Looking through the <a href="https://www.who.int/en/activities/tracking-SARS-CoV-2-variants/">WHO variants page</a>, can you find what the difference is between a <em>Variant of Interest</em> (VOI) and a <em>Variant of Concern</em> (VOC)?</li>
+<li>Can you find the correspondence between the VOCs and their respective lineages in other classification systems (GISAID, Nextstrain and Pango)?</li>
+<li>Go to the <a href="https://outbreak.info/location-reports">outbreak.info</a> website and search for a country of your choice (for example, your country of origin or where you live).</li>
+<li>How many sequences are available from the last 360 days? (Note: by default only the last 60 days are shown. You can change this in the text box found on the right of the report page.)</li>
+<li>What were the most common lineages of the virus in circulation in the last 360 days? Do you notice sharp changes in the frequency of WHO <em>Variants of Concern</em>?</li>
+</ul>
+</div>
+</div>
+<div id="the-gisaid-database" class="section level2">
+<h2>The GISAID Database</h2>
+<p>The widespread use of genome sequences would have not been possible without the ability to centrally collect these sequences and make them available to researchers and public health professionals. The main repository used to deposit SARS-CoV-2 sequences is the database managed by the <a href="https://www.gisaid.org/">GISAID Initiative</a>. This allows sharing the sequencing data as well as metadata associated with it (such as dates of collection, geo-location, patient information, etc.). For example, the <a href="https://outbreak.info/location-reports">outbreak.info</a> website that we just used in the exercise above directly pulls data from GISAID to update its reports on a daily basis.</p>
+<p>At the end of this course you too will be able to contribute to this database, by producing full genome sequences assembled from sequencing data.</p>
+<div class="note">
+<p><strong>Create a GISAID account</strong></p>
+<p>Go to the <a href="https://www.gisaid.org/registration/register/">GISAID registration page</a> and create an account, so you can gain access to the data stored in GISAID as well as the ability to submit your own sequences in the future.</p>
+</div>
+</div>
+<div id="sars-cov-2-sequencing" class="section level2">
+<h2>SARS-CoV-2 Sequencing</h2>
+<p>Routine SARS-CoV-2 sequencing is done with a method generally referred to as <em>amplicon sequencing</em>. This method relies on amplifying the genetic material using <a href="https://youtu.be/aUBJtHwHASA">polymerase chain reaction</a> (PCR) with a panel of primers designed against the known SARS-CoV-2 genome.</p>
+<p>One of the most popular methods for preparing virus RNA for sequencing is <strong>amplicon sequencing</strong>. This method consists of amplifying the genetic material by PCR using a panel of primers that covers the entire genome of the target virus. This is required, since the starting amount of viral genetic material in a sample is typically very low (most of the material will belong to the host - in this case, human RNA).</p>
+<p>The most popular protocol for amplicon sequencing has been developed by the <a href="https://artic.network/">ARTIC network</a>, whose aim is to develop standardised protocols for viral sample processing. The group has designed and tested a panel of primers that work well to amplify the SARS-CoV-2 genome in a mostly unbiased way. This is a challenging task, as the protocol involves pooling hundreds of primers together in a single reaction! Also, as the virus mutates in the population, primers that used to work in the original template genome may no longer work in the new variants circulating in the population (“primer erosion”). Therefore, the ARTIC primers have gone through several versions, which are updated and optimised to work on the most common circulating lineages. These are called “primer schemes” and are made publicly available in a <a href="https://github.com/artic-network/primer-schemes">public repository</a>.</p>
+<div class="figure">
+<img src="images/artic_protocol.png" alt="" />
+<p class="caption">Schematic of the ARTIC protocol. The RNA is reverse-transcribed to cDNA, then two pools of primers (that cover the entire SARS-CoV-2 genome) are used to PCR-amplify the material. This material is used to prepare sequencing libraries for the relevant platform that will be used downstream (Illumina or Nanopore). Source: <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-020-07283-6/figures/1">Gohl et al. 2020</a></p>
+</div>
+<p>Besides amplicon sequencing, other methods can also be used to obtain SARS-Cov-2 genomes:</p>
+<ul>
+<li><p><strong>Metagenomic RNA sequencing</strong> was the method used to assemble the <a href="https://doi.org/10.1038/s41586-020-2012-7">first SARS-CoV-2 genome</a> and one of the <a href="https://doi.org/10.1101/2020.03.02.968818">first sequences in Cambodia</a>. This method consists of extracting viral RNA (using commercially available kits) followed by high-throughput RNA-seq. The resulting sequences are then compared with nucleotide databases of known organisms, and viral sequences selected for <em>de-novo assembly</em>. This approach is suitable when the virus sequence is unknown, but requires a high sequencing depth, increasing its costs.</p></li>
+<li><p><strong>Sequence capture</strong> protocols are also available, whereby the samples are enriched for the target virus by using a panel of probes against the SARS-CoV-2 genome, followed by sequencing and reference-based assembly. This approach is more similar to amplicon sequencing, as it works by enriching the sample for the known virus.</p></li>
+</ul>
+<div class="figure">
+<img src="images/metagenomic_vs_amplicon.svg" alt="" />
+<p class="caption">Simplified diagram of the main steps involved in metagenomic and amplicon sequencing approaches. In amplicon sequencing the cDNA material is first PCR-amplified with virus-specific primers to enrich the sample, followed by sequencing and downstream bioinformatic analysis. With the metagenomic approach the mixed cDNA material is sequenced and the resulting sequences are bioinformatically separated between known sequences (from other organisms) and unknown sequences. The unknown sequences can then be de-novo assembled into a new genome.</p>
+</div>
+<p>Despite these alternative methods, <em>amplicon sequencing</em> remains one of the most popular methods for large-scale viral surveillance due to its <strong>low cost</strong> and <strong>high-throughput</strong>. The data generated from this method will be the focus of this course.</p>
+<div class="note">
+<p><strong>Illumina or Nanopore?</strong></p>
+<p>Both of these sequencing platforms can be used to sequence amplicon samples.</p>
+<p><em>Nanopore</em> platforms allow sequencing 96 samples at a time, are readily available as portable devices, and have fast run times. This gives them great flexibility, making them an excellent solution for rapidly building sequencing capacity in a lab.</p>
+<p>By comparison, <em>Illumina</em> platforms give higher throughput, are cheaper to run per sample and have lower error rates. However, they require substantial upfront cost to setup and equip in the lab and take longer to run.</p>
+</div>
+<div class="note">
+<p><strong>Alternative Amplicon Sequencing Protocols</strong></p>
+<p>Although the ARTIC protocol is one of the most popular used in routine SARS-CoV-2 sequencing, there are alternative sets of primers and protocols available.</p>
+<p>For example, Thermo Fisher has the <a href="https://www.thermofisher.com/uk/en/home/life-science/sequencing/dna-sequencing/microbial-sequencing/microbial-identification-ion-torrent-next-generation-sequencing/viral-typing/coronavirus-research.html">Ion AmpliSeq SARS-CoV-2</a> kit, designed to work with <em>Ion Torrent</em> sequencing platforms.</p>
+<p>An alternative protocol that has been developed by the community is the <a href="https://www.protocols.io/view/sars-cov2-genome-sequencing-protocol-1200bp-amplic-rm7vz8q64vx1/v6"><em>midnight protocol</em></a>. This protocol consists of amplifying larger PCR fragments, thus requiring fewer primer pairs than the ARTIC protocol. This leads to a lower complexity in the multiplex PCR reaction and fewer chances of PCR dropout due to mis-priming againts new variants. However, because it uses longer PCR fragments, it can only be used with long-read sequencing (<em>Nanopore</em>) and not short-read sequencing (<em>Illumina</em>).</p>
+<p>The <a href="https://www.protocols.io/workspaces/coronavirus-method-development-community"><em>Coronavirus Method Development Community</em></a> on the protocols.io platform is a good source of alternative sequencing protocols for SARS-CoV-2.</p>
+</div>
+</div>
+<div id="sample-collection" class="section level2">
+<h2>Sample Collection</h2>
+<p>There are two big considerations when collecting samples for sequencing:</p>
+<ul>
+<li>Is there enough viral material in the sample (viral load)?</li>
+<li>Did I collect all the necessary information about each sample (metadata)?</li>
+</ul>
+<div id="viral-load" class="section level3">
+<h3>Viral Load</h3>
+<p>When collecting patient samples for sequencing, it is important to quantify the viral load in the sample. This is usually done by <a href="https://dx.doi.org/10.3390%2Fijms21083004">quantitative RT-PCR (RT-qPCR)</a>, whereby the amplification of the samples is monitored by measuring a dye that is incorporated during the PCR reaction. This results in amplification curves, which reflect the amount of RNA present in the sample. The more PCR cycles are needed to saturate the signal, the lower the amount of virus in the sample.</p>
+<div class="figure">
+<img src="images/virus-RT-qPCR.png" alt="" />
+<p class="caption">Overview of RT-qPCR quantification of viral load in a sample. Adapted from <a href="https://doi.org/10.1038/s41467-020-18611-5">Smyrlaki et al. 2020</a></p>
+</div>
+<p>The result of RT-qPCR is usually expressed as the PCR cycle at which a particular threshold in the amplification curve is reached, the <strong>Ct value</strong>. Generally, samples with <strong>Ct &gt; 30</strong> are not worth sequencing, as their genome completeness is likely going to be low due to the low amounts of starting material.</p>
+<div class="figure">
+<img src="images/Ct_coverage_relationship.png" alt="" />
+<p class="caption">Relationship between RT-qPCR Ct value and resulting genome completeness. Source: <a href="https://youtu.be/Fb-SID2DlB0">Jared Simpson’s talk at CLIMB BIG DATA workshop</a></p>
+</div>
+</div>
+<div id="metadata" class="section level3">
+<h3>Metadata</h3>
+<p>One important consideration when collecting samples, is to record as much information as possible about each sample. The Public Health Alliance for Genomic Epidemiology (PHA4GE) coalition provides several <a href="https://www.preprints.org/manuscript/202008.0220/v1">guidelines</a> and <a href="https://dx.doi.org/10.17504/protocols.io.btpznmp6">a protocol</a> to aid in metadata collection. There are also essential metadata needed to upload new SARS-CoV-2 genome sequences to the GISAID database (Figure).</p>
+<div class="figure">
+<img src="images/gisaid_metadata.png" alt="" />
+<p class="caption">Snapshot of the GISAID upload template metadata sheet.</p>
+</div>
+<p>Two key pieces of information for genomic surveillance are the date of sample collection and the geographic location of that sample. This information can be used to understand which variants are circulating in an area at any given time.</p>
+<p>Privacy concerns need to be considered when collecting and storing sensitive data. However, it should be noted that sensitive data can still be collected, even if it is not shared publicly (e.g. via the GISAID database). Such sensitive information may still be useful for the relevant public health authorities, who may use those sensitive information for a finer analysis of the data. For example, epidemiological analysis will require individual-level metadata (“person, place, time”) to be available, in order to track the dynamics of transmission within a community.</p>
+<p>This is the general advice when it comes to metadata collection: <strong>record as much information about each sample as possible</strong>!</p>
+<div class="exercise">
+<p>Open the folder under “Course_Materials &gt; 01-Unix &gt; metadata”, where you will find several CSV files with information about samples that were sequenced and will be analysed by us later in the course. Double-click to open one of these files (any of them is fine), which should open them on a spreadsheet software (on our training machines it is LibreOffice, but Excel would also work).</p>
+<p>The column names of these files are based on the PHA4GE nomenclature system.</p>
+<ul>
+<li>Go to the <a href="https://dx.doi.org/10.17504/protocols.io.btpznmp6">PHA4GE metadata collection protocol</a> and read throught the first steps to find the link to the collection templates.</li>
+<li>From that link, go to the Supporting Materials to find the “field mappings” spreadsheet, which matches naming conventions between PHA4GE and other databases such as GISAID.</li>
+<li>Based on this information, can you match the column names from our sample information table to the fields required by GISAID?</li>
+<li>What do you think is the naming convention for the isolate name? How would you adjust this when uploading the data to GISAID?</li>
+</ul>
+<details>
+<summary>
+Answer
+</summary>
+<p>The first step of this protocol provides with a link to a GitHub repository containing several template files: <a href="https://github.com/pha4ge/SARS-CoV-2-Contextual-Data-Specification" class="uri">https://github.com/pha4ge/SARS-CoV-2-Contextual-Data-Specification</a>.</p>
+<p>If we follow that link, we will see several spreadsheet files (for Excel or LibreOffice) with templates that can be used to record samples metadata. In the “Supporting Materials” we find a link to “<a href="https://github.com/pha4ge/SARS-CoV-2-Contextual-Data-Specification#pha4ge-to-who-and-sequence-repository-field-mappings">PHA4GE to WHO and sequence repository field mappings</a>”. If we download and open that file we will see a spreadhseet with 4 tabs. Each of the tabs shows the equivalence between the <em>PHA4GE</em> column names and the equivalent names used by other platforms.</p>
+<p>Looking at the equivalence between the column names in our metadata sheets and the GISAID nomenclature, we can identify only some of them:</p>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="16%" />
+<col width="63%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Our Name</th>
+<th>GISAID equivalent</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>sample</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>sample_collection_date</td>
+<td>Collection date</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>geo_loc_country</td>
+<td>Location</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>geo_loc_region</td>
+<td>Location</td>
+<td>In GISAID the field “Location” is used for “Continent / Country or Territory / Region”</td>
+</tr>
+<tr class="odd">
+<td>latitude</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>longitude</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>sequencing_instrument</td>
+<td>Sequencing technology</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>sample_collection_year</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>sample_collection_month</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>sample_collection_day</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>organism</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>isolate</td>
+<td>Virus name</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>sequencing_protocol_name</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>amplicon_pcr_primer_scheme</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>sequencing_protocol</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Looking at this spreadhseet, we can also see this explanation about the “Virus Name” field:</p>
+<blockquote>
+<p>While the meanings and structures of the GISAID field “Virus name” and the PHA4GE field “isolate” overlap, GISAID requires a slightly different structure for Virus name. e.g. PHA4GE structure: SARS-CoV-2/country/sampleID/2020, GISAID structure: hCov-19/country/sampleID/2020. Change “SARS-CoV-2” to “hCov-19” in the isolate name.</p>
+</blockquote>
+<p>So, in order to upload our data to GISAID we would need to change the name of the virus accordingly.</p>
+</details>
+</div>
+</div>
+</div>
+<div id="sars-cov-2-bioinformatics" class="section level2">
+<h2>SARS-CoV-2 Bioinformatics</h2>
+<p>What bioinformatic skills do we need in order to analyse SARS-CoV-2 genome sequencing data? While there are several software tools that have been specifically developed for SARS-CoV-2 analysis (and we will see some of them in this course), there is a set of foundational skills that are applicable to any bioinformatics application:</p>
+<ul>
+<li>The use of the <strong>Unix command line</strong>. Linux is the most common operating system for computational work and most of the bioinformatic software only runs on it.</li>
+<li>Getting familiar with common <strong>file formats in bioinformatics</strong>. This includes files to store nucleotide sequences, sequence alignments to a reference genome, gene annotations, phylogenetic trees, amongst others.</li>
+<li>Understand software tools’ <strong>documentation</strong> and how to configure different options when running our analyses.</li>
+</ul>
+<p>We will turn to these topics in the following sessions.</p>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<div class="highlight">
+<p><strong>Key Points</strong></p>
+<ul>
+<li>The sequencing of SARS-CoV-2 genomes has allowed the tracking of new variants throughout the pandemic.</li>
+<li>The World Health Organisation defines <em>Variants of Concern</em> as SARS-CoV-2 forms with characteristics of public health concern. This includes increased transmissibility, virulence, disease symptoms or vaccine resistance.</li>
+<li>GISAID, Pango and Nextstrain are organisations whose work includes the classification of SARS-CoV-2 genomes into groups that may later be classified as variants of concern by WHO.</li>
+<li>GISAID also plays a key role as the main database for assembled SARS-CoV-2 genomes, submitted by the community.</li>
+<li>Routine SARS-CoV-2 sequencing is usually done by <em>amplicon sequencing</em> (amplifying an infected sample by PCR using primers that cover the entire genome). The most popular protocol has been developed by the ARTIC network.</li>
+<li>Other methods of sequencing include <em>metagenomic</em> and <em>sequence capture</em>. However, these methods require more sequencing and therefore are not commonly used for sequencing at a population scale.</li>
+<li>Both Illumina and Nanopore platforms can be used for sequencing SARS-CoV-2 amplicon samples.</li>
+<li>Metadata collection is essential for interpreting the results of the sequencing.
+<ul>
+<li>For genomic surveillance purposes recording of geographic location and date of sampling are crucial.</li>
+<li>Other useful information includes details about the sequencing (e.g. sample preparation protocols and sequencing platforms used).</li>
+</ul></li>
+<li></li>
+</ul>
+</div>
+</div>
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.img-container-left {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.img-container-right {
+  float: right;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+<hr>
+<div class="clearfix">
+  <div class="img-container-left">
+    <img src="assets/img/logo_btf.png" alt="UoC Bioinformatics Training Facility" style="width:100%">
+  </div>
+  <div class="img-container-right">
+    <img src="assets/img/logo_ukhsa.svg" alt="UK Public Health England" style="width:40%">
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

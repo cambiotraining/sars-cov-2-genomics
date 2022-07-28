@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>SARS-CoV-2 Genomics</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UoC BioinfoTraining</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="101-setup.html">
+    <span class="fa fa-gear"></span>
+     
+    Setup
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-file-lines"></span>
+     
+    Materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Unix Shell</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="02a-unix_intro.html">Intro to Unix</a>
+        </li>
+        <li>
+          <a href="02b-unix_files_directories.html">Files and Directories</a>
+        </li>
+        <li>
+          <a href="02c-unix_text_manipulation.html">Text Manipulation</a>
+        </li>
+        <li>
+          <a href="02d-unix_pipes.html">Combining Commands &amp; Writing Scripts</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="01-intro.html">SARS-CoV-2 Genomic Surveillance</a>
+    </li>
+    <li>
+      <a href="03-intro_ngs.html">Intro to NGS Data</a>
+    </li>
+    <li>
+      <a href="04-consensus.html">Consensus Assembly</a>
+    </li>
+    <li>
+      <a href="05-lineage_analysis.html">Lineages and Variants</a>
+    </li>
+    <li>
+      <a href="06-phylogeny.html">Building Phylogenies</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="102-unix_cheatsheet.html">Unix Cheatsheet</a>
+    </li>
+    <li>
+      <a href="106-file_formats.html">Common File Formats</a>
+    </li>
+    <li>
+      <a href="104-wsl_windows.html">Windows Subsystem for Linux</a>
+    </li>
+    <li>
+      <a href="105-vs_code.html">Visual Studio Code</a>
+    </li>
+    <li>
+      <a href="103-tools_and_resources.html">SARS-CoV-2 Resources</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="100-homework.html">
+    <span class="fa fa-pencil"></span>
+     
+    Homework
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/cambiotraining/sars-cov-2-genomics">
+    <span class="fa fa-brands fa-github"></span>
+     
+    Github
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div class="warning">
+<p><strong>Update May 2022</strong></p>
+<p>For participants who attended our workshops prior to May 2022, please note that this lesson has been updated to use a more recent <em>Nextflow</em> pipeline. We recommend switching to the new pipeline introduced here, but if you want to use the older pipeline you can still access the <a href="05-lineage_assignment.html">previous version of the lesson here</a>.</p>
+</div>
+<div id="lineage-assignment-and-variant-classification" class="section level1">
+<h1>Lineage Assignment and Variant Classification</h1>
+<div class="highlight">
+<p><strong>Questions</strong></p>
+<ul>
+<li>What are the main variant annotation conventions for SARS-CoV-2?</li>
+<li>How can I assign sequences to lineages and classify them as variants of interest/concern?</li>
+<li>How can I visually explore the results of my variant analysis?</li>
+</ul>
+<p><strong>Learning Objectives</strong></p>
+<ul>
+<li>Understand variant annotation conventions used by Gisaid, Pango, Nextstrain and WHO and how they relate to each other.</li>
+<li>Assign sequences to Pango lineages using <code>pangolin</code>.</li>
+<li>Interactively explore mutations in the assembled genomes and their phylogenetic context using <em>Nexstrain</em>’s tools.</li>
+</ul>
+</div>
+<div class="note">
+<p>This section has an accompanying <a href="https://docs.google.com/presentation/d/1urubrzjF6VzpWfknqnYMjbMcIQwcO2p1OQSE9-paAUI/edit?usp=sharing" target="_blank">slide deck</a>.</p>
+</div>
+<div id="sars-cov-2-variants" class="section level2">
+<h2>SARS-CoV-2 Variants</h2>
+<p>As viruses (or any other organism) evolve, random DNA changes occur in the population, for example due to replication errors. Many of these changes are likely to be <em>neutral</em>, meaning that they do not change the characteristics of the virus in any significant way. Neutral changes tend to <em>drift</em> in the population, increasing or decreasing in frequency in a random way, but most likely end up disappearing due to their low starting frequency in the population.</p>
+<p>On the other hand, <em>advantageous mutations</em> can occur, which lead to changes in the characteristics of the virus that are beneficial for its spread in the population (e.g. high transmissibility, resistance to immune response or vaccines, etc.). Such beneficial mutations will therefore experience <em>positive selection</em>, potentially leading to their increase in frequency in the population as they spread to more and more hosts.</p>
+<p>Viruses carrying those advantageous mutations may, over time, aquire other advantageous mutations that further increase their fitness and, therefore, their frequency in the population. One way to visualise this is by looking at a <em>phylogenetic tree</em> showing the relationship between sequences (based on their similarity) and how groups of sequences change over time.</p>
+<div class="figure">
+<img src="images/lineages_example.svg" alt="" />
+<p class="caption">Example of global phylogeny from the <a href="https://nextstrain.org/ncov/gisaid/global">Nextstrain public server</a>. Colours show different Nextstrain clades. (Screenshot taken Feb 2022)</p>
+</div>
+<p>In the figure above, which shows SARS-CoV-2 samples from across the world, we can see groups of similar sequences rapidly “expanding” at certain points in time. Such groups of sequences, which share a collection of DNA changes, are referred to as SARS-CoV-2 <em>variants</em> (see box below about the ambiguous meaning of this term). In an effort to understand the spread of the virus and monitor situations of increased occurrence of such variants, several groups and institutions have developed a system to classify groups of SARS-CoV-2 sequences as <em>variants of interest</em> and <em>variants of concern</em>.</p>
+<p>A full explanation and definitions of such variants is given in the <a href="https://www.who.int/en/activities/tracking-SARS-CoV-2-variants">World Health Organisation (WHO) variants page</a> The main classification systems currently in use are:</p>
+<ul>
+<li><a href="https://www.gisaid.org/references/statements-clarifications/clade-and-lineage-nomenclature-aids-in-genomic-epidemiology-of-active-hcov-19-viruses/">GISAID clades</a></li>
+<li><a href="https://github.com/nextstrain/ncov/blob/master/defaults/clades.tsv">Nextstrain clades</a></li>
+<li><a href="https://cov-lineages.org/lineage_list.html">Pango lineages</a></li>
+<li><a href="https://www.who.int/en/activities/tracking-SARS-CoV-2-variants">World Health Organisation (WHO) variants</a></li>
+</ul>
+<p>In practice, there is a big overlap between these different nomenclature systems, with WHO variants having a direct match to Pango lineages and Nextstrain clades. In fact, the different teams work together to try and harmonise the nomenclature used, and thus facilitate the interpretation of sequence analysis.</p>
+<p>The two most popular systems - <em>Nextclade</em> and <em>Pangolin</em> - have slightly different levels of resolution. <em>Nextclade</em>’s <a href="https://nextstrain.org/blog/2021-01-06-updated-SARS-CoV-2-clade-naming">nomenclature system</a> was developed to highlight diversity patterns at a larger scale, allowing discussions of SARS-CoV-2 diversity at a global level and over larger time scales. On the other hand, <em>Pangolin</em>’s <a href="https://www.pango.network/the-pango-nomenclature-system/statement-of-nomenclature-rules/">nomenclature system</a> is more fine-grained, aiming to follow the dynamics of the pandemic as it unfolds. The two systems are complementary to each other, and our analysis of SARS-CoV-2 sequences should include both tools.</p>
+<div class="note">
+<p><strong>What is a variant?</strong></p>
+<p>It is important to note that the term <em>variant</em> can be sometimes ambiguous.</p>
+<p>The term “<strong>SARS-CoV-2 variant</strong>” usually refers to the <a href="https://www.who.int/en/activities/tracking-SARS-CoV-2-variants/">WHO definition of variants of concern/interest</a> (e.g. the Alpha, Delta and Omicron variants), which includes sequences containing a <em>collection of several nucleotide changes</em> that characterise that group. According to this definition, we have two variants in the example below (samples 1 &amp; 2 are one variant and samples 3 &amp; 4 another variant).</p>
+<p><img src="images/variants_snps_indels.svg" /></p>
+<p>However, in bioinformatic sequence analysis, a <strong>sequence variant</strong> refers to an individual change in the DNA sequence (a SNP or an insertion/deletion). Using this definition, in the example above we have 5 variants: 3 SNPs and 2 indels. In the <a href="04-consensus.html">Consensus Sequence</a> section, we saw that one of our workflow steps was “variant calling”. This was the definition of variant we were using: identifying individual SNPs and/or indels relative to the reference genome, from our sequencing data. This is also reflected in the one of the common file formats used to store SNP/indel information, the <a href="https://en.wikipedia.org/wiki/Variant_Call_Format"><em>VCF</em> file</a>, which means “Variant Call Format”.</p>
+<p>Sometimes the term “mutation” is used to refer to SNP/indel variants. For example see this <a href="https://www.cogconsortium.uk/what-do-virologists-mean-by-mutation-variant-and-strain/">definition from the COG consortium</a>.</p>
+<p>Because of this ambiguity, the terms “lineages” or “clades” are often used instead of “variants” when referring to groups of similar SARS-CoV-2 sequences, because they have a phylogenetic interpretation.</p>
+</div>
+</div>
+<div id="pangolin" class="section level2">
+<h2>Pangolin</h2>
+<p><img src="https://cov-lineages.org/assets/images/pangolin_logo.svg" alt="Pangolin" style="float:right;width:20%"></p>
+<p>The first tool we will cover is called <code>pangolin</code> and uses the <a href="https://cov-lineages.org/">Pango nomenclature system</a>. The main steps performed by this tool are:</p>
+<ul>
+<li>Multiple sequence alignment of our samples against the <em>Wuhan-Hu-1</em> reference genome, using the <code>minimap2</code> software.</li>
+<li>Assigning our sequences to lineages based on the current global phylogeny. Two methods/software are available:
+<ul>
+<li><em>pangoLEARN</em> (default) uses a pre-trained machine learning model.</li>
+<li><em>UShER</em> uses a more classic parsimony-based method, but highly optimised for working with large numbers of sequences.</li>
+</ul></li>
+<li>Classifying our sequences according to the WHO nomenclature of variants of interest/concern using the <code>scorpio</code> software.</li>
+</ul>
+<p><em>Pangolin</em> runs as part of the <code>nf-core/viralrecon</code> pipeline we used. The model to classify variants may change over time as more public sequences become available and nomenclature rules are updated. Therefore, it important to know which version was used, as the results may change in the future if we were to run it again. This information is provided in the <code>multiqc_report.html</code> generated by the pipeline, under the section “nf-core/viralrecon Software Versions”.</p>
+<p>The detailed results of the <em>Pangolin</em> analysis are detailed in the <code>multiqc_report.html</code> file under the section named “Pangolin”. The table contains information about the lineage assignment analysis from <em>Pangolin</em>, including WHO variants of concern identified using the <em>Scorpio</em> software. A detailed explanation of the columns of this file is given in the <a href="https://cov-lineages.org/resources/pangolin/output.html">Pangolin documentation page</a>.</p>
+<div class="figure">
+<img src="images/variants_pangolin_multiqc.png" alt="" />
+<p class="caption">Snapshot of the <strong>Pangolin</strong> section of the <code>nf-core/viralrecon</code> <em>MultiQC</em> report. The table shows which <strong>Pango lineage</strong> each sample was assigned to, the <strong>WHO variant</strong> classification (“S Call” column, which stands for <em>Scorpio</em> call, the software used to do this classification) and several quality metrics. An explanation of these columns is given in the <kbd><i class="fa-solid fa-circle-question"></i> Help</kbd> button on the top-right of the table or on the <a href="https://cov-lineages.org/resources/pangolin/output.html">Pangolin documentation page</a>. Any samples that fail basic QC checks from Pangolin are marked as “Fail” on the “<strong>QC Status</strong>” column.</p>
+</div>
+<div id="web-application" class="section level3">
+<h3>Web Application</h3>
+<p>This tool can also be run separately using a <a href="https://pangolin.cog-uk.io/">web application</a>, which only requires us to provide with a FASTA file of consensus sequences. This may desirable to re-run samples using the latest version of the <em>Pangolin</em> software and SARS-CoV-2 variant databases.</p>
+<p>The results from the web application can be downloaded as a CSV file, which contains a table similar to the one obtained from our pipeline.</p>
+</div>
+</div>
+<div id="nextclade" class="section level2">
+<h2>Nextclade</h2>
+<p><img src="https://raw.githubusercontent.com/nextstrain/nextclade/master/docs/assets/nextstrain_logo.svg" alt="Nextstrain" style="float:right;width:10%"></p>
+<p>Another system of clade assignment is provided by <code>nextclade</code>, which is part of the broader software ecosystem <a href="https://clades.nextstrain.org/"><em>Nextstrain</em></a>.</p>
+<p><em>Nextclade</em> performs similar steps to <em>Pangolin</em>, with some differences in the algorithms that are used:</p>
+<ul>
+<li>Each sequence is aligned with the <em>Wuhan-Hu-1</em> reference genome using a local alignment algorithm.</li>
+<li>Samples are placed in the global phylogeny using a distance-based metric (placing the sequence on the tree where it has the highest similarity with).</li>
+<li>Clade assignment is done based on the previous phylogeny placement step.</li>
+</ul>
+<p>You can find more details about <em>Nextclade</em>’s methods on <a href="https://docs.nextstrain.org/projects/nextclade/en/stable/user/algorithm/index.html">its documentation</a>. <em>Nextclade</em> also provides several quality control metrics, which are very useful to identify problematic samples.</p>
+<p><em>Nextclade</em> also runs as part of the <code>nf-core/viralrecon</code> pipeline we used. The clade assignment can be seen in the <code>multiqc_report.html</code> under the first section of the report named “Variant calling metrics”.</p>
+<p>However, <em>Nextclade</em> provides more information that can be useful to analyse our consensus sequences, including an evaluation of the quality of our sequences based on how many missing bases (‘N’) we have and the mutations that are present in the sequence. These results are provided as a series of CSV files by the pipeline. However, <em>Nextclade</em> provides a web application that makes this analysis easier.</p>
+<div id="web-application-1" class="section level3">
+<h3>Web Application</h3>
+<p><em>Nextclade</em> offers an interactive application, which can be used to run its analysis on a FASTA file with sequences:</p>
+<ul>
+<li>Go to <a href="https://clades.nextstrain.org/">nextclade.org</a>.</li>
+<li>Select <strong>SARS-CoV-2</strong> and click <strong>Next</strong>.</li>
+<li>Click <strong>Select a file</strong> to browse your computer and upload the FASTA file with the cleaned consensus sequences (<code>results/clean_consensus_sequences.fa</code>).</li>
+<li>Click <strong>Run</strong>.</li>
+</ul>
+<p>Nextclade will show a progress of its analysis at the top of the page, and the results of several quality control metrics in the main panel (see Figure).</p>
+<div class="figure">
+<img src="images/nextclade_overview.svg" alt="" />
+<p class="caption">Overview of the Nextclade web interface.</p>
+</div>
+<div class="note">
+<p>When using the <em>Nextclade</em> web application, the data does not leave your computer, so privacy concerns are not an issue.</p>
+</div>
+<div class="exercise">
+<p>In this exercise we will work with 48 consensus sequences from the UK, processed with the <code>nf-core/viralrecon</code> pipeline and covered in the <a href="04-consensus.html">previous section</a>.</p>
+<p>Go to <a href="https://clades.nextstrain.org/">nextclade.org</a> and load the sequences provided in <code>03-consensus/uk_illumina/preprocessed/clean_consensus_sequences.fa</code>.</p>
+<ol style="list-style-type: decimal">
+<li>Are there any samples that were classified as “bad” quality? If so, what is the main reason?</li>
+<li>Sort the table by the “Clade” column. Looking at the mutations in gene S on the right, you can see that all sequences classified as “Alpha” have a deletion in positions 21992-21994. Samples classified as “Delta” do not have this deletion and instead have a deletion in positions 22029-22034. However, there is one exception: sample GB39, classified as “Delta” has both deletions. Investigate if this mutation is accurate using IGV:
+<ul>
+<li>Open the BAM alignment file for this sample (the alignment file is in <code>results/viralrecon/variants/bowtie2/GB39.ivar_trim.sorted.bam</code>).</li>
+<li>Open the BAM alignment file for one of the “Alpha” samples as a comparison.</li>
+<li>Open the ARTIC primer files (two BED files found in <code>resources/primers/</code>).</li>
+<li>Go to the position where this deletion was identified and investigate if it seems clear from the mapped reads.</li>
+</ul></li>
+</ol>
+<details>
+<summary>
+Answer
+</summary>
+<p><strong>Question 1</strong></p>
+<p>After loading the samples to the Nextclade web application, we can see that, generally, these samples have high quality as very few are highlighted by <em>Nextclade</em>’s analysis.</p>
+<p>Sorting the table by the “QC” column, we can see two samples with bad quality (red) and one with mediocre quality (yellow).</p>
+<p>There are separate reasons for the two bad quality samples:</p>
+<ul>
+<li>Sample GB16 has low quality due to a high number of missing bases.</li>
+<li>Sample GB39 has low quality due to the occurrence of too many “private mutations”. These are mutations that are only found in this sample, compared to other samples present in <em>Nextclade</em>’s background sequence tree. As we don’t usually expect too many new mutations to occur in a new sample (the mutation rate of SARS-CoV-2 is around 2 new mutations per month), the occurrence of too many private mutations could indicate sequencing quality issues.</li>
+</ul>
+<p><strong>Question 2</strong></p>
+<p>Sort the table by the “Clade” column. Looking at the mutations in gene S on the right, you can see that all sequences classified as “Alpha” have a deletion in positions 21992-21994. Samples classified as “Delta” do not have this deletion and instead have a deletion in positions 22029-22034. However, there is one exception: sample GB39, classified as “Delta” has both deletions. Investigate if this mutation is accurate using IGV:</p>
+<ul>
+<li>Open the BAM alignment file for this sample (the alignment file is in <code>preprocessed/variants/bowtie2/GB39.ivar_trim.sorted.bam</code>).</li>
+<li>Open the BAM alignment file for one of the “Alpha” samples as a comparison.</li>
+<li>Open the ARTIC primer files (two BED files found in <code>resources/primers/</code>).</li>
+<li>Go to the position where this deletion was identified and investigate if it seems clear from the mapped reads.</li>
+</ul>
+<p>By sorting the table by “Clade”, we can see that although sample GB39 was classified as a <em>Delta</em> variant, it has two deletions in gene S that are present in <em>Alpha</em> variants, as shown in this snapshot (click the image to view a bigger size):</p>
+<div class="img">
+<p><a href="images/nextclade_deletion_example.svg" target="_blank"> <img align="center" src="images/nextclade_deletion_example.svg"/> </a></p>
+</div>
+<p>As we investigate one of these in more detail from the BAM file (opening it in IGV), we can see that there is an inconsistency between reads coming from the PCR fragment “nCoV-2019_72” and those reads coming from the “nCoV-2019_73” fragment. In some of those reads the deletion is present, but in others it is not. If we look at an <em>Alpha</em> variant sample (for example GB43) we can see that this deletion is present in both cases.</p>
+<p><img src="images/igv_deletion_example.svg" /></p>
+<p>If we thought this sample was crucial for public health investigation, then this would require further investigation by doing a PCR with new primers and Sanger-sequencing the fragment, for example.</p>
+</details>
+</div>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<div class="highlight">
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Groups of similar SARS-CoV-2 sequences are classified into lineages or clades by different groups. The main nomenclature systems in use are <em>Nextstrain</em>, <em>Pangolin</em> and <em>GISAID</em>.</li>
+<li>In addition, the World Health Organisation (WHO) classifies some forms of SARS-CoV-2 as <em>variants of concern</em> or <em>variants of interest</em>. These are forms of the virus that have been determined to have a significant public health impact.</li>
+<li>Both <em>Pangolin</em> and <em>Nextclade</em> assign consensus sequences to lineages/clades and additionally identify those that correspond to WHO variants of concern. Both of these are run as part of the <code>nf-core/viralrecon</code> pipeline, but can also be run using a web application:
+<ul>
+<li><a href="https://pangolin.cog-uk.io/"><em>Pangolin</em> web application</a></li>
+<li><a href="https://clades.nextstrain.org/"><em>Nextclade</em> web application</a></li>
+</ul></li>
+<li>Besides clade assignment and variant classification, <em>Nextclade</em> provides additional analysis such as identification of mutations and quality control metrics that can be used to identify problematic samples.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.img-container-left {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.img-container-right {
+  float: right;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+<hr>
+<div class="clearfix">
+  <div class="img-container-left">
+    <img src="assets/img/logo_btf.png" alt="UoC Bioinformatics Training Facility" style="width:100%">
+  </div>
+  <div class="img-container-right">
+    <img src="assets/img/logo_ukhsa.svg" alt="UK Public Health England" style="width:40%">
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

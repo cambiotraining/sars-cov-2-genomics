@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>The Unix Shell: sed - stream editor</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UoC BioinfoTraining</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="101-setup.html">
+    <span class="fa fa-gear"></span>
+     
+    Setup
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-file-lines"></span>
+     
+    Materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Unix Shell</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="02a-unix_intro.html">Intro to Unix</a>
+        </li>
+        <li>
+          <a href="02b-unix_files_directories.html">Files and Directories</a>
+        </li>
+        <li>
+          <a href="02c-unix_text_manipulation.html">Text Manipulation</a>
+        </li>
+        <li>
+          <a href="02d-unix_pipes.html">Combining Commands &amp; Writing Scripts</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="01-intro.html">SARS-CoV-2 Genomic Surveillance</a>
+    </li>
+    <li>
+      <a href="03-intro_ngs.html">Intro to NGS Data</a>
+    </li>
+    <li>
+      <a href="04-consensus.html">Consensus Assembly</a>
+    </li>
+    <li>
+      <a href="05-lineage_analysis.html">Lineages and Variants</a>
+    </li>
+    <li>
+      <a href="06-phylogeny.html">Building Phylogenies</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="102-unix_cheatsheet.html">Unix Cheatsheet</a>
+    </li>
+    <li>
+      <a href="106-file_formats.html">Common File Formats</a>
+    </li>
+    <li>
+      <a href="104-wsl_windows.html">Windows Subsystem for Linux</a>
+    </li>
+    <li>
+      <a href="105-vs_code.html">Visual Studio Code</a>
+    </li>
+    <li>
+      <a href="103-tools_and_resources.html">SARS-CoV-2 Resources</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="100-homework.html">
+    <span class="fa fa-pencil"></span>
+     
+    Homework
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/cambiotraining/sars-cov-2-genomics">
+    <span class="fa fa-brands fa-github"></span>
+     
+    Github
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="the-unix-shell-sed---stream-editor" class="section level1">
+<h1>The Unix Shell: <code>sed</code> - stream editor</h1>
+<div class="highlight">
+<p><strong>Questions</strong></p>
+<ul>
+<li>What is <code>sed</code>? How to use <code>sed</code>?</li>
+<li>What is the <code>sed</code> script?</li>
+<li>What is the <code>s</code> command? How to use the <code>s</code> command?</li>
+<li>What is an escape character?</li>
+<li>How to use wildcards in the <code>sed</code>?</li>
+</ul>
+<p><strong>Learning Objectives</strong></p>
+<ul>
+<li>Explain the basic usage of the <code>sed</code>.</li>
+<li>A closer look to <code>sed</code> script.</li>
+<li>Demonstrate the usage of the <code>sed</code> in processing text.</li>
+</ul>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The <code>sed</code> command is short for stream editor. A stream editor is used to perform basic text transformations on an input stream (a file or input from a pipeline).</p>
+<p><code>sed</code> is one of the most prominent text-processing utilities on GNU/Linux. <code>sed</code> performs operations on text coming from standard input or a file.</p>
+<div class="note">
+<p>In this tutorial, we’ll use the GNU version of <code>sed</code> (available on Ubuntu and other Linux operating systems). The macOS has the BSD version of <code>sed</code> which has different options and arguments. You can install the GNU version of <code>sed</code> with <a href="https://brew.sh/">Homebrew</a> using <code>brew install gnu-sed</code>.</p>
+</div>
+</div>
+<div id="basic-usage" class="section level2">
+<h2>Basic Usage</h2>
+<p>There are many instances when we want to substitute a text in a line or filter out specific lines. In such cases, we can take advantage of <code>sed</code>. <code>sed</code> operates on a stream of text which it gets either from a text file or from standard input (STDIN). It means you can use the output of another command as the input of <code>sed</code> – in short, you can combine <code>sed</code> with other commands.</p>
+<p>By default, <code>sed</code> outputs everything to standard output (STDOUT). It means, unless redirected, <code>sed</code> will print its output onto the terminal/screen instead of saving it in a file.</p>
+<div class="note">
+<p><code>sed</code> edits line-by-line and in a non-interactive way.</p>
+</div>
+<p>The basic usage of <code>sed</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed [OPTIONS] SCRIPT INPUT-FILES</span></code></pre></div>
+<p>To begin this tutorial, create a file ‘input.txt’ and write the following line and save.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">hello</span> world</span></code></pre></div>
+<p>Now we’ll use the <code>sed</code> to replace ‘hello’ with ‘world’:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/hello/world/&#39;</span> input.txt  </span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">world</span> world</span></code></pre></div>
+<p>Just follow this tutorial we will explain all the magic which just happened.</p>
+</div>
+<div id="sed-script-commands" class="section level2">
+<h2><code>sed</code> script commands</h2>
+<p>Let’s take a closer look at the <code>sed</code> script command. In the above script (<code>s/hello/world</code>), ‘s’ is called the <code>sed</code> command. There are many <code>sed</code> commands, but we’ll mainly focus on the ‘s’ command. To see a list of all <code>sed</code>’s commands, visit <a href="https://www.gnu.org/software/sed/manual/html_node/sed-commands-list.html">https://www.gnu.org/software/sed/manual/html_node/sed-commands-list.html</a>.</p>
+<p>The basic syntax for a <code>sed</code> command is:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[ADDRESS]X[OPTION]</span></span></code></pre></div>
+<p>Here, ‘X’ is the single letter <code>sed</code> command. [ADDRESS] is optional. If [ADDRESS] is specified, the command X will be executed only on the matched lines. Now, [ADDRESS] can be a single line number, regular expression, or a range of lines. For some <code>sed</code> commands we use additional [OPTION].</p>
+</div>
+<div id="the-s-command" class="section level2">
+<h2>The ‘s’ command</h2>
+<p>The ‘s’ command, also known as substitute command, is probably the most important in <code>sed</code> and has a lot of different options. The basic syntax for ‘s’ command is:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">s/regexp/replacement/[flags]</span></span></code></pre></div>
+<p>As you might have guessed, ‘s’ is for substitution. It will tell <code>sed</code> that we are going make some substitution. ‘s’ is followed by ‘/’ you can think of it as a delimiter.</p>
+<p>After that, we have <em>regexp</em>, which is short for the regular expression. We use the regular expression to match the pattern against the content of a line.</p>
+<div class="note">
+<p><strong>What is a regular expression?</strong></p>
+<p>A regular expression is a pattern formed in a standardised way that helps search in a string. Regular expressions are useful for matching common patterns of string such as email addresses, phone numbers, URLs, etc. To learn more visit: <a href="https://www.keycdn.com/support/regex-cheatsheet">https://www.keycdn.com/support/regex-cheatsheet</a></p>
+</div>
+<p>The third one is the replacement. So, if <code>sed</code> finds the match, it will replace the matched text/pattern with the replacement text.</p>
+<p>So, the basic concept of the ‘s’ command is: it attempts to match the pattern in a line, if the match is successful, then that portion of the pattern is replaced with <em>replacement</em>.</p>
+<p>At the last of the ‘s’ command, you can see [flags]. [flags] are optional. An ‘s’ command can have zero or more flags. Some of the common flags are:</p>
+<ul>
+<li><p><strong>g</strong>: By default <code>sed</code> command will only substitute the first match. If the line has more than one match, all will not get replaced. It replaces only the first match. But, if we use the <strong>g</strong> flag, then the <code>sed</code> command will replace all matching text.</p></li>
+<li><p><strong>i</strong>: <code>sed</code> matches the regular expression in a case-sensitive manner. It means ‘A’ (Uppercase A) and ‘a’ (Lowercase A) are different. But, if we use the <strong>i</strong> flag, then the <code>sed</code> will match the regular expression in a case-insensitive manner. This means now the <code>sed</code> will treat ‘A’ and ‘a’ as same.</p></li>
+</ul>
+<p>To learn more about the ‘s’ command visit <a href="https://www.gnu.org/software/sed/manual/html_node/The-_0022s_0022-Command.html">https://www.gnu.org/software/sed/manual/html_node/The-_0022s_0022-Command.html</a>.</p>
+</div>
+<div id="using-the-s-command" class="section level2">
+<h2>Using the ‘s’ command</h2>
+<p>Let’s go back to our first example.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/hello/world&#39;</span> input.txt</span></code></pre></div>
+<p>Now, I guess it is somewhat clear to you what is happening here. The <code>sed</code> is substituting ‘hello’ with ‘world’ at every line. And we are getting the input from a file called ‘input.txt’.</p>
+<p>Create a new file ‘input2.txt’ and write the following text in it:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> this is a test line. This is a very short line.</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> is test line two. In this line, we have two occurrences of the test.</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> line has many occurrences of the Test with different cases. test tEst TesT.</span></code></pre></div>
+<p>Now try to replace ‘test’ with ‘hello’. We can do something like this:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/test/hello/&#39;</span> input2.txt</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> this is a hello line. This is a very short line.</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> is hello line two. In this line, we have two occurrences of the test.</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> line has many occurrences of the Test with different case. hello tEst TesT.</span></code></pre></div>
+<p>You may have noticed that lines two and three still have ‘test’. This is because we ask the <code>sed</code> to only replace the first text which matches. To replace all the matches, we have to use <strong>g</strong> flag. Let’s try with <strong>g</strong> flag.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/test/hello/g&#39;</span> input2.txt</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> this is a hello line. This is a very short line.</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> is hello line two. In this line, we have two occurrences of the hello.</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> line has many occurrences of the Test with different case. hello tEst TesT.</span></code></pre></div>
+<p>Ah, something is still wrong with the third line. It is not replacing ‘Test’, ‘tEst’ and ‘TesT’. We have to do something to tell the <code>sed</code> that we want to replace all of them. We can do this by using <strong>i</strong> flag. Let’s add one more flag:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/test/hello/gi&#39;</span> input2.txt</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> this is a hello line. This is a very short line.</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> is hello line two. In this line, we have two occurrences of the hello.</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> line has many occurrences of the hello with different case. hello hello hello.</span></code></pre></div>
+<p>Wonderful!</p>
+<p>Let’s say now we only want to replace all the occurrences of the ‘test’ at only line 3 or from line 2 to 3. Try to remember the basic syntax for the <code>sed</code> command. Remember! You can add the address of the line or a range of lines that you want to edit. Here is an example:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;3s/test/hello/gi&#39;</span> input2.txt</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> this is a test line. This is a very short line.</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> is test line two. In this line, we have two occurrences of the test.</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> line has many occurrences of the hello with different case. hello hello hello.</span></code></pre></div>
+<p>See only the third line is executed by the <code>sed</code>. The first two lines are as it is. At the beginning of the ‘s’ command, we are adding the line number which we want to edit. We can also add a range of lines. Here is one more example:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;2,3s/test/hello/gi&#39;</span> input2.txt</span></code></pre></div>
+<p>As you may have got the idea, it will edit lines 2 and 3. The output will be:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> this is a test line. This is a very short line.</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> is hello line two. In this line, we have two occurrences of the hello.</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> line has many occurrences of the hello with different case. hello hello hello.</span></code></pre></div>
+</div>
+<div id="combining-sed-commands" class="section level2">
+<h2>Combining <code>sed</code> commands</h2>
+<p>You can combine multiple <code>sed</code> commands. Let’s say in the ‘input2.txt’ we first want to remove all the occurrences of ‘test’, then we want to replace ‘line’ with ‘world’. Here it is clear that we have to do two substitutions. One for removing ‘test’ and one for replacing ‘line’. We can do something like this:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/test//gi&#39;</span> input2.txt <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/line/world/gi&#39;</span></span></code></pre></div>
+<p>Here first we are removing ‘test’ with empty text, and then we are passing the output of first <code>sed</code> as the input of second <code>sed</code>. The second <code>sed</code> is replacing ‘line’ with ‘world’. You will get an output like this:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello,</span> this is a  world. This is a very short world.</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> is  world two. In this world, we have two occurrences of the .</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> world has many occurrences of the  with different case.   .</span></code></pre></div>
+</div>
+<div id="escape-character" class="section level2">
+<h2>Escape character</h2>
+<p>An escape character is a character that invokes an alternative interpretation of the following character. Sometimes it is also used to insert unallowed characters in a string. An escape character is a backslash <code>\</code> followed by a character (or characters). Some of the keywords/characters which you want to escape are as follows:</p>
+<ul>
+<li><code>*</code>: Asterisk.</li>
+<li><code>.</code>: Dot.</li>
+<li><code>[</code>: Left square bracket.</li>
+<li><code>]</code>: Right square bracket.</li>
+<li><code>?</code>: Question mark.</li>
+<li><code>$</code>: Dollar sign.</li>
+<li><code>^</code>: Caret</li>
+<li><code>/</code>: Forward slash</li>
+<li><code>\</code>: Backward slash</li>
+</ul>
+<p>Let’s try to understand this with examples. For this tutorial, create a file ‘input3.txt’ and put the following text in it:</p>
+<pre><code>This software/application is a part of this workshop.</code></pre>
+<p>Now, what if we want to replace ‘software/application’ with ‘material’. If we try to do something like: <code>sed 's/software/application/material/' input3.txt</code>, the <code>sed</code> will throw an error. Because here we are using ‘/’ as delimiter, sed will think it has to replace ‘software’ with ‘application’ but, why there is a third option. To solve this error, we have to escape one ‘/’, we can do this by adding a <code>\</code> in front of ‘/’. It will tell the <code>sed</code> not to interpret ‘/’ as a special character.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/software\/application/material/&#39;</span> input3.txt</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> material is a part of this workshop.</span></code></pre></div>
+<p>Escape characters are also used to provide visual representations of non-printing characters and characters that usually have special meanings. The list of commonly used escape characters in the <code>sed</code> is as follows:</p>
+<ul>
+<li><code>\n</code>: a newline.</li>
+<li><code>\r</code>: a carriage return.</li>
+<li><code>\t</code>: a horizontal tab.</li>
+</ul>
+<p>For more details visit <a href="https://www.gnu.org/software/sed/manual/sed.html#Escapes">https://www.gnu.org/software/sed/manual/sed.html#Escapes</a>.</p>
+</div>
+<div id="wildcards-in-sed" class="section level2">
+<h2>Wildcards in <code>sed</code></h2>
+<p>We have already covered wildcards on the “<a href="./02-unix-basic-commands.html#Using_wildcards_for_accessing_multiple_files_at_once">Basic Commands</a>” page; here, we will discuss the use of <code>.</code>, <code>*</code> and <code>?</code> in the <code>sed</code>. These wildcards are part of the regular expression.</p>
+<ul>
+<li><p>You can use <code>.</code> as a placeholder for any character except newline (<code>\n</code>) or empty text. For example, if you use <code>.</code> in your regular expression like <code>x.z</code> then it will match to strings like <code>xaz</code>, <code>xbz</code>, <code>x1z</code>, <code>xzz</code>, etc., but, it will not match to <code>xz</code>.</p></li>
+<li><p>You can use <code>*</code> to match 0 or more occurrences of the previous character. For example, <code>xy*z</code> will match to strings like <code>xz</code> (0 occurrences of y), <code>xyz</code> (1 occurrence of y), <code>xyyz</code> and so on.</p></li>
+<li><p><code>?</code> is a bit similar to <code>*</code>. The difference is it will only match for 0 or 1 occurrence of the previous character. For example, <code>xy?z</code> will match to strings like <code>xz</code> (0 occurrences of y), <code>xyz</code> (1 occurrence of y) but not to <code>xyyz</code>.</p></li>
+</ul>
+<p>Now, let’s do some coding. Create a file ‘input4.txt’ and copy the following sequence:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ATGCCTGATTGGGCTACGTCGTAAGCGATGGCTAGGTATCGTAAAGGGGTTTGGGAACCCCAATCACTAGCT</span></span></code></pre></div>
+<p>Let’s say we want to replace anything between <code>A</code> and <code>G</code> with <code>U</code>. We can do this using the <code>sed</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/A.G/AUG/g&#39;</span> input4.txt</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Output</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="ex">AUGCCTGATTGGGCTAUGTCGTAUGCGAUGGCTAUGTATCGTAAUGGGGTTTGGGAACCCCAATCACTAGCT</span></span></code></pre></div>
+<div class="exercise">
+<p><strong>Replace Me</strong></p>
+<p>Click on the following link to download the fasta file containing the protein sequence for one of the SARS-CoV-2, <a href="assets/exercise/envelope_gene.fa" download><code>envelope_gene.fa</code></a>. You have four tasks to do on this file. They are:</p>
+<ul>
+<li>Replace the word <code>patient</code> with <code>sample</code>. Make sure to replace all words matching to <code>patient</code> in a case insensitive manner.</li>
+<li>Replace all the <code>.</code> with <code>X</code>.</li>
+<li>Remove <code>/incomplete</code> from one of the sample names.</li>
+<li>Save the out to <code>envelope_gene_processed.fa</code>.</li>
+</ul>
+<details>
+<summary>
+Answer
+</summary>
+<p>We will walk through the solution step by step. At first, to replace the word <code>patient</code> with <code>sample</code>, we can do something like this:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/patient/sample/i&#39;</span> envelope_gene.fa</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>sample01</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>sample02/incomplete</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNLSLVKPSFY...................</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>sample04</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Sample05</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span></code></pre></div>
+<p>We have to use the flag <code>i</code> to tell the <code>sed</code> that we want to match the word <code>patient</code> in case insensitive manner.</p>
+<p>Second we have to replace all the <code>.</code> with <code>X</code>. Remember the <code>.</code> is a keyword (or has special meaning in the <code>sed</code>). So, to have the literal meaning of <code>.</code>, we have to escape the <code>.</code> with <code>\</code>. We can replace all the <code>.</code> as follows:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/\./X/g&#39;</span> envelope_gene.fa </span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>patient01</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Patient02/incomplete</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNLSLVKPSFYXXXXXXXXXXXXXXXXXXX</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>sample04</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Sample05</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span></code></pre></div>
+<p>In line 4, you can see that all the <code>.</code> is replaced by <code>X</code>. Note that to replace all the <code>.</code> we also have to use <code>g</code> flag.</p>
+<p>Third, we have remove <code>\incomplete</code>. Again <code>/</code> is a keyword in the <code>sed</code>. We have to do something similar to the previous step.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/\/incomplete//&#39;</span> envelope_gene.fa</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>patient01</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Patient02</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNLSLVKPSFY...................</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>sample04</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Sample05</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span></code></pre></div>
+<p>Now, we have to combine all three steps (this we can do by using pipe<code>|</code>) and then redirect the output to a file rather than the default output.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/patient/sample/i&#39;</span> <span class="op">&lt;</span> envelope_gene.fa <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/\./X/g&#39;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/\/incomplete//&#39;</span> <span class="op">&gt;</span> envelope_gene_processed.fa</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You will see no output in the terminal. But you will see a new file</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `envelope_gene_processed.fa`, which will look similar to the following</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>sample01</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>sample02</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNLSLVKPSFYXXXXXXXXXXXXXXXXXXX</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>sample04</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span>Sample05</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="ex">MYSFVSEETGTLIVNSVLLFLAFVVFLLVTLAILTALRLCAYCCNIVNVSLVKPSFYVYSRVKNLNSSRVPDLLV*</span></span></code></pre></div>
+</details>
+</div>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<p>To learn more about sed visit <a href="https://www.gnu.org/software/sed/manual/sed.html">https://www.gnu.org/software/sed/manual/sed.html</a></p>
+</div>
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.img-container-left {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.img-container-right {
+  float: right;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+<hr>
+<div class="clearfix">
+  <div class="img-container-left">
+    <img src="assets/img/logo_btf.png" alt="UoC Bioinformatics Training Facility" style="width:100%">
+  </div>
+  <div class="img-container-right">
+    <img src="assets/img/logo_ukhsa.svg" alt="UK Public Health England" style="width:40%">
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

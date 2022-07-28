@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>The Unix Shell</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UoC BioinfoTraining</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="101-setup.html">
+    <span class="fa fa-gear"></span>
+     
+    Setup
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-file-lines"></span>
+     
+    Materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Unix Shell</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="02a-unix_intro.html">Intro to Unix</a>
+        </li>
+        <li>
+          <a href="02b-unix_files_directories.html">Files and Directories</a>
+        </li>
+        <li>
+          <a href="02c-unix_text_manipulation.html">Text Manipulation</a>
+        </li>
+        <li>
+          <a href="02d-unix_pipes.html">Combining Commands &amp; Writing Scripts</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="01-intro.html">SARS-CoV-2 Genomic Surveillance</a>
+    </li>
+    <li>
+      <a href="03-intro_ngs.html">Intro to NGS Data</a>
+    </li>
+    <li>
+      <a href="04-consensus.html">Consensus Assembly</a>
+    </li>
+    <li>
+      <a href="05-lineage_analysis.html">Lineages and Variants</a>
+    </li>
+    <li>
+      <a href="06-phylogeny.html">Building Phylogenies</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="102-unix_cheatsheet.html">Unix Cheatsheet</a>
+    </li>
+    <li>
+      <a href="106-file_formats.html">Common File Formats</a>
+    </li>
+    <li>
+      <a href="104-wsl_windows.html">Windows Subsystem for Linux</a>
+    </li>
+    <li>
+      <a href="105-vs_code.html">Visual Studio Code</a>
+    </li>
+    <li>
+      <a href="103-tools_and_resources.html">SARS-CoV-2 Resources</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="100-homework.html">
+    <span class="fa fa-pencil"></span>
+     
+    Homework
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/cambiotraining/sars-cov-2-genomics">
+    <span class="fa fa-brands fa-github"></span>
+     
+    Github
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="the-unix-shell-navigating-the-file-system" class="section level1">
+<h1>The Unix Shell: Navigating the File System</h1>
+<div class="highlight">
+<p><strong>Questions</strong></p>
+<ul>
+<li>How is a filesystem typically organised?</li>
+<li>How can I navigate a filesystem and work with files from the command line?</li>
+</ul>
+<p><strong>Learning Objectives</strong></p>
+<ul>
+<li>Recognise the hierarchical structure of a filesystem.</li>
+<li>Navigate the filesystem and create or remove files and directories (<code>pwd</code>, <code>ls</code>, <code>cd</code>, <code>mkdir</code>, <code>rmdir</code>, <code>rm</code>, <code>cp</code>, <code>mv</code>).</li>
+</ul>
+</div>
+<div class="note">
+<p>This section has an accompanying <a href="https://docs.google.com/presentation/d/1DJFWHu9sbJx3CmexGFxhb6gbK5gOmuXpPMEH8Mj-Sk4/edit?usp=sharing" target="_blank">slide deck</a>.</p>
+</div>
+<div id="working-directory" class="section level2">
+<h2>Working Directory</h2>
+<p>The part of the operating system responsible for managing files and directories is called the <strong>file system</strong>. It organizes our data into files, which hold information, and directories (also called “folders”), which hold files or other directories.</p>
+<p>Several commands are frequently used to create, inspect, rename, and delete files and directories. To start exploring them, we’ll go to our open shell window.</p>
+<p>First let’s find out where we are by running a command called <code>pwd</code> (which stands for “print working directory”). Directories are like <em>places</em> - at any time while we are using the shell we are in exactly one place, called our <strong>current working directory</strong>. Commands mostly read and write files in the current working directory, so knowing where you are before running a command is important. <code>pwd</code> shows you where you are:</p>
+<pre class="console"><code>$ pwd</code></pre>
+<pre><code>/home/ubuntu/Course_Materials</code></pre>
+<p>Here, the computer’s response is <code>/home/ubuntu/Course_Materials</code>, which is the default starting directory on our training machines. Normally, the default directory would be <code>/home/ubuntu</code>, which is called the <strong>home directory</strong>. The name “ubuntu” is our <em>username</em>. If you were using your own computer, it would look different, for example <code>/home/larry</code>.</p>
+<div class="note">
+<p><strong>Home Directory Variation</strong></p>
+<p>The home directory path will look different on different operating systems. For a user named “larry”, on a Mac it would look like <code>/Users/larry</code>, and on Windows <code>C:\Users\larry</code>.</p>
+</div>
+<div class="note">
+<p><strong>Slashes</strong></p>
+<p>Notice that there are two meanings for the <code>/</code> character. When it appears at the beginning of a file or directory name, it refers to the root directory. When it appears <em>inside</em> a name, it’s a separator.</p>
+</div>
+<p>Underneath <code>/home</code>, we find one directory for each user with an account on the machine, in the example shown in the figure below we have <em>imhotep</em>, <em>larry</em>, and “ubuntu” (you).</p>
+<div class="figure">
+<img src="images/home-directories.svg" alt="" />
+<p class="caption">Example of users’ home directories</p>
+</div>
+<p>The user <em>imhotep</em>’s files are stored in <code>/home/imhotep</code>, user <em>larry</em>’s in <code>/home/larry</code>, and yours in <code>/home/ubuntu</code>.<br />
+Because you are the current user in our examples here, this is why we get <code>/home/ubuntu</code> as our home directory. Typically, when you open a new command prompt you will be in your home directory to start.</p>
+</div>
+<div id="listing-files" class="section level2">
+<h2>Listing Files</h2>
+<p>Now let’s learn the command that will let us see the contents of our own filesystem. We can see what’s in our current directory by running <code>ls</code>, which stands for “listing”:</p>
+<pre class="console"><code>$ ls</code></pre>
+<pre><code>01-unix  02-consensus  03-lineages</code></pre>
+<p>The <code>/home/ubuntu/Course_Materials/01-unix</code> directory contains the data that we will use in this tutorial. We can look at its contents passing a directory name as an argument to <code>ls</code>:</p>
+<pre class="console"><code>$ ls /home/ubuntu/Course_Materials/01-unix</code></pre>
+<pre><code>artic_primers_pool1.bed  artic_primers_pool2.bed  
+data  metadata  output.tsv</code></pre>
+</div>
+<div id="changing-directory" class="section level2">
+<h2>Changing Directory</h2>
+<p>So far, we have been working from the <code>/home/ubuntu/Course_Materials/</code>. However, we can change our location to the <code>01-unix</code> directory to do our work.</p>
+<p>The command to change locations is <code>cd</code> (“change directory”) followed by a directory name to change our working directory.</p>
+<pre class="console"><code>$ cd /home/ubuntu/Course_Materials/01-unix/</code></pre>
+<p>We can check with <code>pwd</code> that we are in the correct directory. We can also run <code>ls</code> again to see the files within our current directory.</p>
+<p>What if we now wanted to go to the <code>data</code> directory? We could do:</p>
+<pre class="console"><code>$ cd /home/ubuntu/Course_Materials/01-unix/data/</code></pre>
+<p>However, that’s a lot of typing! Instead, we can move to that directory by specifying its location <em>relative</em> to our current directory. So, if our current directory was <code>/home/ubuntu/Course_Materials/01-unix/</code> we could just do:</p>
+<pre class="console"><code>$ cd data</code></pre>
+<p>In conclusion, there are two ways to specify directory names:</p>
+<ul>
+<li>An <strong>absolute path</strong> includes the entire path (or location) from the root directory, which is indicated by a leading slash. The leading <code>/</code> tells the computer to follow the path from the root of the file system, so it always refers to exactly one directory, no matter where we are when we run the command.</li>
+<li>A <strong>relative path</strong> tries to find that location from where we are (our current directory), rather than from the root of the file system.</li>
+</ul>
+<p>We now know how to go <em>down</em> the directory tree, but how do we go <em>up</em>? We might try the following:</p>
+<pre class="console"><code>$ cd 01-unix</code></pre>
+<pre><code>-bash: cd: 01-unix: No such file or directory</code></pre>
+<p>But we get an error! Why is this? With our methods so far, <code>cd</code> can only see sub-directories <em>inside</em> your current directory. To move up one directory we need to use the special shortcut <code>..</code> like this:</p>
+<pre class="console"><code>$ cd ../</code></pre>
+<p><code>..</code> is a special directory name meaning “the directory containing this one”, or more succinctly, the <strong>parent</strong> of the current directory. Sure enough, if we run <code>pwd</code> after running <code>cd ..</code>, we’re back in <code>/home/ubuntu/Course_Materials/01-unix</code>.</p>
+<div class="note">
+<p><strong>Another Shortcut</strong></p>
+<p>The shell interprets the character <code>~</code> (tilde) at the start of a path to mean “the current user’s home directory”. For example, for your home directory,<code>/home/ubuntu</code>, then <code>~/Course_Materials</code> is equivalent to <code>/home/ubuntu/Course_Materials</code>. This only works if it is the first character in the path: <code>here/there/~/elsewhere</code> is <em>not</em> <code>here/there/home/ubuntu/elsewhere</code>.</p>
+</div>
+<div class="note">
+<p><strong>Tab completion</strong></p>
+<p>Sometimes file and directory names get too long and it’s tedious to have to type the full name for example when moving with <code>cd</code>.<br />
+We can let the shell do most of the work &gt; through what is called <strong>tab completion</strong>. Let’s say we are in the <code>/home/ubuntu/Course_Materials/01-unix/</code> and we type:</p>
+<pre class="console"><code>$ ls met</code></pre>
+<p>and then press the <kbd>Tab ↹</kbd> key on the keyboard, the shell automatically completes the directory name:</p>
+<pre class="console"><code>$ ls metadata/</code></pre>
+<p>If we press <kbd>Tab ↹</kbd> again it does nothing, since there are 3 possibilities. In this case, pressing <kbd>Tab</kbd> twice brings up a list of all the files.</p>
+</div>
+<div class="exercise">
+<p>Using the filesystem diagram below, if <code>pwd</code> displays <code>/Users/thing</code>, what will <code>ls ../backup</code> display?</p>
+<ol style="list-style-type: decimal">
+<li><code>../backup: No such file or directory</code></li>
+<li><code>2012-12-01 2013-01-08 2013-01-27</code></li>
+<li><code>original pnas_final pnas_sub</code></li>
+</ol>
+<p><img src="images/filesystem-challenge.svg" /></p>
+<details>
+<summary>
+Answer
+</summary>
+<ol style="list-style-type: decimal">
+<li>No: from the diagram, we can see that there <em>is</em> a directory <code>backup</code> in <code>/Users</code>.</li>
+<li>No: this is the content of <code>Users/thing/backup</code>, but with <code>..</code> we asked for one level further up.</li>
+<li><strong>Yes:</strong> <code>../backup/</code> refers to <code>/Users/backup/</code>.</li>
+</ol>
+</details>
+</div>
+</div>
+<div id="creating-directories" class="section level2">
+<h2>Creating directories</h2>
+<p>We now know how to explore files and directories, but how do we create them in the first place?</p>
+<p><strong>First, we should see where we are and what we already have.</strong> Let’s go back to our <code>01-unix</code> directory and use <code>ls</code> to see what it contains:</p>
+<pre class="console"><code>$ cd /home/ubuntu/Course_Materials/01-unix
+$ ls</code></pre>
+<pre><code>artic_primers_pool1.bed  artic_primers_pool2.bed  data/  metadata/  output.tsv</code></pre>
+<p>Now, let’s <strong>create a new directory</strong> called <code>results</code> using the command <code>mkdir results</code>:</p>
+<pre class="console"><code>$ mkdir results</code></pre>
+<p>As you might guess from its name, <code>mkdir</code> means “make directory”. Since <code>results</code> is a relative path (i.e., does not have a leading slash, like <code>/what/ever/results</code>), the new directory is created in the current working directory:</p>
+<pre class="console"><code>$ ls</code></pre>
+<pre class="console"><code>artic_primers_pool1.bed  data/      output.tsv
+artic_primers_pool2.bed  metadata/  results/</code></pre>
+<div class="note">
+<p><strong>Two ways of doing the same thing</strong></p>
+<p>Using the shell to create a directory is no different than using a file explorer. If you open the current directory using your operating system’s graphical file explorer <i class="fa-solid fa-folder"></i>, the <code>results</code> directory will appear there too. While the shell and the file explorer are two different ways of interacting with the files, the files and directories themselves are the same.</p>
+</div>
+<div class="note">
+<p><strong>Good names for files and directories</strong></p>
+<p>Complicated names of files and directories can make your life painful when working on the command line.</p>
+<details>
+<summary>
+Click Here to see some useful tips for naming your files.
+</summary>
+<ol style="list-style-type: decimal">
+<li><p>Don’t use spaces.</p>
+<p>Spaces can make a name more meaningful, but since spaces are used to separate arguments on the command line it is better to avoid them in names of files and directories. You can use <code>-</code> or <code>_</code> instead (e.g. <code>consensus_sequences/</code> rather than <code>consensus sequences/</code>).</p></li>
+<li><p>Don’t begin the name with <code>-</code> (dash).</p>
+<p>Commands treat names starting with <code>-</code> as options.</p></li>
+<li><p>Stick with letters, numbers, <code>.</code> (period or ‘full stop’), <code>-</code> (dash) and <code>_</code> (underscore).</p>
+<p>Many other characters have special meanings on the command line. We will learn about some of these during this lesson. There are special characters that can cause your command to not work as expected and can even result in data loss.</p></li>
+</ol>
+If you need to refer to names of files or directories that have spaces or other special characters, you should surround the name in quotes (<code>""</code>).
+</details>
+</div>
+<p>Since we’ve just created the <code>results</code> directory, there’s nothing in it yet:</p>
+<pre class="console"><code>$ ls results</code></pre>
+<div class="note">
+<p><strong>What’s In A Name?</strong></p>
+<p>You may have noticed that all of the files in our data directory are named “something dot something”. For example <code>output.tsv</code>, which indicates this is a “tab-delimited values” file.</p>
+<p>The second part of such a name is called the <strong>filename extension</strong>, and indicates what type of data the file holds. Here are some common examples:</p>
+<ul>
+<li><code>.txt</code> signals a plain text file.</li>
+<li><code>.csv</code> is a text file with tabular data where each column is separated by a comma.</li>
+<li><code>.tsv</code> is like a CSV but values are separated by a tab.</li>
+<li><code>.log</code> is a text file containing messages produced by a software while it runs.</li>
+<li><code>.pdf</code> indicates a PDF document.</li>
+<li><code>.png</code> is a PNG image.</li>
+</ul>
+<p>This is just a convention: we can call a file <code>mydocument</code> or almost anything else we want. However, most people use two-part names most of the time to help them (and their programs) tell different kinds of files apart.</p>
+<p>This is just a convention, albeit an important one. Files contain bytes: it’s up to us and our programs to interpret those bytes according to the rules for plain text files, PDF documents, configuration files, images, and so on.</p>
+<p>Naming a PNG image of a whale as <code>whale.mp3</code> doesn’t somehow magically turn it into a recording of whalesong, though it <em>might</em> cause the operating system to try to open it with a music player when someone double-clicks it.</p>
+</div>
+</div>
+<div id="moving-renaming-files" class="section level2">
+<h2>Moving &amp; Renaming Files</h2>
+<p>In our <code>01-unix</code> directory we have a file <code>output.tsv</code>, which contains the results of an analysis of SARS-CoV-2 variants for different samples. Let’s move this file to the <code>results</code> directory we created earlier, using the command <code>mv</code>, which is short for “move”:</p>
+<pre class="console"><code>$ mv output.tsv results/</code></pre>
+<p>The first argument tells <code>mv</code> what we’re “moving”, while the second is where it’s to go. In this case, we’re moving <code>output.tsv</code> to <code>results/</code>. We can check the file has moved there:</p>
+<pre class="console"><code>$ ls results</code></pre>
+<pre><code>output.tsv</code></pre>
+<p>This isn’t a particularly informative name for our file, so let’s change it! Interestingly, we also use the <code>mv</code> command to change a file’s name. Here’s how we would do it:</p>
+<pre class="console"><code>$ mv results/output.tsv results/variants.tsv</code></pre>
+<p>In this case, we are “moving” the file to the same place but with a different name. One has to be careful when specifying the target file name, since <code>mv</code> will silently overwrite any existing file with the same name, which could lead to data loss.</p>
+<p>The command <code>mv</code> also works with directories, and you can use it to move/rename an entire directory just as you use it to move an individual file.</p>
+</div>
+<div id="copying-files-and-directories" class="section level2">
+<h2>Copying Files and Directories</h2>
+<p>The <code>cp</code> command works very much like <code>mv</code>, except it copies a file instead of moving it. For example:</p>
+<pre class="console"><code>$ cp data/envelope_protein.fa protein_copy.fa
+$ ls</code></pre>
+<pre><code>artic_primers_pool1.bed  data      protein_copy.fa
+artic_primers_pool2.bed  metadata  results</code></pre>
+<div class="exercise">
+<p>Make a copy of the <code>results</code> directory named <code>backup</code>. When copying an entire directory, you will need to use the option <code>-r</code> with the <code>cp</code> command (<code>-r</code> means “recursive”).</p>
+<details>
+<summary>
+Answer
+</summary>
+<p>If we run the command without the <code>-r</code> option, this is what happens:</p>
+<pre class="console"><code>$ cp results backup</code></pre>
+<pre><code>cp: -r not specified; omitting directory &#39;results&#39;</code></pre>
+<p>This message is already indicating what the problem is. By default, directories (and their contents) are not copied unless we specify the option <code>-r</code>.</p>
+<p>This would work:</p>
+<pre class="console"><code>$ cp -r results backup</code></pre>
+<p>Running <code>ls</code> we can see a new folder called <code>backup</code>:</p>
+<pre class="console"><code>$ ls</code></pre>
+<pre><code>artic_primers_pool1.bed  artic_primers_pool2.bed  
+backup  data  metadata  results</code></pre>
+</details>
+</div>
+</div>
+<div id="removing-files-and-directories" class="section level2">
+<h2>Removing Files and Directories</h2>
+<p>Let’s tidy up our <code>01-unix</code> directory by removing the <code>protein_copy.fa</code> file we created earlier. The Unix command we’ll use for this is <code>rm</code> (short for ‘remove’):</p>
+<pre class="console"><code>$ rm protein_copy.fa</code></pre>
+<p>We can confirm the file has gone using <code>ls</code>.</p>
+<div class="note">
+<p><strong>Deleting Is Forever</strong></p>
+<p>The Unix shell doesn’t have a trash bin that we can recover deleted files from (though most graphical interfaces to Unix do).<br />
+Instead, when we delete files, they are unlinked from the file system so that their storage space on disk can be recycled. Tools for finding and recovering deleted files do exist, but there’s no guarantee they’ll work in any particular situation, since the computer may recycle the file’s disk space right away.</p>
+</div>
+<p>If we try to remove the <code>backup</code> directory we created in the exercise:</p>
+<pre class="console"><code>$ rm backup</code></pre>
+<pre><code>rm: cannot remove `backup&#39;: Is a directory</code></pre>
+<p>This happens because <code>rm</code> by default only works on files, not directories.</p>
+<p><code>rm</code> can remove a directory <em>and all its contents</em> if we use the recursive option <code>-r</code>, and it will do so <em>without any confirmation prompts</em>:</p>
+<pre class="console"><code>$ rm -r backup</code></pre>
+<p>Given that there is no way to retrieve files deleted using the shell, <code>rm -r</code> <em>should be used with great caution</em> (you might consider adding the interactive option <code>rm -r -i</code>).</p>
+<p>To remove <em>empty</em> directories, we can also use the <code>rmdir</code> command. This is a safer option than <code>rm -r</code>, because it will never delete the directory if it contains files, giving us a chance to check whether we really want to delete all its contents.</p>
+</div>
+<div id="operations-with-multiple-files-and-directories" class="section level2">
+<h2>Operations with multiple files and directories</h2>
+<p>Oftentimes one needs to copy several files at once. This can be done by providing a list of individual filenames, or specifying a naming pattern using wildcards.</p>
+<div class="exercise">
+<p><strong>Copy with Multiple Filenames</strong></p>
+<p>Working from the <code>01-unix</code> directory, run the following code. What does <code>cp</code> do when given several filenames and a directory name?</p>
+<pre class="console"><code>$ mkdir backup
+$ cp metadata/run1_samples.csv metadata/run2_samples.csv backup/</code></pre>
+<p>In the example below, what does <code>cp</code> do when given three or more file names?</p>
+<pre class="console"><code>$ cp metadata/run1_samples.csv  metadata/run2_samples.csv  metadata/run3_samples.csv</code></pre>
+<details>
+<summary>
+Answer
+</summary>
+<p>If given more than one file name followed by a directory name (i.e. the destination directory must be the last argument), <code>cp</code> copies the files to the named directory.</p>
+<p>If given three file names, <code>cp</code> throws an error such as the one below, because it is expecting a directory name as the last argument.</p>
+<pre class="console"><code>cp: target &#39;run3_samples.csv&#39; is not a directory</code></pre>
+</details>
+</div>
+<div id="wildcards" class="section level3">
+<h3>Wildcards</h3>
+<p>Wildcards are special characters that can be used to access multiple files at once. The most commonly-used wildcard is <code>*</code>, which is used to match zero or more characters.</p>
+<p>Let’s consider the <code>data</code> directory:</p>
+<pre class="console"><code>$ ls data/</code></pre>
+<pre><code>envelope_protein.fa  sequencing_run1  spike_protein.fa
+reference_genome.fa  sequencing_run2
+</code></pre>
+<p>In this case, <code>*.fa</code> would match every file that ends with that word.</p>
+<pre class="console"><code>$ ls data/*.fa</code></pre>
+<pre><code>data/envelope_protein.fa  data/reference_genome.fa  data/spike_protein.fa</code></pre>
+<div class="exercise">
+<p>Use the <code>*</code> wildcard together with the copy command to copy all the protein files in the <code>data</code> folder to the <code>backup</code> folder that we created earlier.</p>
+<details>
+<summary>
+Hint
+</summary>
+Remember the “<strong>c</strong>o<strong>p</strong>y” command is <code>cp</code>.
+</details>
+<details>
+<summary>
+Answer
+</summary>
+<p>First, make sure you are in the correct directory: <code>cd ~/Course_Materials/01-unix</code>.</p>
+<p>Now, we can use the <code>cp</code> command together with the <code>*</code> wildcard:</p>
+<pre class="console"><code>$ cp data/*protein.fa backup/</code></pre>
+<p>We can check the files are all there with <code>ls backup/*protein.fa</code>.</p>
+</details>
+</div>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<div class="highlight">
+<p><strong>Key Points</strong></p>
+<ul>
+<li>The file system is organised in a hierarchical way.</li>
+<li>Every user has a home directory, which on Linux is typically <code>/home/username/</code>.</li>
+<li>Locations in the filesystem are represented by a <strong>path</strong>:
+<ul>
+<li>The <code>/</code> used at the <em>start</em> of a path means the “root” directory (the start of the filesystem).</li>
+<li><code>/</code> used in the <em>middle</em> of the path separates different directories.</li>
+</ul></li>
+<li>Some of the commands used to navigate the filesystem are:
+<ul>
+<li><code>pwd</code> to print the working directory (or the current directory)</li>
+<li><code>ls</code> to list files and directories</li>
+<li><code>cd</code> to change directory</li>
+</ul></li>
+<li>Directories can be created with the <code>mkdir</code> command.</li>
+<li>Files can be moved and/or renamed using the <code>mv</code> command.</li>
+<li>Files can be copied with the <code>cp</code> command. To copy an entire directory (and its contents) we need to use <code>cp -r</code> (the <code>-r</code> option will copy files <strong>r</strong>ecursively).</li>
+<li>Files can be removed with the <code>rm</code> command. To remove an entire directory (and its contents) we need to use <code>rm -r</code> (the <code>-r</code> option will remove files <strong>r</strong>ecursively).
+<ul>
+<li>Deleting files from the command line is <em>permanent</em>.</li>
+</ul></li>
+<li>We can operate on multiple files using the <code>*</code> wildcard, which matches “zero or more characters”. For example <code>ls *.txt</code> would list all files that have a <code>.txt</code> file extension.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.img-container-left {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.img-container-right {
+  float: right;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+<hr>
+<div class="clearfix">
+  <div class="img-container-left">
+    <img src="assets/img/logo_btf.png" alt="UoC Bioinformatics Training Facility" style="width:100%">
+  </div>
+  <div class="img-container-right">
+    <img src="assets/img/logo_ukhsa.svg" alt="UK Public Health England" style="width:40%">
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

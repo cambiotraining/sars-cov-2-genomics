@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>SARS-CoV-2 Genomics</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="assets/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UoC BioinfoTraining</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="101-setup.html">
+    <span class="fa fa-gear"></span>
+     
+    Setup
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-file-lines"></span>
+     
+    Materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Unix Shell</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="02a-unix_intro.html">Intro to Unix</a>
+        </li>
+        <li>
+          <a href="02b-unix_files_directories.html">Files and Directories</a>
+        </li>
+        <li>
+          <a href="02c-unix_text_manipulation.html">Text Manipulation</a>
+        </li>
+        <li>
+          <a href="02d-unix_pipes.html">Combining Commands &amp; Writing Scripts</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="01-intro.html">SARS-CoV-2 Genomic Surveillance</a>
+    </li>
+    <li>
+      <a href="03-intro_ngs.html">Intro to NGS Data</a>
+    </li>
+    <li>
+      <a href="04-consensus.html">Consensus Assembly</a>
+    </li>
+    <li>
+      <a href="05-lineage_analysis.html">Lineages and Variants</a>
+    </li>
+    <li>
+      <a href="06-phylogeny.html">Building Phylogenies</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="102-unix_cheatsheet.html">Unix Cheatsheet</a>
+    </li>
+    <li>
+      <a href="106-file_formats.html">Common File Formats</a>
+    </li>
+    <li>
+      <a href="104-wsl_windows.html">Windows Subsystem for Linux</a>
+    </li>
+    <li>
+      <a href="105-vs_code.html">Visual Studio Code</a>
+    </li>
+    <li>
+      <a href="103-tools_and_resources.html">SARS-CoV-2 Resources</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="100-homework.html">
+    <span class="fa fa-pencil"></span>
+     
+    Homework
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/cambiotraining/sars-cov-2-genomics">
+    <span class="fa fa-brands fa-github"></span>
+     
+    Github
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="managing-bioinformatics-software" class="section level1">
+<h1>Managing Bioinformatics Software</h1>
+<div class="highlight">
+<div id="questions" class="section level2">
+<h2>Questions</h2>
+<ul>
+<li>How can I install and manage bioinformatics software?</li>
+<li>How can I download and configure <em>Nextflow</em> pipelines?</li>
+</ul>
+</div>
+<div id="learning-objectives" class="section level2">
+<h2>Learning Objectives</h2>
+<ul>
+<li>Use the Conda package manager to manage and install software.
+<ul>
+<li><code>conda create</code>, <code>conda env create -f env.yml</code>, <code>conda install</code>, <code>conda activate</code></li>
+</ul></li>
+<li>Pull a <em>Nextflow</em> pipeline from a public repository and edit configuration files for your needs.</li>
+</ul>
+</div>
+</div>
+<!--
+## The `conda` Package Manager
+
+Often you may want to use software packages that are not be installed by default on the servers available to you.
+There are several ways you could manage your own software installation, but in this course we will be using _Conda_, which gives you access to a large number of scientific packages.
+
+There are two main software distributions that you can download and install, called _Anaconda_ and _Miniconda_.  
+_Miniconda_ is a lighter version, which includes only base Python, while _Anaconda_ is a much larger bundle of software that includes many other packages (see the [Documentation Page](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html#anaconda-or-miniconda) for more information).
+
+One of the strengths of using _Conda_ to manage your software is that you can have different versions of your software installed alongside each other, organised in **environments**. 
+Organising software packages into environments is extremely useful, as it allows to have a _reproducible_ set of software versions that you can use and resuse in your projects. 
+
+![Illustration of _Conda_ environments.](images/conda_environments.svg)
+
+
+### Installing _Conda_
+
+To start with, let's install _Conda_. 
+In this course we will install the _Miniconda_ bundle, as it's lighter and faster to install:
+
+1. Make sure you've ssh'd to the training computer and are in the home directory (`cd ~`).
+1. download the _Miniconda_ installer by running: `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+1. run the installation script just downloaded: `bash Miniconda3-latest-Linux-x86_64.sh`
+1. follow the installation instructions accepting default options (answering 'yes' to any questions)
+1. run `conda config --add channels conda-forge; conda config --add channels bioconda`.
+This adds two *channels* (sources of software) useful for bioinformatics and data science applications.
+
+:::note
+_Anaconda_ and _Miniconda_ are also available for Windows and Mac OS. 
+See the [Conda Installation Documents](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) for instructions. 
+
+However, many of the packages used in bioinformatics are specific for Linux, so will not work on those other operating systems. 
+However, _Conda_ may still be useful to manage software that works across platforms (e.g. Python packages).
+:::
+
+
+### Installing Software Using `conda`
+
+The command used to install and manage software is called `conda`. 
+Although we will only cover the basics in this course, it has an [excellent documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/) and a useful [cheatsheet](https://docs.conda.io/projects/conda/en/latest/_downloads/1f5ecf5a87b1c1a8aaf5a7ab8a7a0ff7/conda-cheatsheet.pdf).
+
+The first thing to do is to create a software environment for our project. 
+Although this is optional (you could instead install everything in the "base" default environment), it is a good practice as it means the software versions remain stable within each project. 
+
+To create an environment we use:
+
+```console
+$ conda create --name ENV
+```
+
+Where "ENV" is the name we want to give to that environment. 
+Once the environment is created, we can install packages using:
+
+```console
+$ conda install --name ENV PROGRAM
+```
+
+Where "PROGRAM" is the name of the software we want to install. 
+
+:::note
+One way to organise your software environments is to create an environment for each kind of analysis that you might be doing regularly. 
+For example, you could have an environment named `imaging` with software that you use for image processing (e.g. Python's scikit-image or the ImageMagick package) and another called `deeplearn` with software you use for deep learning applications (e.g. Python's Keras). 
+
+In bioinformatics you may create an environment for analysis of specific kinds of data, for example `rnaseq` or `metagenomics`. 
+We will see an example of this in the context of SARS-CoV-2 sequence analysis in a later section.
+:::
+
+To search for the software packages that are available through `conda`:
+
+- go to [anaconda.org](https://anaconda.org).
+- in the search box search for a program of your choice. For example: "bwa".
+- the results should be listed as `CHANNEL/PROGRAM`, where *CHANNEL* will the the source channel from where the software is available. Usually scientific/bioinformatics software is available through the `conda-forge` and `bioconda` channels.
+
+If you need to install a program from a different channel than the defaults, you can specify it during the install command using the `-c` option. 
+For example `conda install --chanel CHANNEL --name ENV PROGRAM`.
+
+Let's see this with an example, where we create a new environment called "scipy", where we install the python scientific packages:
+
+```console
+$ conda install --name scipy --channel conda-forge numpy matplotlib
+```
+
+
+### Loading _Conda_ Environments
+
+Once your packages are installed in an environment, you can load that environment by using `source activate ENV`, where "ENV" is the name of your environment. 
+For example, we can activate our previously created environment with:
+
+```console
+$ source activate scipy
+```
+
+If you chech which `python` executable is being used now, you will notice it's the one from this new environment:
+
+```console
+$ which python
+```
+
+```
+~/miniconda3/envs/scipy/bin/python
+```
+
+:::note
+**Tip**
+
+If you forget which environments you have created, you can use `conda env list` to get a list of them. 
+:::
+
+
+:::exercise
+
+**Q1**
+
+- Create a new _Conda_ environment called `qc` and install the software FastQC and MultiQC, which we will use to check the sequencing quality of our Illumina reads.
+- Once installation completes, activate the environment and check that both packages were installed successfully by running `fastqc --version` and `multiqc --version`. 
+
+<details><summary>Hint</summary>
+
+- Go to [anaconda.org](https://anaconda.org/) to search for these software packages and see which channels they are available from.
+- The command to create a new environment is `conda create --name ENV` (replace "ENV" by a name of your choice for the new environment).
+- The command to install packages into an environment is `conda install --name ENV PROGRAM` (replace "PROGRAM" with the name of the software package you wish to install).
+
+**THIS TAKES QUITE A WHILE TO RUN! MAYBE NEED TO INTRODUCE MAMBA AS WELL**
+
+</details>
+
+**Q2**
+
+- Create a new shell script named `read_quality_control.sh` on your `scripts` folder. Copy/paste the following code into the script (fix the code where "FIXME" appears). 
+
+```bash
+#!/bin/bash
+
+# activate conda environment
+source activate qc
+
+# create output directories
+mkdir -p results/fastqc
+mkdir -p results/multiqc
+
+# run FastQC on all the reads
+fastqc --threads 8 --outdir FIXME data/illumina/*.fastq.gz
+
+# compile statistics using multiqc
+multiqc --outdir FIXME results/fastqc
+```
+
+- Run the new shell script using `bash`. Redirect the output to a file named `logs/read_quality_control.log`.
+
+<details><summary>Hint</summary>
+
+- To redirect output from a script use `bash name_of_script > standard_output.log 2>&1`
+
+<details>
+
+<details><summary>Answer</summary>
+
+Create the environment with:
+
+```
+$ conda create --name qc
+```
+
+We can then install the necessary software on this environment: 
+
+```
+$ conda install --name qc fastqc multiqc
+```
+
+After _Conda_ determines the software dependencies it needs to download and install, it will list them all and ask to confirm the installation. 
+You can type "y" and press Enter to confirm. 
+The installation process may take some time. 
+
+Finally, we can activate our new environment: 
+
+```
+$ source activate qc
+```
+
+We can quickly check that the software was installed successfully by trying the following commands:
+
+```
+$ fastqc --version
+$ multiqc --version
+```
+
+Each of these commands should result in the version of the software being printed on the console. 
+
+
+
+</details>
+
+:::
+
+:::note
+**Quality Control for ONT Data**
+
+FastQC is designed for Illumina data. 
+For ONT data, you can use [MinIONQC](https://github.com/roblanf/minion_qc), which is essentially an R script that you can run to generate a series of plots such as read length and quality distributions. 
+
+:::
+
+
+## Nextflow
+
+- installation
+- `nextflow pull`
+- config files
+- `nextflow run`, `nextflow --help`
+
+Install nextflow, using conda:
+
+`conda create --name nextflow -c bioconda nextflow`
+
+General information about nextflow commands can be obtained by running it with no other options: 
+
+```console
+$ nextflow
+```
+
+```
+Commands:
+  clean         Clean up project cache and work directories
+  clone         Clone a project into a folder
+  cloud         Manage Nextflow clusters in the cloud
+  config        Print a project configuration
+  console       Launch Nextflow interactive console
+  drop          Delete the local copy of a project
+  help          Print the usage help for a command
+  info          Print project and system runtime information
+  kuberun       Execute a workflow in a Kubernetes cluster (experimental)
+  list          List all downloaded projects
+  log           Print executions log and runtime info
+  pull          Download or update a project
+  run           Execute a pipeline project
+  self-update   Update nextflow runtime to the latest available version
+  view          View project script file(s)
+```
+
+:::note
+**This was a note to self - can probably be removed from here**
+Making a local copy of the nextflow repository can be done in a few ways:
+
+- `nextflow pull` - downloads the repo and puts it in a global cache (see https://www.nextflow.io/docs/latest/cli.html#pull)
+- `nextflow clone` - downloads the repo to the local directory. This is equivalent to running `git clone`. 
+
+- Need to check how commits are managed (to ensure consistent versions of the pipeline are used)
+- If the pipeline fails due to an error, can be resumed by adding the flag `nextflow run -resume`
+
+:::
+
+To download the pipeline, we run: 
+
+```console
+$ nextflow pull connor-lab/ncov2019-artic-nf
+```
+
+This will automatically download the workflow from the [project's GitHub page](https://github.com/connor-lab/ncov2019-artic-nf) into our home directory (under `~/.nextflow/assets/`). 
+
+The following step is to set configuration options necessary for our setup. 
+This can be done on a project-by-project basis, or we can set options that are always used on the machine we are working from.
+
+- Edit a file named `nextflow.config` on the project's directory.
+- Edit the file in `~/.nextflow/config`.
+
+I have edited a file in the project's directory with the following: 
+
+```
+process {
+  executor = 'local'
+}
+params {
+  max_memory = 32.GB
+  max_cpus = 8
+  max_time = 12.h
+}
+conda {
+  useMamba = true
+  createTimeout = '1 h'
+}
+```
+
+And this has successfully ran the pipeline with mamba. 
+
+
+## SLURM
+
+SLURM configuration can be specified depending on your setup. 
+For example, I have: 
+
+```
+process {
+  executor = 'slurm'
+  clusterOptions = '-A LEYSER-SL2-CPU -p icelake,cclake -t 05:00:00' 
+}
+params {
+  max_memory = 192.GB
+  max_cpus = 56
+  max_time = 12.h
+}
+```
+
+
+## Help 
+
+`nextflow run ncov2019-artic-nf/ --help`
+
+
+## Conda, Docker, Singularity
+
+With `-profile conda`, I've ran into the problem mentioned here: 
+ - https://github.com/nf-core/rnaseq/issues/517 
+ - https://github.com/nextflow-io/nextflow/issues/1081 
+
+It seems to be a timeout issue. 
+One possibility is to use `mamba`, which can be achieved by adding the following to one of the config files:
+
+```
+conda {
+    useMamba = true
+    createTimeout = '1 h'
+}
+```
+
+This is detailed here: https://www.nextflow.io/docs/edge/config.html#scope-conda
+
+Also, it may be worth thinking about setting the `NXF_CONDA_CACHEDIR` variable as suggested in the first link above, in case users are sharing environments. 
+
+I have also ran into another error:
+
+```
+  Failed to create Conda environment
+  command: conda env create --prefix /rds/user/hm533/hpc-work/btf/nvap_artic_pipeline/work/conda/artic-e06b476df23ea11f5d0c7435111cb143 --file /rds/user/hm533/hpc-work/btf/nvap_artic_pipeline/ncov2019-artic-nf/environments/nanopore/environment.yml
+  status : 143
+  message:
+```
+
+This one I could not seem to fix... 
+
+
+Finally, I get this error with the first step of the pipeline (articDownloadScheme), coming from a `git clone` command:
+
+```
+Cloning into 'primer-schemes'...
+  /usr/local/software/archive/linux-scientific7-x86_64/gcc-9/git-2.26.0-jtc5jb2p7skqq7zohvhh6cs6tgoy5lyj/libexec/git-core/git-remote-https: symbol lookup error: /lib64/libk5crypto.so.3: undefined symbol: EVP_KDF
+_ctrl, version OPENSSL_1_1_1b
+```
+
+This seems to be a system-specific error (only occurs on compute nodes of the HPC, not login nodes), which hopefully disappears on the training machine.
+My workaround is to cd to the working directory and run `bash .command.run`. 
+Then re-launch the workflow with `-resume`.
+
+
+
+## Running at Scale
+
+Need to check:
+
+- is it possible to use `nextflow pull` to a path common to multiple users on a HPC? 
+- is it possible to still have specific config files even when using `nextflow pull` from the general cache? 
+  - Should be: https://www.nextflow.io/docs/latest/config.html 
+
+
+## Troubleshooting 
+
+Nextflow works by creating temporary files in a directory called `work`. 
+When an error occurs, Nextflow informs us of what the working directory was and several (hidden) files can be found there. 
+The most informative are:
+
+- `.command.run` - this is the bash script that is essentially submitted to slurm.
+- `.command.sh` - this is the bash script that is usually called by the previous script. 
+- `.command.log` - log file where errors might be found. 
+
+
+## Summary
+
+:::highlight
+
+**Key Points**
+
+- one
+- two
+
+:::
+-->
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.img-container-left {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.img-container-right {
+  float: right;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+<hr>
+<div class="clearfix">
+  <div class="img-container-left">
+    <img src="assets/img/logo_btf.png" alt="UoC Bioinformatics Training Facility" style="width:100%">
+  </div>
+  <div class="img-container-right">
+    <img src="assets/img/logo_ukhsa.svg" alt="UK Public Health England" style="width:40%">
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

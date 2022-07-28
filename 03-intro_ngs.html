@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>SARS-CoV-2 Genomics</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="assets/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UoC BioinfoTraining</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="101-setup.html">
+    <span class="fa fa-gear"></span>
+     
+    Setup
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-file-lines"></span>
+     
+    Materials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">The Unix Shell</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="02a-unix_intro.html">Intro to Unix</a>
+        </li>
+        <li>
+          <a href="02b-unix_files_directories.html">Files and Directories</a>
+        </li>
+        <li>
+          <a href="02c-unix_text_manipulation.html">Text Manipulation</a>
+        </li>
+        <li>
+          <a href="02d-unix_pipes.html">Combining Commands &amp; Writing Scripts</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="01-intro.html">SARS-CoV-2 Genomic Surveillance</a>
+    </li>
+    <li>
+      <a href="03-intro_ngs.html">Intro to NGS Data</a>
+    </li>
+    <li>
+      <a href="04-consensus.html">Consensus Assembly</a>
+    </li>
+    <li>
+      <a href="05-lineage_analysis.html">Lineages and Variants</a>
+    </li>
+    <li>
+      <a href="06-phylogeny.html">Building Phylogenies</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="102-unix_cheatsheet.html">Unix Cheatsheet</a>
+    </li>
+    <li>
+      <a href="106-file_formats.html">Common File Formats</a>
+    </li>
+    <li>
+      <a href="104-wsl_windows.html">Windows Subsystem for Linux</a>
+    </li>
+    <li>
+      <a href="105-vs_code.html">Visual Studio Code</a>
+    </li>
+    <li>
+      <a href="103-tools_and_resources.html">SARS-CoV-2 Resources</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="100-homework.html">
+    <span class="fa fa-pencil"></span>
+     
+    Homework
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/cambiotraining/sars-cov-2-genomics">
+    <span class="fa fa-brands fa-github"></span>
+     
+    Github
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="introduction-to-ngs-sequencing-data" class="section level1">
+<h1>Introduction to NGS Sequencing Data</h1>
+<div class="highlight">
+<p><strong>Questions</strong></p>
+<ul>
+<li>What are the main technologies available for high-throughput sequencing?</li>
+<li>What are some of the common file formats used in bioinformatics?</li>
+<li>How do I assess the quality of Illumina sequencing data?</li>
+</ul>
+<p><strong>Learning Objectives</strong></p>
+<ul>
+<li>Describe differences between sequencing data produced by Illumina and Nanopore platforms.</li>
+<li>Recognise the structure of common file formats in bioinformatics, in particular FASTA and FASTQ files.</li>
+<li>Use FastQC to produce a quality report for Illumina sequences.</li>
+<li>Use MultiQC to produce a report compiling multiple quality statistics.</li>
+<li>Examine quality reports to identify problematic samples.</li>
+</ul>
+</div>
+<div class="note">
+<p>This section has an accompanying <a href="https://docs.google.com/presentation/d/1tYPnCci7C4Gmsy1O7YhGVDbm_Pib6jA3O411cLA5EFs/edit?usp=sharing" target="_blank">slide deck</a>.</p>
+</div>
+<div id="next-generation-sequencing" class="section level2">
+<h2>Next Generation Sequencing</h2>
+<p>The sequencing of genomes has become more routine due to the <a href="https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data">rapid drop in DNA sequencing costs</a> seen since the development of Next Generation Sequencing (NGS) technologies in 2007. One main feature of these technologies is that they are <em>high-throughput</em>, allowing one to more fully characterise the genetic material in a sample of interest.</p>
+<p>There are three main technologies in use nowadays, often referred to as 2nd and 3rd generation sequencing:</p>
+<ul>
+<li>Illumina’s sequencing by synthesis (2nd generation)</li>
+<li>Oxford Nanopore, shortened ONT (3rd generation)</li>
+<li>Pacific Biosciences, shortened PacBio (3rd generation)</li>
+</ul>
+<p>The video below from the iBiology team gives a great overview of these technologies.</p>
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mI0Fo9kaWqo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</p>
+<div id="illumina-sequencing" class="section level3">
+<h3>Illumina Sequencing</h3>
+<p>Illumina’s technology has become a widely popular method, with many applications to study transcriptomes (RNA-seq), epigenomes (ATAC-seq, BS-seq), DNA-protein interactions (ChIP-seq), chromatin conformation (Hi-C/3C-Seq), population and quantitative genetics (variant detection, GWAS), de-novo genome assembly, amongst <a href="https://emea.illumina.com/content/dam/illumina-marketing/documents/products/research_reviews/sequencing-methods-review.pdf">many others</a>.</p>
+<p>An overview of the sequencing procedure is shown in the animation video below. Generally, samples are processed to generate so-called <em>sequencing libraries</em>, where the genetic material (DNA or RNA) is processed to generate fragments of DNA with attached oligo adapters necessary for the sequencing procedure (if the starting material is RNA, it can be converted to DNA by a step of reverse transcription). Each of these DNA molecule is then sequenced from both ends, generating pairs of sequences from each molecule, i.e. <em>paired-end sequencing</em> (single-end sequencing, where the molecule is only sequenced from one end is also possible, although much less common nowadays).</p>
+<p>This technology is a type of <em>short-read sequencing</em>, because we only obtain short sequences from the original DNA molecules. Typical protocols will generate 2x50bp to 2x250bp sequences (the 2x denotes that we sequence from each end of the molecule).</p>
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fCd6B5HRaZ8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</p>
+<p>The main advantage of Illumina sequencing is that it produces very high-quality sequence reads (current protocols generate reads with an error rate of less than &lt;1%) at a low cost. However, the fact that we only get relatively short sequences means that there are limitations when it comes to resolving particular problems such as long sequence repeats (e.g. around centromeres or transposon-rich areas of the genome), distinguishing gene isoforms (in RNA-seq), or resolving haplotypes (combinations of variants in each copy of an individual’s diploid genome).</p>
+</div>
+<div id="nanopore-sequencing" class="section level3">
+<h3>Nanopore Sequencing</h3>
+<p>Nanopore sequencing is a type of <em>long-read sequencing</em> technology. The main advantage of this technology is that it can sequence very long DNA molecules (up to megabase-sized), thus overcoming the main shortcoming of short-read sequencing mentioned above. Another big advantage of this technology is its portability, with some of its devices designed to work via USB plugged to a standard laptop. This makes it an ideal technology to use in situations where it is not possible to equip a dedicated sequencing facility/laboratory (for example, when doing field work).</p>
+<div class="figure">
+<img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41587-021-01108-x/MediaObjects/41587_2021_1108_Fig1_HTML.png?as=webp" alt="" />
+<p class="caption">Overview of Nanopore sequencing showing the highly-portable MinION device. The device contains thousands of nanopores embeded in a membrane where current is applied. As individual DNA molecules pass through these nanopores they cause changes in this current, which is detected by sensors and read by a dedicated computer program. Each DNA base causes different changes in the current, allowing the software to convert this signal into base calls.</p>
+</div>
+<p>One of the bigger challenges in effectively using this technology is to produce sequencing libraries that contain high molecular weight, intact, DNA. Another disadvantage is that, compared to Illumina sequencing, the error rates at higher, at around 5%.</p>
+<div class="note">
+<p><strong>Illumina or Nanopore for SARS-CoV-2 sequencing?</strong></p>
+<p>Both of these platforms have been widely popular for SARS-CoV-2 sequencing. They can both generate data with high-enough quality for the assembly and analysis of SARS-CoV-2 genomes. Mostly, which one you use will depend on what sequencing facilities you have access to.</p>
+<p>While Illumina provides the cheapest option per sample of the two, it has a higher setup cost, requiring access to the expensive sequencing machines. On the other hand, Nanopore is a very flexible platform, especially its portable MinION devices. They require less up-front cost allowing getting started with sequencing very quickly in a standard molecular biology lab.</p>
+</div>
+</div>
+</div>
+<div id="sequencing-analysis" class="section level2">
+<h2>Sequencing Analysis</h2>
+<p>In this section we will demonstrate two common tasks in sequencing data analysis: sequence quality control and mapping to a reference genome. There are many other tasks involved in analysing sequencing data, but looking at these two examples will demonstrate the principles of running bioinformatic programs. We will later see how bioinformaticians can automate more complex analyses in the <a href="04-consensus.html">consensus assembly section</a>.</p>
+<p>One of the main features in bioinformatic analysis is the use of standard file formats. It allows software developers to create tools that work well with each other. For example, the raw data from Illumina and Nanopore platforms is very different: Illumina generates images; Nanopore generates electrical current signal. However, both platforms come with software that converts those raw data to a standard text-based format called <strong>FASTQ</strong>.</p>
+<div id="fastq-files" class="section level3">
+<h3>FASTQ Files</h3>
+<p>FASTQ files are used to store nucleotide sequences along with a quality score for each nucleotide of the sequence. These files are the typical format obtained from NGS sequencing platforms such as Illumina and Nanopore (after basecalling).</p>
+<p>The file format is as follows:</p>
+<pre><code>@SEQ_ID                   &lt;-- SEQUENCE NAME
+AGCGTGTACTGTGCATGTCGATG   &lt;-- SEQUENCE
++                         &lt;-- SEPARATOR
+%%).1***-+*&#39;&#39;))**55CCFF   &lt;-- QUALITY SCORES</code></pre>
+<p>In FASTQ files each sequence is always represented across 4 lines. The quality scores are encoded in a compact form, using a single character. They represent a score that can vary between 0 and 40 (see <a href="https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/QualityScoreEncoding_swBS.htm">Illumina’s Quality Score Encoding</a>). The reason single characters are used to encode the quality scores is that it saves space when storing these large files. Software that work on FASTQ files automatically convert these characters into their score, so we don’t have to worry about doing this conversion ourselves.</p>
+<p>The quality value in common use is called a <em>Phred score</em> and it represents the probability that the respective base is an error. For example, a base with quality 20 has a probability <span class="math inline">\(10^{-2} = 0.01 = 1\%\)</span> of being an error. A base with quality 30 has <span class="math inline">\(10^{-3} = 0.001 = 0.1\%\)</span> chance of being an error. Typically, a Phred score threshold of &gt;20 or &gt;30 is used when applying quality filters to sequencing reads.</p>
+<p>Because FASTQ files tend to be quite large, they are often <em>compressed</em> to save space. The most common compression format is called <em>gzip</em> and uses the extension <code>.gz</code>. To look at a <em>gzip</em> file, we can use the command <code>zcat</code>, which decompresses the file and prints the output as text.</p>
+<p>For example, we can use the following command to count the number of lines in a compressed FASTQ file:</p>
+<pre class="console"><code>$ zcat sequences.fq.gz | wc -l</code></pre>
+<p>If we want to know how many sequences there are in the file, we can divide the result by 4 (since each sequence is always represented across four lines).</p>
+</div>
+<div id="fastq-quality-control" class="section level3">
+<h3>FASTQ Quality Control</h3>
+<p>One of the most basic tasks in Illumina sequence analysis is to run a quality control step on the FASTQ files we obtained from the sequencing machine.</p>
+<p>The program used to assess FASTQ quality is called <em>FastQC</em>. It produces several statistics and graphs for each file in a nice report that can be used to identify any quality issues with our sequences.</p>
+<p>The basic command to run <em>FastQC</em> is:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">--outdir</span> PATH_TO_OUTPUT_DIRECTORY   PATH_TO_SEQUENCES</span></code></pre></div>
+<p>FastQC can process several samples at once, and often we can use the <code>*</code> wildcard to do this. We will see an example of this in the following exercise.</p>
+<div class="exercise">
+<p>In the course materials directory <code>02-ngs/</code> we have several FASTQ files that we will use to assemble SARS-CoV-2 genomes. But first, we will run FastQC to check the quality of these files.</p>
+<p>This is the basic command we could use in our samples:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">--outdir</span> results/fastqc data/reads/<span class="pp">*</span>.fastq.gz</span></code></pre></div>
+<ul>
+<li>Create the output directory for the analysis (<code>results/fastqc</code>).
+<details>
+<summary>
+Hint
+</summary>
+The command to create directories is <code>mkdir</code>. By default, the <code>mkdir</code> directory only creates one directory at a time. In this case we need to create first the <code>results</code> directory and then the <code>results/fastqc</code> within it. Alternatively, both directories can be created at once using the <code>-p</code> option.
+</details></li>
+<li>Modify the <code>fastqc</code> command shown above to add an option to run the analysis using 8 threads in parallel (or CPUs). Check the tool’s help (<code>fastqc --help</code>) to see what the option to do this is called.</li>
+<li>Run the command. You will know it is running successfully because it prints progress of its analysis on the screen.</li>
+</ul>
+<details>
+<summary>
+Answer
+</summary>
+<p>First, we can create a directory to output our results:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/fastqc</span></code></pre></div>
+<p>The <code>-p</code> option ensures that both directories are created in one step. Otherwise, since the parent directory <code>results</code> did not exist, <code>mkdir</code> would throw an error.</p>
+<p>To check the options available with <em>FastQC</em> we can run <code>fastqc --help</code> to get the complete documentation. As we scroll through the options, we can see the relevant one for running the analysis in parallel:</p>
+<pre><code>-t --threads    Specifies the number of files which can be processed
+                simultaneously.  Each thread will be allocated 250MB of
+                memory so you shouldn&#39;t run more threads than your
+                available memory will cope with, and not more than
+                6 threads on a 32 bit machine</code></pre>
+<p>Although the documentation is a little technical, this means that if we have multiple CPUs available on our computer, we can set this option to allow multiple files to be processed in parallel. Our training machines have 8 CPUs, so we can run the command as follows:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-t</span> 8 <span class="at">--outdir</span> results/fastqc data/reads/<span class="pp">*</span>.fastq.gz</span></code></pre></div>
+The analysis report generated by FastQC is given as a <code>.html</code> file (opens in a web browser). We will go through the details of this below.
+</details>
+</div>
+<p>Each FastQC HTML report contains a section with a different quality assessment plot. Each of these are explained in the online documentation:</p>
+<ul>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/1%20Basic%20Statistics.html">Basic statistics</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/2%20Per%20Base%20Sequence%20Quality.html">Per base sequence quality</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/3%20Per%20Sequence%20Quality%20Scores.html">Per sequence quality scores</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/4%20Per%20Base%20Sequence%20Content.html">Per base sequence content</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/5%20Per%20Sequence%20GC%20Content.html">Per sequence GC content</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/6%20Per%20Base%20N%20Content.html">Per base N content</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/7%20Sequence%20Length%20Distribution.html">Sequence length distribution</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/8%20Duplicate%20Sequences.html">Sequence duplication levels</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/9%20Overrepresented%20Sequences.html">Overrepresented sequences</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/10%20Adapter%20Content.html">Adapter content</a></li>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/12%20Per%20Tile%20Sequence%20Quality.html">Per tile sequence quality</a></li>
+</ul>
+<p>For example, looking at the “Per base sequence quality” section for one of our samples, we can see a very high quality score, which is typical of Illumina data nowadays.</p>
+<div class="figure">
+<img src="images/fastqc_quality.png" alt="" />
+<p class="caption">Sequence quality plot from FastQC for one of our samples. The blue line shows the average across all samples. This sample is very high quality as all sequences have quality &gt; 20 across the entire length of the reads.</p>
+</div>
+<div class="note">
+<p><strong>Quality Control Nanopore Reads</strong></p>
+<p>Although FastQC can run its analysis on any FASTQ files, it has mostly been designed for Illumina data. You can still run FastQC on basecalled Nanopore data, but some of the output modules may not be as informative. FastQC can also run on FAST5 files, using the option <code>--nano</code>.</p>
+<p>You can also use <a href="https://github.com/roblanf/minion_qc">MinIONQC</a>, which takes as input the <code>sequence_summary.txt</code> file, which is a standard output file from the Guppy software used to convert Nanopore electrical signal to sequence calls.</p>
+</div>
+</div>
+<div id="read-mapping" class="section level3">
+<h3>Read Mapping</h3>
+<p>A common task in processing sequencing reads is to align them to a reference genome, which is typically referred to as <strong>read mapping</strong> or <strong>read alignment</strong>. We will continue exemplifying how this works for Illumina data, however the principle is similar for Nanopore data (although the software used is often different, due to the higher error rates and longer reads typical of these platforms).</p>
+<p>Generally, these are the steps involved in read mapping (figure below):</p>
+<ul>
+<li><strong>Genome Indexing |</strong> Because reference genomes can be quite long, most mapping algorithms require that the genome is pre-processed, which is called genome indexing. You can think of a genome index in a similar way to an index at the end of a textbook, which tells you in which pages of the book you can find certain keywords. Similarly, a genome index is used by mapping algorithms to quickly search through its sequence and find a good match with the reads it is trying to align against it. Each mapping software requires its own index, but we <strong>only have to generate the genome index once</strong>.</li>
+<li><strong>Read mapping |</strong> This is the actual step of aligning the reads to a reference genome. There are different popular read mapping programs such as <code>bowtie2</code> or <code>bwa</code>. The input to these programs includes the genome index (from the previous step) and the FASTQ file(s) with reads. The output is an alignment in a file format called SAM (text-based format - takes a lot of space) or BAM (compressed binary format - much smaller file size).</li>
+<li><strong>BAM Sorting |</strong> The mapping programs output the sequencing reads in a random order (the order in which they were processed). But, for downstream analysis, it is good to <em>sort</em> the reads by their position in the genome, which makes it faster to process the file.</li>
+<li><strong>BAM Indexing |</strong> This is similar to the genome indexing we mentioned above, but this time creating an index for the alignment file. This index is often required for downstream analysis and for visualising the alignment with programs such as IGV.</li>
+</ul>
+<div class="figure">
+<img src="images/ngs_mapping.svg" alt="" />
+<p class="caption">Diagram illustrating the steps involved in mapping sequencing reads to a reference genome. Mapping programs allow some differences between the reads and the reference genome (red mutation shown as an example). Before doing the mapping, reads are usually filtered for high-quality and to remove any sequencing adapters. The reference genome is also indexed before running the mapping step. The mapped file (BAM format) can be used in many downstream analyses. See text for more details.</p>
+</div>
+<p>We have already prepared the SARS-CoV-2 genome index for the <code>bowtie2</code> aligner. We have also prepared a shell script with the code to run the three steps above as an example. Let’s look at the content of this file (you can open it with <code>nano scripts/mapping.sh</code>):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mapping</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">-x</span> resources/reference/bowtie2/sarscov2 <span class="at">-1</span> data/reads/ERR6129126_1.fastq.gz <span class="at">-2</span> data/reads/ERR6129126_2.fastq.gz <span class="at">--threads</span> 5 <span class="kw">|</span> <span class="ex">samtools</span> sort <span class="at">-o</span> results/bowtie2/ERR6129126.bam <span class="at">-</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># index mapped file</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> index results/bowtie2/ERR6129126.bam</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain some mapping statistics</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> stats results/bowtie2/ERR6129126.bam <span class="op">&gt;</span> results/bowtie2/ERR6129126.stats.txt</span></code></pre></div>
+<p>In the first step, mapping, we are using two tools: <code>bowtie2</code> and <code>samtools</code>. <code>bowtie2</code> is the mapping program and <code>samtools</code> is a program used to manipulate SAM/BAM alignment files. In this case we used the <code>|</code> pipe to send the output of <code>bowtie2</code> directly to <code>samtools</code>:</p>
+<ul>
+<li><code>-x</code> is the prefix of the reference genome index.</li>
+<li><code>-1</code> is the path to the first read in paired-end sequencing.</li>
+<li><code>-2</code> is the path to the second read in paired-end sequencing.</li>
+<li><code>--threads 5</code> indicates we want to use 5 CPUs (or threads) to do parallel processing of the data.</li>
+<li><code>|</code> is the pipe that sends the output from <code>bowtie2</code> to <code>samtools sort</code>.</li>
+<li><code>-o</code> is the name of the output file. By setting the file extension of this file to <code>.bam</code>, <code>samtools</code> will automatically save the file in the compressed format (which saves a lot of space).</li>
+<li>The <code>-</code> symbol at the end of the <code>samtools</code> command indicates that the input is coming from the <code>|</code> pipe.</li>
+</ul>
+<p>We also have a step that creates an index file for the BAM file using <code>samtools index</code>. This creates a file with the same name and <code>.bai</code> extension.</p>
+<p>Finally, the script also contains a step that collects some basic statistics from the alignment, which we save in a text file. We will see how this file can be used to produce a quality control report below.</p>
+</div>
+<div id="visualising-bam-files-in-igv" class="section level3">
+<h3>Visualising BAM Files in IGV</h3>
+<p>One thing that can be useful is to visualise the alignments produced in this way. We can use the program <em>IGV</em> (Integrative Genome Viewer) to do this:</p>
+<ul>
+<li>Open <em>IGV</em> and go to <kbd>File → Load from file…</kbd>.</li>
+<li>In the file browser that opens go to the folder <code>results/bowtie2/</code> and select the file <code>ERR6129126.bam</code> to open it.</li>
+<li>Go back to <kbd>File → Load from file…</kbd> and this time load the BED files containing the primer locations. These can be found in <code>resources/primers/artic_primers_pool1.bed</code> and <code>resources/primers/artic_primers_pool2.bed</code>.</li>
+</ul>
+<p>There are several ways to search and browse through our alignments, exemplified in the figure below.</p>
+<div class="figure">
+<img src="images/igv_overview.svg" alt="" />
+<p class="caption">Screenshot IGV program. The search box at the top can be used to go to a specific region in the format “CHROM:START-END”. In the case of SARS-CoV-2 there is only one “chromosome” called NC_045512.2 (this is the name of the reference genome), so if we wanted to visualise the region between positions 21563 and 25384 (the Spike gene) we would write “NC_045512.2:21563-25384”.</p>
+</div>
+</div>
+<div id="quality-reports" class="section level3">
+<h3>Quality Reports</h3>
+<p>We’ve seen the example of using the program <em>FastQC</em> to assess the quality of our FASTQ sequencing files. And we have also seen an example of using the program <code>samtools stats</code> to obtain some quality statistics of our read mapping step.</p>
+<p>When processing multiple samples at once, it can become hard to check all of these quality metrics individually for each sample. This is the problem that the software <em>MultiQC</em> tries to solve. This software automatically scans a directory and looks for files it recognises as containing quality statistics. It then compiles all those statistics in a single report, so that we can more easily look across dozens or even hundreds of samples at once.</p>
+<p>Here is the command to run MultiQC and compile several quality statistics into a single report:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results/multiqc</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> <span class="at">--outdir</span> results/multiqc/  results/</span></code></pre></div>
+<p><em>MultiQC</em> generates a report, in this example in <code>results/multiqc/multiqc_report.html</code>. From this report we can get an overview of the quality across all our samples.</p>
+<div class="figure">
+<img src="images/multiqc.svg" alt="" />
+<p class="caption">Snapshot of some of the report sections from MultiQC. In this example we can see the “General Statistics” table and the “Sequence Quality Histograms” plot. One of the samples has lower quality towards the end of the read compared to other samples (red line in the bottom panel).</p>
+</div>
+<p>For example, from the section “General Statistics” we can see that the number of reads varies a lot between samples. Sample ERR5926784 has around 0.1 million reads, which is substantially lower than other samples that have over 1 million reads. This may affect the quality of the consensus assembly that we will do afterwards.</p>
+<p>From the section “Sequence Quality Histograms”, we can see that one sample in particular - ERR5926784 - has lower quality in the second pair of the read. We can open the original FastQC report and confirm that several sequences even drop below a quality score of 20 (1% change of error). A drop in sequencing quality towards the end of a read can often happen, especially for longer reads. Usually, analysis workflows include a step to remove reads with low quality so these should not affect downstream analysis too badly. However, it’s always good to make a note of potentially problematic samples, and see if they produce lower quality results downstream.</p>
+</div>
+</div>
+<div id="bioinformatic-file-formats" class="section level2">
+<h2>Bioinformatic File Formats</h2>
+<p>Like we said above, bioinformatics uses many standard file formats to store different types of data. We have just seen two of these file formats: FASTQ for sequencing reads and BAM files to store reads mapped to a genome.</p>
+<p>Another very common file format is the FASTA file, which is the format that our reference genome is stored as. The consensus sequences that we will generate are also stored as FASTA files. We detail this format below, but there are many other formats. Check out our page on <a href="106-file_formats.html">Extras → File Formats</a> to learn more about them.</p>
+<div id="fasta-files" class="section level3">
+<h3>FASTA Files</h3>
+<p>Another very common file that we should consider is the FASTA format. FASTA files are used to store nucleotide or amino acid sequences.</p>
+<p>The general structure of a FASTA file is illustrated below:</p>
+<pre><code>&gt;sample01                 &lt;-- NAME OF THE SEQUENCE
+AGCGTGTACTGTGCATGTCGATG   &lt;-- SEQUENCE ITSELF</code></pre>
+<p>Each sequence is represented by a name, which always starts with the character <code>&gt;</code>, followed by the actual sequence.</p>
+<p>A FASTA file can contain several sequences, for example:</p>
+<pre><code>&gt;sample01
+AGCGTGTACTGTGCATGTCGATG
+&gt;sample02
+AGCGTGTACTGTGCATGTCGATG</code></pre>
+<p>Each sequence can sometimes span multiple lines, and separate sequences can always be identified by the <code>&gt;</code> character. For example, this contains the same sequences as above:</p>
+<pre><code>&gt;sample01      &lt;-- FIRST SEQUENCE STARTS HERE
+AGCGTGTACTGT
+GCATGTCGATG
+&gt;sample02      &lt;-- SECOND SEQUENCE STARTS HERE
+AGCGTGTACTGT
+GCATGTCGATG</code></pre>
+<p>To count how many sequences there are in a FASTA file, we can use the following command:</p>
+<pre class="console"><code>grep &quot;&gt;&quot; sequences.fa | wc -l</code></pre>
+<p>In two steps:</p>
+<ul>
+<li>find the lines containing the character “&gt;”, and then</li>
+<li>count the number of lines of the result.</li>
+</ul>
+<p>We will see FASTA files several times throughout this course, so it’s important to be familiar with them.</p>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<div class="highlight">
+<p><strong>Key Points</strong></p>
+<ul>
+<li>Illumina sequencing produces short reads (50bp - 200bp), typically from both ends of a DNA fragment. It is a comparatively cheap sequencing platform which produces very high-quality sequences.</li>
+<li>Nanopore sequencing produces very long reads (typically hundreds of kilobases long). It is comparatively more expensive and has higher error rates. However, it is more flexible with some of its platforms being fully portable.</li>
+<li>Sequencing reads are stored in a file format called FASTQ. This file contains both the nucleotide sequence and quality of each base.</li>
+<li>The quality of Illumina sequence reads can be assessed using the software <em>FastQC</em>.</li>
+<li>One common task in bioinformatics is to align or map reads to a reference genome. This involves:
+<ul>
+<li>Creating a genome index - this only needs to be done once.</li>
+<li>Mapping the reads to the reference genome (e.g. using <code>bowtie2</code>) - the output is in SAM format.</li>
+<li>Sorting the reads in the mapped file (using <code>samtools sort</code>) - the output is in BAM format.</li>
+<li>Indexing the BAM alignment file (using <code>samtools index</code>).</li>
+</ul></li>
+<li>The software <em>MultiQC</em> can be used to generate a single reports that compiles statistics across several samples.</li>
+<li>Bioinformatics uses many standard file formats. One of the most common ones is the FASTA format, which is used to store nucleotide or amino acid sequences (no quality information is contained in these files). This is a standard format that assembled genomes are stored as.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.img-container-left {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.img-container-right {
+  float: right;
+  width: 33.33%;
+  padding: 15px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+<body>
+
+<hr>
+<div class="clearfix">
+  <div class="img-container-left">
+    <img src="assets/img/logo_btf.png" alt="UoC Bioinformatics Training Facility" style="width:100%">
+  </div>
+  <div class="img-container-right">
+    <img src="assets/img/logo_ukhsa.svg" alt="UK Public Health England" style="width:40%">
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
