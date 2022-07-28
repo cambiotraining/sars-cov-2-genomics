@@ -733,18 +733,18 @@ In this case, the output FASTA files are in the folder `results/viralrecon/medak
 If we look at one of the files:
 
 ```console
-$ head -n 1 results/viralrecon/medaka/SRR14493626.consensus.fasta
+$ head -n 1 results/viralrecon/medaka/IN42.consensus.fasta
 ```
 
 ```
->SRR14493626/ARTIC/medaka MN908947.3
+>IN42/ARTIC/medaka MN908947.3
 ```
 
 We can see that the name has a lot of extra information attached to it. 
 We want to clean the name of the sequences so that the result is:
 
 ```
->SRR14493626
+>IN42
 ```
 
 - Use the tools `cat` and `sed` to construct a command that generates a new file called `results/consensus/clean_sequences.fa` containing all the sequences with "clean" sequence names. 
