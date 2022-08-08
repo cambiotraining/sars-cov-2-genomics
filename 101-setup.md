@@ -55,6 +55,21 @@ This should install all the necessary software to run the `viralrecon` pipeline,
 
 When you want to run the analysis, make sure to activate the _Conda_ environment with the command `conda activate sars`. 
 
+### Install Singularity
+
+We highly recommend that you install _Singularity_ and use the `-profile singularity` option when running _Nextflow_ (instead of `-profile conda`). 
+On Ubuntu, you can install _Singularity_ using the following commands: 
+
+```bash
+sudo apt update && sudo apt upgrade && sudo apt install runc
+CODENAME=$(lsb_release -c | sed 's/Codename:\t//')
+wget -O singularity.deb https://github.com/sylabs/singularity/releases/download/v3.10.2/singularity-ce_3.10.2-${CODENAME}_amd64.deb
+sudo dpkg -i singularity.deb
+rm singularity.deb
+```
+
+If you have a different Linux distribution, you can find more detailed instructions on the [_Singularity_ documentation page](https://docs.sylabs.io/guides/3.0/user-guide/installation.html#install-on-linux). 
+
 
 ## Data
 
