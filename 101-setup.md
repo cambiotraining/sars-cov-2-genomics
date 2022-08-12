@@ -8,7 +8,7 @@ If you are attending one of our workshops, we will provide a virtual training en
 If you want to setup your own computer to run the analysis demonstrated on this course, you can follow the instructions below. 
 
 :::note
-The `viralrecon` pipeline that we cover in this workshop can run on a regular desktop (e.g. with 8 threads and 16GB RAM). 
+The `viralrecon` pipeline that we cover in this workshop can run on a regular desktop (e.g. with 4 CPUs and 16GB RAM). 
 However, if you are processing hundreds of samples, it may take several hours or even days. 
 
 For general bioinformatic applications, we recommend investing in a high-performance desktop workstation. 
@@ -32,28 +32,47 @@ Installing Ubuntu on the computer will remove any other operating system you had
 
 ### Installing _Conda_
 
-1. Open a terminal using the keyboard shortcut <kbd>Alt</kbd> + <kbd>Tab</kbd>.
-1. Download the _Miniconda_ installer by running: `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
-1. Run the installation script just downloaded: `bash Miniconda3-latest-Linux-x86_64.sh`
-1. Follow the installation instructions accepting default options (answering 'yes' to any questions)
-1. Run `conda config --add channels defaults; conda config --add channels bioconda; conda config --add channels conda-forge; conda config --set channel_priority strict`.
+Run the following commands from the terminal:
 
-
-### Install Software
-
-Run the following block of code: 
-
+```bash
+wget -q -O - https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh -b
+rm Miniconda3-latest-Linux-x86_64.sh
+conda init
+conda config --add channels defaults; conda config --add channels bioconda; conda config --add channels conda-forge; conda config --set channel_priority strict
+conda install -y mamba
 ```
-conda create --name sars
-conda install   -c bioconda   -n sars   nextflow
-conda install   -c bioconda   -n sars   mafft
-conda install   -c bioconda   -n sars   iqtree
-conda install   -c bioconda   -n sars   treetime
+
+Restart your terminal and confirm that your shell now starts with the word `(base)`.
+
+
+### Install Bioinformatics Software
+
+Run the following commands to create an environment with the software we used in the workshop: 
+
+```bash
+mamba create -n sars -y nextflow mafft iqtree treetime
 ```
 
 This should install all the necessary software to run the `viralrecon` pipeline, as well as the phylogenetic analysis we demonstrate in these materials. 
 
 When you want to run the analysis, make sure to activate the _Conda_ environment with the command `conda activate sars`. 
+
+You may also want to install _IGV_, _FigTree_ and _AliView_:
+
+```bash
+# IGV and FigTree are available from Conda
+mamba install -n base igv figtree
+
+# AliView installation
+wget https://ormbunkar.se/aliview/downloads/linux/linux-version-1.28/aliview.tgz
+tar -xzvf aliview.tgz
+rm aliview.tgz
+echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
+```
+
+To run these tools, open a terminal and use the commands `igv`, `figtree` or `aliview`, which will launch each of the programs. 
+
 
 ### Install Singularity
 
@@ -78,7 +97,7 @@ Note that the file is 14GB big and will become 21GB after unzipping, so make sur
 
 Alternatively, you can run the following commands from the terminal (make sure you `cd` into the directory where you want to save the data): 
 
-```
+```bash
 wget -O sarsbioinformatics.zip https://www.dropbox.com/s/7or0210elos3ril/covidbioinformaticsdata.zip?dl=1
 unzip -d sars_genomics_workshop sarsbioinformatics.zip
 rm sarsbioinformatics.zip
