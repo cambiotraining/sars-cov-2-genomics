@@ -81,3 +81,39 @@ We also thank the wider community for publicly sharing training resources, inclu
 - The [workshop video series from _CLIMB BIG DATA_](https://www.youtube.com/channel/UCdiGIIyryQL3x-Og5uiY1rw).
 - The [Carpentries](https://carpentries.org/) project, in particular for their [Unix Shell](https://swcarpentry.github.io/shell-novice/) lesson, which we adapted for this workshop. 
 
+
+## Citation & Authors
+
+You can cite these materials as: 
+
+Tavares H, Kumar A, Castle M & UKHSA New Variant Assessment Platform Team (2022) "cambiotraining/sars-cov-2-genomics: Introduction to Sars-CoV-2 Genomics", https://cambiotraining.github.io/sars-cov-2-genomics
+
+Or, in BibTeX format:
+
+```
+@Misc{,
+  author = {Tavares, Hugo and Kumar, Ankit and Castle, Matt and UKHSA New Variant Assessment Platform Team},
+  title = {cambiotraining/sars-cov-2-genomics: Introduction to Sars-CoV-2 Genomics},
+  month = {March},
+  year = {2022},
+  url = {https://cambiotraining.github.io/sars-cov-2-genomics},
+}
+```
+
+**Please make sure to include a link to the materials in the citation.** (we will add a DOI in due time)
+
+The contributing members from University of Cambridge Bioinformatics Training Facility team are:
+
+- Matt Castle, Bioinformatics Training Manager
+- Hugo Tavares, Senior Teaching Associate
+- Ankit Kumar, Teaching Assistant
+
+The UKHSA's NVAP Team members that supported these materials are:
+
+- Dr Leena Inamdar, NVAP Programme Lead and Global Health Lead
+- Dr Babak Afrough, Senior Project Manager
+- Aude Wilhelm, Senior Epidemiology Scientist
+- Richard Meyers, Data Analytics Surveillance Head Bioinformatician
+- Sam Sims, Bioinformatician
+- Kate Edington, Bioinformatician
+- Constantina Laou, Specialist Lab Advisor
