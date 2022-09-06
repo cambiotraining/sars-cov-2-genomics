@@ -27,7 +27,7 @@ Then, follow these instructions, which will install all the necessary dependenci
 - Finally, test the installation by running: 
     ```bash
     source $HOME/.bashrc
-    # wget TODO 
+    wget -O test_data.tar.gz https://www.dropbox.com/sh/8ju1xe0tosyyc0n/AADoWQawL33K2BJsFifRkxN8a/test_data.tar.gz?dl=1
     tar -xzvf test_data.tar.gz
     cd test_data
     bash test_pipeline.sh
