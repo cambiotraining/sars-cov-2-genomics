@@ -46,8 +46,8 @@ echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
 #### Singularity ####
 echo "Installing singularity (requires sudo password)..."
 
-sudo apt update && sudo apt upgrade -y && sudo apt install -y runc
-CODENAME=$(lsb_release -c | sed 's/Codename:\t//')
+sudo apt update && sudo apt upgrade -y && sudo apt install -y runc cryptsetup-bin
+CODENAME=$(lsb_release -cs)
 wget -O singularity.deb https://github.com/sylabs/singularity/releases/download/v3.10.2/singularity-ce_3.10.2-${CODENAME}_amd64.deb
 sudo dpkg -i singularity.deb
 rm singularity.deb
@@ -89,7 +89,7 @@ sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_
 sudo apt install -y --no-install-recommends r-base r-base-dev
 
 # Download and install RStudio
-wget -O rstudio.deb https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2022.07.1-554-amd64.deb
-sudo apt install -y libclang-dev libpq5 # dependencies
+wget -O rstudio.deb https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb
+sudo apt install -y libclang-dev libpq5 libssl-dev # dependencies
 sudo dpkg -i rstudio.deb
 rm rstudio.deb
