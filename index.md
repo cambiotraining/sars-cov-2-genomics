@@ -113,7 +113,7 @@ The UKHSA's NVAP Team members that supported these materials are:
 - Dr Leena Inamdar, NVAP Programme Lead and Global Health Lead
 - Dr Babak Afrough, Senior Project Manager
 - Aude Wilhelm, Senior Epidemiology Scientist
-- Richard Meyers, Data Analytics Surveillance Head Bioinformatician
+- Richard Myers, Data Analytics Surveillance Head Bioinformatician
 - Sam Sims, Bioinformatician
 - Kate Edington, Bioinformatician
 - Constantina Laou, Specialist Lab Advisor
