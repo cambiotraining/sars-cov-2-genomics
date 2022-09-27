@@ -662,7 +662,7 @@ But if we see a mutation occurring many times, then it may be worth further inve
 :::
 
 
-## Cleaning FASTA Files
+## Cleaning FASTA Files (Optional)
 
 To proceed with our analysis, we need a FASTA file containing _all_ of our consensus sequences.
 However, our `viralrecon` pipeline outputs _separate_ FASTA files for each sample. 

@@ -10,10 +10,10 @@ Minimum requirements:
 | | |
 | :- | :- |
 | Processor | Intel Core i7 (9th generation or later) with a minimum of 4 cores |
-| Memory | 16GB RAM |
+| Memory | 16GB RAM minimum (ideally higher) |
 | Graphics Card | Not essential |
 | Hard Drive | 512GB SSD |
-| Operating System | Ubuntu Linux 20.04 LTS |
+| Operating System | Ubuntu Linux 20.04 LTS or 22.04 LTS |
 
 
 ## Software & Setup
