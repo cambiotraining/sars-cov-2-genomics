@@ -47,12 +47,13 @@ git clone https://github.com/artic-network/civet.git
 cd civet
 mamba env create -f environment.yml
 mamba install -n civet snakemake-minimal=7.16.0
-conda activate civet
+export PATH="$HOME/miniconda3/bin:$PATH"
+source activate civet
 pip install .
 civet --version
 conda deactivate
 cd ../
-rm -r civet
+rm -rf civet
 
 
 #### Singularity ####
@@ -98,7 +99,7 @@ echo "Installing R and RStudio..."
 sudo apt install -y --no-install-recommends software-properties-common dirmngr
 wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-sudo apt install -y --no-install-recommends r-base r-base-dev
+sudo apt install -y --no-install-recommends r-base r-base-dev r-cran-tidyverse
 
 # Download and install RStudio
 wget -O rstudio.deb https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb
