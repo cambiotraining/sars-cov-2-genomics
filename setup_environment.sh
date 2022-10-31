@@ -98,7 +98,8 @@ echo "Installing R and RStudio..."
 sudo apt install -y --no-install-recommends software-properties-common dirmngr
 wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-sudo apt install -y --no-install-recommends r-base r-base-core r-base-dev r-cran-tidyverse
+sudo apt install -y r-base r-base-dev libcurl4-openssl-dev libssl-dev libxml2-dev
+sudo Rscript -e "install.packages('tidyverse')"
 
 # Download and install RStudio
 wget -O rstudio.deb https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb
