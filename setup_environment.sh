@@ -46,8 +46,7 @@ echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
 git clone https://github.com/artic-network/civet.git
 cd civet
 mamba env create -f environment.yml
-mamba install -n civet snakemake-minimal=7.16.0
-export PATH="$HOME/miniconda3/bin:$PATH"
+mamba install -y -n civet snakemake-minimal=7.16.0
 source activate civet
 pip install .
 civet --version
@@ -99,10 +98,12 @@ echo "Installing R and RStudio..."
 sudo apt install -y --no-install-recommends software-properties-common dirmngr
 wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-sudo apt install -y --no-install-recommends r-base r-base-dev r-cran-tidyverse
+sudo apt install -y --no-install-recommends r-base r-base-core r-base-dev r-cran-tidyverse
 
 # Download and install RStudio
 wget -O rstudio.deb https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.1-554-amd64.deb
 sudo apt install -y libclang-dev libpq5 libssl-dev # dependencies
 sudo dpkg -i rstudio.deb
 rm rstudio.deb
+
+echo "Successfully installed all dependencies"
