@@ -42,6 +42,18 @@ tar -xzvf aliview.tgz
 rm aliview.tgz
 echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
 
+# CIVET
+git clone https://github.com/artic-network/civet.git
+cd civet
+mamba env create -f environment.yml
+mamba install -n civet snakemake-minimal=7.16.0
+conda activate civet
+pip install .
+civet --version
+conda deactivate
+cd ../
+rm -r civet
+
 
 #### Singularity ####
 echo "Installing singularity (requires sudo password)..."
