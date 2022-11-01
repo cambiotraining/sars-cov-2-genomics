@@ -102,13 +102,14 @@ sudo apt install -y r-base r-base-dev libcurl4-openssl-dev libssl-dev libxml2-de
 sudo Rscript -e "install.packages('tidyverse')"
 
 # Download and install RStudio
+sudo apt install -y libclang-dev libpq5 libssl-dev # dependencies
+
 if [ $CODENAME = "jammy"]
 then
   wget -O rstudio.deb https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.2-576-amd64.deb
 else
   wget -O rstudio.deb https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2022.07.2-576-amd64.deb
 fi
-sudo apt install -y libclang-dev libpq5 libssl-dev # dependencies
 sudo dpkg -i rstudio.deb
 rm rstudio.deb
 
