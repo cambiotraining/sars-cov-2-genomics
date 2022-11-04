@@ -23,6 +23,7 @@ navbar:
     - text: "Materials"
       icon: fa-file-lines
       menu:
+        - text: "Foundations"
         - text: "The Unix Shell"
           menu:
             - text: "Intro to Unix"
@@ -33,16 +34,22 @@ navbar:
               href: 02c-unix_text_manipulation.html
             - text: "Combining Commands & Writing Scripts"
               href: 02d-unix_pipes.html
-        - text: "SARS-CoV-2 Genomic Surveillance"
-          href: 01-intro.html
         - text: "Intro to NGS Data"
           href: 03-intro_ngs.html
+        - text: "----"
+        - text: "Consensus Assembly"
+        - text: "SARS-CoV-2 Genomic Surveillance"
+          href: 01-intro.html
         - text: "Consensus Assembly"
           href: 04-consensus.html
         - text: "Lineages and Variants"
           href: 05-lineage_analysis.html
         - text: "Building Phylogenies"
           href: 06-phylogeny.html
+        - text: "----"
+        - text: "Case Studies"
+        - text: "EQA"
+          href: 08-case_study_eqa.html
     - text: "Extras"
       icon: fa-book
       menu:
