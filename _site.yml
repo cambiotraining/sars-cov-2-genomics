@@ -48,6 +48,8 @@ navbar:
           href: 06-phylogeny.html
         - text: "----"
         - text: "Case Studies"
+        - text: "Switzerland (ONT)"
+          href: 08-case_study_switzerland.html
         - text: "EQA"
           href: 08-case_study_eqa.html
     - text: "Extras"
