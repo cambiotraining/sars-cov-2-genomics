@@ -24,7 +24,7 @@ export PATH="$HOME/miniconda3/bin/:$PATH"
 conda init # adds conda to .bashrc
 
 # setup conda channels
-conda config --add channels defaults; conda config --add channels bioconda; conda config --add channels conda-forge; conda config --set channel_priority strict
+conda config --add channels defaults; conda config --add channels bioconda; conda config --add channels conda-forge
 
 
 #### Bioinformatic Packages ####
@@ -99,7 +99,7 @@ sudo apt install -y --no-install-recommends software-properties-common dirmngr
 wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 sudo apt install -y r-base r-base-dev libcurl4-openssl-dev libssl-dev libxml2-dev
-sudo Rscript -e "install.packages('tidyverse')"
+sudo Rscript -e "install.packages(c('tidyverse', 'janitor'))"
 
 # Download and install RStudio
 sudo apt install -y libclang-dev libpq5 libssl-dev # dependencies
