@@ -34,7 +34,7 @@ echo "Installing bioinfo packages..."
 conda install -y mamba
 
 # conda packages
-mamba install -y bcftools=1.15.1 mafft=7.505 iqtree=2.2.0.3 treetime=0.9.1 fastqc=0.11.9 multiqc=1.13a bowtie2=2.4.5 tbb=2020.2 igv=2.13.2 figtree=1.4.4
+mamba install -y bcftools=1.15.1 mafft=7.505 iqtree=2.2.0.3 treetime=0.9.1 fastqc=0.11.9 multiqc=1.13a bowtie2=2.4.5 tbb=2020.2 igv=2.13.2 figtree=1.4.4 seqkit=2.3.0
 
 # AliView
 wget https://ormbunkar.se/aliview/downloads/linux/linux-version-1.28/aliview.tgz
