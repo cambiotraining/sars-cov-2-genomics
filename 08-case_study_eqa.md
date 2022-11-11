@@ -71,23 +71,28 @@ With all this information together, we will have the necessary pieces to submit 
 Before we start our work, it's always a good idea to setup our directory structure, so we keep our files organised as the analysis progresses. 
 There is no standard way to do this, but here are some suggested directories: 
 
-- `data` --> contains the sequencing data for the particular run or project you are working on. 
+- `data` → contains the sequencing data for the particular run or project you are working on. 
   Data may sometimes be stored in a separate server, in which case you may not need to create this directory. 
   Generally, you should _leave the original data unmodified_, in case something goes wrong during your analysis, you can always re-run it from the start. 
-- `results` --> to save results of the analysis. 
-- `scripts` --> to save scripts used to run the analysis. 
+- `results` → to save results of the analysis. 
+- `scripts` → to save scripts used to run the analysis. 
   You should always try to save all the commands you run in a script, this way you will have a record of what was done to produce the results, and it makes your life easier if you want to run the analysis again on a new set of data. 
-- `report` --> to save the final files and documents that we report to our colleagues or upload to public repositories. 
-- `resources` --> files that you download from the internet could be saved here. 
+- `report` → to save the final files and documents that we report to our colleagues or upload to public repositories. 
+- `resources` → files that you download from the internet could be saved here. 
   For example, the reference genome sequence, background data used for phylogenetics, etc. 
   Sometimes you may share these resources across multiple projects, in which case you could have this folder somewhere else that you can access across multiple projects. 
 
 On our computers, we have a directory in `~/Documents/eqa_workshop`, where we will do all our analysis. 
-We already included a directory called `data` with the results of the sequencing of the EQA samples that we will analyse (the data are detailed below). 
+We already include the following: 
+ 
+- `data` → with the results of the EQA sample sequencing. 
+- `resources` → where we include the SARS-CoV-2 reference genome, and some background datasets that will be used with some of the tools we will cover. 
+- `scripts` → where we include some scripts that we will use towards the end of the workshop. You should also create several scripts during the workshop, which you will save here. 
+
 
 :::exercise
 
-Your first task is to **create the directories** detailed above in your project folder. 
+Your first task is to **create two new directories** in the project folder called `report` and `results`. 
 You can do this either using the file explorer <i class="fa-solid fa-folder"></i> or from the command line (using the `mkdir` command). 
 
 :::
@@ -105,6 +110,12 @@ This software outputs the files to a directory called **`fastq_pass`**.
 Within this directory, it creates further sub-directories for each sample barcode, which are named `barcodeXX` (`XX` is the barcode number). 
 Finally, within each barcode directory there is one (or sometimes more) FASTQ files corresponding to that sample. 
 
+You can look at the files you have available from the command line using: 
+
+```bash
+ls data/fastq_pass
+```
+
 #### Illumina
 
 The Illumina files come as compressed FASTQ files (`.fq.gz` format) and there's two files per sample, corresponding to read 1 and read 2. 
@@ -112,6 +123,12 @@ This is indicated by the file name suffix:
 
 - `*_1.fq.gz` for read 1
 - `*_2.fq.gz` for read 2
+
+You can look at the files you have available from the command line using: 
+
+```bash
+ls data/
+```
 
 
 ### Metadata
@@ -138,19 +155,19 @@ Create sample_metadata.csv file.
 Your next task it to complete the metadata for our samples. 
 Open the `sample_metadata.csv` file found in our project directory, and complete the table with the relevant information about your samples (if some of the columns don't apply to your data, you can leave them blank): 
 
-- `sample` --> the sample ID.
-- `collection_date` --> the date of collection for the sample in the format YYYY-MM-DD.
-- `collection_year`, `collection_month`, `collection_day` --> same information as above but in separate columns (read the warning box below this exercise).
-- `country` --> the country of origin for this sample.
-- `latitude`/`longitude` --> coordinates for sample location (optional).
-- `ct` --> Ct value from qPCR viral load quantification.
-- `sequencing_instrument` --> the model for the sequencing instrument used (e.g. NovaSeq 6000, MinION, etc.).
-- `sequencing_protocol_name` --> the type of protocol used to prepare the samples (e.g. ARTIC).
-- `amplicon_primer_scheme` --> for amplicon protocols, what version of the primers was used (e.g. V3, V4.1)
+- `sample` → the sample ID.
+- `collection_date` → the date of collection for the sample in the format YYYY-MM-DD.
+- `collection_year`, `collection_month`, `collection_day` → same information as above but in separate columns (read the warning box below this exercise).
+- `country` → the country of origin for this sample.
+- `latitude`/`longitude` → coordinates for sample location (optional).
+- `ct` → Ct value from qPCR viral load quantification.
+- `sequencing_instrument` → the model for the sequencing instrument used (e.g. NovaSeq 6000, MinION, etc.).
+- `sequencing_protocol_name` → the type of protocol used to prepare the samples (e.g. ARTIC).
+- `amplicon_primer_scheme` → for amplicon protocols, what version of the primers was used (e.g. V3, V4.1)
 - Specific columns for Oxford Nanopore data, which are essential for the bioinformatic analysis: 
-  - `ont_nanopore` --> the version of the pores used (e.g. `9.4.1` or `10.4.1`). 
-  - `ont_guppy_version` --> the version of the _Guppy_ software used for basecalling.
-  - `ont_guppy_mode` --> the basecalling mode used with _Guppy_ (usually "fast", "high", "sup" or "hac").
+  - `ont_nanopore` → the version of the pores used (e.g. `9.4.1` or `10.4.1`). 
+  - `ont_guppy_version` → the version of the _Guppy_ software used for basecalling.
+  - `ont_guppy_mode` → the basecalling mode used with _Guppy_ (usually "fast", "high", "sup" or "hac").
 :::
 
 :::warning
@@ -180,7 +197,7 @@ The pipeline's documentation gives details about the format of this samplesheet,
 
 :::exercise
 
-Using _Excel_, produce the input samplesheet for `nf-core/viralrecon`, making sure that you save it as a CSV file (<kbd>File</kbd> --> <kbd>Save As...</kbd> and choose "CSV" as the file format).  
+Using _Excel_, produce the input samplesheet for `nf-core/viralrecon`, making sure that you save it as a CSV file (<kbd>File</kbd> → <kbd>Save As...</kbd> and choose "CSV" as the file format).  
 
 If you are working with Illumina data, you should check the tip below. 
 
@@ -233,7 +250,7 @@ nextflow run nf-core/viralrecon -profile singularity \
   --platform nanopore \
   --artic_minion_caller medaka \
   --artic_minion_medaka_model MEDAKA_MODEL \
-  --fastq_dir fastq_pass/
+  --fastq_dir FASTQ_PASS_FOLDER
 ```
 
 You need to check which model the _medaka_ software should use to process the data. 
@@ -248,6 +265,15 @@ Once you have these pieces of information, you can see how the model is specifie
 For example, if you used a flowcell with chemistry 9.4.1, sequenced on a _MinION_ using the "fast" algorithm on _Guppy_ version 5.0.7, the model used should be `r941_min_fast_g507`.  
 Note that in some cases there is no model for recent versions of _Guppy_, in which case you use the version for the latest version available. 
 In our example, if our version of _Guppy_ was 6.1.5 we would use the same model above, since that's the most recent one available. 
+
+:::warning
+**Viralrecon Medaka Models**
+
+At the moment, _viralrecon_ only supports models up to Guppy version 3. 
+So, make sure to use models ending in `g3XX` in your analysis.
+
+This may change in future versions of the pipeline.
+:::
 
 
 #### Illumina
@@ -276,7 +302,7 @@ However, rather than run the command directly from the command line, let's save 
 Using a text editor, create a shell script and save it in `scripts/01-run_viralrecon.sh`. 
 You can either use the command-line text editor `nano` or use _Gedit_, which comes installed with Ubuntu. 
 
-In this script, include the Nextflow command based on the typical command shown above, adjusting it to fit your input files and type of data. 
+In this script, include the Nextflow command based on the command shown above, adjusting it to fit your input files and type of data. 
 Once your command is ready, save the script and run it from the command line using `bash scripts/01-run_viralrecon.sh`.
 
 If you need a reminder of how to work with shell scripts, revise the [Shell Scripts section](02d-unix_pipes.html#Shell_Scripts) of the materials. 
@@ -292,7 +318,7 @@ However, make sure to set these options to the maximum resources available on th
 :::
 
 
-### Consensus Quality
+## Consensus Quality
 
 Once your workflow is complete, it's time to assess the quality of the initial assembly. 
 At this stage we want to identify issues such as:
@@ -312,36 +338,59 @@ Open the quality report and try to answer the following questions:
 - Were there any samples with a median depth of coverage <20x?
 - Were there any problematic amplicons with low depth of coverage across multiple samples?
 
+Make a note of any samples that you think are problematic. 
+
+<!-- 
 To record some of this information, use a spreadsheet program (_Excel_ or _LibreOffice_) to **create a new CSV file in `report/consensus_metrics.csv`**.  
 Open the file `summary_variants_metrics_mqc.csv` (in the _MultiQC_ report folder from _Viralrecon_), and copy/paste the relevant information to your new table using the following column names: 
 
-- `sample` --> the sample name.
-- `n_mapped_reads` --> number of reads mapped to the reference genome.
-- `median_depth` --> median depth of coverage.
-- `pct_missing` --> percentage of the genome with missing bases ('N'). (Note: In the _MultiQC_ report, the column named `# Ns per 100kb consensus` can be converted to a percentage by dividing its value by 1000.)
-- `pct_coverage` --> percentage of the genome that was sufficiently covered.
-- `n_variants` --> number of SNP + Indel variants.
-:::
+- `sample` → the sample name.
+- `n_mapped_reads` → number of reads mapped to the reference genome.
+- `median_depth` → median depth of coverage.
+- `pct_missing` → percentage of the genome with missing bases ('N'). (Note: In the _MultiQC_ report, the column named `# Ns per 100kb consensus` can be converted to a percentage by dividing its value by 1000.)
+- `pct_coverage` → percentage of the genome that was sufficiently covered.
+- `n_variants` → number of SNP + Indel variants. 
 
-:::highlight
-**Reporting Checkpoint!**
-
-The `consensus_metrics.csv` file is the first of several files that you will generate to report your results. 
-Make sure to keep this file open, since you will add other pieces of information to it as you continue with your analysis. 
+-->
 :::
 
 
-## Clean Output Files
+### Variants
 
-In this section we will clean some of the resulting output files from running our pipeline. 
-We will do three things: 
+The _viralrecon_ pipeline outputs a table with information about SNP/Indel variants as a CSV file named `variants_long_table.csv`. 
+It is important to inspect the results of this file, to identify any mutations with severe effects on annotated proteins, or identify samples with an abnormal high number of "mixed" bases. 
 
-- Combine all our FASTA consensus sequences into a single file. 
-- Create a table of (filtered) SNP/indel variants. 
-- Create a table of gaps (missing bases) present in each consensus sequence.
+:::exercise
+Open the `variants_long_table.csv` file and answer the following questions: 
+
+- How many variants have allele frequency < 75%? 
+- Does any of the samples have a particularly high number of these low-frequency variants, compared to other samples? (This could indicate cross-contamination of samples)
+- Investigate if there are any samples with frameshift mutations. These mutations should be rare because they are highly disruptive to the functioning of the virus. So, their occurrence may be due to errors rather than a true mutation and it's good to make a note of this. 
+
+If you need a reminder of the meaning of the columns in this file, consult the [Consensus > Mutation/Variant Analysis](04-consensus.html#MutationVariant_Analysis) section of the materials.
+
+Make a note of any samples that you think may be problematic, either because they have a high number of low-frequency variants or because they have frameshift mutations.
+
+**(Optional)**  
+If you identify samples with frameshift mutations, open the _BAM_ file of the sample using the software _IGV_. 
+Go to the position where the mutation is located, and try to see if there is evidence that this mutation is an error (for example, if it's near an homopolymer). 
+
+<!-- 
+Save a copy of this table in `report/variants.csv` including only the following columns: 
+
+- `SAMPLE`
+- `POS`
+- `REF`
+- `ALT`
+
+**For _Illumina_ data only:**  
+Filter the table to include only variants with AF >= 0.75 and DP >= 10, as only those variants are retained in the final consensus sequences. 
+Do not do this filtering for the _Nanopore_ table, as all the variants in the table are included in the consensus FASTA.  
+-->
+:::
 
 
-### FASTA
+## Clean FASTA
 
 The _viralrecon_ pipeline outputs each of our consensus sequences as individual FASTA files for each sample (look at the [FASTA Files](03-intro_ngs.html#FASTA_Files) section if you need a reminder of what these files are). 
 However, by default, the sample names in this file have extra information added to them, which makes some downstream analysis less friendly (because the names will be too long and complicated). 
@@ -357,54 +406,28 @@ Look at the [Consensus > Cleaning FASTA Files](04-consensus.html#Cleaning_FASTA_
 
 If you need a reminder of where to find the FASTA consensus files from _viralrecon_, consult the [Consensus > Output Files](04-consensus.html#Output_Files) section of the materials, or the [Viralrecon output documentation](https://nf-co.re/viralrecon/2.5/output).
 
-Once your command is running, make sure to save it in a new script file: `scripts/02-clean_files.sh`.  
+Once your command is running, make sure to save it in a new script file: `scripts/02-clean_fasta.sh`.  
 This is to make sure you can use it later if you do this analysis again!
 :::
 
 
-### Variants
+## Downstream Analyses
 
-The _viralrecon_ pipeline outputs a table with information about SNP/Indel variants as a CSV file named `variants_long_table.csv`. 
-It is important to inspect the results of this file, to identify any mutations with severe effects on annotated proteins, or identify samples with an abnormal high number of "mixed" bases. 
+Now that we have cleaned our FASTA file, we can use it for several downstream analysis.
+We will focus on these: 
 
-The way to inspect this table varies depending on which pipeline you use. 
-
-:::exercise
-Open the `variants_long_table.csv` file and answer the following questions: 
-
-- How many variants have allele frequency < 75%? 
-- Does any of the samples have a particularly high number of these low-frequency variants, compared to other samples? (This could indicate cross-contamination of samples)
-- Investigate if there are any predicted non-synonymous mutations in the Spike protein in your samples.
-
-If you need a reminder of the meaning of the columns in this file, consult the [Consensus > Mutation/Variant Analysis](04-consensus.html#MutationVariant_Analysis) section of the materials.
-
-Save a copy of this table in `report/variants.csv` including only the following columns: 
-
-- `SAMPLE`
-- `POS`
-- `REF`
-- `ALT`
-
-**For _Illumina_ data only:**  
-Filter the table to include only variants with AF >= 0.75 and DP >= 10, as only those variants are retained in the final consensus sequences. 
-Do not do this filtering for the _Nanopore_ table, as all the variants in the table are included in the consensus FASTA. 
-:::
-
-<!-- 
-TODO - add solution with command line
-# nanopore is easy
-cat results/viralrecon/medaka/variants_long_table.csv | cut -d "," -f 1,3,4,5
-
-# illumina is bit more involved because of filtering step
-cat results/viralrecon/variants/ivar/variants_long_table.csv | awk -F "," 'NR==1; NR>1{ if (($10 >= 0.75) && ($7 >= 10)) {print} }' | cut -d "," -f 1,3,4,5
--->
+- **Mising Intervals**: identify the intervals with ambiguous characters ('N') in each sample.
+- **Lineage assignment:** identify if our samples come from known lineages from the _Pangolin_ consortium.
+- **Clustering:** assess how many clusters of sequences we have, based on a phylogenetic analysis.
+- **Phylogeny:** produce an annotated phylogenetic tree of our samples.
+- **Integration & Visualisation:** cross-reference different results tables and produce visualisations of how variants changed over time.
 
 
-### Missing Bases
+### Missing Intervals
 
 When we generate our consensus assembly, there are regions for which we did not have enough information (e.g. due to amplicon dropout) or where there were mixed bases. 
-These regions are effectively missing data, and are denoted as 'N' in our sequences. 
-Although we already determined the percentage of each sequence that is missing, we don't have the _intervals_ of missing data, which can be a useful quality metric to have. 
+These regions are missing data, and are denoted as 'N' in our sequences. 
+Although we already determined the percentage of each sequence that is missing from the _MultiQC_ report, we don't have the **intervals of missing data**, which can be a useful quality metric to have. 
 In particular, we may want to know what is the largest continuous stretch of missing data in each sample. 
 
 :::exercise
@@ -418,64 +441,20 @@ Here is the command that would be used to locate intervals containing _one or mo
 seqkit locate --ignore-case --only-positive-strand --hide-matched -r -p "N+" report/consensus.fa
 ```
 
-Run this command to see what it outputs. 
-
-The output of the command includes several "columns" that are not so interesting for us. 
-Try adding this other command at the end, after a pipe: `cut -f 1,5,6`.  
-Can you understand what the `cut` command does?
-
-Finally, redirect the output of both commands to a file called `report/consensus_miss_intervals.tsv`. 
-The final file should look similar to this: 
-
-```
-seqID   start   end
-CH13    1       54
-CH13    1218    1218
-CH13    2569    2850
-CH13    6248    6495
-CH13    6847    7058
-CH13    7672    7968
-CH13    13115   13115
-CH13    15225   15503
-CH13    16805   17087
-```
+Copy this command to a new shell script called `scripts/03-missing_intervals.sh`, and modify it to _redirect_ the output to a file called `results/missing_intervals.tsv`.  
+Then run the script you created. 
 
 :::
 
 :::exercise
 
 Open the file you created in the previous step (`report/consensus_miss_intervals.tsv`) in a spreadsheet program. 
-Create a new column with the length of each start-end interval. 
+Create a new column with the length of each interval (`end - start + 1`). 
 
-Check which of the intervals is the longest for each sample and add this informationas to a new column named called "longest_miss_interval" in your `report/consensus_metrics.csv` file.
+Note if any missing intervals are larger than 1Kb, and whether they overlap with the _Spike_ gene. 
+(Note: you can use the [Sars-CoV-2 genome browser](https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512&tracks=[key:sequence_track,name:Sequence,display_name:Sequence,id:STD649220238,annots:Sequence,ShowLabel:false,ColorGaps:false,shown:true,order:1][key:gene_model_track,name:Genes,display_name:Genes,id:STD3194982005,annots:Unnamed,Options:ShowAllButGenes,CDSProductFeats:true,NtRuler:true,AaRuler:true,HighlightMode:2,ShowLabel:true,shown:true,order:9]&v=1:29903&c=null&select=null&slim=0) to help you see the lcoation of the annotated genes.)
 
 :::
-
-
-:::highlight
-**Reporting Checkpoint!**
-
-The files generated in this section will also be part of your reported results. 
-
-The **FASTA consensus** file could be used, for example, to upload to public repositories such as GISAID. 
-We will also use it for some of our downstream analysis.  
-
-The **variants CSV** file is important if later you want to check for the increase of new mutations in the population. 
-In the case of the EQA sample panel, it can be used to assess whether all expected mutations were detected.
-
-Finally, the **missing intervals CSV** file is useful as a quality assessment metric.  
-:::
-
-
-## Downstream Analyses
-
-Now that we have our consensus sequences, we are ready to do further downstream analysis, using the clean FASTA files. 
-We will focus on three main things: 
-
-- **Lineage assignment:** identify if our samples come from known lineages from the _Pangolin_ consortium.
-- **Clustering:** assess how many clusters of sequences we have, based on a phylogenetic analysis.
-- **Phylogeny:** produce an annotated phylogenetic tree of our samples.
-- **Integration & Visualisation:** cross-reference different results tables and produce visualisations of how variants changed over time.
 
 
 ### Lineage Assignment
@@ -485,106 +464,20 @@ Therefore, it is good practice to re-run our samples through these tools, to mak
 Although it is possible to [configure _viralrecon_](https://nf-co.re/viralrecon/2.5/usage#updating-containers) to use more recent versions of these tools, it requires more advanced use of configuration files with the pipeline. 
 An easier alternative is to use the **_Nextclade_ web application**.
 
+<!-- 
+TODO
+Ideally they should run the CLI versions, because it works better with the R script at the end.
+-->
+
 :::exercise
 Go to [clades.nextstrain.org](https://clades.nextstrain.org/) and run _Nextclade_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
 If you need a reminder about this tool, see the [Lineages & Variants > Nextclade](05-lineage_analysis.html#Nextclade) section of the materials.
 
-Once the analysis complete, pay particular attention to the quality control column, to see what problems your samples may have (in particular those classified as "bad" quality). 
+Once the analysis completes, pay particular attention to the quality control column, to see what problems your samples may have (in particular those classified as "bad" quality). 
 
 Use the "download" button (top-right) and download the file `nextclade.tsv` (tab-delimited file), which contains the results of the analysis. 
 Save it in a new folder called `results/nextclade`. 
-Open the file and copy the following columns to your `report/consensus_metrics.csv` (rename them as shown):
 
-- `qc_status` = `qc.overallStatus` --> quality category as determined by _nextclade_.
-- `pango` = `Nextclade_pango` --> _pango_ lineage assignment.
-- `nextclade` = `clade_nextstrain` --> _nextclade_ clade assignment.
-- `voc_who` = `clade_who` --> variant of concern name (WHO nomenclature).
-- `substitutions` = `totalSubstitutions` --> total number of substitutions (SNPs).
-- `deletions` = `totalDeletions` --> total deletions' length (in basepairs), relative to the reference genome.
-- `insertions` = `totalInsertions` --> total insertions' length (in basepairs), relative to the reference genome.
-
-:::
-
-:::highlight
-**Reporting Checkpoint!**
-
-At this stage, your `report/consensus_metrics.csv` table should look similar to this (example samples shown here): 
-
-TODO
-
-:::
-
-
-### Clustering
-
-<!-- 
-TODO - move this to its own (new) section.
--->
-
-The software _civet_ (Cluster Investigation and Virus Epidemiology Tool) can be used to produce a report on the phylogenetic relationship between viral samples, using a background dataset to contextualise them (e.g. a global or regional sample of sequences) as well as metadata information to enable the identification of emerging clusters of samples. 
-
-_Civet_ works in several stages, in summary:
-
-- Each input sequence is assigned to a "catchment" group.
-  These are groups of samples that occur at a given genetic distance (number of SNP differences) from each other. 
-- Within each catchment group, a phylogeny is built (using the _iqtree2_ software with the HKY substitution model). 
-- The phylogeny is annotated with user-input metadata (e.g. location, collection date, etc.). 
-  The results are displayed in an interactive HTML report. 
-
-One of the critical pieces of information needed by _civet_ is the background data, to which the input samples will be compared with. 
-These background data could be anything the user wants, but typically it's a good idea to use samples from the local geographic area from where the samples were collected. 
-For example, a national centre may choose to have their background data composed of all the samples that have been sequenced in the country so far. 
-Or perhaps all the samples in its country and other neighbouring countries. 
-
-One way to obtain background data is to download it from GISAID. 
-An example of how to do this is detailed in the [_civet_ documentation](https://cov-lineages.org/resources/civet/walkthrough.html#background_dataset). 
-We have already downloaded the data from GISAID, so we can go straight to running our _civet_ analysis. 
-
-:::exercise
-As background data for _civet_, we have pre-downloaded samples from GISAID for all major world regions, which is stored in `resources/background_data/`. 
-Before running our samples through _civet_, we need to prepare this background data. 
-
-1. Inspect the files in `resources/background_data/`, looking at the sub-directory that fits your country of residence. 
-  In particular, look at the metadata file that comes with the background data, to identify the column name that contains the sample IDs and collection date. 
-2. Using the information from the previous step, adjust the following _civet_ command (save this command in a new script in `scripts/02-prepare_civet_data.sh`):
-  ```bash
-  civet -bd align_curate \
-    -bd-seqs <PATH_TO_BACKGROUND_FASTA> \
-    -bd-metadata <PATH_TO_BACKGROUND_METADATA> \
-    --sequence-id-column <METADATA_COLUMN_WITH_IDS>
-  ```
-3. Once you've created your new script, run it using `bash`. 
-
-Note: you only need to do this step once for each version of the background data. 
-If you have a new version of the background data (for example, revised monthly), then you need to run the `civet -bd align_curate` command again. 
-:::
-
-:::exercise
-Now that you have prepared the background data, you are ready to run the _civet_ analysis on your consensus sequences. 
-Create a new script in `scripts/03-run_civet.sh`, with the following command, adjusted to fit your files: 
-
-```bash
-civet -i <PATH_TO_YOUR_SAMPLE_METADATA> \
-  -f <PATH_TO_YOUR_CONSENSUS_FASTA> \
-  -icol <COLUMN_NAME_FOR_YOUR_SAMPLE_IDS> \
-  -idate <COLUMN_NAME_FOR_YOUR_COLLECTION_DATE> \
-  -d <PATH_TO_CIVET_DATA> \
-  -o results/civet \
-  -bicol <COLUMN_NAME_FOR_THE_BACKGROUND_METADATA_SAMPLE_IDS>
-```
-
-Once your script is ready, run it with `bash`. 
-
-After the analysis completes, open the HTML output file in `results/civet` and answer the following questions:
-
-- How many catchments do your samples fall into? 
-- Create a new column in your `report/consensus_metrics.csv` file called "civet_catchment" with the catchment number for each sample. 
-
-<!-- 
-```bash
-civet -i report/metadata.csv -f report/consensus.fa -icol sample -idate date -d resources/civet_data/asia -o results/civet -bicol modified_strain
-```
- -->
 :::
 
 
@@ -614,6 +507,75 @@ mafft --6merpair --maxambiguous 0.2 --addfragments report/consensus.fa resources
 iqtree2 -s results/mafft/consensus_alignment.fa --prefix results/iqtree/consensus
 ```
 
+Save the code in a new script called `scripts/05-phylogeny.sh`.
+
+:::
+
+
+### Clustering  (Optional Section)
+
+<!-- 
+TODO - move this to its own (new) section.
+-->
+
+The software _civet_ (Cluster Investigation and Virus Epidemiology Tool) can be used to produce a report on the phylogenetic relationship between viral samples, using a background dataset to contextualise them (e.g. a global or regional sample of sequences) as well as metadata information to enable the identification of emerging clusters of samples. 
+
+_Civet_ works in several stages, in summary:
+
+- Each input sequence is assigned to a "catchment" group.
+  These are groups of samples that occur at a given genetic distance (number of SNP differences) from each other. 
+- Within each catchment group, a phylogeny is built (using the _iqtree2_ software with the HKY substitution model). 
+- The phylogeny is annotated with user-input metadata (e.g. location, collection date, etc.). 
+  The results are displayed in an interactive HTML report. 
+
+One of the critical pieces of information needed by _civet_ is the background data, to which the input samples will be compared with. 
+These background data could be anything the user wants, but typically it's a good idea to use samples from the local geographic area from where the samples were collected. 
+For example, a national centre may choose to have their background data composed of all the samples that have been sequenced in the country so far. 
+Or perhaps all the samples in its country and other neighbouring countries. 
+
+One way to obtain background data is to download it from GISAID. 
+An example of how to do this is detailed in the [_civet_ documentation](https://cov-lineages.org/resources/civet/walkthrough.html#background_dataset). 
+We have already downloaded the data from GISAID, so we can go straight to running our _civet_ analysis. 
+
+<!-- 
+:::exercise
+As background data for _civet_, we have pre-downloaded samples from GISAID for all major world regions, which is stored in `resources/background_data/`. 
+Before running our samples through _civet_, we need to prepare this background data. 
+
+1. Inspect the files in `resources/background_data/`, looking at the sub-directory that fits your country of residence. 
+  In particular, look at the metadata file that comes with the background data, to identify the column name that contains the sample IDs and collection date. 
+2. Using the information from the previous step, adjust the following _civet_ command (save this command in a new script in `scripts/02-prepare_civet_data.sh`):
+  ```bash
+  civet -bd align_curate \
+    -bd-seqs <PATH_TO_BACKGROUND_FASTA> \
+    -bd-metadata <PATH_TO_BACKGROUND_METADATA> \
+    --sequence-id-column <METADATA_COLUMN_WITH_IDS>
+  ```
+3. Once you've created your new script, run it using `bash`. 
+
+Note: you only need to do this step once for each version of the background data. 
+If you have a new version of the background data (for example, revised monthly), then you need to run the `civet -bd align_curate` command again. 
+::: 
+-->
+
+:::exercise
+
+Create a new script in `scripts/06-civet.sh`, with the following command, adjusted to fit your files: 
+
+```bash
+civet -i <PATH_TO_YOUR_SAMPLE_METADATA> \
+  -f <PATH_TO_YOUR_CONSENSUS_FASTA> \
+  -icol <COLUMN_NAME_FOR_YOUR_SAMPLE_IDS> \
+  -idate <COLUMN_NAME_FOR_YOUR_COLLECTION_DATE> \
+  -d <PATH_TO_CIVET_DATA> \
+  -o results/civet \
+  -bicol <COLUMN_NAME_FOR_THE_BACKGROUND_METADATA_SAMPLE_IDS>
+```
+
+Once your script is ready, run it with `bash`. 
+
+After the analysis completes, open the HTML output file in `results/civet` and examine into how many catchments your samples were grouped into.
+
 :::
 
 
@@ -621,10 +583,11 @@ iqtree2 -s results/mafft/consensus_alignment.fa --prefix results/iqtree/consensu
 
 At this point in our analysis, we have several tables with different pieces of information: 
 
-- `metadata.csv` --> information about our samples such as date of collection, location, protocol details, etc.
-- `consensus_metrics.csv` --> information about the quality and lineage assignment of our consensus sequences.
-- `variants.csv` --> the SNP/indel variants detected in each of our samples.
-- `missing_intervals.csv` --> the intervals with 'N' ambiguous (missing) bases. 
+- `sample_info.csv` --> the original table with metadata for our samples. 
+- `results/viralrecon/multiqc/medaka/summary_variants_metrics_mqc.csv` --> quality metrics from the _MultiQC_ report generated by the _viralrecon_ pipeline.
+- `results/nextclade/nextclade.tsv` --> the results from _Nextclade_. 
+- `results/pangolin/report.csv` --> the results from _Pangolin_.
+- `results/civet/master_metadata.csv` --> the results from the _civet_ analysis, namely the catchment (or cluster) that each of our samples was grouped into.
 
 Each of these tables stores different pieces of information, and it would be great if we could _integrate_ them together, to further enrich our analysis. 
 In particular, two kinds of visualisations can be useful
@@ -632,6 +595,7 @@ We will demonstrate how this analysis can be done using the R software, which is
 
 Check the [Quick R Intro](TODO) section to get an idea of how to work with R and RStudio.
 
+TODO 
 
 ### EQA Panels
 
@@ -656,7 +620,7 @@ You may already have established reporting templates in your institution, and if
 Alternatively, we will look at a suggested template, based on the reports done by the UK Health Security Agency (UKHSA). 
 
 :::exercise
-Open our shared [report template](TODO) document and download it as a _Word_ document (<kbd>File</kbd> --> <kbd>Download</kbd> --> <kbd>Microsoft Word (.docx)</kbd>). 
+Open our shared [report template](TODO) document and download it as a _Word_ document (<kbd>File</kbd> → <kbd>Download</kbd> → <kbd>Microsoft Word (.docx)</kbd>). 
 Save the file in `report/YYYY-MM-DD_analysis_report.docx` (replace `YYYY-MM-DD` by today's date).
 
 Open the file and complete fill the missing fields with the information you collected throughout your analysis. 
