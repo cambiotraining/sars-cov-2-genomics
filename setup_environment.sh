@@ -34,25 +34,41 @@ echo "Installing bioinfo packages..."
 conda install -y mamba
 
 # conda packages
-mamba install -y bcftools=1.15.1 mafft=7.505 iqtree=2.2.0.3 treetime=0.9.1 fastqc=0.11.9 multiqc=1.13a bowtie2=2.4.5 tbb=2020.2 igv=2.13.2 figtree=1.4.4 seqkit=2.3.0
+# mamba install -y bcftools=1.15.1 mafft=7.505 iqtree=2.2.0.3 treetime=0.9.1 fastqc=0.11.9 multiqc=1.13a bowtie2=2.4.5 tbb=2020.2 igv=2.13.2 figtree=1.4.4 seqkit=2.3.0
+mamba install datrie
+pip install biopython
+pip install snakemake==7.16.0
+mamba install -y mafft iqtree treetime igv figtree seqkit minimap2 
+mamba install -y cov-ert::jclusterfunk 
+mamba install -y gofasta ucsc-fatovcf 
+mamba install -y usher
+mamba install -y git-lfs 
+mamba install -y nextclade 
+
+pip install git+https://github.com/cov-lineages/scorpio.git
+pip install git+https://github.com/cov-lineages/constellations.git
+pip install git+https://github.com/cov-lineages/pangolin-data.git
+pip install git+https://github.com/artic-network/civet.git
+
+mamba install -y --no-deps pangolin
+
+# # CIVET
+# git clone https://github.com/artic-network/civet.git
+# cd civet
+# mamba env create -f environment.yml
+# mamba install -y -n civet snakemake-minimal=7.16.0
+# source activate civet
+# pip install .
+# civet --version
+# conda deactivate
+# cd ../
+# rm -rf civet
 
 # AliView
 wget https://ormbunkar.se/aliview/downloads/linux/linux-version-1.28/aliview.tgz
 tar -xzvf aliview.tgz
 rm aliview.tgz
 echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
-
-# CIVET
-git clone https://github.com/artic-network/civet.git
-cd civet
-mamba env create -f environment.yml
-mamba install -y -n civet snakemake-minimal=7.16.0
-source activate civet
-pip install .
-civet --version
-conda deactivate
-cd ../
-rm -rf civet
 
 
 #### Singularity ####
