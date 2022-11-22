@@ -6,7 +6,10 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 :::highlight
 This section demonstrates a start-to-finish analysis of a dataset sequenced on a _Nanopore_ platform, using the concepts and tools covered in previous sections. 
-You can download the data from this link: [Switzerland Case Study - Data](https://www.dropbox.com/sh/heqhpg64azfvmlp/AACH-IHDioCfYU4RShCd2QRBa?dl=1).
+You can download the data from these links (two versions available): 
+
+- [Switzerland Case Study - Full Data](https://www.dropbox.com/sh/heqhpg64azfvmlp/AACH-IHDioCfYU4RShCd2QRBa?dl=1) -- this includes data for 65 samples, which gives a more realistic sample size, but can take several hours to run on a small computer.
+- [Switzerland Case Study - Small Version](https://www.dropbox.com/sh/2k5c8g4zdqy3quu/AABr6EiWYXVGIDyvtn-10k9ra?dl=1) -- this includes data for a subset of 10 samples, which is more suitable for training purposes (but the results will look slightly different from the ones shown here).
 
 By the end of this section, you should be able to:
 
@@ -290,10 +293,10 @@ However, for **automation**, **reproducibility** and **traceability** purposes, 
 #!/bin/bash
 
 # get nextclade data
-nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_dataset
+nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_background_data
 
 # run nextclade
-nextclade run --input-dataset resources/nextclade_dataset/ --output-all results/nextclade report/consensus.fa
+nextclade run --input-dataset resources/nextclade_background_data/ --output-all results/nextclade report/consensus.fa
 
 # run pangolin
 # first make sure to update it with
@@ -351,10 +354,11 @@ We can see that our samples fall broadly into two large clusters, which correlat
 
 We identified groups of similar sequences in our data using the software _civet_ (Cluster Investigation and Virus Epidemiology Tool). 
 This software compares our samples with a background dataset of our choice, which givus us more context for our analysis. 
-In our case, we chose to use European samples as background data, which we downloaded from GISAID following the instructions on the [_civet_ documentation](https://cov-lineages.org/resources/civet/walkthrough.html#background_dataset) (you need an account on GISAID to obtain these data). 
+In this case we are using the [example background data](https://github.com/artic-network/civet/tree/master/quickstart_data/civet_background_data) that comes with _civet_. 
+However, in a real-world analysis, it would have been ideal to choose local samples as background data. 
+For example, we could download samples from Switzerland from around the time period of our sample collection, from GISAID following the instructions on the [_civet_ documentation](https://cov-lineages.org/resources/civet/walkthrough.html#background_dataset) (you need an account on GISAID to obtain these data). 
 
-We already have our _civet_ data prepared in `resources/civet_data`, and we ran our analysis using the commands in the script `scripts/06-civet.sh`.
-Note that due to the way this software is installed, we first need to activate a _Conda_ environment using the command `conda activate civet`. 
+We already have our _civet_ data prepared in `resources/civet_background_data`, and we ran our analysis using the commands in the script `scripts/06-civet.sh`.
 The code in the script is: 
 
 ```bash
@@ -365,18 +369,15 @@ civet -i sample_info.csv \
   -f report/consensus.fa \
   -icol sample \
   -idate sample_collection_date \
-  -d resources/civet_data/ \
-  -o results/civet \
-  -bicol modified_strain
+  -d resources/civet_background_data/ \
+  -o results/civet
 ```
 
-After we finish running the script, we deactivate our environment, using `conda deactivate`. 
-
 The result of this analysis includes an interactive HTML report (in `results/civet/civet.html`).
-We can see that our samples were grouped into 4 catchments. 
-The most numerous catchment (2) had 28 samples, which were tightly clustered and corresponded to _Omicron_ variants (based on the analysis from the previous section). 
+We can see that our samples were grouped into 2 catchments, using this background data. 
+This makes sense from our previous lineage/variant analysis: the two catchments correlate with the two main variants in these data (Omicron and Delta). 
 
-![Example of results from _civet_ report for catchment 2, showing the phylogeny (top) and mutations in the samples (bottom).](images/civet_catchment_example.png)
+![Example of results from _civet_ report for catchment 2, showing the phylogeny in the context of the samples in the background data (coloured according to their lineages).](images/civet_catchment_example.png)
 
 _Civet_ also outputs a CSV file (`results/civet/master_metadata.csv`), which includes the catchment that each sample was assigned to. 
 We will use this CSV file later to integrate this information with other parts of our analysis, in _R_, detailed in the "Integration & Visualisation" section. 
@@ -452,10 +453,10 @@ cat results/viralrecon/medaka/*.consensus.fasta | sed 's/\/ARTIC\/medaka MN90894
 seqkit locate --ignore-case --only-positive-strand --hide-matched -r -p "N+" report/consensus.fa > results/missing_intervals.tsv
 
 # get nextclade data
-nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_dataset
+nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_background_data
 
 # run nextclade
-nextclade run --input-dataset resources/nextclade_dataset/ --output-all results/nextclade report/consensus.fa
+nextclade run --input-dataset resources/nextclade_background_data/ --output-all results/nextclade report/consensus.fa
 
 # run pangolin
 # first make sure to update it with
