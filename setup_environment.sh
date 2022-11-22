@@ -128,7 +128,7 @@ sudo Rscript -e "install.packages(c('tidyverse', 'janitor'))"
 # Download and install RStudio
 sudo apt install -y libclang-dev libpq5 libssl-dev # dependencies
 
-if [ $CODENAME = "jammy"]
+if [ $CODENAME = "jammy" ]
 then
   wget -O rstudio.deb https://download1.rstudio.org/desktop/jammy/amd64/rstudio-2022.07.2-576-amd64.deb
 else
