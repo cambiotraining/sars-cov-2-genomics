@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+echo "Error: we are currently fixing this script, please wait until we have finished configuring it."
+exit 0
+
 if [ "${EUID:-$(id -u)}" -eq 0 ]; then
   echo "Please do not run this script as root - run it from the participant's user account."
   exit 0
@@ -12,6 +15,10 @@ cd $HOME
 echo "
 export PATH=$HOME/bin/:\$PATH
 " >> $HOME/.bashrc
+
+# system updates and install git
+echo "Updating apt packages..."
+sudo apt update && sudo apt upgrade -y && sudo apt install -y git
 
 
 #### Conda ####
@@ -35,7 +42,7 @@ conda install -y mamba
 
 # conda packages
 # mamba install -y bcftools=1.15.1 mafft=7.505 iqtree=2.2.0.3 treetime=0.9.1 fastqc=0.11.9 multiqc=1.13a bowtie2=2.4.5 tbb=2020.2 igv=2.13.2 figtree=1.4.4 seqkit=2.3.0
-mamba install datrie
+mamba install -y datrie
 pip install biopython
 pip install snakemake==7.16.0
 mamba install -y mafft iqtree treetime igv figtree seqkit minimap2 
@@ -49,8 +56,9 @@ pip install git+https://github.com/cov-lineages/scorpio.git
 pip install git+https://github.com/cov-lineages/constellations.git
 pip install git+https://github.com/cov-lineages/pangolin-data.git
 pip install git+https://github.com/artic-network/civet.git
+pip install git+https://github.com/cov-lineages/pangolin.git
 
-mamba install -y --no-deps pangolin
+
 
 # # CIVET
 # git clone https://github.com/artic-network/civet.git
@@ -74,7 +82,7 @@ echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
 #### Singularity ####
 echo "Installing singularity (requires sudo password)..."
 
-sudo apt update && sudo apt upgrade -y && sudo apt install -y runc cryptsetup-bin
+sudo apt install -y runc cryptsetup-bin
 CODENAME=$(lsb_release -cs)
 wget -O singularity.deb https://github.com/sylabs/singularity/releases/download/v3.10.2/singularity-ce_3.10.2-${CODENAME}_amd64.deb
 sudo dpkg -i singularity.deb
