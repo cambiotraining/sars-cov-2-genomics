@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "Error: we are currently fixing this script, please wait until we have finished configuring it."
-exit 0
-
 if [ "${EUID:-$(id -u)}" -eq 0 ]; then
   echo "Please do not run this script as root - run it from the participant's user account."
   exit 0
@@ -18,7 +15,7 @@ export PATH=$HOME/bin/:\$PATH
 
 # system updates and install git
 echo "Updating apt packages..."
-sudo apt update && sudo apt upgrade -y && sudo apt autoremove
+sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
 sudo apt install -y git
 
 

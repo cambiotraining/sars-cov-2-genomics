@@ -24,8 +24,19 @@ Then, follow these instructions, which will install all the necessary dependenci
 - Login to the machine using the participant account.
 - Open a terminal. 
 - Run the following command to install all the software dependencies (please type your password when asked for it): `wget -q -O - https://raw.githubusercontent.com/cambiotraining/sars-cov-2-genomics/main/setup_environment.sh | bash`
-- Finally, test the installation by running: 
+- Check the following software versions are correct:
+  - `pangolin --all-versions` should indicate `pangolin: 4.1.3` (or later)
+  - `civet --version` should indicate `civet 3.0.1` (or later)
+- Download the data for the practical:
     ```bash
+    cd $HOME
+    wget -O eqa_practical.zip https://www.dropbox.com/sh/v7vbvf28gn1vd34/AAAQ1PYf1uYSNcubrRZqF8P-a?dl=1
+    mkdir Documents/eqa_practical
+    unzip -d Documents/eqa_practical/ eqa_practical.zip
+    ```
+- Test the installation by running: 
+    ```bash
+    cd $HOME
     source $HOME/.bashrc
     wget -O test_data.tar.gz https://www.dropbox.com/sh/8ju1xe0tosyyc0n/AADoWQawL33K2BJsFifRkxN8a/test_data.tar.gz?dl=1
     tar -xzvf test_data.tar.gz
