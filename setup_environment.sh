@@ -18,11 +18,15 @@ export PATH=$HOME/bin/:\$PATH
 
 # system updates and install git
 echo "Updating apt packages..."
-sudo apt update && sudo apt upgrade -y && sudo apt install -y git
+sudo apt update && sudo apt upgrade -y && sudo apt autoremove
+sudo apt install -y git
 
 
 #### Conda ####
 echo "Installing conda..."
+
+# remove any previous installation
+rm -rf miniconda3
 
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh -b
@@ -47,7 +51,7 @@ pip install biopython
 pip install snakemake==7.16.0
 mamba install -y mafft iqtree treetime igv figtree seqkit minimap2 
 mamba install -y cov-ert::jclusterfunk 
-mamba install -y gofasta ucsc-fatovcf 
+mamba install -y gofasta=0.0.5 ucsc-fatovcf 
 mamba install -y usher
 mamba install -y git-lfs 
 mamba install -y nextclade 
