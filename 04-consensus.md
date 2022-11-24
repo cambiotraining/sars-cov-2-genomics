@@ -445,6 +445,8 @@ By zooming in to the region where this primer is located, we can see there is a 
 One of the output files produced by the pipeline is a **table SNP and indel variants detected in our samples** saved as a CSV file in **`variants/ivar/variants_long_table.csv`**. 
 This table can be useful to investigate if particular mutations are particularly frequent in our samples and what their likely effects are.
 
+![Variants table output by _viralrecon_, with a summary of the main columns of interest. Note that this table also includes a column with lineage assignment (not shown in this snapshot). Remember that at this stage we mostly ignore this column, as _viralrecon_ does not use the most up-to-date version of the lineage databases.](images/switzerland_variants.svg)
+
 The columns in this table are: 
 
 - `SAMPLE` is the name of our sequenced sample.

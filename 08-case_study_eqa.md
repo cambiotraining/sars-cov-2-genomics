@@ -12,13 +12,15 @@ This page is under active development -- not to be used for teaching.
 
 :::highlight
 This section is an **extended self-paced practice** applying the concepts covered in previous sections. 
+You can download the data for this section from the following link: [EQA Practical - Data](https://www.dropbox.com/sh/v7vbvf28gn1vd34/AAAQ1PYf1uYSNcubrRZqF8P-a?dl=1).
+
 By the end of this practice, you should be able to:
 
 - Prepare all the files necessary to run the consensus pipeline.
 - Run the _viralrecon_ pipeline to generate FASTA consensus from raw FASTQ files. 
 - Assess and collect several quality metrics for the consensus sequences. 
 - Clean output files, in preparation for other downstream analysis.
-- Assign sequences to lineages using _Nextclade_. 
+- Assign sequences to lineages. 
 - Contextualise your sequences in other background data and cluster them based on phylogenetic analysis. 
 - Integrate the metadata and analysis results to generate timeseries visualisations of your data. 
 :::
@@ -32,10 +34,11 @@ _GenQA_'s panel of samples includes lab-cultured SARS-CoV-2 samples of known ori
 In this case study, we are going to analyse samples from the _GenQA_ panel, to helps us assess the quality of our bioinformatic analysis and extract key pieces of information to be reported.
 The panel we will work with includes the following samples: 
 
-- 2x Alpha
+- 1x Alpha
+- 1x Beta
+- 1x Delta
 - 2x Gamma
 - 1x Omicron
-- 1x Delta
 - 1x Adenovirus (negative control)
 
 From the sequencing data analysis, we will address the following: 
@@ -43,14 +46,12 @@ From the sequencing data analysis, we will address the following:
 - What was the quality of the consensus sequence obtained?
 - What lineage/clade was each of our samples assigned to? Did we identify the correct (expected) lineage?
 - Which of the expected mutations were we able to detect? Where there any "false positives" or "false negatives"?
-- How many clusters of samples do we identify?
 
 We should also produce several essential output files, which would usually be necessary to upload our data to public repositories: 
 
-- Metadata (CSV)
 - Consensus sequences (FASTA)
-- Consensus sequence quality metrics (CSV)
-- Variants (CSV)
+- Metadata and consensus sequence quality metrics (TSV)
+- Variants (TSV)
 
 
 ## Pipeline Overview
@@ -58,9 +59,9 @@ We should also produce several essential output files, which would usually be ne
 We will start our analysis with **FASTQ files** produced by our sequencing platforms (Illumina and Nanopore are considered here). 
 These FASTQ files will be used with the **`nf-core/viralrecon` _Nextflow_ pipeline**, allowing us to automate the generation of consensus sequences and produce several **quality control** metrics essential for our downstream analysis and reporting. 
 
-Critical files output by the pipeline will need to be further processed, including combining our **consensus FASTA files** and obtaining a list of **filtered SNP/indel variants**. 
+Critical files output by the pipeline will need to be further processed, including combining and cleaning our **consensus FASTA files**. 
 Using these clean files, we can then proceed to downstream analysis, which includes assigning each sample to the most up-to-date **Pango lineage**, **Nextclade clade** and **WHO designation**. 
-Finally, we can do more advanced analysis, including the idenfication of **sample clusters** based on phylogenetic analysis, or produce timeseries visualisations of mutations or variants of concern. 
+Finally, we can do more advanced analysis, including the idenfication of **sample clusters** based on phylogenetic analysis, or produce timeseries visualisations of variants of concern. 
 With all this information together, we will have the necessary pieces to submit our results to **public repositories** and write **reports** to inform public health decisions. 
 
 ![](images/analysis_overview.png)
@@ -88,7 +89,7 @@ We already include the following:
 - `data` → with the results of the EQA sample sequencing. 
 - `resources` → where we include the SARS-CoV-2 reference genome, and some background datasets that will be used with some of the tools we will cover. 
 - `scripts` → where we include some scripts that we will use towards the end of the workshop. You should also create several scripts during the workshop, which you will save here. 
-
+- `sample_info.csv` → a table with some metadata for our samples.
 
 :::exercise
 
@@ -147,19 +148,16 @@ However, the more information you collect about each sample, the more questions 
 
 :::exercise
 
-<!-- 
-TODO
-Create sample_metadata.csv file. 
--->
-
-Your next task it to complete the metadata for our samples. 
-Open the `sample_metadata.csv` file found in our project directory, and complete the table with the relevant information about your samples (if some of the columns don't apply to your data, you can leave them blank): 
+We already provide some basic metadata for these samples in the file `sample_info.csv`: 
 
 - `sample` → the sample ID.
 - `collection_date` → the date of collection for the sample in the format YYYY-MM-DD.
-- `collection_year`, `collection_month`, `collection_day` → same information as above but in separate columns (read the warning box below this exercise).
 - `country` → the country of origin for this sample.
-- `latitude`/`longitude` → coordinates for sample location (optional).
+- `expected_lineage` and `expected_voc` → because we are using the EQA panel, we know what lineage and variant-of-concern (VOC) each sample belongs to. We will use this later to assess the quality of our analysis. 
+
+There is however some information missing from this table, which you may have available at this point. 
+Open this file in _Excel_ and create the following columns: 
+
 - `ct` → Ct value from qPCR viral load quantification.
 - `sequencing_instrument` → the model for the sequencing instrument used (e.g. NovaSeq 6000, MinION, etc.).
 - `sequencing_protocol_name` → the type of protocol used to prepare the samples (e.g. ARTIC).
@@ -168,6 +166,8 @@ Open the `sample_metadata.csv` file found in our project directory, and complete
   - `ont_nanopore` → the version of the pores used (e.g. `9.4.1` or `10.4.1`). 
   - `ont_guppy_version` → the version of the _Guppy_ software used for basecalling.
   - `ont_guppy_mode` → the basecalling mode used with _Guppy_ (usually "fast", "high", "sup" or "hac").
+
+This will ensure that in the future people have sufficient information to re-run the analysis on your data. 
 :::
 
 :::warning
@@ -199,6 +199,8 @@ The pipeline's documentation gives details about the format of this samplesheet,
 
 Using _Excel_, produce the input samplesheet for `nf-core/viralrecon`, making sure that you save it as a CSV file (<kbd>File</kbd> → <kbd>Save As...</kbd> and choose "CSV" as the file format).  
 
+**Note:** make sure that the sample names you use in this samplesheet match those in the metadata `sample_info.csv` file (pay attention to things like spaces, uppercase/lowercase, etc. -- make sure the names used match _exactly_). 
+
 If you are working with Illumina data, you should check the tip below. 
 
 <details><summary>Illumina samplesheet: saving time with the command line!</summary>
@@ -215,7 +217,7 @@ ls data/*_2.fq.gz > read2_filenames.txt
 # initiate a file with column names
 echo "fastq_1,fastq_2" > samplesheet.csv
 
-# paste the two files together, using comma as a delimiter
+# paste the two temporary files together, using comma as a delimiter
 paste -d "," read1_filenames.txt read2_filenames.txt >> samplesheet.csv
 
 # remove the two temporary files
@@ -239,7 +241,7 @@ There are [many options](https://nf-co.re/viralrecon/2.5/parameters) that can be
 
 ```
 nextflow run nf-core/viralrecon -profile singularity \
-  --max_memory '16.GB' --max_cpus 8 \
+  --max_memory '15.GB' --max_cpus 8 \
   --input SAMPLESHEET_CSV \
   --outdir results/viralrecon \
   --protocol amplicon \
@@ -280,7 +282,7 @@ This may change in future versions of the pipeline.
 
 ```
 nextflow run nf-core/viralrecon -profile singularity \
-  --max_memory '16.GB' --max_cpus 8 \
+  --max_memory '15.GB' --max_cpus 8 \
   --input SAMPLESHEET_CSV \
   --outdir results/viralrecon \
   --protocol amplicon \
@@ -312,7 +314,7 @@ If you need a reminder of how to work with shell scripts, revise the [Shell Scri
 :::note
 **Maximum Memory and CPUs**
 
-In our _Nextflow_ command above we have set `--max_memory '16.GB' --max_cpus 8` to limit the resources used in the analysis. 
+In our _Nextflow_ command above we have set `--max_memory '15.GB' --max_cpus 8` to limit the resources used in the analysis. 
 This is suitable for the computers we are using in this workshop. 
 However, make sure to set these options to the maximum resources available on the computer where you process your data. 
 :::
@@ -326,8 +328,6 @@ At this stage we want to identify issues such as:
 - Any samples which have critically low coverage. There is no defined threshold, but samples with less than 85% coverage should be considered carefully.
 - Any problematic regions that systematically did not get amplified (amplicon dropout).
 
-We will also collect several critical quality metrics that we will use to produce a supplementary file to our final analysis report. 
-
 :::exercise
 To assess the quality of our assemblies, we can use the **_MultiQC_ report** generated by the pipeline, which compiles several pieces of information about our samples. 
 If you need a reminder of where to find this file, consult the [Consensus > Output Files](04-consensus.html#Output_Files) section of the materials, or the [Viralrecon output documentation](https://nf-co.re/viralrecon/2.5/output).
@@ -339,19 +339,8 @@ Open the quality report and try to answer the following questions:
 - Were there any problematic amplicons with low depth of coverage across multiple samples?
 
 Make a note of any samples that you think are problematic. 
+You can discuss with your colleagues and compare your results/conclusions to see if you reach similar conclusions.
 
-<!-- 
-To record some of this information, use a spreadsheet program (_Excel_ or _LibreOffice_) to **create a new CSV file in `report/consensus_metrics.csv`**.  
-Open the file `summary_variants_metrics_mqc.csv` (in the _MultiQC_ report folder from _Viralrecon_), and copy/paste the relevant information to your new table using the following column names: 
-
-- `sample` → the sample name.
-- `n_mapped_reads` → number of reads mapped to the reference genome.
-- `median_depth` → median depth of coverage.
-- `pct_missing` → percentage of the genome with missing bases ('N'). (Note: In the _MultiQC_ report, the column named `# Ns per 100kb consensus` can be converted to a percentage by dividing its value by 1000.)
-- `pct_coverage` → percentage of the genome that was sufficiently covered.
-- `n_variants` → number of SNP + Indel variants. 
-
--->
 :::
 
 
@@ -361,7 +350,8 @@ The _viralrecon_ pipeline outputs a table with information about SNP/Indel varia
 It is important to inspect the results of this file, to identify any mutations with severe effects on annotated proteins, or identify samples with an abnormal high number of "mixed" bases. 
 
 :::exercise
-Open the `variants_long_table.csv` file and answer the following questions: 
+Open the `variants_long_table.csv` file and answer the following questions.
+If you need a reminder of where to find this file, consult the [Consensus > Output Files](04-consensus.html#Output_Files) section of the materials, or the [Viralrecon output documentation](https://nf-co.re/viralrecon/2.5/output). 
 
 - How many variants have allele frequency < 75%? 
 - Does any of the samples have a particularly high number of these low-frequency variants, compared to other samples? (This could indicate cross-contamination of samples)
@@ -375,22 +365,10 @@ Make a note of any samples that you think may be problematic, either because the
 If you identify samples with frameshift mutations, open the _BAM_ file of the sample using the software _IGV_. 
 Go to the position where the mutation is located, and try to see if there is evidence that this mutation is an error (for example, if it's near an homopolymer). 
 
-<!-- 
-Save a copy of this table in `report/variants.csv` including only the following columns: 
-
-- `SAMPLE`
-- `POS`
-- `REF`
-- `ALT`
-
-**For _Illumina_ data only:**  
-Filter the table to include only variants with AF >= 0.75 and DP >= 10, as only those variants are retained in the final consensus sequences. 
-Do not do this filtering for the _Nanopore_ table, as all the variants in the table are included in the consensus FASTA.  
--->
 :::
 
 
-## Clean FASTA
+## Clean FASTA {.tabset}
 
 The _viralrecon_ pipeline outputs each of our consensus sequences as individual FASTA files for each sample (look at the [FASTA Files](03-intro_ngs.html#FASTA_Files) section if you need a reminder of what these files are). 
 However, by default, the sample names in this file have extra information added to them, which makes some downstream analysis less friendly (because the names will be too long and complicated). 
@@ -401,13 +379,35 @@ To clean up these files, we will do two things:
 - Remove the extra text from the sequence names.
 
 :::exercise
-Use the command line to achieve these two tasks and save the ouput file in `report/consensus.fa`. 
-Look at the [Consensus > Cleaning FASTA Files](04-consensus.html#Cleaning_FASTA_Files_(Optional)) section of the materials to revise how you can achieve this using the `cat` and `sed` commands together. 
+We will use the programs `cat` (concatenate) and `sed` (text replacement) to clean our FASTA files. 
+Consider the commands given below: 
 
+### Nanopore
+
+```bash
+cat <INPUT> | sed 's/\/ARTIC\/medaka MN908947.3//' > report/consensus.fa
+```
+
+### Illumina
+
+```bash
+cat <INPUT> | sed 's/ MN908947.3//' > output > report/consensus.fa
+```
+
+## {.unlisted .unnumbered}
+
+The `sed` command shown is used to remove the extra pieces of text added by the pipeline to each sample name. 
+This is a slightly more advanced program to use, so we already give you the code. 
+(If you want to learn more about it, check the [Unix > Text Manipulation > Text Replacement](02c-unix_text_manipulation.html#Text_Replacement) section of the materials.)
+
+Copy the command above to a new shell script called `scripts/02-clean_fasta.sh`. 
+Fix the code by replacing `<INPUT>` with the path to all the FASTA files generated by the pipeline (remember you can use the `*` wildcard).  
 If you need a reminder of where to find the FASTA consensus files from _viralrecon_, consult the [Consensus > Output Files](04-consensus.html#Output_Files) section of the materials, or the [Viralrecon output documentation](https://nf-co.re/viralrecon/2.5/output).
 
-Once your command is running, make sure to save it in a new script file: `scripts/02-clean_fasta.sh`.  
-This is to make sure you can use it later if you do this analysis again!
+Once you fixed the script, run it with `bash` and check that the output file is generated. 
+
+**Bonus:**  
+Check that you have all expected sequences in your FASTA file using `grep` to find the lines of the file with `>` (which is used to indicate sample names).
 :::
 
 
@@ -442,13 +442,13 @@ seqkit locate --ignore-case --only-positive-strand --hide-matched -r -p "N+" rep
 ```
 
 Copy this command to a new shell script called `scripts/03-missing_intervals.sh`, and modify it to _redirect_ the output to a file called `results/missing_intervals.tsv`.  
-Then run the script you created. 
+Then run the script you created using `bash`. 
 
 :::
 
 :::exercise
 
-Open the file you created in the previous step (`report/consensus_miss_intervals.tsv`) in a spreadsheet program. 
+Open the file you created in the previous step (`results/consensus_miss_intervals.tsv`) in a spreadsheet program. 
 Create a new column with the length of each interval (`end - start + 1`). 
 
 Note if any missing intervals are larger than 1Kb, and whether they overlap with the _Spike_ gene. 
@@ -457,19 +457,22 @@ Note if any missing intervals are larger than 1Kb, and whether they overlap with
 :::
 
 
-### Lineage Assignment
+### Lineage Assignment {.tabset}
 
 Although the _Viralrecon_ pipeline runs _Pangolin_ and _Nextclade_ on our samples, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
 Therefore, it is good practice to re-run our samples through these tools, to make sure we get the most up-to-date lineage assignment. 
 Although it is possible to [configure _viralrecon_](https://nf-co.re/viralrecon/2.5/usage#updating-containers) to use more recent versions of these tools, it requires more advanced use of configuration files with the pipeline. 
-An easier alternative is to use the **_Nextclade_ web application**.
 
-<!-- 
-TODO
-Ideally they should run the CLI versions, because it works better with the R script at the end.
--->
+Alternatively, we can run our consensus sequences through the latest versions of _Nextclade_ and _Pangolin_. 
+There are two ways to do this: using their respective web applications, or their command-line versions. 
+The following exercises give you both options -- chose the one you feel more comfortable with. 
+
+
+#### Web Apps
 
 :::exercise
+**Running Nextclade**
+
 Go to [clades.nextstrain.org](https://clades.nextstrain.org/) and run _Nextclade_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
 If you need a reminder about this tool, see the [Lineages & Variants > Nextclade](05-lineage_analysis.html#Nextclade) section of the materials.
 
@@ -477,6 +480,61 @@ Once the analysis completes, pay particular attention to the quality control col
 
 Use the "download" button (top-right) and download the file `nextclade.tsv` (tab-delimited file), which contains the results of the analysis. 
 Save it in a new folder called `results/nextclade`. 
+:::
+
+:::exercise
+**Running Pangolin**
+
+Go to [pangolin.cog-uk.io](https://pangolin.cog-uk.io/) and run _Pangolin_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
+If you need a reminder about this tool, see the [Lineages & Variants > Pangolin](05-lineage_analysis.html#Pangolin) section of the materials.
+
+Once the analysis completes, pay particular attention to any samples that failed. 
+If there were any failed samples, check if they match the report from _Nextclade_.
+
+Use the "download" button (the "arrow down" symbol on the results table) and download the file `report.csv`, which contains the results of the analysis. 
+Save it in a new folder called `results/pangolin`. 
+
+:::
+
+#### Command line
+
+:::exercise
+
+To run the command-line version of these tools, there are two steps: 
+
+- Update the datasets of each software (to ensure they are using the latest lineage/clade nomenclature available). 
+- Run the actual analysis on your samples. 
+
+The following gives the code to perform all these steps: 
+
+```bash
+# update nextclade data
+nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_background_data
+
+# run nextclade
+nextclade run --input-dataset resources/nextclade_background_data/ --output-all results/nextclade/ <INPUT>
+
+# update pangolin data
+<DATA_UPDATE_COMMAND>
+
+# run pangolin
+pangolin --outdir results/pangolin/ <INPUT>
+```
+
+Save this code in a script called `scripts/04-lineages.sh`.
+Fix the code, in particular: 
+
+- Replace `<INPUT>` with the path to your consensus sequence file. 
+- Replace `<DATA_UPDATE_COMMAND>` with the pangolin command used to update its data. 
+  Check the documentation of the tool with `pangolin --help` to see if you can find what this option is called. 
+  Alternatively, look at the [documentation online](https://cov-lineages.org/resources/pangolin/updating.html). 
+
+Once your code is fixed, run the script using `bash`.
+
+After the analysis completes: 
+
+- Open the file `results/nextclade/nextclade.tsv` in _Excel_ and see what problems your samples may have (in particular those classified as "bad" quality).
+- Open the file `results/pangolin/report.csv` in _Excel_ and see if there were any samples for which the analysis failed. If there were any failed samples, check if they match the report from _Nextclade_.
 
 :::
 
@@ -567,9 +625,8 @@ civet -i <PATH_TO_YOUR_SAMPLE_METADATA> \
   -f <PATH_TO_YOUR_CONSENSUS_FASTA> \
   -icol <COLUMN_NAME_FOR_YOUR_SAMPLE_IDS> \
   -idate <COLUMN_NAME_FOR_YOUR_COLLECTION_DATE> \
-  -d <PATH_TO_CIVET_DATA> \
-  -o results/civet \
-  -bicol <COLUMN_NAME_FOR_THE_BACKGROUND_METADATA_SAMPLE_IDS>
+  -d <PATH_TO_CIVET_BACKGROUND_DATA> \
+  -o results/civet
 ```
 
 Once your script is ready, run it with `bash`. 
@@ -583,19 +640,37 @@ After the analysis completes, open the HTML output file in `results/civet` and e
 
 At this point in our analysis, we have several tables with different pieces of information: 
 
-- `sample_info.csv` --> the original table with metadata for our samples. 
-- `results/viralrecon/multiqc/medaka/summary_variants_metrics_mqc.csv` --> quality metrics from the _MultiQC_ report generated by the _viralrecon_ pipeline.
-- `results/nextclade/nextclade.tsv` --> the results from _Nextclade_. 
-- `results/pangolin/report.csv` --> the results from _Pangolin_.
-- `results/civet/master_metadata.csv` --> the results from the _civet_ analysis, namely the catchment (or cluster) that each of our samples was grouped into.
+- `sample_info.csv` → the original table with metadata for our samples. 
+- `results/viralrecon/multiqc/medaka/summary_variants_metrics_mqc.csv` → quality metrics from the _MultiQC_ report generated by the _viralrecon_ pipeline.
+- `results/nextclade/nextclade.tsv` → the results from _Nextclade_. 
+- `results/pangolin/report.csv` → the results from _Pangolin_.
+- (optional) `results/civet/master_metadata.csv` → the results from the _civet_ analysis, namely the catchment (or cluster) that each of our samples was grouped into.
 
-Each of these tables stores different pieces of information, and it would be great if we could _integrate_ them together, to further enrich our analysis. 
-In particular, two kinds of visualisations can be useful
-We will demonstrate how this analysis can be done using the R software, which is a popular programming language used for data analysis and visualisation. 
+Each of these tables stores different pieces of information, and it would be great if we could _integrate_ them together, to facilitate their interpration and generate some visualisations. 
 
-Check the [Quick R Intro](TODO) section to get an idea of how to work with R and RStudio.
+We will demonstrate how this analysis can be done using the _R_ software, which is a popular programming language used for data analysis and visualisation. 
+Check the [Quick R Intro](107-quick_r.html) section of the materials for the basics of how to work with R and RStudio.
 
-TODO 
+
+:::exercise
+From RStudio, open the script in `scripts/07-data_integration.R`. 
+Run the code in the script, going line by line. 
+As you run the code check the tables that are created (in your "Environment" panel on the top-right) and see if they were correctly imported.
+
+Once you reach the end of the script, you should have two tab-delimited files named `report/consensus_metrics.tsv` and `report/variants.tsv`. 
+Open both files in _Excel_ to check their content and confirm they contain information from across the multiple tables. 
+
+:::
+
+:::exercise
+After integrating the data, it's time to produce some visualisations. 
+From RStudio, open the script in `scripts/08-visualisation.R`. 
+Run the code in the script, going line by line. 
+
+As you run the code, several plots will be created. 
+You can export these plots from within RStudio using the "Export" button on the plotting panel -- these will be useful when you write your report later. 
+:::
+
 
 ### EQA Panels
 
@@ -604,10 +679,31 @@ However, we have also been using a pre-defined panel of samples to be used as pa
 This allows us to assess whether our bioinformatic analysis identified all the expected mutations in these samples, as well as assigned them to the correct lineages. 
 
 To do this, requires to compare the mutations we detected in our EQA samples to the expected mutations provided to us. 
+From this, we will be able to calculate True Positives (TP), False Positives (FP) and False Negatives (FN), and calculate two performance metrics: 
+
+- Precision = TP / (TP + FP) → what fraction of the mutations we detected are true?
+- Sensitivity = TP / (TP + FN) → what fraction of all true mutations did we detect?
 
 :::exercise
 
-TODO -this could be done in R
+From RStudio, open the script in `scripts/09-eqa_validation.R`. 
+Run the code in the script, going line by line. 
+
+This script will save a new tab-delimited file in `report/eqa_performance_metrics.tsv`. 
+Open this file in _Excel_ and check what the precision and sensitivity of your analysis was. 
+Are you happy with the results? 
+
+:::
+
+:::exercise
+**(Optional)**
+
+While you run the R script, you will have an object called `all_mutations` in your environment (check the top-right panel). 
+From RStudio, click on the name of this object to open it in the table viewer. 
+
+Look at mutations that were not detected in your samples, but were present in the expected mutations (i.e. false negatives). 
+Open the BAM file for one of those samples in _IGV_ and navigate to the position where that mutation should occur. 
+Investigate what the reason may have been for missing that mutation. 
 
 :::
 
@@ -620,10 +716,10 @@ You may already have established reporting templates in your institution, and if
 Alternatively, we will look at a suggested template, based on the reports done by the UK Health Security Agency (UKHSA). 
 
 :::exercise
-Open our shared [report template](TODO) document and download it as a _Word_ document (<kbd>File</kbd> → <kbd>Download</kbd> → <kbd>Microsoft Word (.docx)</kbd>). 
+Open our shared [report template](https://docs.google.com/document/d/10StS8Sd7DzKpB6yjjOhb14R2-jkpNAF4UQfPhTuVuVU/edit?usp=sharing) document and download it as a _Word_ document (<kbd>File</kbd> → <kbd>Download</kbd> → <kbd>Microsoft Word (.docx)</kbd>). 
 Save the file in `report/YYYY-MM-DD_analysis_report.docx` (replace `YYYY-MM-DD` by today's date).
 
-Open the file and complete fill the missing fields with the information you collected throughout your analysis. 
+Open the file and complete it with the information you collected throughout your analysis. 
 You should be able to get all this information from the files in your `report/` directory.
 
 :::
