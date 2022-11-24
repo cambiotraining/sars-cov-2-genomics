@@ -75,8 +75,14 @@ R has several extensions to the basic functionality called “packages” or “
 A popular library for data manipulation is called `tidyverse`, which we are using in this course. 
 Each time we start a new R session, we need to load the libraries we want to use: 
 
-```{r}
+```{r, eval=FALSE}
 library(tidyverse)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# this reduces dependencies for github actions
+library(dplyr)
+library(readr)
 ```
 
 If you get an error like `Error in library(tidyverse) : there is no package called ‘tidyverse’`, that means that you didn't install the package. 
