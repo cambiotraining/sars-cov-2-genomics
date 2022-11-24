@@ -34,6 +34,8 @@ navbar:
               href: 02c-unix_text_manipulation.html
             - text: "Combining Commands & Writing Scripts"
               href: 02d-unix_pipes.html
+        - text: "Quick R Intro"
+          href: 107-quick_r.html
         - text: "Intro to NGS Data"
           href: 03-intro_ngs.html
         - text: "----"
@@ -50,7 +52,7 @@ navbar:
         - text: "Case Studies"
         - text: "Switzerland (ONT)"
           href: 08-case_study_switzerland.html
-        - text: "EQA"
+        - text: "EQA (Exercise)"
           href: 08-case_study_eqa.html
     - text: "Extras"
       icon: fa-book
