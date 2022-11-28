@@ -402,6 +402,14 @@ This table also contains information about the lineage/clade assigned to each sa
 This gives us an idea of which samples may be more similar to each other, and where they fit in the global context of other sequences available publicly.
 We will talk more about this topic in the [lineage assignment section](05-lineage_analysis.html). 
 
+:::warning
+**Lineage Versions**
+
+Although the _Viralrecon_ pipeline runs _Pangolin_ and _Nextclade_ to perform lineage assignment, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
+Therefore, this information should mostly be ignored at this stage, and instead we should run our analysis on the most up-to-date versions of these programs. 
+We will detail this in the [Lineages and Variants](05-lineage_analysis.html) section of the materials. 
+:::
+
 ![Snapshot of the "Variant Metrics" section of the `viralrecon` _MultiQC_ report. Simple scatterplots can be made from the data on this table using the <kbd>Plot</kbd> button. For example, at the bottom we show a scatterplot showing the relationship between the median depth of coverage and the number of ambiguous bases 'N' per 100kb. For the data in this example, we can see that when the average depth of coverage drops below around 200 reads we start getting higher number of missing bases in the assembly.](images/viralrecon_multiqc_variant_metrics.svg)
 
 :::note
@@ -455,6 +463,7 @@ The columns in this table are:
 - `REF` is the reference nucleotide.
 - `ALT` is the alternative nucleotide, that is the nucleotide that was observed in our sample.
 - `FILTER` indicates whether the SNP passed quality filters from the variant calling software ("PASS") or whether some other issue was observed (for example "dp" means that the depth of sequencing was unusually high or low).
+- `DP` is the total depth of sequencing at this position, meaning how many reads in total were aligned there.
 - `REF_DP` is the depth of sequencing of the reference allele, meaning how many reads contained the reference nucleotide.
 - `ALT_DP` is the depth of sequencing of the alternative allele, meaning how many reads contained the alternative nucleotide.
 - `AF` is the allele frequence of the alternative allele, meaning the proportion of reads that contained the alternative nucleotide (this column is equivalent to `ALT_DP`/(`ALT_DP` + `REF_DP`)).
@@ -462,15 +471,25 @@ The columns in this table are:
 - `EFFECT` this is the predicted effect of the mutation in the gene. This output comes from the `snpeff` software and uses [The Sequence Ontology](http://www.sequenceontology.org/browser/obob.cgi) nomenclature (follow the link to search for each term).
 - `HGVS_C`, `HGVS_P` and `HGVS_P_1LETTER` is the DNA or amino acid change using [HGVS nomenclature](https://varnomen.hgvs.org/). For example, "c.1112C>T" means a C changed to a T at position 1112 of the genome; and "p.Pro371Leu" would mean that a Proline changed to a Leucine at position 371 of the respective protein. 
 - `CALLER` is the software used for variant calling.
-- `LINEAGE` is the Pangolin lineage that the sample was assigned to.
+- `LINEAGE` is the Pangolin lineage that the sample was assigned to. Note that this column should usually be ignored, since `viralrecon` doesn't use the latest _Pangolin_ data version by default.
 
-Fully exploring this table benefits from the use of dedicated data analysis packages such as _R_ or _Python/pandas_, which we will not cover in this workshop. 
-However, some exploration can be done using spreadsheet programs such as Excel. 
-For example, one could filter the table for mutations with a particular effect to try and identify mutations occurring in multiple samples or increasing in frequency over time.
+This table can be opened in a spreadsheet program such as _Excel_ to look at particular features. 
+In terms of quality-control, we can filter the table: 
 
-For example, let's identify how many samples contain the mutation we previously identified in the "_ncov-2019_83_LEFT_" primer (we saw this was in position 25,003 of the genome). 
+- for mutations with **intermediate allele frequency** (say < 70%) -- if a sample has too many such mutations, that could indicate cross-contamination between samples. 
+- for **frameshift mutations** -- these mutations should be rare because they are highly disruptive to the functioning of the virus, and their occurrence is more often due to errors. 
+  The presence of these mutations are usually not critical for downstream analysis (such as lineage assignment and phylogenetics), but we should make a note that these mutations may be false-positives in our data.
+
+This variants/mutations table can also be used to explore reasons for amplicon dropout. 
+For example, we can identify how many samples contain the mutation we previously saw in the "_ncov-2019_83_LEFT_" primer (we saw this was in position 25,003 of the genome). 
 We can do this by sorting our table by the column "POS" (position) and then scrolling down to find the samples with this mutation. 
 We will find that only 3 of the samples contain this mutation, suggesting some other additional causes are leading to the dropout in this PCR fragment.
+
+Finally, for the **Illumina pipeline** (`--platform illumina`), it is important to note that not all of the mutations on this table are included in the final consensus. 
+Only mutations with allele frequency >75% (`AF` >= 0.75) and minimum depth of 10 (`DP` >= 10) are retained in the final consensus. 
+Therefore, to see which mutations are actually present in our consensus sequences, we need to filter this table for these criteria. 
+Again, we note that this only applies to the Illumina pipeline. 
+For the **Nanopore pipeline** (`--platform nanopore`) all the mutations included in this table are retained in the consensus sequence. 
 
 :::warning
 **ORF1b Annotation Issues**
