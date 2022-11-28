@@ -307,7 +307,7 @@ pangolin --outdir results/pangolin/ --outfile switzerland_report.csv report/cons
 
 Note that we first download the latest version of the _Nextclade_ background data using `nextclade dataset` and then use `nextclade run` using the up-to-date dataset. 
 
-With `pangolin` we needed to ensure that we use the latest version, which we installed using the _Conda_ package manager. 
+Similarly, With `pangolin` we first ran `pangolin --update-data`, to ensure we were using the latest lineages available. 
 We can check the version of the data used with `pangolin --all-versions` (at the time we ran this we had `pangolin-data: 1.15.1`).
 
 Both of these tools output CSV files, which can be open in _Excel_ for further examination.  
@@ -459,9 +459,10 @@ nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_backgro
 # run nextclade
 nextclade run --input-dataset resources/nextclade_background_data/ --output-all results/nextclade report/consensus.fa
 
+# update pangolin data
+pangolin --update-data
+
 # run pangolin
-# first make sure to update it with
-# conda update pangolin
 pangolin --outdir results/pangolin/ --outfile switzerland_report.csv report/consensus.fa
 
 # alignment

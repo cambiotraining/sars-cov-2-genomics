@@ -2,12 +2,6 @@
 pagetitle: "SARS-CoV-2 Genomics"
 ---
 
-:::warning
-
-This page is under active development -- not to be used for teaching.
-
-:::
-
 # Case Study: EQA
 
 :::highlight
@@ -268,14 +262,14 @@ For example, if you used a flowcell with chemistry 9.4.1, sequenced on a _MinION
 Note that in some cases there is no model for recent versions of _Guppy_, in which case you use the version for the latest version available. 
 In our example, if our version of _Guppy_ was 6.1.5 we would use the same model above, since that's the most recent one available. 
 
-:::warning
+<!-- :::warning
 **Viralrecon Medaka Models**
 
 At the moment, _viralrecon_ only supports models up to Guppy version 3. 
 So, make sure to use models ending in `g3XX` in your analysis.
 
 This may change in future versions of the pipeline.
-:::
+::: -->
 
 
 #### Illumina
@@ -478,8 +472,11 @@ If you need a reminder about this tool, see the [Lineages & Variants > Nextclade
 
 Once the analysis completes, pay particular attention to the quality control column, to see what problems your samples may have (in particular those classified as "bad" quality). 
 
-Use the "download" button (top-right) and download the file `nextclade.tsv` (tab-delimited file), which contains the results of the analysis. 
-Save it in a new folder called `results/nextclade`. 
+Then:
+
+- Create a new folder in your project directory: `results/nextclade`.
+- Use the "download" button (top-right) and download the file `nextclade.tsv` (tab-delimited file), which contains the results of the analysis. **Important:** please download the TSV file (not the CSV file, as it uses `;` to separate columns, and will not work later with the "Data Integration" section).
+- Save this file in the `results/nextclade` folder you created. 
 :::
 
 :::exercise
@@ -491,9 +488,11 @@ If you need a reminder about this tool, see the [Lineages & Variants > Pangolin]
 Once the analysis completes, pay particular attention to any samples that failed. 
 If there were any failed samples, check if they match the report from _Nextclade_.
 
-Use the "download" button (the "arrow down" symbol on the results table) and download the file `report.csv`, which contains the results of the analysis. 
-Save it in a new folder called `results/pangolin`. 
+Then:
 
+- Create a new folder in your project directory: `results/pangolin`.
+- Use the "download" button (the "arrow down" symbol on the results table) and download the file `results.csv`. Rename this file to `report.csv` (**important:** make sure to rename the file like this, otherwise it will not work later with the "Data Integration" section).
+- Save this file in the `results/pangolin` folder you created. 
 :::
 
 #### Command line
@@ -518,7 +517,7 @@ nextclade run --input-dataset resources/nextclade_background_data/ --output-all 
 <DATA_UPDATE_COMMAND>
 
 # run pangolin
-pangolin --outdir results/pangolin/ <INPUT>
+pangolin --outdir results/pangolin/ --outfile report.csv <INPUT>
 ```
 
 Save this code in a script called `scripts/04-lineages.sh`.
@@ -541,32 +540,24 @@ After the analysis completes:
 
 ### Phylogeny
 
-Although tools such as _Nextclade_ and _civet_ can place our samples in a phylogeny, sometimes it may be convient to build our own phylogenies.
+Although tools such as _Nextclade_ and _civet_ can place our samples in a phylogeny, sometimes it may be convenient to build our own phylogenies.
 This requires three steps: 
 
 - Producing a multiple sequence alignment from all consensus sequences.
 - Tree inference.
-- Tree visualisation and annotation.
+- Tree visualisation.
 
 :::exercise
 
-<!-- TODO -->
+- Perform a multiple sequence alignment of your consensus sequences using the program `mafft`.
+  Consult the [Building Phylogenies > Alignment](06-phylogeny.html#Alignment) section of the materials to see what command to use. 
+- Infer a phylogenetic tree using the `iqtree2` program. 
+  Consult the [Building Phylogenies > Tree Inference](06-phylogeny.html#Tree_Inference:_IQ-Tree) section of the materials to see what command to use. 
+- Once you have both of these commands working, make sure to save them in a new shell script (as a record of your analysis). 
+  Save the script as `scripts/05-phylogeny.sh`. 
+- Visualise the tree using FigTree. (Note: at this point you will not be able to annotate the tree yet, but we will come back to this in the "Integration & Visualisation" section.)
 
-- Run MSA using `mafft`.
-- Infer tree using `iqtree2`.
-- Visualise the tree using FigTree. 
-  - Annotate the tree with the results from your `report/consensus_metrics.csv` table. 
-  - Highlight clades corresponding to WHO variants of concern. 
-
-If you need a reminder of how to run these tools, consult the relevant sections in the [Phylogeny](06-phylogeny.html) lesson.
-
-```bash
-mafft --6merpair --maxambiguous 0.2 --addfragments report/consensus.fa resources/sarscov2.fa > results/mafft/consensus_alignment.fa
-iqtree2 -s results/mafft/consensus_alignment.fa --prefix results/iqtree/consensus
-```
-
-Save the code in a new script called `scripts/05-phylogeny.sh`.
-
+What substitution model was chosen as the best for your data by IQ-Tree?
 :::
 
 
@@ -582,7 +573,7 @@ _Civet_ works in several stages, in summary:
 
 - Each input sequence is assigned to a "catchment" group.
   These are groups of samples that occur at a given genetic distance (number of SNP differences) from each other. 
-- Within each catchment group, a phylogeny is built (using the _iqtree2_ software with the HKY substitution model). 
+- Within each catchment group, a phylogeny is built (using the `iqtree2` software with the HKY substitution model). 
 - The phylogeny is annotated with user-input metadata (e.g. location, collection date, etc.). 
   The results are displayed in an interactive HTML report. 
 
@@ -653,22 +644,34 @@ Check the [Quick R Intro](107-quick_r.html) section of the materials for the bas
 
 
 :::exercise
+**Data Integration**
+
 From RStudio, open the script in `scripts/07-data_integration.R`. 
-Run the code in the script, going line by line. 
+Run the code in the script, going line by line (remember in RStudio you can run code from the script panel using <kbd>Ctrl</kbd> + <kbd>Enter</kbd>). 
 As you run the code check the tables that are created (in your "Environment" panel on the top-right) and see if they were correctly imported.
 
 Once you reach the end of the script, you should have two tab-delimited files named `report/consensus_metrics.tsv` and `report/variants.tsv`. 
 Open both files in _Excel_ to check their content and confirm they contain information from across the multiple tables. 
-
 :::
 
 :::exercise
+**Data Visualisation**
+
 After integrating the data, it's time to produce some visualisations. 
 From RStudio, open the script in `scripts/08-visualisation.R`. 
 Run the code in the script, going line by line. 
 
 As you run the code, several plots will be created. 
 You can export these plots from within RStudio using the "Export" button on the plotting panel -- these will be useful when you write your report later. 
+:::
+
+:::exercise
+**Annotating Phylogenetic Tree**
+
+Use the file `report/consensus_metrics.tsv` (created in the Data Integration exercise) to annotate your phylogenetic tree in FigTree and display the lineages assigned to each sample as the tip labels. 
+
+If you need a reminder of how to load annotations in FigTree, check the [Building Phylogenies > Visualising Trees](06-phylogeny.html#Visualising_Trees) section of the materials. 
+
 :::
 
 
@@ -683,6 +686,12 @@ From this, we will be able to calculate True Positives (TP), False Positives (FP
 
 - Precision = TP / (TP + FP) → what fraction of the mutations we detected are true?
 - Sensitivity = TP / (TP + FN) → what fraction of all true mutations did we detect?
+
+There can be cases where one of these metrics is high and the other one lower. 
+For example, if you have a high-coverage genome (say >95%) but lots of sequencing errors, you may have a high sensitivity (you manage to detect all true mutations), but low precision (you also detect lots of false positives, due to sequencing errors).
+Conversely, if you have a low-coverage genome (say <50%) but very high-quality sequencing, you may have low sensitivity (you missed lots of true mutations, because of missing data), but high precision (those mutations that you did manage to identify were all true, you didn't have many false positives). 
+
+![](images/precision_sensitivity.svg)
 
 :::exercise
 
@@ -704,6 +713,8 @@ From RStudio, click on the name of this object to open it in the table viewer.
 Look at mutations that were not detected in your samples, but were present in the expected mutations (i.e. false negatives). 
 Open the BAM file for one of those samples in _IGV_ and navigate to the position where that mutation should occur. 
 Investigate what the reason may have been for missing that mutation. 
+
+If you need a reminder of where to find the BAM file, consult the [Consensus > Output Files](04-consensus.html#Output_Files) section of the materials, or the [Viralrecon output documentation](https://nf-co.re/viralrecon/2.5/output). 
 
 :::
 
