@@ -236,12 +236,12 @@ For the most part they are basically equivalent, but the `tibble` object has a n
 
 Usually we create these objects by reading a table from a file with the function `read_csv()`:
 
-```{r, eval=FALSE}
-animals <- read_csv("TODO")
+```{r}
+animals <- read_csv("https://raw.githubusercontent.com/cambiotraining/sars-cov-2-genomics/main/course_files/animals.csv")
 ```
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 animals <- tibble(
   common_name = c("mouse", "mouse", "dog", "cat", "dog"),
   scientific_name = c("Mus musculus", "Mus musculus", "Canis familiaris", "Felis catus", "Canis familiaris"),
@@ -260,7 +260,7 @@ animals
 
 Sometimes a more convenient way is to click the name of the table on the environment, which opens a new tab to preview your data. 
 
-![TODO]()
+![Data viewer in RStudio.](images/rstudio_data_viewer.svg)
 
 
 ## Data Manipulation
