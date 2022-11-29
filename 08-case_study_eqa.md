@@ -678,7 +678,7 @@ If you need a reminder of how to load annotations in FigTree, check the [Buildin
 ### EQA Panels
 
 The analysis we have done so far is applicable to any new sequences that you want to process. 
-However, we have also been using a pre-defined panel of samples to be used as part of an _External Quality Assurance_ (EQA) process. 
+However, we have also been using a pre-defined panel of samples to be used as part of an _External Quality Assessment_ (EQA) process. 
 This allows us to assess whether our bioinformatic analysis identified all the expected mutations in these samples, as well as assigned them to the correct lineages. 
 
 To do this, requires to compare the mutations we detected in our EQA samples to the expected mutations provided to us. 
