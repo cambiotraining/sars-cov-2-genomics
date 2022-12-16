@@ -8,8 +8,8 @@ pagetitle: "SARS-CoV-2 Genomics"
 This section demonstrates a start-to-finish analysis of a dataset sequenced on an _Illumina_ platform, using the concepts and tools covered in previous sections. 
 You can download the data from these links (two versions available): 
 
-- [South Africa Case Study - Full Data](TODO) -- this includes data for 24 samples, which gives a more realistic sample size, but can take a few hours to run on a small computer.
-- [South Africa Case Study - Small Version](TODO) -- this includes data for a subset of 8 samples, which is more suitable for training purposes (but the results will look slightly different from the ones shown here).
+- [South Africa Case Study - Full Data](https://www.dropbox.com/sh/6jnpv7ui2xm8f9h/AAC0MRuPfSsNmBlCNvI-wiKna?dl=1) -- this includes data for 24 samples, which gives a more realistic sample size, but can take a few hours to run on a small computer.
+- [South Africa Case Study - Small Version](https://www.dropbox.com/sh/2u0svuq7rre8261/AACisGtF21x3Ou7Xrj_W4DaRa?dl=1) -- this includes data for a subset of 8 samples, which is more suitable for training purposes (but the results will look slightly different from the ones shown here).
 
 By the end of this section, you should be able to:
 
