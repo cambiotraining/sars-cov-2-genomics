@@ -52,6 +52,8 @@ navbar:
         - text: "Case Studies"
         - text: "Switzerland (ONT)"
           href: 08-case_study_switzerland.html
+        - text: "South Africa (Illumina)"
+          href: 08-case_study_southafrica.html
         - text: "EQA (Exercise)"
           href: 08-case_study_eqa.html
     - text: "Extras"
