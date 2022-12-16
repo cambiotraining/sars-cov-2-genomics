@@ -6,7 +6,6 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 :::highlight
 This section is an **extended self-paced practice** applying the concepts covered in previous sections. 
-You can download the data for this section from the following link: [EQA Practical - Data](https://www.dropbox.com/sh/v7vbvf28gn1vd34/AAAQ1PYf1uYSNcubrRZqF8P-a?dl=1).
 
 By the end of this practice, you should be able to:
 
