@@ -360,6 +360,19 @@ Go to the position where the mutation is located, and try to see if there is evi
 
 :::
 
+:::exercise
+
+The samples we are using in this analysis come from a standard EQA panel.
+As such, we already know what lineages we expect to find in these samples.
+
+- Open IGV and load one (or more) of the alignment BAM files into it.
+  If you need a reminder of where to find this file, consult the [Consensus > Output Files](04-consensus.html#Output_Files) section of the materials, or the [Viralrecon output documentation](https://nf-co.re/viralrecon/2.5/output). 
+- Open your metadata table (`sample_info.csv`) and check which lineages your loaded samples belong to.
+- Do a web search to find what mutations characterise those lineages. 
+- On IGV, go to the location of some of the expected mutations, and see if you can see it in the respective samples. 
+
+:::
+
 
 ## Clean FASTA {.tabset}
 
