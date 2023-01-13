@@ -83,6 +83,7 @@ library(tidyverse)
 # this reduces dependencies for github actions
 library(dplyr)
 library(readr)
+library(ggplot2)
 ```
 
 If you get an error like `Error in library(tidyverse) : there is no package called ‘tidyverse’`, that means that you didn't install the package. 
@@ -230,32 +231,28 @@ is.na(y)
 
 ### Tables: `data.frame`/`tibble`
 
-A **data.frame** is a tabular object (rows and columns).
+Tables in R are called **data.frame**.
 The `tidyverse` package has its own version of a data.frame called a `tibble`. 
 For the most part they are basically equivalent, but the `tibble` object has a nicer printing function to display our data on the console. 
 
-Usually we create these objects by reading a table from a file with the function `read_csv()`:
+As an example for working with tables in R, let's read a TSV (tab-delimited) file that contains intervals of missing information in 5 SARS-CoV-2 consensus sequences (this data comes from the [Switzerland case study](08-case_study_switzerland.html#Missing_Intervals)). 
+To import a TSV file into R as a data.frame we can use the function `read_tsv()` (for a CSV file we would use `read_csv()`):
 
-```{r}
-animals <- read_csv("https://raw.githubusercontent.com/cambiotraining/sars-cov-2-genomics/main/course_files/animals.csv")
+```{r, eval=FALSE}
+missing_intervals <- read_csv("results/missing_intervals.csv")
 ```
 
-
-```{r, echo=FALSE, eval=FALSE}
-animals <- tibble(
-  common_name = c("mouse", "mouse", "dog", "cat", "dog"),
-  scientific_name = c("Mus musculus", "Mus musculus", "Canis familiaris", "Felis catus", "Canis familiaris"),
-  weight_g = c(18.5, 21.1, 21812, 4221, 25193)
-)
+```{r, echo=FALSE}
+# for course materials we read from here
+missing_intervals <- read_tsv("course_files/missing_intervals.tsv")
+missing_intervals <- missing_intervals |> 
+  filter(seqID %in% paste0("CH0", 1:7))
 ```
-
-In this case we're reading some data from a web address (it just contains some measurements of animals collected in the wild). 
-However, you would usually read data from a local file using regular **file paths**. 
 
 To see the content of the table you can type the name of the object: 
 
 ```{r}
-animals
+missing_intervals
 ```
 
 Sometimes a more convenient way is to click the name of the table on the environment, which opens a new tab to preview your data. 
@@ -265,7 +262,7 @@ Sometimes a more convenient way is to click the name of the table on the environ
 
 ## Data Manipulation
 
-Most of the work you will do in R is with tables of data (data.frame`/`tibble` objects). 
+Most of the work you will do in R is with tables of data (`data.frame`/`tibble` objects). 
 There are several ways to manipulate tables in R, but we will give a quick overview of the functionality available through the `tidyverse` collection of packages. 
 
 ### Basic "verbs"
@@ -280,17 +277,17 @@ They are:
 Here are some examples of each: 
 
 ```{r}
-# create a new column for weight in Kg
-mutate(animals, 
-       weight_kg = weight_g/1000)
+# create a new column with the missing interval lengths
+mutate(missing_intervals, 
+       length = (end - start) + 1)
 
 # select only a few columns of the table
-select(animals,
-       common_name, weight_g)
+select(missing_intervals,
+       seqID, start, end)
 
-# subset the table to include only animals with less than 1Kg
-filter(animals,
-       weight_g < 1000)
+# subset the table to include only intervals within the Spike protein
+filter(missing_intervals,
+       start > 21563 & end < 25384)
 ```
 
 
@@ -303,26 +300,50 @@ The way the pipe works is that the output of one function is sent as the input t
 Taking the examples from the previous section, we could chain all those commands like this: 
 
 ```{r}
-animals |> 
-  mutate(weight_kg = weight_g/1000) |> 
-  select(common_name, weight_kg) |> 
-  filter(weight_kg < 1)
+missing_intervals |> 
+  mutate(length = (end - start) + 1) |> 
+  select(seqID, start, end, length)
 ```
 
+If you want to _update_ the `missing_intervals` table, then you need to use `<-` at the beggining of the chain of pipes: 
+
+```{r}
+missing_intervals <- missing_intervals |> 
+  mutate(length = (end - start) + 1) |> 
+  select(seqID, start, end, length)
+```
 
 ### Grouped Summaries
 
-We can calculate summaries of the data (e.g. mean, standard deviation, maximum, minimum) per group (e.g. per country) using a pair of functions together. 
+We can calculate summaries of the data (e.g. mean, standard deviation, maximum, minimum) per group (e.g. per sample) using a pair of functions together. 
 For example: 
 
 ```{r}
-# mean and maximum weight per animal
-animals |> 
-  group_by(common_name) |> 
-  summarise(max_weight = max(weight_g),
-            mean_weight = mean(weight_g))
+# mean and maximum interval length per sample
+missing_intervals |> 
+  # for each sample
+  group_by(seqID) |> 
+  # calculate summary statistics
+  summarise(max_length = max(length),
+            min_length = min(length),
+            mean_length = mean(length))
 ```
 
+As before, if we wanted to save this result in a new object, we would need to use `<-`:
+
+```{r}
+intervals_summary <- missing_intervals |> 
+  # for each sample
+  group_by(seqID) |> 
+  # calculate summary statistics
+  summarise(max_length = max(length),
+            min_length = min(length),
+            mean_length = mean(length)) |> 
+  # and rename the seqID column
+  rename(sample = seqID)
+```
+
+Notice in this case we also renamed the column called `seqID` to be named `sample` instead (this will be useful for the exercise later on). 
 
 ### Joining Tables
 
@@ -353,3 +374,68 @@ inner_join(band_members, band_instruments, by = "name")
 ```
 
 In each case, if there was no match between the two tables, the cells are filled with missing values `NA`. 
+
+:::exercise
+
+In this exercise we will join the `intervals_summary` table we created earlier, with the metadata table that contains information about our samples. 
+
+1. Read the your metadata table `sample_info.csv` into R and save it as an object called `sample_info`. 
+  <details><summary>Hint</summary>Remember that you can use the `read_csv()` function to read CSV files into R.</details>
+2. Join the `sample_info` table that you just imported with the `intervals_summary` table we created earlier. 
+  Save the output to the `intervals_summary` table (this will update the table). 
+  <details><summary>You can use the `left_join()` function to achieve this, using the "sample" column as the identifier column used to join the two tables.</summary></details>
+
+<details><summary>Answer</summary>
+**Answer 1**
+
+To read the metadata CSV file, we use the `read_csv()` function, and use `<-` to save the output in an object called `sample_info`:
+
+```{r, eval=FALSE}
+sample_info <- read_csv("sample_info.csv")
+```
+
+```{r, echo=FALSE}
+# on the repo we read this from here
+sample_info <- read_csv("course_files/sample_info.csv")
+sample_info <- sample_info |> 
+  filter(sample %in% paste0("CH0", 1:7)) |> 
+  select(sample, 
+         collection_date = sample_collection_date, 
+         country = geo_loc_country,
+         sequencing_instrument)
+```
+
+We can see the content of our file by typing its name in the console.
+Here is the file in our example data (yours might look different):
+
+```{r}
+sample_info
+```
+
+**Answer 2**
+
+To join the two tables together, we can use one of the `*_join()` functions. 
+In this case it doesn't matter which function we use, because both tables have the same sample IDs. 
+But, for example, let's say we only wanted to retain the samples that are in common across _both_ tables. 
+In that case, we would use `inner_join()`:
+
+```{r}
+intervals_summary <- inner_join(intervals_summary, sample_info, by = "sample")
+```
+
+</details>
+
+:::
+
+
+## Data Visualisation
+
+We can build plots from our tables using the `ggplot2` package (which is also part of the `tidyverse`). 
+
+To build a _ggplot_, we usually need at least three things:  
+
+- The data frame we want to use for the plot (the **data**).
+- The columns we want to visualise as our x-axis, y-axis, and colours (these are called **aesthetics**).
+- The type of shape that we want to plot (these are called **geometries**).
+
+TODO

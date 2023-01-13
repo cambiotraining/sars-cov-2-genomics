@@ -25,7 +25,7 @@ jobs:
         run: Rscript -e 'install.packages("rmarkdown")'
 
       - name: Install tidyverse
-        run: Rscript -e 'install.packages(c("dplyr", "readr"))'
+        run: Rscript -e 'install.packages(c("dplyr", "readr", "ggplot2"))'
 
       - name: Build website
         run: |
