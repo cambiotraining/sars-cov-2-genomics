@@ -52,6 +52,10 @@ The genome sequence of SARS-CoV-2 has been a huge contributor to our ability to 
 
 This last point is the focus of our workshop, and we will spend some time looking at how to analyse these data. 
 
+You can watch the video below, created by the Maastrich University, if you want to learn more about the lifecycle of the SARS-CoV-2 virus and the role that its different proteins play in this context: 
+
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/tDsHUHrEuRM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
+
 <!--
 Very brief and general intro to coronavirus biology (see: https://www.nature.com/articles/s41586-021-04188-6)
 
