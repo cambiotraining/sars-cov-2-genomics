@@ -1,0 +1,8 @@
+sample	n_mapped_reads	median_depth	pct_missing	qc_status	lineage
+CH01	43900	248	3.05292	good	BA.1
+CH02	42841	159	4.19777	good	BA.1
+CH03	40079	160	3.76929	good	BA.1
+CH04	50902	164	12.53306	bad	BA.1
+CH05	32020	133	10.03949	bad	BA.1
+CH06	46277	177	8.86932	mediocre	BA.1.1
+CH07	15867	41	33.247440000000005	bad	None

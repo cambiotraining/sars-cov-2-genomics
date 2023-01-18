@@ -4,7 +4,8 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, root.dir = "course_files/r_demo/")
+knitr::opts_knit$set(root.dir = "course_files/r_demo/")
 ```
 
 # R Fundamentals
@@ -238,16 +239,12 @@ For the most part they are basically equivalent, but the `tibble` object has a n
 As an example for working with tables in R, let's read a TSV (tab-delimited) file that contains intervals of missing information in 5 SARS-CoV-2 consensus sequences (this data comes from the [Switzerland case study](08-case_study_switzerland.html#Missing_Intervals)). 
 To import a TSV file into R as a data.frame we can use the function `read_tsv()` (for a CSV file we would use `read_csv()`):
 
-```{r, eval=FALSE}
-missing_intervals <- read_csv("results/missing_intervals.csv")
+```{r}
+missing_intervals <- read_tsv("missing_intervals.tsv")
 ```
 
-```{r, echo=FALSE}
-# for course materials we read from here
-missing_intervals <- read_tsv("course_files/missing_intervals.tsv")
-missing_intervals <- missing_intervals |> 
-  filter(seqID %in% paste0("CH0", 1:7))
-```
+When we read the table in, we get a message informing us of the column types found. 
+In this case we have character columns containing text (indicated by `chr`) and numeric columns (indicated by `dbl`, which refers to the [double-precission floating point format](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) that computers use to store numbers). 
 
 To see the content of the table you can type the name of the object: 
 
@@ -345,6 +342,48 @@ intervals_summary <- missing_intervals |>
 
 Notice in this case we also renamed the column called `seqID` to be named `sample` instead (this will be useful for the exercise later on). 
 
+Another useful function is `count()`, which counts how many times the values in a column appear on a data frame. 
+For example, if we wanted to know how many missing intervals each sample had, we could do it like this: 
+
+```{r}
+missing_intervals |> 
+  count(seqID)
+```
+
+:::exercise
+
+Modify the following code: 
+
+```{r, eval=FALSE}
+missing_intervals |> 
+  count(seqID)
+```
+
+To also: 
+
+- rename the column `seqID` to be named `sample` instead. 
+- save the output in an object called `intervals_count`. 
+
+<details><summary></summary>
+To rename the column, we could use the `rename()` function: 
+
+```{r}
+missing_intervals |> 
+  count(seqID) |> 
+  rename(sample = seqID)
+```
+
+And to save this output to a new object, we need to use `<-`: 
+
+```{r}
+intervals_count <- missing_intervals |> 
+  count(seqID) |> 
+  rename(sample = seqID)
+```
+
+</details>
+:::
+
 ### Joining Tables
 
 We can join multiple tables together based on a common identifier. 
@@ -390,19 +429,8 @@ In this exercise we will join the `intervals_summary` table we created earlier, 
 
 To read the metadata CSV file, we use the `read_csv()` function, and use `<-` to save the output in an object called `sample_info`:
 
-```{r, eval=FALSE}
+```{r}
 sample_info <- read_csv("sample_info.csv")
-```
-
-```{r, echo=FALSE}
-# on the repo we read this from here
-sample_info <- read_csv("course_files/sample_info.csv")
-sample_info <- sample_info |> 
-  filter(sample %in% paste0("CH0", 1:7)) |> 
-  select(sample, 
-         collection_date = sample_collection_date, 
-         country = geo_loc_country,
-         sequencing_instrument)
 ```
 
 We can see the content of our file by typing its name in the console.
@@ -430,6 +458,16 @@ intervals_summary <- inner_join(intervals_summary, sample_info, by = "sample")
 
 ## Data Visualisation
 
+For this section, we will use another table, which contains some of the metrics that we can collect from our consensus pipeline: 
+
+```{r}
+# read the table
+qc_metrics <- read_tsv("consensus_metrics.tsv")
+
+# preview the table
+qc_metrics
+```
+
 We can build plots from our tables using the `ggplot2` package (which is also part of the `tidyverse`). 
 
 To build a _ggplot_, we usually need at least three things:  
@@ -438,4 +476,68 @@ To build a _ggplot_, we usually need at least three things:
 - The columns we want to visualise as our x-axis, y-axis, and colours (these are called **aesthetics**).
 - The type of shape that we want to plot (these are called **geometries**).
 
-TODO
+For example, let's try to make a plot to show the relationship between total number of counts and the median depth of sequencing in these samples:
+
+```{r}
+ggplot(data = qc_metrics, aes(x = n_mapped_reads, y = median_depth))
+```
+
+When we do this, we simply get an empty plot, with x and y axis, but nothing drawn on it. 
+To draw something on the plot, we add (literally with `+`) geometries to our plot. 
+In this case, we can use the `geom_point()` geometry, which draws "points" on the plot:
+
+```{r}
+ggplot(data = qc_metrics, aes(x = n_mapped_reads, y = median_depth)) +
+  geom_point()
+```
+
+There are many geometries available with ggplot: 
+
+- `geom_point()` draws points. 
+- `geom_boxplot()` draws a boxplot. 
+- `geom_histogram()` draws a histogram. 
+- `geom_col()` draws a barplot (this one is named a little strangely, but "col" means it draws "columns" or bars).
+
+We can further modify the look to the plot by adding other _aesthetics_ such as the colour of the points. 
+For example, let's say we wanted to colour our points according to their "QC Status":
+
+```{r}
+ggplot(data = qc_metrics, 
+       aes(x = n_mapped_reads, y = median_depth, colour = qc_status)) +
+  geom_point()
+```
+
+Finally, we may sometimes want to change the _labels_ of our plot. 
+In that case, we can add the `labs()` function to our plotting code: 
+
+```{r}
+ggplot(data = qc_metrics, 
+       aes(x = n_mapped_reads, y = median_depth, colour = qc_status)) +
+  geom_point() +
+  labs(x = "Number Mapped Reads", 
+       y = "Median Sequencing Depth", 
+       colour = "Nextclade QC Status")
+```
+
+:::exercise
+
+Modify the plot we just did, to show the relationship between median depth of sequencing (x-axis) and percentage of missing bases (y-axis). 
+Colour the points according to the lineage column. 
+
+<details><summary>Answer</summary>
+
+Here is the modified code:
+
+```{r}
+ggplot(data = qc_metrics, 
+       aes(x = median_depth, y = pct_missing, colour = lineage)) +
+  geom_point() +
+  labs(x = "Median Sequencing Depth", 
+       y = "% Missing Bases", 
+       colour = "Pango Lineage")
+```
+
+The things we have changed were the aesthetics and labels. 
+
+</details>
+:::

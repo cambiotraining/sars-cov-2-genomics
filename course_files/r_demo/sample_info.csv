@@ -1,0 +1,8 @@
+sample,collection_date,country,sequencing_instrument
+CH01,2021-11-09,Switzerland,GridION
+CH04,2021-12-20,Switzerland,GridION
+CH05,2021-12-20,Switzerland,GridION
+CH06,2021-12-20,Switzerland,GridION
+CH07,2021-12-20,Switzerland,GridION
+CH02,2021-12-21,Switzerland,GridION
+CH03,2021-12-22,Switzerland,GridION
