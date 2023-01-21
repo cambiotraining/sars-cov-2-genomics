@@ -141,6 +141,8 @@ However, the more information you collect about each sample, the more questions 
 
 :::exercise
 
+**Note: If you are using our pre-sequenced data, you can skip this exercise.**
+
 We already provide some basic metadata for these samples in the file `sample_info.csv`: 
 
 - `sample` → the sample ID.
@@ -189,6 +191,8 @@ The first step in this process is to prepare a CSV file with information about o
 The pipeline's documentation gives details about the format of this samplesheet, depending on whether you are working with Illumina or Nanopore data: https://nf-co.re/viralrecon/2.5/usage. 
 
 :::exercise
+
+**Note: If you are using our pre-sequenced data, you can skip this exercise.**
 
 Using _Excel_, produce the input samplesheet for `nf-core/viralrecon`, making sure that you save it as a CSV file (<kbd>File</kbd> → <kbd>Save As...</kbd> and choose "CSV" as the file format).  
 
@@ -301,6 +305,9 @@ In this script, include the Nextflow command based on the command shown above, a
 Once your command is ready, save the script and run it from the command line using `bash scripts/01-run_viralrecon.sh`.
 
 If you need a reminder of how to work with shell scripts, revise the [Shell Scripts section](02d-unix_pipes.html#Shell_Scripts) of the materials. 
+
+**Note for Nanopore:** if you are using our pre-sequenced Nanopore data, you can can use the following medaka model: `r941_prom_high_g360`.
+
 :::
 
 
