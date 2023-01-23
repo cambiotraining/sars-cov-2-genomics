@@ -24,6 +24,23 @@ _External Quality Assessment_ (EQA) is a procedure that allows laboratories to a
 For genomic analysis of SARS-CoV-2, a standard panel of samples has been developed by the [GenQA](https://genqa.org/) consortium, which is part of [UK NEQAS](https://ukneqas.org.uk/), a non-profit that designs EQA protocols for a range of applications. 
 _GenQA_'s panel of samples includes lab-cultured SARS-CoV-2 samples of known origin, enabling laboratories to assess whether their sequencing and bioinformatic pipelines correctly identify expected mutations and lineage assignments for each of the samples in the panel. 
 
+:::note
+<details><summary>More about EQA</summary>
+
+EQA programs such as this one help to provide assurance of the diagnostic testing results obtained by a lab. 
+One of the key things to consider is that, for reliable assessment, **samples should be processed in the same way as patient samples**. 
+Since these samples are for quality assessment, it may be tempting to assign the samples to more experienced staff, include extra checks, increase sequencing, etc. 
+However, doing that would give a false impression of the performance of your own lab. 
+
+Evaluating the results of EQA sample processing is critical for labs to understand where their procedures can be improved. 
+This may include staff training, purchase of new equipment, or updating the reagents and kits used for sample processing. 
+
+EQA panels are often updated, to reflect any new and emerging pathogens, allowing the labs to assess the suitability of the protocols used to detect them. 
+It also helps raise awareness of any atypical variants of pathogens that may exist in the environment. 
+
+</details>
+:::
+
 In this case study, we are going to analyse samples from the _GenQA_ panel, to helps us assess the quality of our bioinformatic analysis and extract key pieces of information to be reported.
 The panel we will work with includes the following samples: 
 
@@ -711,6 +728,13 @@ For example, if you have a high-coverage genome (say >95%) but lots of sequencin
 Conversely, if you have a low-coverage genome (say <50%) but very high-quality sequencing, you may have low sensitivity (you missed lots of true mutations, because of missing data), but high precision (those mutations that you did manage to identify were all true, you didn't have many false positives). 
 
 ![](images/precision_sensitivity.svg)
+
+If you are submiting your samples to _GenQA_'s platform, they will also provide with a general accuracy score called _F-score_. 
+This is calculated as the harmonic mean of precision and sensitivity: 
+
+$F_{score} = \frac{2 \times Precision \times Sensitivity}{Precision + Sensitivity}$
+
+A high F-score is indicative of both high precision and sensitivity, whereas a lower score indicates that at least one of those metrics are low. 
 
 :::exercise
 
