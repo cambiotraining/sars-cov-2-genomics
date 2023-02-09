@@ -421,7 +421,7 @@ cat <INPUT> | sed 's/\/ARTIC\/medaka MN908947.3//' > report/consensus.fa
 ### Illumina
 
 ```bash
-cat <INPUT> | sed 's/ MN908947.3//' > output > report/consensus.fa
+cat <INPUT> | sed 's/ MN908947.3//' > report/consensus.fa
 ```
 
 ## {.unlisted .unnumbered}
@@ -471,7 +471,7 @@ Here is the command that would be used to locate intervals containing _one or mo
 seqkit locate --ignore-case --only-positive-strand --hide-matched -r -p "N+" report/consensus.fa
 ```
 
-Copy this command to a new shell script called `scripts/03-missing_intervals.sh`, and modify it to _redirect_ the output to a file called `results/missing_intervals.tsv`.  
+Copy this command to a new shell script called `scripts/03-missing_intervals.sh`, and **modify it to _redirect_ the output** to a file called `results/missing_intervals.tsv`.  
 Then run the script you created using `bash`. 
 
 :::
@@ -495,41 +495,8 @@ Although it is possible to [configure _viralrecon_](https://nf-co.re/viralrecon/
 
 Alternatively, we can run our consensus sequences through the latest versions of _Nextclade_ and _Pangolin_. 
 There are two ways to do this: using their respective web applications, or their command-line versions. 
-The following exercises give you both options -- chose the one you feel more comfortable with. 
+For this task, we **recommend that you use the command line tools** (this will ensure our downstream analysis works well), but we also provide the option to use the web apps for your reference.
 
-
-#### Web Apps
-
-:::exercise
-**Running Nextclade**
-
-Go to [clades.nextstrain.org](https://clades.nextstrain.org/) and run _Nextclade_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
-If you need a reminder about this tool, see the [Lineages & Variants > Nextclade](05-lineage_analysis.html#Nextclade) section of the materials.
-
-Once the analysis completes, pay particular attention to the quality control column, to see what problems your samples may have (in particular those classified as "bad" quality). 
-
-Then:
-
-- Create a new folder in your project directory: `results/nextclade`.
-- Use the "download" button (top-right) and download the file `nextclade.tsv` (tab-delimited file), which contains the results of the analysis. **Important:** please download the TSV file (not the CSV file, as it uses `;` to separate columns, and will not work later with the "Data Integration" section).
-- Save this file in the `results/nextclade` folder you created. 
-:::
-
-:::exercise
-**Running Pangolin**
-
-Go to [pangolin.cog-uk.io](https://pangolin.cog-uk.io/) and run _Pangolin_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
-If you need a reminder about this tool, see the [Lineages & Variants > Pangolin](05-lineage_analysis.html#Pangolin) section of the materials.
-
-Once the analysis completes, pay particular attention to any samples that failed. 
-If there were any failed samples, check if they match the report from _Nextclade_.
-
-Then:
-
-- Create a new folder in your project directory: `results/pangolin`.
-- Use the "download" button (the "arrow down" symbol on the results table) and download the file `results.csv`. Rename this file to `report.csv` (**important:** make sure to rename the file like this, otherwise it will not work later with the "Data Integration" section).
-- Save this file in the `results/pangolin` folder you created. 
-:::
 
 #### Command line
 
@@ -571,6 +538,42 @@ After the analysis completes:
 - Open the file `results/nextclade/nextclade.tsv` in _Excel_ and see what problems your samples may have (in particular those classified as "bad" quality).
 - Open the file `results/pangolin/report.csv` in _Excel_ and see if there were any samples for which the analysis failed. If there were any failed samples, check if they match the report from _Nextclade_.
 
+:::
+
+
+#### Web Apps
+
+**These exercises are optional - during the workshop please use the command line version of the tools.**
+
+:::exercise
+**Running Nextclade**
+
+Go to [clades.nextstrain.org](https://clades.nextstrain.org/) and run _Nextclade_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
+If you need a reminder about this tool, see the [Lineages & Variants > Nextclade](05-lineage_analysis.html#Nextclade) section of the materials.
+
+Once the analysis completes, pay particular attention to the quality control column, to see what problems your samples may have (in particular those classified as "bad" quality). 
+
+Then:
+
+- Create a new folder in your project directory: `results/nextclade`.
+- Use the "download" button (top-right) and download the file `nextclade.tsv` (tab-delimited file), which contains the results of the analysis. **Important:** please download the TSV file (not the CSV file, as it uses `;` to separate columns, and will not work later with the "Data Integration" section).
+- Save this file in the `results/nextclade` folder you created. 
+:::
+
+:::exercise
+**Running Pangolin**
+
+Go to [pangolin.cog-uk.io](https://pangolin.cog-uk.io/) and run _Pangolin_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
+If you need a reminder about this tool, see the [Lineages & Variants > Pangolin](05-lineage_analysis.html#Pangolin) section of the materials.
+
+Once the analysis completes, pay particular attention to any samples that failed. 
+If there were any failed samples, check if they match the report from _Nextclade_.
+
+Then:
+
+- Create a new folder in your project directory: `results/pangolin`.
+- Use the "download" button (the "arrow down" symbol on the results table) and download the file `results.csv`. Rename this file to `report.csv` (**important:** make sure to rename the file like this, otherwise it will not work later with the "Data Integration" section).
+- Save this file in the `results/pangolin` folder you created. 
 :::
 
 
