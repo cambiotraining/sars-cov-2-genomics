@@ -4,6 +4,8 @@ pagetitle: "SARS-CoV-2 Genomics"
 
 # Setup 
 
+**Note:** This page is under revision.
+
 If you are attending one of our workshops, we will provide a virtual training environment with all of the required software and data pre-installed. 
 If you want to setup your own computer to run the analysis demonstrated on this course, you can follow the instructions below. 
 
