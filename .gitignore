@@ -10,7 +10,6 @@ _site
 # in case RStudio is used for editing/building site
 .Rhistory
 .Rproj.user
-*.Rproj
 .Rbuildignore
 
 # VS Code workspace file
