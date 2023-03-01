@@ -69,9 +69,12 @@ navbar:
           href: 105-vs_code.html
         - text: "SARS-CoV-2 Resources"
           href: 103-tools_and_resources.html
-    - text: "Homework"
-      icon: fa-pencil
-      href: 100-homework.html
+    - text: "Data"
+      href: 101-data.html
+      icon: fa-download
+    # - text: "Homework"
+    #   icon: fa-pencil
+    #   href: 100-homework.html
   right:
     - text: "Github"
       icon: fa-brands fa-github
