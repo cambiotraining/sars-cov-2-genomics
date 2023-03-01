@@ -255,7 +255,7 @@ There are [many options](https://nf-co.re/viralrecon/2.5/parameters) that can be
 
 ```
 nextflow run nf-core/viralrecon -profile singularity \
-  --max_memory '15.GB' --max_cpus 8 \
+  --max_memory '12.GB' --max_cpus 4 \
   --input SAMPLESHEET_CSV \
   --outdir results/viralrecon \
   --protocol amplicon \
@@ -296,7 +296,7 @@ This may change in future versions of the pipeline.
 
 ```
 nextflow run nf-core/viralrecon -profile singularity \
-  --max_memory '15.GB' --max_cpus 8 \
+  --max_memory '12.GB' --max_cpus 4 \
   --input SAMPLESHEET_CSV \
   --outdir results/viralrecon \
   --protocol amplicon \
