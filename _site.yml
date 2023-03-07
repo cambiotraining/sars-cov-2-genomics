@@ -56,6 +56,13 @@ navbar:
           href: 08-case_study_southafrica.html
         - text: "EQA (Exercise)"
           href: 08-case_study_eqa.html
+        - text: "----"
+        - text: "Bioinformatics Software Installation"
+        - text: "Managing Software Installation"
+          href: 101-managing_software_installation.html
+        - text: "Software Setup Tutorial"
+          href: 101-setup_installation_instructions.html
+
     - text: "Extras"
       icon: fa-book
       menu:
