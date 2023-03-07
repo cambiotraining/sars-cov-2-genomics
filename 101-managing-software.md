@@ -28,15 +28,7 @@ The exact specifications depend on the application, but as a minimum at least 32
 
 Apart from having key hardware parts such as CPU, memory and Storage, any computer system running bioinformatics tools consists of the following software architecture; operating system (OS) in this case Linux, package manager(s), and bioinformatics software as illustrated in the following diagram.
 
-<<<<<<< HEAD
-![Typical software architecture from the perspective of bioinformatics software when it runs in in any computer system](https://github.com/cambiotraining/sars-cov-2-genomics/blob/main/images/bioinformatics_software_architecture.png)
-=======
-<<<<<<< HEAD
-![Typical software architecture from the perspective of bioinformatics software when it runs in in any computer system](https://github.com/cambiotraining/sars-cov-2-genomics/blob/main/images/bioinformatics_software_architecture.png){width="364"}
-=======
-![Typical software architecture from the perspective of bioinformatics software when it runs in in any computer system](https://github.com/cambiotraining/sars-cov-2-genomics/blob/main/images/bioinformatics_software_architecture.png)
->>>>>>> origin
->>>>>>> e72e8b7 (update managing software installation)
+![Typical software architecture from the perspective of bioinformatics software when it runs in in any computer system](images/bioinformatics_software_architecture.png){width="700"}
 
 This is pretty much similar architecture of any application software that runs on any standard PC.
 
@@ -165,4 +157,3 @@ pip3 --version
 ```
 
 More instructions on installing pip on Ubuntu can be found in the installation instruction page.
-
