@@ -99,7 +99,7 @@ The most popular VM software are:
 
 -   Oracle VirtualBox (<https://www.virtualbox.org/>)
 
-The full instructions and commands to run Oracle VirtualBox are explained in the managing software installations instructions page (link).
+The full instructions and commands to run Oracle VirtualBox are explained in the [managing software installations instructions page](101-setup_installation_instructions.html).
 
 #### Dual Booting
 
