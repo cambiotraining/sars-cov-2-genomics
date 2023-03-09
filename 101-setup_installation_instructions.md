@@ -190,3 +190,19 @@ For instance, you install in your Ubuntu OS installed the bowtie popular mapper.
 ```{bash}
 pip install bowtie # example of installing bowtie using pip
 ```
+
+## Homework Exercise
+
+In this homework exercise, we are encouraging all participants to set up and install VM for Ubuntu 22.04 using Oracle VirtualBox on their own PCs (Windows or Mac OSX).
+Follow the instructions in the [setup tutorial page](https://cambiotraining.github.io/sars-cov-2-genomics/101-setup_installation_instructions.html) and install the following: - Conda - Singularity - Nextflow (using Conda)
+
+The second task is to setup the nf-core/viralrecon pipeline by running it in a test mode.
+See the command to run the test [here](https://nf-co.re/viralrecon#quick-start).
+Use Singularity as your profile.
+
+The third task is to download some sequencing data of EQA samples and run the viralrecon pipeline on your Virtual Machine.
+You can choose either of the two platforms below to test: - Illumina - Nanopore data
+
+We do hope that if you do this homework, you will be ready to setup and run the analysis in your institution in a much larger scale.
+
+Please feel free to contact us through a slack channel [![](images/slack_icon.png){width="21"}](https://trinidadsarsc-sn62793.slack.com/archives/C04R5PA8ZV1) if you find any obstacles in completing successfully this homework.
