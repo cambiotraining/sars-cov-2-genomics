@@ -194,7 +194,11 @@ pip install bowtie # example of installing bowtie using pip
 ## Homework Exercise
 
 In this homework exercise, we are encouraging all participants to set up and install VM for Ubuntu 22.04 using Oracle VirtualBox on their own PCs (Windows or Mac OSX).
-Follow the instructions in the [setup tutorial page](https://cambiotraining.github.io/sars-cov-2-genomics/101-setup_installation_instructions.html) and install the following: - Conda - Singularity - Nextflow (using Conda)
+Follow the instructions in the [setup tutorial page](https://cambiotraining.github.io/sars-cov-2-genomics/101-setup_installation_instructions.html) and install the following:
+
+- Conda
+- Singularity
+- Nextflow (using Conda)
 
 The second task is to setup the nf-core/viralrecon pipeline by running it in a test mode.
 See the command to run the test [here](https://nf-co.re/viralrecon#quick-start).
