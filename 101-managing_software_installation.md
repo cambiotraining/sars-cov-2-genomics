@@ -157,3 +157,8 @@ pip3 --version
 ```
 
 More instructions on installing pip on Ubuntu can be found in the installation instruction page.
+
+### Installing from source
+
+In some cases bioinformatics software may need to be installed from the source to run your analysis pipeline. It could be that trying installing using the above options did not work for some unknown or unfamiliar reasons. For the users who are little bit advanced they can use bash commands based on the package instructions to install the package from the source, i.e. need compilation of the package binaries. A good example is samtools and its associated package dependencies bcftools and htslibs which you can find instruction commands to install these packages [here](https://cambiotraining.github.io/sars-cov-2-genomics/101-setup_installation_instructions.html)
+
