@@ -191,6 +191,19 @@ For instance, you install in your Ubuntu OS installed the bowtie popular mapper.
 pip install bowtie # example of installing bowtie using pip
 ```
 
+## Instructions to install samtools from source
+
+-   The full commands are below but they are also available in the samtools software [download page](https://www.htslib.org/download/). The same instructions apply for bcftools and htslib
+
+```{bash}
+wget  https://github.com/samtools/samtools/releases/download/1.17/samtools-1.17.tar.bz2 ## download the package samtools-1.17.tar.bz2 using wget or curl commands
+tar xf samtools-1.17.tar.bz2 ## decompress the file
+cd samtools-1.17    # move to the directory of the sometools
+sudo ./configure --prefix=/where/to/install ## e.g. /opt/samtools-1.17
+sudo make
+sudo make install
+```
+
 ## Homework Exercise
 
 In this homework exercise, we are encouraging all participants to set up and install VM for Ubuntu 22.04 using Oracle VirtualBox on their own PCs (Windows or Mac OSX).
