@@ -83,6 +83,18 @@ To install and run Ubuntu on Oracle VirtualBox please follow below instructions:
 
     ![](images/UbuntuOS_installationVM.PNG)
 
+### For Mac OS users
+
+For mac OS users who want to run linux through VM, please follow the instructions below: 
+
+- Download the virtualbox from [home page](https://www.virtualbox.org/wiki/Downloads). Note that when you download you need to know the exact package based on your type of CPU either Intel, or (M1/M2) Arm64 host.
+- Click to open the downloaded file which is in the ".dmg" format. Then double click to begin the installation process.
+- Click the continue button when the installation wizard pops up.
+- If you are OK with the default installation click OK otherwise you can select different installation location by clicking "Change installation location".
+- Click the “Install Software” button to continue the installation process after entering password and admin username.
+- If the installation is successful, a pop up windows indicating the installation was completed successful will show up in which case the VirtualBox launcher will be in your application folder.
+- Then you can install linux as described in the section above.
+
 ## Using apt, apt-get, dpkg or Installing aptitude
 
 After the installation is successfully now it is time to install the package managers.
@@ -209,9 +221,9 @@ sudo make install
 In this homework exercise, we are encouraging all participants to set up and install VM for Ubuntu 22.04 using Oracle VirtualBox on their own PCs (Windows or Mac OSX).
 Follow the instructions in the [setup tutorial page](https://cambiotraining.github.io/sars-cov-2-genomics/101-setup_installation_instructions.html) and install the following:
 
-- Conda
-- Singularity
-- Nextflow (using Conda)
+-   Conda
+-   Singularity
+-   Nextflow (using Conda)
 
 The second task is to setup the nf-core/viralrecon pipeline by running it in a test mode.
 See the command to run the test [here](https://nf-co.re/viralrecon#quick-start).
