@@ -89,7 +89,7 @@ And then try to run some Linux commands.
 #### Virtual Machine (VM)
 
 Another way of running bioinformatics based software is to install and run Virtual Machine (VM).
-The VM enables you to run a guest OS, (in this case Ubuntu) on top of a host OS (example Windows).
+The VM enables you to run a guest OS, (in this case Ubuntu) on top of a host OS (example Windows or Mac OS).
 Normally, the guest OS will have a real feeling of running on its own PC.
 When you run VM you will also be able to run any GU based software.
 
@@ -99,7 +99,7 @@ The most popular VM software are:
 
 -   Oracle VirtualBox (<https://www.virtualbox.org/>)
 
-The full instructions and commands to run Oracle VirtualBox are explained in the [managing software installations instructions page](101-setup_installation_instructions.html).
+The full instructions and commands to run Oracle VirtualBox on Windows or Mac OS are explained in the [managing software installations instructions page](101-setup_installation_instructions.html).
 
 #### Dual Booting
 
