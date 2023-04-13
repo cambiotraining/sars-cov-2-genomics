@@ -263,11 +263,11 @@ nextflow run nf-core/viralrecon -profile singularity \
   --primer_set artic \
   --primer_set_version PRIMER_VERSION \
   --skip_assembly \
+  --skip_pangolin \
+  --skip_nextclade \
   --platform nanopore \
   --artic_minion_caller medaka \
   --artic_minion_medaka_model MEDAKA_MODEL \
-  --skip_pangolin \
-  --skip_nextclade \
   --fastq_dir FASTQ_PASS_FOLDER
 ```
 
@@ -306,6 +306,8 @@ nextflow run nf-core/viralrecon -profile singularity \
   --primer_set artic \
   --primer_set_version PRIMER_VERSION \
   --skip_assembly \
+  --skip_pangolin \
+  --skip_nextclade \
   --platform illumina
 ```
 
