@@ -266,6 +266,8 @@ nextflow run nf-core/viralrecon -profile singularity \
   --platform nanopore \
   --artic_minion_caller medaka \
   --artic_minion_medaka_model MEDAKA_MODEL \
+  --skip_pangolin \
+  --skip_nextclade \
   --fastq_dir FASTQ_PASS_FOLDER
 ```
 
