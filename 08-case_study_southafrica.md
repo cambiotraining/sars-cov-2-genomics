@@ -315,7 +315,7 @@ cat results/viralrecon/medaka/*.consensus.fasta | sed 's/ MN908947.3//' | seqkit
 
 ```bash
 # combine and clean FASTA files
-cat results/viralrecon/variants/ivar/consensus/bcftools/*.consensus.fa | sed 's/ MN908947.3//' > output > report/consensus.fa
+cat results/viralrecon/variants/ivar/consensus/bcftools/*.consensus.fa | sed 's/ MN908947.3//' > report/consensus.fa
 ```
 
 This command does two things: 
@@ -542,7 +542,7 @@ nextflow run nf-core/viralrecon -profile singularity \
   --platform illumina
 
 # combine and clean FASTA files
-cat results/viralrecon/variants/ivar/consensus/bcftools/*.consensus.fa | sed 's/ MN908947.3//' > output > report/consensus.fa
+cat results/viralrecon/variants/ivar/consensus/bcftools/*.consensus.fa | sed 's/ MN908947.3//' > report/consensus.fa
 
 # create missing bases TSV file
 seqkit locate --ignore-case --only-positive-strand --hide-matched -r -p "N+" report/consensus.fa > results/missing_intervals.tsv
