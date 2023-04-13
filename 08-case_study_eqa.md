@@ -284,15 +284,6 @@ For example, if you used a flowcell with chemistry 9.4.1, sequenced on a _MinION
 Note that in some cases there is no model for recent versions of _Guppy_, in which case you use the version for the latest version available. 
 In our example, if our version of _Guppy_ was 6.1.5 we would use the same model above, since that's the most recent one available. 
 
-:::warning
-**Viralrecon Medaka Models**
-
-At the moment, _viralrecon_ only supports models up to Guppy version 3. 
-So, make sure to use models ending in `g3XX` in your analysis.
-
-This may change in future versions of the pipeline.
-:::
-
 
 #### Illumina
 
