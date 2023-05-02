@@ -159,8 +159,10 @@ The following are the steps to follow to install and use Conda package manager:
     rm Miniconda3-py310_23.1.0-1-Linux-x86_64.sh
     ```
 
--   Then initiate and configure conda channels in the system.
-    Lastly, install mamba which you can use to install other conda packages on your own PCs
+-   Initiate and configure conda channels in the system.
+
+### Mamba as an alternative to conda
+    Lastly, you can also install mamba which you can use to install other conda packages on your own PCs
 
     ```{bash}
     conda init
@@ -201,19 +203,6 @@ For instance, you install in your Ubuntu OS installed the bowtie popular mapper.
 
 ```{bash}
 pip install bowtie # example of installing bowtie using pip
-```
-
-## Instructions to install samtools from source
-
--   The full commands are below but they are also available in the samtools software [download page](https://www.htslib.org/download/). The same instructions apply for bcftools and htslib
-
-```{bash}
-wget  https://github.com/samtools/samtools/releases/download/1.17/samtools-1.17.tar.bz2 ## download the package samtools-1.17.tar.bz2 using wget or curl commands
-tar xf samtools-1.17.tar.bz2 ## decompress the file
-cd samtools-1.17    # move to the directory of the sometools
-sudo ./configure --prefix=/where/to/install ## e.g. /opt/samtools-1.17
-sudo make
-sudo make install
 ```
 
 ## Homework Exercise
