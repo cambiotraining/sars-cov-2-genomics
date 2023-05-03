@@ -583,16 +583,25 @@ This requires three steps:
 
 :::exercise
 
-- Concatenate your sequences with the previous workshop sequences available in the file resources/eqa_collaborators/eqa_consensus.fa
-- Perform a multiple sequence alignment of your consensus sequences using the program `mafft`.
-  Consult the [Building Phylogenies > Alignment](06-phylogeny.html#Alignment) section of the materials to see what command to use. 
+- Start by creating two directories to store the output of our analysis: `results/mafft` and `results/iqtree`.
+- To make our analysis more interesting, we will combine our sequences with sequences from previous workshops. 
+  Use the `cat` program to concatenate your sequences (`report/consensus.fa`) with the sequences from our collaborators (`resources/eqa_collaborators/eqa_consensus.fa`). 
+  Save the output in a new file `results/mafft/unaligned_consensus.fa`.
+- Perform a multiple sequence alignment of the combined consensus sequences using the program `mafft`.
+  Save the output in a file called `results/mafft/aligned_consensus.fa`.
+  Consult the [Building Phylogenies > Alignment](06-phylogeny.html#Alignment) section of the materials to see how to create the MAFFT command. 
 - Infer a phylogenetic tree using the `iqtree2` program. 
   Consult the [Building Phylogenies > Tree Inference](06-phylogeny.html#Tree_Inference:_IQ-Tree) section of the materials to see what command to use. 
 - Once you have both of these commands working, make sure to save them in a new shell script (as a record of your analysis). 
   Save the script as `scripts/05-phylogeny.sh`. 
-- Visualise the tree using FigTree. Try to annotate by lineage and institution. Is there any grouping of your sequences with other previous sequences, or are there any outliers? Are there any obvious differences between sequencing technologies?
+- Visualise the tree using FigTree. 
 
 What substitution model was chosen as the best for your data by IQ-Tree?
+
+Do your samples group with samples from previous workshops in the way that is expected, or are there any outliers?
+
+Are there any obvious differences between sequencing technologies?
+
 :::
 
 
