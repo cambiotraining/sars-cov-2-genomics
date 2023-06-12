@@ -16,16 +16,53 @@ The exact specifications depend on the application, but as a minimum at least 32
 :::
 
 
-## Install Linux
+## Install Linux {.tabset}
 
-You will need a computer running a Linux distribution. 
-The kind of distribution you choose is not critical, but we recommend Ubuntu if you are unsure. 
+### Fresh Installation
+
+The recommendation for bioinformatic analysis is to have a dedicated computer running a Linux distribution. 
+The kind of distribution you choose is not critical, but we recommend **Ubuntu** if you are unsure. 
 
 You can follow the [installation tutorial on the Ubuntu webpage](https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview). 
 
 :::warning
 Installing Ubuntu on the computer will remove any other operating system you had previously installed, and can lead to data loss. 
 :::
+
+### Windows WSL
+
+The **Windows Subsystem for Linux (WSL2)** runs a compiled version of Ubuntu natively on Windows. 
+
+There are detailed instructions on how to install WSL on the [Microsoft documentation page](https://learn.microsoft.com/en-us/windows/wsl/install). 
+But briefly:
+
+- Click the Windows key and search for  _Windows PowerShell_, open it and run the command: `wsl --install`.
+- Restart your computer. 
+- Click the Windows key and search for _Ubuntu_, which should open a new terminal. 
+- Follow the instructions to create a username and password (you can use the same username and password that you have on Windows, or a different one - it's your choice). 
+- You should now have access to a Ubuntu Linux terminal. 
+  This (mostly) behaves like a regular Ubuntu terminal, and you can install apps using the `sudo apt install` command as usual. 
+
+After WSL is installed, it is useful to create shortcuts to your files on Windows. 
+Your `C:\` drive is located in `/mnt/c/` (equally, other drives will be available based on their letter). 
+For example, your desktop will be located in: `/mnt/c/Users/<WINDOWS USERNAME>/Desktop/`. 
+It may be convenient to set shortcuts to commonly-used directories, which you can do using _symbolic links_, for example: 
+
+- **Documents:** `ln -s /mnt/c/Users/<WINDOWS USERNAME>/Documents/ ~/Documents`
+  - If you use OneDrive to save your documents, use: `ln -s /mnt/c/Users/<WINDOWS USERNAME>/OneDrive/Documents/ ~/Documents`
+- **Desktop:** `ln -s /mnt/c/Users/<WINDOWS USERNAME>/Desktop/ ~/Desktop`
+- **Downloads**: `ln -s /mnt/c/Users/<WINDOWS USERNAME>/Downloads/ ~/Downloads`
+
+
+### Virtual Machine
+
+Another way to run Linux within Windows (or macOS) is to install a Virtual Machine.
+However, this is mostly suitable for practicing and **not suitable for real data analysis**.
+
+We give instructions to install a VM using Oracle's Virtual Box on [our tutorial](101-setup_installation_instructions.html).
+
+## {.unlisted .unnumbered}
+
 
 After making a fresh install of Ubuntu, open a terminal and run the following commands to update your system and install some essential packages: 
 
