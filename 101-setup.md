@@ -69,6 +69,7 @@ After making a fresh install of Ubuntu, open a terminal and run the following co
 ```bash
 sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
 sudo apt install -y git
+sudo apt install -y default-jre
 ```
 
 ## Software Setup
@@ -145,7 +146,7 @@ singularity {
 Run the following commands to create an environment with the software we used in the workshop: 
 
 ```bash
-mamba create -n sars -y igv mafft iqtree treetime figtree
+mamba create -n sars -y igv mafft iqtree treetime igv figtree seqkit
 ```
 
 Whenever you want to use any of these packages, make sure to activate the _Conda_ environment with the command `conda activate sars`.
@@ -160,4 +161,31 @@ rm aliview.tgz
 echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
 ```
  
-To run these tools, open a terminal and use the commands `igv`, `figtree` or `aliview`, which will launch each of the programs. 
+To run these graphical tools, open a terminal and use the commands `igv`, `figtree` or `aliview`, which will launch each of the programs. 
+
+
+#### Pangolin/Nextclade/Civet
+
+These SARS-specific tools are more challenging to install. 
+In theory they should all be available via `conda`, but in practice they have some dependency issues when using conda.
+The following commands should work, if you followed our previous instructions: 
+
+```bash
+conda activate sars
+mamba install -y datrie minimap2
+pip install biopython
+pip install snakemake==7.16.0
+mamba install -y cov-ert::jclusterfunk 
+mamba install -y gofasta=0.0.5 ucsc-fatovcf 
+mamba install -y usher
+mamba install -y git-lfs
+mamba install -y nextclade
+
+pip install git+https://github.com/cov-lineages/scorpio.git
+pip install git+https://github.com/cov-lineages/constellations.git
+pip install git+https://github.com/cov-lineages/pangolin-data.git
+pip install git+https://github.com/artic-network/civet.git
+pip install git+https://github.com/cov-lineages/pangolin.git
+```
+
+After this, you should be able to use the stand-alone versions of `pangolin`, `nextclade` and `civet`.
