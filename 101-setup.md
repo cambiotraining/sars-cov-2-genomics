@@ -53,6 +53,8 @@ It may be convenient to set shortcuts to commonly-used directories, which you ca
 - **Desktop:** `ln -s /mnt/c/Users/<WINDOWS USERNAME>/Desktop/ ~/Desktop`
 - **Downloads**: `ln -s /mnt/c/Users/<WINDOWS USERNAME>/Downloads/ ~/Downloads`
 
+Also see the section below "Docker for Windows" for further setup.
+
 
 ### Virtual Machine
 
@@ -189,3 +191,13 @@ pip install git+https://github.com/cov-lineages/pangolin.git
 ```
 
 After this, you should be able to use the stand-alone versions of `pangolin`, `nextclade` and `civet`.
+
+
+### Docker for Windows
+
+When using WSL2 on Windows, running _Nextflow_ pipelines with `-profile singularity` sometimes doesn't work (we've had some problems with `nf-core/viralrecon` in the past). 
+
+As an alternative you can instead use _Docker_, which is another software containerisation solution. 
+To set this up, you can follow the instructions given on the Microsoft Documentation: [Get started with Docker remote containers on WSL 2](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-containers).
+
+Once you have _Docker_ set and installed, you can then use `-profile docker` when running your _Nextflow_ command.
