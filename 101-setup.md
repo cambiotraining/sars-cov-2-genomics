@@ -36,9 +36,12 @@ The **Windows Subsystem for Linux (WSL2)** runs a compiled version of Ubuntu nat
 There are detailed instructions on how to install WSL on the [Microsoft documentation page](https://learn.microsoft.com/en-us/windows/wsl/install). 
 But briefly:
 
-- Click the Windows key and search for  _Windows PowerShell_, open it and run the command: `wsl --install`.
-- Restart your computer. 
-- Click the Windows key and search for _Ubuntu_, which should open a new terminal. 
+- Click the Windows key and search for  _Windows PowerShell_, right-click on the app and choose **Run as administrator** 
+- Answer "Yes" when it asks if you want the App to make changes on your computer.
+- A terminal will open; run the command: `wsl --install`.
+  - This should start installing "ubuntu"
+  - It may ask for you to restart your computer. 
+- After restart, click the Windows key and search for _Ubuntu_, click on the App ant it should open a new terminal. 
 - Follow the instructions to create a username and password (you can use the same username and password that you have on Windows, or a different one - it's your choice). 
 - You should now have access to a Ubuntu Linux terminal. 
   This (mostly) behaves like a regular Ubuntu terminal, and you can install apps using the `sudo apt install` command as usual. 
@@ -76,9 +79,22 @@ sudo apt install -y default-jre
 
 ## Software Setup
 
-### _Conda_
+### _Conda_ 
 
 We recommend using the _Conda_ package manager to install your software. 
+In particular, the newest implementation called _Mamba_. 
+
+To install _Mamba_, run the following commands from the terminal: 
+
+```bash
+wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+bash Mambaforge-$(uname)-$(uname -m).sh -b
+rm Mambaforge-$(uname)-$(uname -m).sh
+```
+
+Restart your terminal (or open a new one) and confirm that your shell now starts with the word `(base)`.
+
+<details><summary>Old instructions</summary>
 To install _Conda_, run the following commands from the terminal:
 
 ```bash
@@ -97,7 +113,7 @@ We also install the `mamba` package, which is a faster implementation of the `co
 ```bash
 conda install -y mamba
 ```
-
+</details>
 
 ### Singularity
 
@@ -122,6 +138,7 @@ You can do that with the following command:
 
 ```bash
 mamba create -n nextflow -y nextflow
+mkdir $HOME/.nextflow
 ```
 
 When you want to use _Nextflow_ make sure to activate this software environment by running `conda activate nextflow`. 
