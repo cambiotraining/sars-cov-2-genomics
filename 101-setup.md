@@ -77,9 +77,8 @@ sudo apt install -y git
 sudo apt install -y default-jre
 ```
 
-## Software Setup
 
-### _Conda_ 
+## _Conda_ 
 
 We recommend using the _Conda_ package manager to install your software. 
 In particular, the newest implementation called _Mamba_. 
@@ -115,52 +114,48 @@ conda install -y mamba
 ```
 </details>
 
-### Singularity
 
-We highly recommend that you install _Singularity_ and use the `-profile singularity` option when running _Nextflow_ (instead of `-profile conda`). 
-On Ubuntu, you can install _Singularity_ using the following commands: 
+## Nextflow
 
-```bash
-sudo apt install -y runc cryptsetup-bin
-CODENAME=$(lsb_release -cs)
-wget -O singularity.deb https://github.com/sylabs/singularity/releases/download/v3.10.2/singularity-ce_3.10.2-${CODENAME}_amd64.deb
-sudo dpkg -i singularity.deb
-rm singularity.deb
-```
-
-If you have a different Linux distribution, you can find more detailed instructions on the [_Singularity_ documentation page](https://docs.sylabs.io/guides/3.0/user-guide/installation.html#install-on-linux). 
-
-
-### Nextflow
-
-We recommend that you install _Nextflow_ within a conda environment. 
+We recommend that you install _Nextflow_ within a conda environment.
 You can do that with the following command:
 
 ```bash
 mamba create -n nextflow -y nextflow
-mkdir $HOME/.nextflow
 ```
 
 When you want to use _Nextflow_ make sure to activate this software environment by running `conda activate nextflow`. 
 
-You can also run the following command to create a configuration file to setup _Nextflow_:
+Also run the following command to create a configuration file to setup _Nextflow_ correctly (make sure to copy all the code from top to bottom):
 
 ```bash
+mkdir -p $HOME/.nextflow
 echo "
 conda {
+  conda.enabled = true
+  singularity.enabled = false
+  docker.enabled = false
   useMamba = true
-  createTimeout = '1 h'
+  createTimeout = '4 h'
   cacheDir = \"$HOME/.nextflow-conda-cache/\"
 }
 singularity {
-  enabled = true
-  pullTimeout = '1 h'
+  singularity.enabled = true
+  conda.enabled = false
+  docker.enabled = false
+  pullTimeout = '4 h'
   cacheDir = \"$HOME/.nextflow-singularity-cache/\"
+}
+docker {
+  docker.enabled = true
+  singularity.enabled = false
+  conda.enabled = false
 }
 " >> $HOME/.nextflow/config
 ```
 
-### Bioinformatics Software
+
+## Bioinformatics Software
 
 Run the following commands to create an environment with the software we used in the workshop: 
 
@@ -183,7 +178,7 @@ echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
 To run these graphical tools, open a terminal and use the commands `igv`, `figtree` or `aliview`, which will launch each of the programs. 
 
 
-#### Pangolin/Nextclade/Civet
+### Pangolin/Nextclade/Civet
 
 These SARS-specific tools are more challenging to install. 
 In theory they should all be available via `conda`, but in practice they have some dependency issues when using conda.
@@ -210,7 +205,29 @@ pip install git+https://github.com/cov-lineages/pangolin.git
 After this, you should be able to use the stand-alone versions of `pangolin`, `nextclade` and `civet`.
 
 
-### Docker for Windows
+## Software Image Containers
+
+### Singularity
+
+We highly recommend that you install _Singularity_ and use the `-profile singularity` option when running _Nextflow_ (instead of `-profile conda`). 
+On Ubuntu, you can install _Singularity_ using the following commands: 
+
+```bash
+sudo apt install -y runc cryptsetup-bin
+CODENAME=$(lsb_release -cs)
+wget -O singularity.deb https://github.com/sylabs/singularity/releases/download/v3.11.4/singularity-ce_3.11.4-${CODENAME}_amd64.deb
+sudo dpkg -i singularity.deb
+rm singularity.deb
+```
+
+If you have a different Linux distribution, you can find more detailed instructions on the [_Singularity_ documentation page](https://docs.sylabs.io/guides/3.0/user-guide/installation.html#install-on-linux). 
+
+If you have issues running _Nextflow_ pipelines with _Singularity_, then you can follow the instructions below for _Docker_ instead. 
+
+
+### Docker {.tabset} 
+
+#### Windows WSL
 
 When using WSL2 on Windows, running _Nextflow_ pipelines with `-profile singularity` sometimes doesn't work (we've had some problems with `nf-core/viralrecon` in the past). 
 
@@ -218,3 +235,20 @@ As an alternative you can instead use _Docker_, which is another software contai
 To set this up, you can follow the instructions given on the Microsoft Documentation: [Get started with Docker remote containers on WSL 2](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-containers).
 
 Once you have _Docker_ set and installed, you can then use `-profile docker` when running your _Nextflow_ command.
+
+#### Linux
+
+For Linux, here are the installation instructions: 
+
+```bash
+sudo apt install curl
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh ./get-docker.sh
+sudo groupadd docker
+sudo usermod -aG docker $USER
+```
+
+After the last step, you will need to **restart your computer**. 
+From now on, you can use `-profile docker` when you run _Nextflow_
+
+## {.unlisted .unnumbered}
