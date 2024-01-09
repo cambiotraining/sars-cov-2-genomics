@@ -86,33 +86,24 @@ In particular, the newest implementation called _Mamba_.
 To install _Mamba_, run the following commands from the terminal: 
 
 ```bash
-wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
-bash Mambaforge-$(uname)-$(uname -m).sh -b
-rm Mambaforge-$(uname)-$(uname -m).sh
+wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh -b -p $HOME/miniforge3
+rm Miniforge3-$(uname)-$(uname -m).sh
+$HOME/miniforge3/bin/mamba init
 ```
 
 Restart your terminal (or open a new one) and confirm that your shell now starts with the word `(base)`.
+Then run the following commands: 
 
-<details><summary>Old instructions</summary>
-To install _Conda_, run the following commands from the terminal:
-
-```bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh -b
-rm Miniconda3-latest-Linux-x86_64.sh
-export PATH="$HOME/miniconda3/bin/:$PATH"
-conda init # adds conda to .bashrc
-conda config --add channels defaults; conda config --add channels bioconda; conda config --add channels conda-forge
-```
-
-Restart your terminal and confirm that your shell now starts with the word `(base)`.
-
-We also install the `mamba` package, which is a faster implementation of the `conda` command: 
+Restart your terminal (or open a new one) and confirm that your shell now starts with the word `(base)`.
+Then run the following commands: 
 
 ```bash
-conda install -y mamba
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --set remote_read_timeout_secs 1000
 ```
-</details>
 
 
 ## Nextflow
@@ -124,7 +115,7 @@ You can do that with the following command:
 mamba create -n nextflow -y nextflow
 ```
 
-When you want to use _Nextflow_ make sure to activate this software environment by running `conda activate nextflow`. 
+When you want to use _Nextflow_ make sure to activate this software environment by running `mamba activate nextflow`. 
 
 Also run the following command to create a configuration file to setup _Nextflow_ correctly (make sure to copy all the code from top to bottom):
 
@@ -137,14 +128,14 @@ conda {
   docker.enabled = false
   useMamba = true
   createTimeout = '4 h'
-  cacheDir = \"$HOME/.nextflow-conda-cache/\"
+  cacheDir = '$HOME/.nextflow-conda-cache/'
 }
 singularity {
   singularity.enabled = true
   conda.enabled = false
   docker.enabled = false
   pullTimeout = '4 h'
-  cacheDir = \"$HOME/.nextflow-singularity-cache/\"
+  cacheDir = '$HOME/.nextflow-singularity-cache/'
 }
 docker {
   docker.enabled = true
@@ -163,7 +154,7 @@ Run the following commands to create an environment with the software we used in
 mamba create -n sars -y igv mafft iqtree treetime igv figtree seqkit
 ```
 
-Whenever you want to use any of these packages, make sure to activate the _Conda_ environment with the command `conda activate sars`.
+Whenever you want to use any of these packages, make sure to activate the _Conda_ environment with the command `mamba activate sars`.
 
 In addition to these packages, you can also install _AliView_ (which unfortunately is not available through _Conda_):
 
@@ -174,18 +165,18 @@ tar -xzvf aliview.tgz
 rm aliview.tgz
 echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
 ```
- 
+
 To run these graphical tools, open a terminal and use the commands `igv`, `figtree` or `aliview`, which will launch each of the programs. 
 
 
 ### Pangolin/Nextclade/Civet
 
 These SARS-specific tools are more challenging to install. 
-In theory they should all be available via `conda`, but in practice they have some dependency issues when using conda.
+In theory they should all be available via `mamba`, but in practice they have some dependency issues when using this package manager.
 The following commands should work, if you followed our previous instructions: 
 
 ```bash
-conda activate sars
+mamba activate sars
 mamba install -y datrie minimap2
 pip install biopython
 pip install snakemake==7.16.0
@@ -209,13 +200,12 @@ After this, you should be able to use the stand-alone versions of `pangolin`, `n
 
 ### Singularity
 
-We highly recommend that you install _Singularity_ and use the `-profile singularity` option when running _Nextflow_ (instead of `-profile conda`). 
-On Ubuntu, you can install _Singularity_ using the following commands: 
+We recommend that you install _Singularity_ and use the `-profile singularity` option when running _Nextflow_ pipelines. 
+On Ubuntu/WSL2, you can install _Singularity_ using the following commands: 
 
 ```bash
-sudo apt install -y runc cryptsetup-bin
-CODENAME=$(lsb_release -cs)
-wget -O singularity.deb https://github.com/sylabs/singularity/releases/download/v3.11.4/singularity-ce_3.11.4-${CODENAME}_amd64.deb
+sudo apt install -y runc cryptsetup-bin uidmap
+wget -O singularity.deb https://github.com/sylabs/singularity/releases/download/v4.0.2/singularity-ce_4.0.2-$(lsb_release -cs)_amd64.deb
 sudo dpkg -i singularity.deb
 rm singularity.deb
 ```
@@ -229,12 +219,20 @@ If you have issues running _Nextflow_ pipelines with _Singularity_, then you can
 
 #### Windows WSL
 
-When using WSL2 on Windows, running _Nextflow_ pipelines with `-profile singularity` sometimes doesn't work (we've had some problems with `nf-core/viralrecon` in the past). 
+When using WSL2 on Windows, running _Nextflow_ pipelines with `-profile singularity` sometimes doesn't work. 
 
 As an alternative you can instead use _Docker_, which is another software containerisation solution. 
-To set this up, you can follow the instructions given on the Microsoft Documentation: [Get started with Docker remote containers on WSL 2](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-containers).
+To set this up, you can follow the full instructions given on the Microsoft Documentation: [Get started with Docker remote containers on WSL 2](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-containers#install-docker-desktop).
 
-Once you have _Docker_ set and installed, you can then use `-profile docker` when running your _Nextflow_ command.
+We briefly summarise the instructions here (but check that page for details and images): 
+
+- Download [_Docker_ for Windows](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe).
+- Run the installer and install accepting default options. 
+- Restart the computer.
+- Open Docker and go to **Settings > General** to tick "Use the WSL 2 based engine".
+- Go to **Settings > Resources > WSL Integration** to enable your Ubuntu WSL installation.
+
+Once you have _Docker_ set and installed, you can use `-profile docker` when running your _Nextflow_ command.
 
 #### Linux
 
