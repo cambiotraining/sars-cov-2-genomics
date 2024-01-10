@@ -1,0 +1,29 @@
+book:
+  chapters:
+    - part: "Introduction"
+      chapters:
+        - materials/01-intro/01-surveillance.md
+        - materials/01-intro/02-ngs.md
+        - materials/01-intro/03-workflows.md
+    - part: "Clinical Isolates"
+      chapters:
+        - materials/02-isolates/01-consensus.md
+        - materials/02-isolates/02-lineages.md
+        - materials/02-isolates/03-phylogeny.md
+    - part: "Case Studies"
+      chapters:
+        - materials/03-case_studies/01-switzerland.md
+        - materials/03-case_studies/02-southafrica.md
+        - materials/03-case_studies/03-eqa.md
+    - part: "Wastewater Samples"
+      chapters:
+        - materials/04-wastewater/01-wastewater_surveillance.md
+    - part: "Software"
+      chapters:
+        - materials/05-software/01-managing_software.md
+        - materials/05-software/02-virtualbox.md
+        - materials/05-software/03-software_setup.md
+  appendices: 
+    - materials/appendices/file_formats.md
+    - materials/appendices/unix_cheatsheet.md
+    - materials/appendices/quick_r.Rmd

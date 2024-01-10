@@ -1,16 +1,23 @@
-# directories we often use
-slides
-notes
-course_materials
-prepare_data
-
-# local site rendering is not pushed
+# Quarto files
+/.quarto/
 _site
 
-# in case RStudio is used for editing/building site
-.Rhistory
-.Rproj.user
-.Rbuildignore
+# python notebooks
+*.ipynb
 
-# VS Code workspace file
-*.code-workspace
+# R files
+.Rhistory
+.Rapp.history
+.RData
+.RDataTmp
+.Ruserdata
+.Rproj.user/
+*_cache/
+/cache/
+*.utf8.md
+*.knit.md
+.Renviron
+
+# Jupyter cache
+.jupyter_cache
+/.luarc.json
