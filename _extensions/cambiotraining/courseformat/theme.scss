@@ -22,12 +22,20 @@ $link-color: #003a41;
 
 //tweak callout colours to match our scheme
 //based on https://coolors.co/28828a-106470-003a41-d62828-f77f00
+//and also: https://paletton.com/#uid=33l0u0krXmYjeudo8rcvjiNF6dy
 $callout-color-note: #C6C5B9;
 $callout-color-tip: #28828A;
-$callout-color-caution: #D62828;
-$callout-color-warning: #D62828;
+$callout-color-caution: #B72317;// #D62828;
+$callout-color-warning: #B72317; //#D62828;
 $callout-color-important: #28828A;
 
+// our custom callouts - the background colour has to be set manually for these
+$callout-color-exercise: #FFB400;//#D9A535;
+$callout-color-exercise-bg: #fff8e6;//#fbf6eb;
+$callout-color-hint: #6c757d;
+$callout-color-hint-bg: #f0f1f2;
+$callout-color-answer: #c6c5b9;
+$callout-color-answer-bg: #f9f9f8;
 
 /*-- scss:rules --*/
 
@@ -95,16 +103,20 @@ div.sidebar-item-container .active {
 
 // Exercise callout styling
 div.callout-exercise.callout {
-  border-left-color: #EA7125;
+  // border-left-color: #EA7125;
+  // border-left-color: #F3BD48;
+  border-left-color: $callout-color-exercise;
+  // border-left-color: #003E74;
 }
 
 div.callout-exercise.callout-style-default > .callout-header {
-  background-color: #F3BD48;
+  background-color: $callout-color-exercise-bg;
 }
 
 .callout-exercise > .callout-header::before {
   font-family: "Font Awesome 5 Free";
   content: "\f303";
+  color: $callout-color-exercise;
   margin-right: 10px;
 }
 
@@ -112,28 +124,30 @@ div.callout-exercise.callout-style-default > .callout-header {
 .callout-answer > .callout-header::before {
   font-family: "Font Awesome 5 Free";
   content: "\f002 ";
+  color: $callout-color-answer;
   margin-right: 10px;
 }
 
 div.callout-answer.callout {
-  border-left-color: #6c757d;
+  border-left-color: $callout-color-answer;
 }
 
 div.callout-answer.callout-style-default > .callout-header {
-  background-color: #f9f9f8;
+  background-color: $callout-color-answer-bg;
 }
 
 // Hint callout styling
 .callout-hint > .callout-header::before {
   font-family: "Font Awesome 5 Free";
   content: "\f12e ";
+  color: $callout-color-hint;
   margin-right: 10px;
 }
 
 div.callout-hint.callout {
-  border-left-color: #6c757d;
+  border-left-color: $callout-color-hint;
 }
 
 div.callout-hint.callout-style-default > .callout-header {
-  background-color: #f9f9f8;
+  background-color: $callout-color-hint-bg;
 }
