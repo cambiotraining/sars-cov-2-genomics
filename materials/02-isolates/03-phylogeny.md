@@ -417,7 +417,7 @@ Python scripts are usually run with the `python` program and often accept option
 To see how to use the script we can use the option `--help`. 
 For our case, we could run: 
 
-```console
+```bash
 $ python scripts/mask_alignment_using_vcf.py --help
 ```
 :::

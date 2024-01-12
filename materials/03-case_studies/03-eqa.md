@@ -255,7 +255,7 @@ There are [many options](https://nf-co.re/viralrecon/2.6.0/parameters) that can 
 :::{.panel-tabset group="platform"}
 #### Nanopore
 
-```
+```bash
 nextflow run nf-core/viralrecon -profile singularity \
   --max_memory '12.GB' --max_cpus 4 \
   --input SAMPLESHEET_CSV \
@@ -289,7 +289,7 @@ In our example, if our version of _Guppy_ was 6.1.5 we would use the same model 
 
 #### Illumina
 
-```
+```bash
 nextflow run nf-core/viralrecon -profile singularity \
   --max_memory '12.GB' --max_cpus 4 \
   --input SAMPLESHEET_CSV \

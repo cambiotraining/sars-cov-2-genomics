@@ -59,14 +59,14 @@ Although this is optional (you could instead install everything in the "base" de
 
 To create an environment we use:
 
-```console
+```bash
 $ conda create --name ENV
 ```
 
 Where "ENV" is the name we want to give to that environment. 
 Once the environment is created, we can install packages using:
 
-```console
+```bash
 $ conda install --name ENV PROGRAM
 ```
 
@@ -91,7 +91,7 @@ For example `conda install --chanel CHANNEL --name ENV PROGRAM`.
 
 Let's see this with an example, where we create a new environment called "scipy", where we install the python scientific packages:
 
-```console
+```bash
 $ conda install --name scipy --channel conda-forge numpy matplotlib
 ```
 
@@ -101,13 +101,13 @@ $ conda install --name scipy --channel conda-forge numpy matplotlib
 Once your packages are installed in an environment, you can load that environment by using `source activate ENV`, where "ENV" is the name of your environment. 
 For example, we can activate our previously created environment with:
 
-```console
+```bash
 $ source activate scipy
 ```
 
 If you chech which `python` executable is being used now, you will notice it's the one from this new environment:
 
-```console
+```bash
 $ which python
 ```
 
@@ -226,7 +226,7 @@ Install nextflow, using conda:
 
 General information about nextflow commands can be obtained by running it with no other options: 
 
-```console
+```bash
 $ nextflow
 ```
 
@@ -263,7 +263,7 @@ Making a local copy of the nextflow repository can be done in a few ways:
 
 To download the pipeline, we run: 
 
-```console
+```bash
 $ nextflow pull connor-lab/ncov2019-artic-nf
 ```
 

@@ -103,7 +103,7 @@ Pipelines are usually shared in a public repository such as GitHub, and `nextflo
 
 Let's test our pipeline by looking at its help documentation: 
 
-```console
+```bash
 $ nextflow run nf-core/viralrecon --help
 ```
 
@@ -129,7 +129,7 @@ The Illumina sub-workflow is based on several standard bioinformatic tools and, 
 
 To run the pipeline on Illumina data, we use the following general command:
 
-```console
+```bash
 nextflow run nf-core/viralrecon \
   --input SAMPLESHEET_CSV \
   --outdir OUTPUT_DIRECTORY \
@@ -174,7 +174,7 @@ This sub-workflow is similar to the other nanopore sub-workflow, the main differ
 
 To run our pipeline on basecalled data (FASTQ files), we use the following command:
 
-```console
+```bash
 nextflow run nf-core/viralrecon \
   --input SAMPLESHEET_CSV \
   --outdir OUTPUT_DIRECTORY \
@@ -242,7 +242,7 @@ In summary, the steps performed by the Nanopolish sub-workflow are:
 
 To run our pipeline on signal-level data (FAST5 files), we use the following command: 
 
-```console
+```bash
 nextflow run nf-core/viralrecon \
   --input SAMPLESHEET_CSV \
   --outdir OUTPUT_DIRECTORY \
@@ -508,14 +508,14 @@ To proceed with our analysis, we need a FASTA file containing _all_ of our conse
 However, our `viralrecon` pipeline outputs _separate_ FASTA files for each sample. 
 We can see this by running (from within the `03-consensus/uk_illumina/` directory): 
 
-```console
+```bash
 $ ls results/viralrecon/variants/ivar/consensus/bcftools/
 ```
 
 Also, the workflow modifies our original sample names in the FASTA file, by adding extra information to the sequence name. 
 For example:
 
-```console
+```bash
 $ head -n 1 results/viralrecon/variants/ivar/consensus/bcftools/ERR5728910.consensus.fa
 ```
 
@@ -536,20 +536,20 @@ Let's do this step by step.
 
 First, we can use the `*` _wildcard_ to combine all the FASTA files with the `cat` command:
 
-```console
+```bash
 $ cat results/viralrecon/variants/ivar/consensus/bcftools/*.fa
 ```
 
 Running this command will print all of the sequences on the screen!
 To see what happened a little better, we could _pipe_ this command to `less` to browse up-and-down through the file:
 
-```console
+```bash
 $ cat results/viralrecon/variants/ivar/consensus/bcftools/*.fa | less
 ```
 
 We could also check that we now have all our samples combined, we could pass the results to `grep` and search for the word `>`, which in the FASTA format indicates the sequence name:
 
-```console
+```bash
 $ cat results/viralrecon/variants/ivar/consensus/bcftools/*.fa | grep ">" | wc -l
 ```
 
@@ -604,7 +604,7 @@ We already provide this file in `samplesheet.csv`.
 
 We can open the script with _Nano_ using the command:
 
-```console
+```bash
 $ nano scripts/run_medaka_workflow.sh
 ```
 
@@ -687,7 +687,7 @@ There are 3 amplicons in particular that have very low depth of coverage: nCoV-2
 We can check the [ARTIC V3 primer BED file online](https://github.com/artic-network/artic-ncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV-2019.bed) to look at the location of these primers, or we could look for it using command-line tools. 
 Here is an example: 
 
-```console
+```bash
 $ cat resources/primers/artic_version3_pool*.bed | grep "_51_"
 ```
 
@@ -744,7 +744,7 @@ These are found in the `03-consensus/india_nanopore` directory, so make sure to 
 In this case, the output FASTA files are in the folder `results/viralrecon/medaka` and have the file extension `.fasta`.
 If we look at one of the files:
 
-```console
+```bash
 $ head -n 1 results/viralrecon/medaka/IN42.consensus.fasta
 ```
 
