@@ -9,7 +9,7 @@ If you want to setup your own computer to run the analysis demonstrated on this 
 
 ## Software
 
-The software installation for this course is quite complex and detailed in a [separate section](TODO).
+The software installation for this course is quite complex and detailed in a [separate section](materials/05-software/03-software_setup.md).
 
 ## Data
 

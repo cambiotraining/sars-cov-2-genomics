@@ -61,7 +61,7 @@ With all this information together, we will have the necessary pieces to submit 
 ## Preparing Files
 
 Before we start our work, it's always a good idea to setup our directory structure, so we keep our files organised as the analysis progresses. 
-From the [data we are starting with](TODO), we already have the following directories: 
+From the data we are starting with, we already have the following directories: 
 
 - `data` → contains the sequencing data in a sub-directory called `reads`. 
 - `resources` → files that were downloaded from public repositories. 
