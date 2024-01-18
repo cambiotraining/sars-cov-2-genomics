@@ -1,3 +1,7 @@
+---
+pagetitle: "SARS Genomic Surveillance"
+---
+
 # Data & Software {.unnumbered}
 
 :::{.callout-tip level=2}
@@ -22,7 +26,7 @@ We have split the data between sequencing platforms.
 ### UK Sequences
 
 These samples were downloaded from SRA and include samples collected in the UK. 
-These data are used in the following sections of the materials: [Consensus Assembly](materials/02-isolates/01-consensus.md), [Lineages and Variants](materials/02-isolates/02-lineages.md) and [Building Phylogenies](materials/02-isolates/03-phylogeny.md).
+These data are used in the following sections of the materials: [Consensus Assembly](materials/02-isolates/01-consensus.md), [Lineages and Variants](materials/02-isolates/03-lineages.md) and [Building Phylogenies](materials/02-isolates/04-phylogeny.md).
 
 - [<i class="fa-solid fa-download"></i> Download (zip file)]()
 
@@ -75,7 +79,7 @@ We provide a link to each of the four datasets below (the datasets are very simi
 ### India
 
 These samples were downloaded from SRA and include samples collected in India and sequenced by the [National Institute of Mental Health and Neurosciences](https://nimhans.ac.in/). 
-These data are used for the exercises in the following sections of the materials: [Consensus Assembly](materials/02-isolates/01-consensus.md), [Lineages and Variants](materials/02-isolates/02-lineages.md) and [Building Phylogenies](materials/02-isolates/03-phylogeny.md).
+These data are used for the exercises in the following sections of the materials: [Consensus Assembly](materials/02-isolates/01-consensus.md), [Lineages and Variants](materials/02-isolates/03-lineages.md) and [Building Phylogenies](materials/02-isolates/04-phylogeny.md).
 
 - [<i class="fa-solid fa-download"></i> Download (zip file)]()
   - Platform: MinION

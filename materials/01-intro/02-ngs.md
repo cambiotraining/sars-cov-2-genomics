@@ -123,7 +123,7 @@ To look at a _gzip_ file, we can use the command `zcat`, which decompresses the 
 For example, we can use the following command to count the number of lines in a compressed FASTQ file:
 
 ```bash
-$ zcat sequences.fq.gz | wc -l
+zcat sequences.fq.gz | wc -l
 ```
 
 If we want to know how many sequences there are in the file, we can divide the result by 4 (since each sequence is always represented across four lines).

@@ -28,7 +28,7 @@ If you are running an old version of Windows then you may follow the following i
 Undoubtedly, navigating to the filesystem is one of the crucial things. You might be wondering how to navigate to your `C drive` or `D drive`. You'll find your drives under the `/mnt` directory. To list all the available drives you can do:
 
 ```bash
-$ ls /mnt
+ls /mnt
 ```
 ```bash
 c	d	e

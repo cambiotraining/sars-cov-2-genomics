@@ -393,7 +393,7 @@ As such, we already know what lineages we expect to find in these samples.
 :::
 
 
-## Clean FASTA
+### Clean FASTA
 
 The _viralrecon_ pipeline outputs each of our consensus sequences as individual FASTA files for each sample (look at the [FASTA Files](03-intro_ngs.html#FASTA_Files) section if you need a reminder of what these files are). 
 However, by default, the sample names in this file have extra information added to them, which makes some downstream analysis less friendly (because the names will be too long and complicated). 
@@ -408,16 +408,16 @@ We will use the programs `cat` (concatenate) and `sed` (text replacement) to cle
 Consider the commands given below: 
 
 :::{.panel-tabset group="platform"}
-### Nanopore
+#### Nanopore
 
 ```bash
-cat <INPUT> | sed 's/\/ARTIC\/medaka MN908947.3//' > report/consensus.fa
+cat <INPUT> | sed 's|/ARTIC/medaka MN908947.3||' > report/consensus.fa
 ```
 
-### Illumina
+#### Illumina
 
 ```bash
-cat <INPUT> | sed 's/ MN908947.3//' > report/consensus.fa
+cat <INPUT> | sed 's| MN908947.3||' > report/consensus.fa
 ```
 
 :::
@@ -437,18 +437,6 @@ Check that you have all expected sequences in your FASTA file using `grep` to fi
 :::
 
 
-## Downstream Analyses
-
-Now that we have cleaned our FASTA file, we can use it for several downstream analysis.
-We will focus on these: 
-
-- **Mising Intervals**: identify the intervals with ambiguous characters ('N') in each sample.
-- **Lineage assignment:** identify if our samples come from known lineages from the _Pangolin_ consortium.
-- **Clustering:** assess how many clusters of sequences we have, based on a phylogenetic analysis.
-- **Phylogeny:** produce an annotated phylogenetic tree of our samples.
-- **Integration & Visualisation:** cross-reference different results tables and produce visualisations of how variants changed over time.
-
-
 ### Missing Intervals
 
 When we generate our consensus assembly, there are regions for which we did not have enough information (e.g. due to amplicon dropout) or where there were mixed bases. 
@@ -464,8 +452,10 @@ This tool has several functions available, one of which is called `locate`.
 Here is the command that would be used to locate intervals containing _one or more_ 'N' characters: 
 
 ```bash
-seqkit locate --ignore-case --only-positive-strand --hide-matched -r -p "N+" report/consensus.fa
+seqkit locate -i -P -G -M -r -p "N+" report/consensus.fa
 ```
+
+The meaning of the options is detailed in [`seqkit`'s documentation](https://bioinf.shenwei.me/seqkit/usage/#locate).
 
 Copy this command to a new shell script called `scripts/03-missing_intervals.sh`, and **modify it to _redirect_ the output** to a file called `results/missing_intervals.tsv`.  
 Then run the script you created using `bash`. 
@@ -478,15 +468,24 @@ Open the file you created in the previous step (`results/consensus_miss_interval
 Create a new column with the length of each interval (`end - start + 1`). 
 
 Note if any missing intervals are larger than 1Kb, and whether they overlap with the _Spike_ gene. 
-(Note: you can use the [Sars-CoV-2 genome browser](https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512&tracks=[key:sequence_track,name:Sequence,display_name:Sequence,id:STD649220238,annots:Sequence,ShowLabel:false,ColorGaps:false,shown:true,order:1][key:gene_model_track,name:Genes,display_name:Genes,id:STD3194982005,annots:Unnamed,Options:ShowAllButGenes,CDSProductFeats:true,NtRuler:true,AaRuler:true,HighlightMode:2,ShowLabel:true,shown:true,order:9]&v=1:29903&c=null&select=null&slim=0) to help you see the lcoation of the annotated genes.)
+(Note: you can use the [Sars-CoV-2 genome browser](https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512&tracks=[key:sequence_track,name:Sequence,display_name:Sequence,id:STD649220238,annots:Sequence,ShowLabel:false,ColorGaps:false,shown:true,order:1][key:gene_model_track,name:Genes,display_name:Genes,id:STD3194982005,annots:Unnamed,Options:ShowAllButGenes,CDSProductFeats:true,NtRuler:true,AaRuler:true,HighlightMode:2,ShowLabel:true,shown:true,order:9]&v=1:29903&c=null&select=null&slim=0) to help you see the location of the annotated genes.)
 
 :::
 
 
+## Downstream Analyses
+
+Now that we have cleaned our FASTA file, we can use it for several downstream analysis.
+We will focus on these: 
+
+- **Lineage assignment:** identify if our samples come from known lineages from the _Pangolin_ consortium.
+- **Phylogeny:** produce an annotated phylogenetic tree of our samples.
+- **Clustering:** assess how many clusters of sequences we have, based on a phylogenetic analysis.
+- **Integration & Visualisation:** cross-reference different results tables and produce visualisations of how variants changed over time.
+
 ### Lineage Assignment
 
-Although the _Viralrecon_ pipeline runs _Pangolin_ and _Nextclade_ on our samples, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
-Therefore, it is good practice to re-run our samples through these tools, to make sure we get the most up-to-date lineage assignment. 
+Although the _Viralrecon_ pipeline can run _Pangolin_ and _Nextclade_, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
 Although it is possible to [configure _viralrecon_](https://nf-co.re/viralrecon/2.6.0/docs/usage#updating-containers-advanced-users) to use more recent versions of these tools, it requires more advanced use of configuration files with the pipeline. 
 
 Alternatively, we can run our consensus sequences through the latest versions of _Nextclade_ and _Pangolin_. 
@@ -545,7 +544,7 @@ After the analysis completes:
 **Running Nextclade**
 
 Go to [clades.nextstrain.org](https://clades.nextstrain.org/) and run _Nextclade_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
-If you need a reminder about this tool, see the "[Lineages and variants](../02-isolates/02-lineages.md#nextclade)" section of the materials.
+If you need a reminder about this tool, see the "[Lineages and variants](../02-isolates/03-lineages.md#nextclade)" section of the materials.
 
 Once the analysis completes, pay particular attention to the quality control column, to see what problems your samples may have (in particular those classified as "bad" quality). 
 
@@ -560,7 +559,7 @@ Then:
 **Running Pangolin**
 
 Go to [pangolin.cog-uk.io](https://pangolin.cog-uk.io/) and run _Pangolin_ on the clean FASTA file you created earlier (`report/consensus.fa`).  
-If you need a reminder about this tool, see the "[Lineages and variants](../02-isolates/02-lineages.md#nextclade)" section of the materials.
+If you need a reminder about this tool, see the "[Lineages and variants](../02-isolates/03-lineages.md#nextclade)" section of the materials.
 
 Once the analysis completes, pay particular attention to any samples that failed. 
 If there were any failed samples, check if they match the report from _Nextclade_.
@@ -591,9 +590,9 @@ This requires three steps:
   Save the output in a new file `results/mafft/unaligned_consensus.fa`.
 - Perform a multiple sequence alignment of the combined consensus sequences using the program `mafft`.
   Save the output in a file called `results/mafft/aligned_consensus.fa`.
-  Consult the "[Building phylogenetic trees](../02-isolates/03-phylogeny.md#alignment)" section of the materials to see how to create the MAFFT command. 
+  Consult the "[Building phylogenetic trees](../02-isolates/04-phylogeny.md#alignment)" section of the materials to see how to create the MAFFT command. 
 - Infer a phylogenetic tree using the `iqtree2` program. 
-  Consult the "[Building phylogenetic trees](../02-isolates/03-phylogeny.md#tree-inference-iq-tree)" section of the materials to see what command to use. 
+  Consult the "[Building phylogenetic trees](../02-isolates/04-phylogeny.md#tree-inference-iq-tree)" section of the materials to see what command to use. 
 - Once you have both of these commands working, make sure to save them in a new shell script (as a record of your analysis). 
   Save the script as `scripts/05-phylogeny.sh`. 
 - Visualise the tree using FigTree. 
@@ -716,7 +715,7 @@ You can export these plots from within RStudio using the "Export" button on the 
 
 Use the file `report/consensus_metrics.tsv` (created in the Data Integration exercise) to annotate your phylogenetic tree in FigTree and display the lineages assigned to each sample as the tip labels. 
 
-If you need a reminder of how to load annotations in FigTree, check the "[Building phylogenetic trees](../02-isolates/03-phylogeny.md#visualising-trees)" section of the materials. 
+If you need a reminder of how to load annotations in FigTree, check the "[Building phylogenetic trees](../02-isolates/04-phylogeny.md#visualising-trees)" section of the materials. 
 
 :::
 

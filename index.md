@@ -1,4 +1,5 @@
 ---
+pagetitle: "SARS Genomic Surveillance"
 author: "Tavares H, Bajuna S, Kumar A, Castle M, UKHSA New Variant Assessment Platform Team"
 date: today
 ---

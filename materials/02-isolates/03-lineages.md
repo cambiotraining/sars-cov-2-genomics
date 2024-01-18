@@ -158,7 +158,7 @@ When using the _Nextclade_ web application, the data does not leave your compute
 
 In this exercise we will work with 48 consensus sequences from the UK, processed with the `nf-core/viralrecon` pipeline and covered in the [previous section](01-consensus.md).
 
-Go to [nextclade.org](https://clades.nextstrain.org/) and load the sequences provided in `03-consensus/uk_illumina/preprocessed/clean_consensus_sequences.fa`.
+Go to [nextclade.org](https://clades.nextstrain.org/) and load the sequences provided in `uk_illumina/preprocessed/clean_consensus_sequences.fa`.
 
 1. Are there any samples that were classified as "bad" quality? If so, what is the main reason?
 2. Sort the table by the "Clade" column. Looking at the mutations in gene S on the right, you can see that all sequences classified as "Alpha" have a deletion in positions 21992-21994. Samples classified as "Delta" do not have this deletion and instead have a deletion in positions 22029-22034. However, there is one exception: sample GB39, classified as "Delta" has both deletions. Investigate if this mutation is accurate using IGV:

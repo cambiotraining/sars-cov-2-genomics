@@ -60,14 +60,14 @@ Although this is optional (you could instead install everything in the "base" de
 To create an environment we use:
 
 ```bash
-$ conda create --name ENV
+conda create --name ENV
 ```
 
 Where "ENV" is the name we want to give to that environment. 
 Once the environment is created, we can install packages using:
 
 ```bash
-$ conda install --name ENV PROGRAM
+conda install --name ENV PROGRAM
 ```
 
 Where "PROGRAM" is the name of the software we want to install. 
@@ -92,7 +92,7 @@ For example `conda install --chanel CHANNEL --name ENV PROGRAM`.
 Let's see this with an example, where we create a new environment called "scipy", where we install the python scientific packages:
 
 ```bash
-$ conda install --name scipy --channel conda-forge numpy matplotlib
+conda install --name scipy --channel conda-forge numpy matplotlib
 ```
 
 
@@ -102,13 +102,13 @@ Once your packages are installed in an environment, you can load that environmen
 For example, we can activate our previously created environment with:
 
 ```bash
-$ source activate scipy
+source activate scipy
 ```
 
 If you chech which `python` executable is being used now, you will notice it's the one from this new environment:
 
 ```bash
-$ which python
+which python
 ```
 
 ```
@@ -173,13 +173,13 @@ multiqc --outdir FIXME results/fastqc
 Create the environment with:
 
 ```
-$ conda create --name qc
+conda create --name qc
 ```
 
 We can then install the necessary software on this environment: 
 
 ```
-$ conda install --name qc fastqc multiqc
+conda install --name qc fastqc multiqc
 ```
 
 After _Conda_ determines the software dependencies it needs to download and install, it will list them all and ask to confirm the installation. 
@@ -189,14 +189,14 @@ The installation process may take some time.
 Finally, we can activate our new environment: 
 
 ```
-$ source activate qc
+source activate qc
 ```
 
 We can quickly check that the software was installed successfully by trying the following commands:
 
 ```
-$ fastqc --version
-$ multiqc --version
+fastqc --version
+multiqc --version
 ```
 
 Each of these commands should result in the version of the software being printed on the console. 
@@ -227,7 +227,7 @@ Install nextflow, using conda:
 General information about nextflow commands can be obtained by running it with no other options: 
 
 ```bash
-$ nextflow
+nextflow
 ```
 
 ```
@@ -264,7 +264,7 @@ Making a local copy of the nextflow repository can be done in a few ways:
 To download the pipeline, we run: 
 
 ```bash
-$ nextflow pull connor-lab/ncov2019-artic-nf
+nextflow pull connor-lab/ncov2019-artic-nf
 ```
 
 This will automatically download the workflow from the [project's GitHub page](https://github.com/connor-lab/ncov2019-artic-nf) into our home directory (under `~/.nextflow/assets/`). 

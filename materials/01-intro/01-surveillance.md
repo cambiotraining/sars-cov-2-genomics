@@ -80,7 +80,7 @@ In addition to the WHO variant nomenclature, there are three main projects that 
 - The [Pango nomenclature](https://www.pango.network/the-pango-nomenclature-system/statement-of-nomenclature-rules/) is based on the phylogeny of SARS-CoV-2 and defined as groups of sequences that share a common ancestor and a distinctive sequence feature (for example, all share the same single nucleotide change). This nomenclature is also sometimes referred as "[Rambaut et al. 2020](https://doi.org/10.1038/s41564-020-0770-5)" after the respective publication.
 - The [Nextstrain nomenclature](https://nextstrain.org/blog/2020-06-02-SARSCoV2-clade-naming) is slightly more informal than the above, its main purpose being to facilitate public health discussions. Despite this, it is still informed by the phylogenetic placement of sequences in a tree and therefore has a large overlap with the _Pango_ nomenclature.
 
-We will learn more about how sequences are classified into _lineages_ and _variants of concern_ in the section about [Lineage Assignment](02-lineages.md).
+We will learn more about how sequences are classified into _lineages_ and _variants of concern_ in the section about [Lineage Assignment](../02-isolates/03-lineages.md).
 
 :::{.callout-note}
 #### What is the difference: strain, lineage, clade, variant?
@@ -100,7 +100,7 @@ Since a phylogenetic tree is inherently hierarchical, there isn't always a clear
 
 Finally, the term **variant** is usually used to refer to WHO's _variants of interest_ or _variants of concern_ (e.g. the Alpha, Delta and Omicron variants). 
 Variants are distinct from each other by the _combination of all sequence changes_ in their genomes.
-The term "variant" can be ambiguous when used in the field of bioinformatics, and we return to this in the section about [Lineage Assigment](02-lineages.md)
+The term "variant" can be ambiguous when used in the field of bioinformatics, and we return to this in the section about [Lineage Assigment](../02-isolates/03-lineages.md)
 
 :::
 

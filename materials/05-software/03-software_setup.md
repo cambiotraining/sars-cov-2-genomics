@@ -37,27 +37,39 @@ The **Windows Subsystem for Linux (WSL2)** runs a compiled version of Ubuntu nat
 There are detailed instructions on how to install WSL on the [Microsoft documentation page](https://learn.microsoft.com/en-us/windows/wsl/install). 
 But briefly:
 
-- Click the Windows key and search for  _Windows PowerShell_, right-click on the app and choose **Run as administrator** 
-- Answer "Yes" when it asks if you want the App to make changes on your computer.
-- A terminal will open; run the command: `wsl --install`.
-  - This should start installing "ubuntu"
-  - It may ask for you to restart your computer. 
-- After restart, click the Windows key and search for _Ubuntu_, click on the App ant it should open a new terminal. 
-- Follow the instructions to create a username and password (you can use the same username and password that you have on Windows, or a different one - it's your choice). 
-- You should now have access to a Ubuntu Linux terminal. 
-  This (mostly) behaves like a regular Ubuntu terminal, and you can install apps using the `sudo apt install` command as usual. 
+- Click the Windows key and search for  _Windows PowerShell_, right-click on the app and choose **Run as administrator**. 
+- Answer "Yes" when it asks if you want the App to make changes on your computer. 
+- A terminal will open; run the command: `wsl --install`.  
+  Progress bars will show while installing "Virtual Machine Platform", "Windows Subsystem for Linux" and finally "Ubuntu" (this process can take a long time).
+    - **Note:** it has happened to us in the past that the terminal freezes at the step of installing "Ubuntu". If it is frozen for ~1h at that step, press <kbd>Ctrl + C</kdb> and hopefully you will get a message saying "Ubuntu installed successfully".
+- After installation completes, restart your computer.
+- After restart, a terminal window will open asking you to create a username and password.  
+  If it doesn't, click the Windows key and search for _Ubuntu_, click on the App and it should open a new terminal. 
+  - You can use the same username and password that you have on Windows, or a different one - it's your choice. Spaces and other special characters are not allowed for your Ubuntu username.
+  - **Note:** when you type your password nothing seems to be happening as the cursor doesn't move. However, the terminal is recording your password as you type. You will be asked to type the new password again to confirm it, so you can always try again if you get it wrong the first time.
 
-After WSL is installed, it is useful to create shortcuts to your files on Windows. 
-Your `C:\` drive is located in `/mnt/c/` (equally, other drives will be available based on their letter). 
-For example, your desktop will be located in: `/mnt/c/Users/<WINDOWS USERNAME>/Desktop/`. 
-It may be convenient to set shortcuts to commonly-used directories, which you can do using _symbolic links_, for example: 
+You should now have access to a Ubuntu Linux terminal. 
+This behaves very much like a regular Ubuntu server. 
 
-- **Documents:** `ln -s /mnt/c/Users/<WINDOWS USERNAME>/Documents/ ~/Documents`
-  - If you use OneDrive to save your documents, use: `ln -s /mnt/c/Users/<WINDOWS USERNAME>/OneDrive/Documents/ ~/Documents`
-- **Desktop:** `ln -s /mnt/c/Users/<WINDOWS USERNAME>/Desktop/ ~/Desktop`
-- **Downloads**: `ln -s /mnt/c/Users/<WINDOWS USERNAME>/Downloads/ ~/Downloads`
+#### Configuring WSL2
 
-Also see the section below "Docker for Windows" for further setup.
+After installation, it is useful to **create shortcuts to your files on Windows**. 
+Your main `C:\` drive is located in `/mnt/c/` and other drives will be equally available based on their letter. 
+To create shortcuts to commonly-used directories you use _symbolic links_. 
+Here are some commands to automatically create shortcuts to your Windows "Documents",  "Desktop" and "Downloads" folders (copy/paste these commands on the terminal):
+
+```bash
+ln -s $(wslpath $(powershell.exe '[environment]::getfolderpath("MyDocuments")' | tr -d '\r')) ~/Documents
+ln -s $(wslpath $(powershell.exe '[environment]::getfolderpath("Desktop")' | tr -d '\r')) ~/Desktop
+ln -s $(wslpath $(powershell.exe '[environment]::getfolderpath("UserProfile")' | tr -d '\r'))/Downloads ~/Downloads
+```
+
+You may also want to **configure the Windows terminal to automatically open _WSL2_** (instead of the default Windows Command Prompt or Powershell):
+
+- Search for and open the "<i class="fa-solid fa-terminal"></i> Terminal" application.
+- Click on the down arrow <i class="fa-solid fa-chevron-down"></i> in the toolbar.
+- Click on "<i class="fa-solid fa-gear"></i> Settings".
+- Under "Default Profile" select "<i class="fa-brands fa-linux"></i> Ubuntu".
 
 
 ### Virtual Machine
@@ -149,52 +161,25 @@ docker {
 
 ## Bioinformatics Software
 
-Run the following commands to create an environment with the software we used in the workshop: 
+Due to conflicts in software versions required by different packages, we install them in separate environments:
 
 ```bash
-mamba create -n sars -y igv mafft iqtree treetime igv figtree seqkit
+mamba create -n seqkit -y seqkit
+mamba create -n pangolin -y pangolin
+mamba create -n nextclade -y nextclade
+mamba create -n phylo -y mafft iqtree treetime figtree
 ```
-
-Whenever you want to use any of these packages, make sure to activate the _Conda_ environment with the command `mamba activate sars`.
 
 In addition to these packages, you can also install _AliView_ (which unfortunately is not available through _Conda_):
 
 ```bash
-# AliView installation
 wget https://ormbunkar.se/aliview/downloads/linux/linux-version-1.28/aliview.tgz
 tar -xzvf aliview.tgz
 rm aliview.tgz
 echo "alias aliview='java -jar $HOME/aliview/aliview.jar'" >> $HOME/.bashrc
 ```
 
-To run these graphical tools, open a terminal and use the commands `igv`, `figtree` or `aliview`, which will launch each of the programs. 
-
-
-### Pangolin/Nextclade/Civet
-
-These SARS-specific tools are more challenging to install. 
-In theory they should all be available via `mamba`, but in practice they have some dependency issues when using this package manager.
-The following commands should work, if you followed our previous instructions: 
-
-```bash
-mamba activate sars
-mamba install -y datrie minimap2
-pip install biopython
-pip install snakemake==7.16.0
-mamba install -y cov-ert::jclusterfunk 
-mamba install -y gofasta=0.0.5 ucsc-fatovcf 
-mamba install -y usher
-mamba install -y git-lfs
-mamba install -y nextclade
-
-pip install git+https://github.com/cov-lineages/scorpio.git
-pip install git+https://github.com/cov-lineages/constellations.git
-pip install git+https://github.com/cov-lineages/pangolin-data.git
-pip install git+https://github.com/artic-network/civet.git
-pip install git+https://github.com/cov-lineages/pangolin.git
-```
-
-After this, you should be able to use the stand-alone versions of `pangolin`, `nextclade` and `civet`.
+Finally, you can install IGV by [downloading the installer from their website](https://igv.org/doc/desktop/#DownloadPage/). 
 
 
 ## Software Image Containers

@@ -87,7 +87,7 @@ This software outputs the files to a directory called **`fastq_pass`**, with fur
 This is how it looks like in this case: 
 
 ```bash
-$ ls data/fastq_pass
+ls data/fastq_pass
 ```
 
 ```
@@ -132,7 +132,7 @@ We produced this table in _Excel_ and saved it as a CSV file.
 Here are the top few rows of the file: 
 
 ```bash
-$ head samplesheet.csv
+head samplesheet.csv
 ```
 
 ```
@@ -243,7 +243,7 @@ We created a new script to clean our consensus FASTA files, which we ran with `b
 #!/bin/bash 
 
 # combine and clean FASTA files
-cat results/viralrecon/medaka/*.consensus.fasta | sed 's/\/ARTIC\/medaka MN908947.3//' > report/consensus.fa
+cat results/viralrecon/medaka/*.consensus.fasta | sed 's|/ARTIC/medaka MN908947.3||' > report/consensus.fa
 ```
 
 This command does two things: 
@@ -266,7 +266,7 @@ We used the `seqkit` software to achieve this, by including the following comman
 
 ```bash
 # create missing bases TSV file
-seqkit locate --ignore-case --only-positive-strand --hide-matched -r -p "N+" report/consensus.fa > results/missing_intervals.tsv
+seqkit locate -i -P -G -M -r -p "N+" report/consensus.fa > results/missing_intervals.tsv
 ```
 
 This software outputs a tab-delimited table, which we saved as `results/missing_intervals.tsv`. 
@@ -452,10 +452,10 @@ nextflow run nf-core/viralrecon -profile singularity \
   --artic_minion_medaka_model r941_min_fast_g303
 
 # combine and clean FASTA files
-cat results/viralrecon/medaka/*.consensus.fasta | sed 's/\/ARTIC\/medaka MN908947.3//' > report/consensus.fa
+cat results/viralrecon/medaka/*.consensus.fasta | sed 's|/ARTIC/medaka MN908947.3||' > report/consensus.fa
 
 # create missing bases TSV file
-seqkit locate --ignore-case --only-positive-strand --hide-matched -r -p "N+" report/consensus.fa > results/missing_intervals.tsv
+seqkit locate -i -P -G -M -r -p "N+" report/consensus.fa > results/missing_intervals.tsv
 
 # get nextclade data
 nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_background_data
