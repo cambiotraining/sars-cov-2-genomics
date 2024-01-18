@@ -8,8 +8,9 @@ book:
     - part: "Clinical Isolates"
       chapters:
         - materials/02-isolates/01-consensus.md
-        - materials/02-isolates/02-lineages.md
-        - materials/02-isolates/03-phylogeny.md
+        - materials/02-isolates/02-qc.md
+        - materials/02-isolates/03-lineages.md
+        - materials/02-isolates/04-phylogeny.md
     - part: "Case Studies"
       chapters:
         - materials/03-case_studies/01-switzerland.md

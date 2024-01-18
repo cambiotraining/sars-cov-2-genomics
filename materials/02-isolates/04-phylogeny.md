@@ -295,7 +295,7 @@ fasttree -nt -nosupport input.fa > output.tree 2> output.log
 - `-nosupport` to turn off support values (bootstrap) - it makes sense to turn this off, since we often have very few variable sites to bootstrap from.
 
 We can visualise the tree we just produced with _FigTree_. 
-We can also import the output from _Pangolin_ to annotate our tree by variant (**note:** unfortunately FigTree wants a TSV file, but pangolin exports CSV. I did this, but maybe there's a less confusing way to do this? `cat results/pangolin/run1_report.csv | sed 's/,/\t/g' > results/pangolin/run1_report.tsv`)
+We can also import the output from _Pangolin_ to annotate our tree by variant (**note:** unfortunately FigTree wants a TSV file, but pangolin exports CSV. I did this, but maybe there's a less confusing way to do this? `cat results/pangolin/run1_report.csv | sed 's|,|\t|g' > results/pangolin/run1_report.tsv`)
 
 
 :::{.callout-exercise}
@@ -418,7 +418,7 @@ To see how to use the script we can use the option `--help`.
 For our case, we could run: 
 
 ```bash
-$ python scripts/mask_alignment_using_vcf.py --help
+python scripts/mask_alignment_using_vcf.py --help
 ```
 :::
 
