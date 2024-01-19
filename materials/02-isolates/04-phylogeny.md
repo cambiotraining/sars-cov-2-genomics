@@ -121,7 +121,7 @@ We will work from the course materials folder called `04-phylogeny`, which conta
 :::
 
 
-## Alignment
+## Alignment {#sec-mafft}
 
 The first step in building a phylogenetic tree is to produce a multiple sequence alignment from all our consensus sequences. 
 This is the basis for building a phylogenetic tree from the positions that are variable across samples. 
@@ -176,7 +176,7 @@ It is worth mentioning that when doing reference-based alignment, insertions rel
 :::
 
 
-## Tree Inference: IQ-Tree
+## Tree Inference: IQ-Tree {#sec-iqtree}
 
 _IQ-TREE_ supports [many substitution models](http://www.iqtree.org/doc/Substitution-Models), including models with _rate heterogeneity_ across sites. 
 
@@ -227,7 +227,7 @@ It uses a parsimony-based method, which tends to perform well for SARS-CoV-2 phy
 :::
 
 
-### Visualising Trees
+## Visualising Trees {#sec-figtree}
 
 There are many programs that can be used to visualise phylogenetic trees. 
 In this course we will use _FigTree_, which has a simple graphical user interface.

@@ -167,6 +167,7 @@ Due to conflicts in software versions required by different packages, we install
 mamba create -n seqkit -y seqkit
 mamba create -n pangolin -y pangolin
 mamba create -n nextclade -y nextclade
+mamba create -n civet -y civet
 mamba create -n phylo -y mafft iqtree treetime figtree
 ```
 

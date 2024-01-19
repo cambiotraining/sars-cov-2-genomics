@@ -256,21 +256,21 @@ There are [many options](https://nf-co.re/viralrecon/2.6.0/parameters) that can 
 #### Nanopore
 
 ```bash
-nextflow run nf-core/viralrecon -profile singularity \
-  --max_memory '12.GB' --max_cpus 4 \
+nextflow run nf-core/viralrecon \
+  -r 2.6.0 -profile singularity \
+  --max_memory '15.GB' --max_cpus 4 \
+  --platform nanopore \
   --input SAMPLESHEET_CSV \
+  --fastq_dir data/fastq_pass/ \
   --outdir results/viralrecon \
   --protocol amplicon \
   --genome 'MN908947.3' \
   --primer_set artic \
   --primer_set_version PRIMER_VERSION \
-  --skip_assembly \
-  --skip_pangolin \
-  --skip_nextclade \
-  --platform nanopore \
   --artic_minion_caller medaka \
   --artic_minion_medaka_model MEDAKA_MODEL \
-  --fastq_dir FASTQ_PASS_FOLDER
+  --skip_assembly --skip_asciigenome \
+  --skip_pangolin --skip_nextclade
 ```
 
 You need to check which model the _medaka_ software should use to process the data. 
@@ -290,18 +290,18 @@ In our example, if our version of _Guppy_ was 6.1.5 we would use the same model 
 #### Illumina
 
 ```bash
-nextflow run nf-core/viralrecon -profile singularity \
-  --max_memory '12.GB' --max_cpus 4 \
+nextflow run nf-core/viralrecon 
+  -r 2.6.0 -profile singularity \
+  --max_memory '15.GB' --max_cpus 4 \
+  --platform illumina \
   --input SAMPLESHEET_CSV \
   --outdir results/viralrecon \
   --protocol amplicon \
   --genome 'MN908947.3' \
   --primer_set artic \
   --primer_set_version PRIMER_VERSION \
-  --skip_assembly \
-  --skip_pangolin \
-  --skip_nextclade \
-  --platform illumina
+  --skip_assembly --skip_asciigenome \
+  --skip_pangolin --skip_nextclade
 ```
 :::
 
@@ -310,11 +310,11 @@ nextflow run nf-core/viralrecon -profile singularity \
 Your next task is to run the pipeline on your data. 
 However, rather than run the command directly from the command line, let's save it in a **shell script** -- for reproducibility and as a form of documenting our analysis.
 
-Using a text editor, create a shell script and save it in `scripts/01-run_viralrecon.sh`. 
-You can either use the command-line text editor `nano` or use _Gedit_, which comes installed with Ubuntu. 
-
-In this script, include the Nextflow command based on the command shown above, adjusting it to fit your input files and type of data. 
-Once your command is ready, save the script and run it from the command line using `bash scripts/01-run_viralrecon.sh`.
+- Using a text editor, create a shell script and save it in `scripts/01-run_viralrecon.sh`. 
+  You can either use the command-line text editor `nano` or use _Gedit_, which comes installed with Ubuntu. 
+- In this script, include the `viralrecon` command based on the code shown above, adjusting it to fit your input files and type of data.
+- Activate the software environment to use Nextflow: `mamba activate nextflow`.
+- Save the script and run it from the command line using `bash scripts/01-run_viralrecon.sh`.
 
 If you need a reminder of how to work with shell scripts, revise the [Shell Scripts section](https://cambiotraining.github.io/unix-shell/materials/02-programming/01-scripts.html) of the accompanying Unix materials. 
 
@@ -457,8 +457,10 @@ seqkit locate -i -P -G -M -r -p "N+" report/consensus.fa
 
 The meaning of the options is detailed in [`seqkit`'s documentation](https://bioinf.shenwei.me/seqkit/usage/#locate).
 
-Copy this command to a new shell script called `scripts/03-missing_intervals.sh`, and **modify it to _redirect_ the output** to a file called `results/missing_intervals.tsv`.  
-Then run the script you created using `bash`. 
+- Create a new shell script called `scripts/03-missing_intervals.sh`.
+- Copy the command shown above to the script and **modify it to _redirect_ the output** (using `>`) to a file called `results/missing_intervals.tsv`.
+- Activate the software environment: `mamba activate seqkit`.
+- Run the script you created using `bash`. 
 
 :::
 
@@ -495,43 +497,58 @@ For this task, we **recommend that you use the command line tools** (this will e
 :::{.panel-tabset}
 #### Command line
 
-:::{.callout-exercise}
-
 To run the command-line version of these tools, there are two steps: 
 
 - Update the datasets of each software (to ensure they are using the latest lineage/clade nomenclature available). 
 - Run the actual analysis on your samples. 
 
-The following gives the code to perform all these steps: 
+We will use the exercises below to see what the commands to achieve this are.
 
-```bash
-# update nextclade data
-nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_background_data
+:::{.callout-exercise}
 
-# run nextclade
-nextclade run --input-dataset resources/nextclade_background_data/ --output-all results/nextclade/ <INPUT>
+We will start doing the **Nextclade** analysis. 
 
-# update pangolin data
-<DATA_UPDATE_COMMAND>
+- Create a new script file called `scripts/04-nextclade.sh` and copy this code into it: 
 
-# run pangolin
-pangolin --outdir results/pangolin/ --outfile report.csv <INPUT>
-```
+    ```bash
+    # update nextclade data
+    nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_background_data
 
-Save this code in a script called `scripts/04-lineages.sh`.
-Fix the code, in particular: 
+    # run nextclade
+    nextclade run --input-dataset resources/nextclade_background_data/ --output-all results/nextclade/ <INPUT>
+    ```
 
-- Replace `<INPUT>` with the path to your consensus sequence file. 
-- Replace `<DATA_UPDATE_COMMAND>` with the pangolin command used to update its data. 
-  Check the documentation of the tool with `pangolin --help` to see if you can find what this option is called. 
-  Alternatively, look at the [documentation online](https://cov-lineages.org/resources/pangolin/updating.html). 
+- Fix the code, replacing `<INPUT>` with the path to your consensus sequence file. Save the file.
+- Activate the software environment: `mamba activate nextclade`.
+- Run your script using `bash`.
+- Once the analysis completes, open the file `results/nextclade/nextclade.tsv` in _Excel_ and see what problems your samples may have (in particular those classified as "bad" quality).
 
-Once your code is fixed, run the script using `bash`.
+:::
 
-After the analysis completes: 
+:::{.callout-exercise}
 
-- Open the file `results/nextclade/nextclade.tsv` in _Excel_ and see what problems your samples may have (in particular those classified as "bad" quality).
-- Open the file `results/pangolin/report.csv` in _Excel_ and see if there were any samples for which the analysis failed. If there were any failed samples, check if they match the report from _Nextclade_.
+For the **Pangolin** analysis:
+
+- Create a new script file called `scripts/04-pangolin.sh` and copy this code into it: 
+
+    ```bash
+    # update pangolin data
+    <DATA_UPDATE_COMMAND>
+
+    # run pangolin
+    pangolin --outdir results/pangolin/ --outfile report.csv <INPUT>
+    ```
+
+- Fix the code:
+  - Replace `<INPUT>` with the path to your consensus sequence file.
+  - Replace `<DATA_UPDATE_COMMAND>` with the pangolin command used to update its data. 
+    Check the documentation of the tool with `pangolin --help` to see if you can find what this option is called. 
+    Alternatively, look at the [documentation online](https://cov-lineages.org/resources/pangolin/updating.html). 
+- Save the file.
+- Activate the software environment: `mamba activate pangolin`.
+- Run your script using `bash`.
+- Once the analysis completes, open the file `results/pangolin/report.csv` in _Excel_ and see if there were any samples for which the analysis failed. 
+  If there were any failed samples, check if they match the report from _Nextclade_.
 
 :::
 
@@ -573,6 +590,7 @@ Then:
 
 :::
 
+
 ### Phylogeny
 
 Although tools such as _Nextclade_ and _civet_ can place our samples in a phylogeny, sometimes it may be convenient to build our own phylogenies.
@@ -585,17 +603,16 @@ This requires three steps:
 :::{.callout-exercise}
 
 - Start by creating two directories to store the output of our analysis: `results/mafft` and `results/iqtree`.
+- Activate the software environment: `mamba activate phylo` (this environment includes both `mafft` and `iqtree`).
 - To make our analysis more interesting, we will combine our sequences with sequences from previous workshops. 
   Use the `cat` program to concatenate your sequences (`report/consensus.fa`) with the sequences from our collaborators (`resources/eqa_collaborators/eqa_consensus.fa`). 
-  Save the output in a new file `results/mafft/unaligned_consensus.fa`.
-- Perform a multiple sequence alignment of the combined consensus sequences using the program `mafft`.
+  Using `>`, save the output in a new file `results/mafft/unaligned_consensus.fa`.
+- Perform a multiple sequence alignment of the combined consensus sequences using the program `mafft` (see @sec-mafft for how to use this program).
   Save the output in a file called `results/mafft/aligned_consensus.fa`.
-  Consult the "[Building phylogenetic trees](../02-isolates/04-phylogeny.md#alignment)" section of the materials to see how to create the MAFFT command. 
-- Infer a phylogenetic tree using the `iqtree2` program. 
-  Consult the "[Building phylogenetic trees](../02-isolates/04-phylogeny.md#tree-inference-iq-tree)" section of the materials to see what command to use. 
+- Infer a phylogenetic tree using the `iqtree2` program (see @sec-iqtree).
 - Once you have both of these commands working, make sure to save them in a new shell script (as a record of your analysis). 
   Save the script as `scripts/05-phylogeny.sh`. 
-- Visualise the tree using FigTree. 
+- Visualise the tree using FigTree (see @sec-figtree).
 
 What substitution model was chosen as the best for your data by IQ-Tree?
 
@@ -654,20 +671,20 @@ If you have a new version of the background data (for example, revised monthly),
 
 :::{.callout-exercise}
 
-Create a new script in `scripts/06-civet.sh`, with the following command, adjusted to fit your files: 
+- Create a new script in `scripts/06-civet.sh`, with the following command, adjusted to fit your files: 
 
-```bash
-civet -i <PATH_TO_YOUR_SAMPLE_METADATA> \
-  -f <PATH_TO_YOUR_CONSENSUS_FASTA> \
-  -icol <COLUMN_NAME_FOR_YOUR_SAMPLE_IDS> \
-  -idate <COLUMN_NAME_FOR_YOUR_COLLECTION_DATE> \
-  -d <PATH_TO_CIVET_BACKGROUND_DATA> \
-  -o results/civet
-```
+    ```bash
+    civet -i <PATH_TO_YOUR_SAMPLE_METADATA> \
+      -f <PATH_TO_YOUR_CONSENSUS_FASTA> \
+      -icol <COLUMN_NAME_FOR_YOUR_SAMPLE_IDS> \
+      -idate <COLUMN_NAME_FOR_YOUR_COLLECTION_DATE> \
+      -d <PATH_TO_CIVET_BACKGROUND_DATA> \
+      -o results/civet
+    ```
 
-Once your script is ready, run it with `bash`. 
-
-After the analysis completes, open the HTML output file in `results/civet` and examine into how many catchments your samples were grouped into.
+- Activate the software environment: `mamba activate civet`.
+- Once your script is ready, run it with `bash`. 
+- After the analysis completes, open the HTML output file in `results/civet` and examine into how many catchments your samples were grouped into.
 
 :::
 
