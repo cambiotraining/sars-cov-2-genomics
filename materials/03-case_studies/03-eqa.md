@@ -672,7 +672,7 @@ After the analysis completes, open the HTML output file in `results/civet` and e
 :::
 
 
-### Integration & Visualisation
+## Integration & Visualisation
 
 At this point in our analysis, we have several tables with different pieces of information: 
 
@@ -720,7 +720,7 @@ If you need a reminder of how to load annotations in FigTree, check the "[Buildi
 :::
 
 
-### EQA Panels
+## EQA Panels
 
 The analysis we have done so far is applicable to any new sequences that you want to process. 
 However, we have also been using a pre-defined panel of samples to be used as part of an _External Quality Assessment_ (EQA) process. 

@@ -152,33 +152,56 @@ CH10,10
 
 ### Running Viralrecon
 
-Now we are ready to run the `nf-core/viralrecon` pipeline. 
+Now we are ready to run the `nf-core/viralrecon` pipeline (see @sec-viralrecon for details). 
 We saved our command in a script (`scripts/01-run_viralrecon.sh`), which we created with the command line text editor `nano`. 
 This ensures that our analysis is **reproducible** and **traceable** (we can go back to the script to see how the analysis was run). 
 
-Here is the content of the script, which we ran using `bash scripts/01-run_viralrecon.sh`: 
+First, we activate our software environment, to ensure _Nextflow_ is available to us:
 
 ```bash
-#!/bin/bash 
+mamba activate nextflow
+```
 
-nextflow run nf-core/viralrecon -profile singularity \
+Then, we run our script with: 
+
+```bash
+bash scripts/01-run_viralrecon.sh
+```
+
+Which will start executing the pipeline. 
+
+For reference, here is the command included in that script: 
+
+```bash
+nextflow run nf-core/viralrecon \
+  -r 2.6.0 -profile singularity \
   --max_memory '16.GB' --max_cpus 8 \
-  --input samplesheet.csv \
-  --outdir results/viralrecon \
   --platform nanopore \
+  --input samplesheet.csv \
+  --fastq_dir data/fastq_pass/ \
+  --outdir results/viralrecon \
   --protocol amplicon \
   --genome 'MN908947.3' \
   --primer_set artic \
   --primer_set_version 3 \
-  --skip_assembly \
-  --fastq_dir data/fastq_pass/ \
   --artic_minion_caller medaka \
-  --artic_minion_medaka_model r941_min_fast_g303
+  --artic_minion_medaka_model r941_min_fast_g303 \
+  --skip_assembly --skip_asciigenome \
+  --skip_pangolin --skip_nextclade
 ```
 
 In this case, we used the medaka model `r941_min_fast_g303`, because that is the latest one available (even though our _Guppy_ version is 6.1.5). 
 We also restricted our `--max_memory` and `--max_cpus` due to the size of our processing computers. 
 If a larger computer was available, we could have used higher values for these parameters. 
+
+:::{.callout-note}
+#### The `\` in long commands
+
+In the command above, you will notice several `\` at the end of each line. 
+This is indicating that we want to continue writing our command in the next line.
+Notice that the last line _does not_ include `\`, because that is the end of the command. 
+This is very useful when commands are very long, because it makes the code more readable.
+:::
 
 
 ## Consensus Quality
@@ -232,7 +255,7 @@ The inclusion of this error may not affect our downstream analysis significantly
 ![Variants table output by _viralrecon_, with a summary of the main columns of interest. Note that this table also includes a column with lineage assignment (not shown in this snapshot). Remember that at this stage we mostly ignore this column, as _viralrecon_ does not use the most up-to-date version of the lineage databases.](images/switzerland_variants.svg)
 
 
-## Clean FASTA
+### Clean FASTA
 
 The pipeline outputs the consensus sequences in `results/viralrecon/medaka/*.consensus.fasta` (one file for each sample). 
 For downstream analysis, it is convenient to combine all these sequences into a single file, and also clean the sequence names (to remove some text -- "/ARTIC/medaka MN908947.3" --, which is added by the `medaka` variant caller). 
@@ -254,18 +277,20 @@ This command does two things:
 The output was saved as a new FASTA file: `report/consensus.fa`.
 
 
-## Downstream Analyses
-
-Based on the clean consensus sequences, we then perform several downstream analysis. 
-
-
 ### Missing Intervals 
 
 As a further quality check, we also generated a table of missing intervals (indicated by the `N` character in the FASTA sequences). 
-We used the `seqkit` software to achieve this, by including the following command in a new shell script (`bash scripts/03-missing_intervals.sh`):
+We used the `seqkit` software to achieve this.
+
+First, we activate our software environment:
 
 ```bash
-# create missing bases TSV file
+mamba activate seqkit
+```
+
+Then, we ran the script `bash scripts/03-missing_intervals.sh`, which includes the following command:
+
+```bash
 seqkit locate -i -P -G -M -r -p "N+" report/consensus.fa > results/missing_intervals.tsv
 ```
 
@@ -283,6 +308,11 @@ This may be due to a poor amplification of one of the PCR amplicons and may affe
 We make a note of these samples as being possibly problematic in downstream analysis steps. 
 
 
+## Downstream Analyses
+
+Based on the clean consensus sequences, we then perform several downstream analysis. 
+
+
 ### Lineage Assignment
 
 Although the _Viralrecon_ pipeline runs _Pangolin_ and _Nextclade_, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
@@ -291,31 +321,55 @@ An up-to-date run of both of these tools can be done using each of their web app
 - [clades.nextstrain.org](https://clades.nextstrain.org/)
 - [pangolin.cog-uk.io](https://pangolin.cog-uk.io/)
 
-However, for **automation**, **reproducibility** and **traceability** purposes, we used the command line versions of these tools, and included their analysis in a script, which we ran with `bash scripts/04-lineages.sh`: 
+However, for **automation**, **reproducibility** and **traceability** purposes, we used the command line versions of these tools, and included their analysis in two scripts.
+
+:::{.panel-tabset}
+#### Nextclade
+
+For _Nextclade_, we first activate the software environment: 
 
 ```bash
-#!/bin/bash
+mamba activate nextclade
+```
 
+And then we ran the script `bash scripts/04-nextclade.sh`, which contains the following commands: 
+
+```bash
 # get nextclade data
 nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_background_data
 
 # run nextclade
 nextclade run --input-dataset resources/nextclade_background_data/ --output-all results/nextclade report/consensus.fa
+```
 
+The first command downloads the latest version of the _Nextclade_ background data using `nextclade dataset`.
+We use that data as input to the second command (`nextclade run`) to make sure it runs with the most up-to-date lineages. 
+
+
+#### Pangolin
+
+For _Pangolin_, we first activate the software environment: 
+
+```bash
+mamba activate pangolin
+```
+
+And then we ran the script `bash/04-pangolin.sh`, which contains the following commands: 
+
+```bash
 # update pangolin data
 pangolin --update-data
 
 # run pangolin
-pangolin --outdir results/pangolin/ --outfile switzerland_report.csv report/consensus.fa
+pangolin --outdir results/pangolin/ --outfile pango_report.csv report/consensus.fa
 ```
 
-Note that we first download the latest version of the _Nextclade_ background data using `nextclade dataset` and then use `nextclade run` using the up-to-date dataset. 
-
-Similarly, With `pangolin` we first ran `pangolin --update-data`, to ensure we were using the latest lineages available. 
-We can check the version of the data used with `pangolin --all-versions` (at the time we ran this we had `pangolin-data: 1.15.1`).
+Similarly to before, we first ran `pangolin --update-data` to ensure we were using the latest lineages available. 
+We can check the version of the data used with `pangolin --all-versions` (at the time we ran this we had `pangolin-data: 1.23.1`).
+:::
 
 Both of these tools output CSV files, which can be open in _Excel_ for further examination.  
-Opening the _pangolin_ results (`results/pangolin/switzerland_report.csv`), we noticed that two samples -- CH07 and CH59 -- failed the QC due to high fraction of missing data. 
+Opening the _pangolin_ results (`results/pangolin/pango_report.csv`), we noticed that two samples -- CH07 and CH59 -- failed the QC due to high fraction of missing data. 
 These are the same two samples that had a large gap of missing data in the previous section. 
 Several other samples were classified as "Probable Omicron", which from the "scorpio_notes" column we can see may be because too many of the expected mutations had missing (ambiguous) bases in those consensus sequences.  
 Opening the _nextclade_ results (`results/nextclade/nextclade.tsv`), we noticed that 23 samples were assigned a QC status of "bad", mostly due to high percentage of missing data (_nextclade_ uses a stringent threshold of 3000 sites, or ~10%, missing data).
@@ -332,11 +386,15 @@ This requires three steps:
 - Tree inference.
 - Tree visualisation and annotation.
 
+Before our analysis, we first activated our software environment: 
+
+```bash
+mamba activate phylo
+```
+
 We performed the first two steps with the following script, which we ran with `bash scripts/05-phylogeny.sh`: 
 
 ```bash
-#!/bin/bash
-
 # alignment
 mkdir -p results/mafft
 mafft --6merpair --maxambiguous 0.2 --addfragments report/consensus.fa resources/reference/sarscov2.fa > results/mafft/alignment.fa
@@ -363,14 +421,20 @@ In this case we are using the [example background data](https://github.com/artic
 However, in a real-world analysis, it would have been ideal to choose local samples as background data. 
 For example, we could download samples from Switzerland from around the time period of our sample collection, from GISAID following the instructions on the [_civet_ documentation](https://cov-lineages.org/resources/civet/walkthrough.html#background_dataset) (you need an account on GISAID to obtain these data). 
 
-We already have our _civet_ data prepared in `resources/civet_background_data`, and we ran our analysis using the commands in the script `scripts/06-civet.sh`.
-The code in the script is: 
+For this example, we already prepared _civet_ background dataset saved in `resources/civet_background_data`.
+
+Before our analysis, we first activate our software environment: 
 
 ```bash
-#!/bin/bash
+mamba activate civet
+```
 
+Then, we ran the script `bash scripts/06-civet.sh`, which contains the following code: 
+
+```bash
 # run civet analysis
-civet -i sample_info.csv \
+civet \
+  -i sample_info.csv \
   -f report/consensus.fa \
   -icol sample \
   -idate sample_collection_date \
@@ -395,7 +459,7 @@ At this point in our analysis, we have several tables with different pieces of i
 - `sample_info.csv` → the original table with metadata for our samples. 
 - `results/viralrecon/multiqc/medaka/summary_variants_metrics_mqc.csv` → quality metrics from the _MultiQC_ report generated by the _viralrecon_ pipeline.
 - `results/nextclade/nextclade.tsv` → the results from _Nextclade_. 
-- `results/pangolin/switzerland_report.csv` → the results from _Pangolin_.
+- `results/pangolin/pango_report.csv` → the results from _Pangolin_.
 - `results/civet/master_metadata.csv` → the results from the _civet_ analysis, namely the catchment (or cluster) that each of our samples was grouped into.
 
 To consolidate our analysis, we **tidied and integrated** the information from across these different files, into a single table using the software _R_. 
@@ -433,29 +497,41 @@ Although we have ran each of the steps of our analysis individually (each in the
 ```bash
 #!/bin/bash
 
+# make mamba activate command available
+eval "$(conda shell.bash hook)"
+source $(mamba info --base)/etc/profile.d/mamba.sh
+
 # make report directory
 mkdir -p report
 
+mamba activate nextflow
+
 # run viralrecon
-nextflow run nf-core/viralrecon -profile singularity \
+nextflow run nf-core/viralrecon \
+  -r 2.6.0 -profile singularity \
   --max_memory '16.GB' --max_cpus 8 \
-  --input samplesheet.csv \
-  --outdir results/viralrecon \
   --platform nanopore \
+  --input samplesheet.csv \
+  --fastq_dir data/fastq_pass/ \
+  --outdir results/viralrecon \
   --protocol amplicon \
   --genome 'MN908947.3' \
   --primer_set artic \
   --primer_set_version 3 \
-  --skip_assembly \
-  --fastq_dir data/fastq_pass/ \
   --artic_minion_caller medaka \
-  --artic_minion_medaka_model r941_min_fast_g303
+  --artic_minion_medaka_model r941_min_fast_g303 \
+  --skip_assembly --skip_asciigenome \
+  --skip_pangolin --skip_nextclade
 
 # combine and clean FASTA files
 cat results/viralrecon/medaka/*.consensus.fasta | sed 's|/ARTIC/medaka MN908947.3||' > report/consensus.fa
 
+mamba activate seqkit
+
 # create missing bases TSV file
 seqkit locate -i -P -G -M -r -p "N+" report/consensus.fa > results/missing_intervals.tsv
+
+mamba activate nextclade
 
 # get nextclade data
 nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_background_data
@@ -463,11 +539,15 @@ nextclade dataset get --name sars-cov-2 --output-dir resources/nextclade_backgro
 # run nextclade
 nextclade run --input-dataset resources/nextclade_background_data/ --output-all results/nextclade report/consensus.fa
 
+mamba activate pangolin
+
 # update pangolin data
 pangolin --update-data
 
 # run pangolin
-pangolin --outdir results/pangolin/ --outfile switzerland_report.csv report/consensus.fa
+pangolin --outdir results/pangolin/ --outfile pango_report.csv report/consensus.fa
+
+mamba activate phylo
 
 # alignment
 mkdir -p results/mafft

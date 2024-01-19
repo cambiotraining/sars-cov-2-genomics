@@ -86,7 +86,7 @@ These are some of the key advantages of using a standardised workflow for our an
 - **Checkpoint and resume** - if a workflow fails in one of the tasks, it can be resumed at a later time.
 
 
-## SARS-CoV-2 Pipeline
+## SARS-CoV-2 Pipeline {#sec-viralrecon}
 
 To generate consensus SARS-CoV-2 genomes from these data, we will use a pipeline that was developed by the _Nextflow_ core team called [`nf-core/viralrecon`](https://nf-co.re/viralrecon) (which was itself inspired by a [previous pipeline from the Connor Lab](https://github.com/connor-lab/ncov2019-artic-nf)). 
 Its objective is to harmonise the assembly of SARS-CoV-2 genomes from both Illumina and Nanopore amplicon sequencing data.
