@@ -112,7 +112,7 @@ Here is some of the information we have available for these samples:
 
 - `sample` → the sample ID.
 - `collection_date` → the date of collection for the sample in the format YYYY-MM-DD.
-- `geo_loc_country` → the country of origin for this sample.
+- `country` → the country of origin for this sample.
 - `geo_loc_region` → the region within the country where the sample was collected.
 - `latitude`/`longitude` → coordinates for sample location (in this case we're only given a single coordinate for the whole country - in a real setting you may want to collect a precise location).
 - `sequencing_instrument` → the model for the sequencing instrument used (e.g. NovaSeq 6000, MinION, etc.).
@@ -531,7 +531,7 @@ civet \
   -i sample_info.csv \
   -f report/consensus.fa \
   -icol sample \
-  -idate sample_collection_date \
+  -idate collection_date \
   -d resources/civet_background_data/ \
   -o results/civet
 ```
