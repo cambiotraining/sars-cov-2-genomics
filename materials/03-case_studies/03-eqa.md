@@ -310,15 +310,15 @@ nextflow run nf-core/viralrecon
 Your next task is to run the pipeline on your data. 
 However, rather than run the command directly from the command line, let's save it in a **shell script** -- for reproducibility and as a form of documenting our analysis.
 
-- Using a text editor, create a shell script and save it in `scripts/01-run_viralrecon.sh`. 
+- First, open the `README.txt` file found in your folder, which has some details about your samples, including the amplicon primer scheme used.
+- Using a text editor, create a new shell script and save it in `scripts/01-run_viralrecon.sh`. 
   You can either use the command-line text editor `nano` or use _Gedit_, which comes installed with Ubuntu. 
-- In this script, include the `viralrecon` command based on the code shown above, adjusting it to fit your input files and type of data.
+- Copy the command shown above (either Illumina or Nanopore, depending on your data) to your new script.
+- Adjust the code, to use the correct input samplesheet file, primer scheme and, in the case of ONT, the medaka model. For information about primer scheme options see the "[Amplicon Primer Schemes](../appendices/tools_and_resources.html#sec-primer-schemes)" appendix.
 - Activate the software environment to use Nextflow: `mamba activate nextflow`.
 - Save the script and run it from the command line using `bash scripts/01-run_viralrecon.sh`.
 
-If you need a reminder of how to work with shell scripts, revise the [Shell Scripts section](https://cambiotraining.github.io/unix-shell/materials/02-programming/01-scripts.html) of the accompanying Unix materials. 
-
-**Note for Nanopore:** if you are using our pre-sequenced Nanopore data, you can can use the following medaka model: `r941_prom_high_g360`.
+If you need a reminder of how to work with shell scripts, revise the [Shell Scripts](https://cambiotraining.github.io/unix-shell/materials/02-programming/01-scripts.html) section of the accompanying Unix materials.
 
 :::
 
