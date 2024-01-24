@@ -16,11 +16,11 @@ pagetitle: "SARS Genomic Surveillance"
 :::
 
 
-:::{.callout-note}
+<!-- :::{.callout-note}
 #### Slides
 
 This section has an accompanying <a href="https://docs.google.com/presentation/d/1tYPnCci7C4Gmsy1O7YhGVDbm_Pib6jA3O411cLA5EFs/edit?usp=sharing" target="_blank">slide deck</a>.
-:::
+::: -->
 
 ## Next Generation Sequencing
 

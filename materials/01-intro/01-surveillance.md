@@ -16,11 +16,11 @@ pagetitle: "SARS Genomic Surveillance"
 
 :::
 
-:::{.callout-note}
+<!-- :::{.callout-note}
 #### Slides
 
 This section has an accompanying <a href="https://docs.google.com/presentation/d/1lN3fHMcDKmP2vHTaPCpPDlqxapi_QWaxAqmKw1bq4E8/edit?usp=sharing" target="_blank">slide deck</a>.
-:::
+::: -->
 
 ## What is SARS-CoV-2?
 

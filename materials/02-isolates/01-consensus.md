@@ -13,11 +13,11 @@ pagetitle: "SARS Genomic Surveillance"
 
 :::
 
-:::{.callout-note}
+<!-- :::{.callout-note}
 #### Slides
 
 This section has an accompanying <a href="https://docs.google.com/presentation/d/1EbuH6KjK3oW5BUfSU43rVH_b-tPTKtubDWl86eAH47U/edit?usp=sharing" target="_blank">slide deck</a>.
-:::
+::: -->
 
 
 ## SARS-CoV-2 Consensus Assembly

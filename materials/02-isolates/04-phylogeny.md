@@ -15,11 +15,11 @@ pagetitle: "SARS Genomic Surveillance"
 - Use _TimeTree_ to obtain time-scaled phylogenetic trees using sample collection date metadata.
 :::
 
-:::{.callout-note}
+<!-- :::{.callout-note}
 #### Slides
 
 This section has an accompanying <a href="https://drive.google.com/file/d/19MCiM8JhWgtSwvQdotfJRlyv7Z7CVJwz/view?usp=sharing" target="_blank">slide deck</a>.
-:::
+::: -->
 
 <!--
 ## Phylogenetics Basics
