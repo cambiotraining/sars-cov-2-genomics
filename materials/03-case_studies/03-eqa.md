@@ -201,8 +201,9 @@ To make sure no date information is lost due to _Excel_'s behaviour, it's a good
 At this point we are ready to start our analysis with the first step: generating a consensus genome for our samples. 
 We will use a standardised pipeline called _viralrecon_, which automates most of this process for us, helping us be more efficient and reproducible in our analysis. 
 
+:::{.callout-note}
 If you need to revise how the `nf-core/viralrecon` pipeline works, please consult the [Consensus Assembly](../02-isolates/01-consensus.md) section of the materials.
-
+:::
 
 ### Samplesheet
 
@@ -334,7 +335,14 @@ However, make sure to set these options to the maximum resources available on th
 
 ## Consensus Quality
 
-Once your workflow is complete, it's time to assess the quality of the initial assembly. 
+Once your workflow is complete, it's time to assess the quality of the assembly. 
+
+:::{.callout-note}
+If you need to revise how to interpret the quality control report, please consult the [Quality Control](../02-isolates/02-qc.md) section of the materials.
+:::
+
+### Coverage
+
 At this stage we want to identify issues such as:
 
 - Any samples which have critically low coverage. There is no defined threshold, but samples with less than 85% coverage should be considered carefully.
@@ -352,7 +360,6 @@ Open the quality report and try to answer the following questions:
 
 Make a note of any samples that you think are problematic. 
 You can discuss with your colleagues and compare your results/conclusions to see if you reach similar conclusions.
-
 :::
 
 
@@ -484,6 +491,10 @@ We will focus on these:
 - **Phylogeny:** produce an annotated phylogenetic tree of our samples.
 - **Clustering:** assess how many clusters of sequences we have, based on a phylogenetic analysis.
 - **Integration & Visualisation:** cross-reference different results tables and produce visualisations of how variants changed over time.
+
+:::{.callout-note}
+If you need to revise these topics, please consult the [Lineage Assignment](../02-isolates/03-lineages.md) and [Phylogenetics](../02-isolates/04-phylogeny.md) sections of the materials.
+:::
 
 ### Lineage Assignment
 
