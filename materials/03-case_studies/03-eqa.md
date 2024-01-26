@@ -43,14 +43,24 @@ It also helps raise awareness of any atypical variants of pathogens that may exi
 :::
 
 In this case study, we are going to analyse samples from the _GenQA_ panel, to helps us assess the quality of our bioinformatic analysis and extract key pieces of information to be reported.
-The panel we will work with includes the following samples: 
+Two panels are available, which include the following variants: 
+
+:::{.panel-tabset}
+### UKNEQAS22**
 
 - 1x Alpha
 - 1x Beta
 - 1x Delta
 - 2x Gamma
 - 1x Omicron
-- 1x Adenovirus (negative control)
+
+### UKNEQAS23**
+
+- 2x Omicron BA.1
+- 1x Omicron BA.2
+- 2x Delta
+- 1x Gamma
+:::
 
 From the sequencing data analysis, we will address the following: 
 
