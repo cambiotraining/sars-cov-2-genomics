@@ -2,155 +2,208 @@
 pagetitle: "SARS Genomic Surveillance"
 ---
 
-# Managing and Running Bioinformatics Software
+# Managing Bioinformatics Software
 
-If you are attending one of our workshops, we will provide a virtual training environment with all of the required software and data pre-installed.
-In this page you will learn to manage bioinformatics software installation and setup.
-You will also learn why most bioinformatic tools run on Linux.
-With this regard you will learn typical environment in which you can setup and run Ubuntu Linux OS in your Windows PC taking into consideration the fact that many PCs users are in Windows.
-If you run Windows and you want to setup your own computer to run the analysis demonstrated on this course, you can follow the instructions below.
-However, if you have already Linux in your PC/Server or you want to install fresh Ubuntu Linux you can follow the instruction from th [Install Linux](##Install%20Linux) section.
+:::{.callout-tip}
+#### Learning objectives
 
-:::{.callout-note}
-#### Hardware specifications
-
-The `viralrecon` pipeline that we cover in this workshop can run on a regular desktop or laptop computer (e.g. with 4 CPUs and 16GB RAM).
-However, if you are processing hundreds of samples, it may take several hours or even days to complete.
-
-For general bioinformatic applications, we recommend investing in a high-performance desktop workstation.
-The exact specifications depend on the application, but as a minimum at least 32 threads and 64GB RAM.
+- List some of the reasons why Linux is an essential operating system for bioinformatic analysis.
+- Distinguish between software containers and software environments.
+- Use package managers to install software globally and locally.
+- Recognise the advantage of using software containers for bioinformatic pipelines.
 :::
 
-## Software architecture for bioinformatics
+## Why Linux?
 
-Apart from having key hardware parts such as CPU, memory and Storage, any computer system running bioinformatics tools consists of the following software architecture; operating system (OS) in this case Linux, package manager(s), and bioinformatics software as illustrated in the following diagram.
+Most computer users either use _Windows_ or _macOS_ as their operating system. 
+However, in bioinformatics the **_Linux_** operating system is the most popular. 
 
-![Typical software architecture from the perspective of bioinformatics software when it runs in in any computer system](images/bioinformatics_software_architecture.png){width="692"}
+There are different reasons to prefer Linux, for example:
 
-This is pretty much similar architecture of any application software that runs on any standard PC.
+- Most bioinformatics software is only available for this operating system.
+- Generally more secure.
+- Free and open source.
+- The operating system of choice on high performance compute (HPC) cluster environments. 
+- It has flexible built-in command line tools to manipulate large data (`cat`, `grep`, `sed`, and the `|` pipe for chaining commands).
 
-However, bioinformatics software/tools most of them are primarily written to run on machine running Linux based operating systems (OS).
-There could be a lot of reasons for this, but we outline the following ones.
+Because Linux is an open source project, there are many different types of Linux operating systems available. 
+Generally, we recommend using Ubuntu, as it's a well-supported and widely used distribution. 
 
--   Many bioinformatics tools are only available for Linux
--   More secure for medical-related data
--   Linux has built-in programming languages (Python, Perl)
--   Linux is free and open source
--   Linux has flexible built-in tools to manipulate large data
-    -   `cat`, `grep`, `sed`, `awk`, and the `|` pipe for chaining commands
+The first step for running bioinformatics software therefore is to ensure that you have access to Ubuntu Linux on your machine.
+We give instructions for this in @sec-install-linux.
 
-Despite the above advantages of Linux OS over Windows from bioinformatics perspective, many PCs users appear to be Windows savy mainly due to inherent and historical reasons particularly the fact that Windows was the earliest Graphical User Interface (GUI) OS, so many applications were written in GUI and therefore gained popularity among users who had average knowledge of computer.
 
-The first step for running bioinformatics software in your Windows machine is to ensure that Linux OS runs on your machine.
-The question is how can we setup Linux OS (preferred Ubuntu) on your Windows machine?
+## Package Managers
 
-### Setting up Linux environment on Windows OS
+Once you have Linux available, there is the question of how to install software, especially when using the command line. 
+Most modern Linux operating systems have a default **package manager** available. 
+A package manager allows the user to install (or remove, or upgrade) software with a single command. 
+The package manager takes care of automatically downloading and installing the software we want, as well as any dependencies it requires.
 
-There are different ways to run bioinformatics tools on your Windows machine.
+![Diagram illustrating how package managers work. [Image source](https://itsfoss.com/package-manager/).](https://itsfoss.com/content/images/wordpress/2020/10/linux-package-manager-explanation.png)
 
--   WSL2 (Windows Subsystem for Linux) version 2 - In this way you install a preferred Linux distribution on Windows after enabling WSL feature within Windows.
--   Linux emulator using Virtualisation software setup - You can use a preferred virtual machine software (Oracle Virtualbox) which will host a Linux distribution of your choice which runs on top of Windows.
--   Dual booting
--   Installing docker for Windows - In this way you run containerised bioinformatics tool on Windows using docker.
 
-#### WSL2
+### Ubuntu `apt`
 
-WSL2 enables you to run Linux software on Windows natively.
-This section describes step by step on how to install WSL on Windows 11.
-We advise that you update Windows 10 to 11 as it seems that WSL2 can be smooth installed on the Windows 11.
+On Ubuntu, the default package manager is called `apt`. 
+This software can be used to do system-wide updates, upgrades and installation of software packages. 
+There are several commands available: 
 
-To run WSL use the following command:
+- `apt update` updates the database of available packages, to check the latest versions available. This command doesn't actually install anything.
+- `apt upgrade` upgrades all the packages to their latest version. This command upgrades existing packages, and installs new ones if required as dependencies.
+- `apt install` is used to install a single software of your choice. 
 
-```bash
-wsl --install
-```
-
-The above command will download the Linux kernel, set WSL2 as default, and install Ubuntu as default Linux distribution.
-
-If you don't want Ubuntu you can use the following command:
+For example, let's say we wanted to install the latest version of `java` (Java is used for many applications, including IGV, which we introduced earlier).
+We could run the following commands:
 
 ```bash
-wsl --install -d <distro name>
+sudo apt update               # make sure the package database is up-to-date
+sudo apt upgrade              # upgrade existing software to their latest version
+sudo apt install default-jre  # install java
 ```
 
-After either of the above commands you will find an app called Ubuntu (or other distro of your choice).
+The **`sudo`** command at the beginning indicates that we want to run the `apt` command with administrator privilege, which will require you to input your password. 
+This is necessary, because the `apt` command does a system installation of the software, so it can only be done if the user trying to do the installation has those permissions.
+With the `install` command, we give the name of the software we want to install. In this case, `default-jre` will install the default Java runtime environment. 
 
-Then open the Ubuntu app that you just installed, and you will find Linux terminal.
-And then try to run some Linux commands.
+The `apt` package manager is extremely useful to install core system software, however most bioinformatics software are not available from `apt`. 
+Also, as it requires administrator (`sudo`) permissions, it is not always possible to install software with `apt` (for example, if you are using a HPC cluster).
+This is why we turn to alternative package managers such as _Conda_.
 
-#### Virtual Machine (VM)
 
-Another way of running bioinformatics based software is to install and run Virtual Machine (VM).
-The VM enables you to run a guest OS, (in this case Ubuntu) on top of a host OS (example Windows or Mac OS).
-Normally, the guest OS will have a real feeling of running on its own PC.
-When you run VM you will also be able to run any GU based software.
+### Debian Packages
 
-The most popular VM software are:
+Sometimes, software is not available through the `apt` repositories, but instead distributed as a file.
+Ubuntu uses the _Debian_ package format. 
+To install _Debian_ packages, you can use the `dpkg` command. 
 
--   VMware workstation (<https://www.vmware.com/products/workstation-pro.html>)
-
--   Oracle VirtualBox (<https://www.virtualbox.org/>)
-
-The full instructions and commands to run Oracle VirtualBox on Windows or Mac OS are explained in the [managing software installations instructions page](01-managing_software.md).
-
-#### Dual Booting
-
-Dual booting is the mechanism of installing and managing two operating systems aside one another in the same machine.
-Using dual booting technique you can install and run Linux OS as well as Windows, and therefore being able to install and run bioinformatics software for your analysis.
-In dual booting the full installation of Linux OS of your choice will performed and during running time, the Linux OS will have full control of the hardware of your machine.
-
-The installation requires somehow an advance knowledge of both hardware and system software.
-During the start of the PC/Server after the dual boot installation, you will be given the options of selecting which OS you want to choose to control your PC and running other application software (in this case a Linux based bioinformatics software).
-
-#### Docker
-
-If Linux installation seems to be a daunting task, alternatively you can install docker for windows which can be downloaded from this [link](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) and the detailed instructions on installing docker for Windows has been explained [here](https://docs.docker.com/desktop/install/windows-install/).
-In certain circumstances your systems may no meet the requirements to run docker for Windows, if so please download a [Docker Toolbox](https://docs.docker.com/toolbox/overview/).
-The major problem for Docker option is that there are available bioinformatics tools you may want to use for analysis which does not have docker images.
-There is a useful docker hub for most bioinformatics tools [here](https://pegi3s.github.io/dockerfiles/).
-Furthermore, you need a basic Docker understanding.
-There is a good tutorial to start practicing Docker from [freeCodeCamp](https://www.freecodecamp.org/news/the-docker-handbook/).
-
-### Package Manager(s)
-
-The next step after having the Linux distribution of your choice in your machine is to ensure that the package manager(s) are installed.
-Most bioinformatics tools require package manager(s) to handle different dependencies (libraries) which they need to run correctly in the Linux system.
-So, what is a package manager?
-A package manager is a software which takes care all necessary dependencies required by bioinformatics tool to run in a proper manner in Linux OS.
-
-#### Package managers that are part of Linux ecosystem
-
-There are package managers, which are Linux based and that are shipped with Linux OS. Example of Linux based package managers are 'apt'/'apt-get', 'dpkg', and 'yum/RPM' for Ubuntu, Debian (or derivative of Debian such as Ubuntu), and RedHat Linux based OS such Fedora/CentOS respectively.
-Other related package managers for Ubuntu which bioinformatics tools can be embedded include aptitude or snap.
-These either of the two are part of the ecosystem of Ubuntu, but they need to be installed before using them.
-Instructions on how to use or install these OS based package managers can be found in our page.
-
-#### Conda
-
-In addition, there are other bioinformatics tools that depend on the package managers which are not part of Linux ecosystem and they need to be installed before installing actual bioinformatics tool for your analysis.
-The good example of such package managers is 'Conda', which is a Python based.
-Many of such bioinformatics tools are available in different Conda channels.
-Conda channels are the locations where packages are stored.
-Please refer to the diagram in slides.
-Conda packages are downloaded from remote channels, which are URLs to directories containing conda packages.
-The instructions to install Conda is on this page.
-
-#### Pip
-
-Pip is another Python based package manager, which bioinformatics tools written in python and require other Python libraries to run smoothly.
-Pip is a recursive acronym for "Pip installs Python".
-Pip can be installed in the Ubuntu using apt but the latest Ubuntu versions are shipped with Python3 which has pre-installed pip3.
-Otherwise you need to install it using apt package manager.
-
-To check the pip version i your system you can type this command:
+For example, the [RStudio](https://posit.co/download/rstudio-desktop/) application for Linus is distributed as a `.deb` file.
+After you download it, you can install it as follows:
 
 ```bash
-pip3 --version
+sudo dpkg -i rstudio-2023.12.0-369-amd64.deb
 ```
 
-More instructions on installing pip on Ubuntu can be found in the installation instruction page.
+As with `apt` this is a system installation and so requires admin privileges (`sudo`). 
 
-### Installing from source
 
-In some cases bioinformatics software may need to be installed from the source to run your analysis pipeline. It could be that trying installing using the above options did not work for some unknown or unfamiliar reasons. For the users who are little bit advanced they can use bash commands based on the package instructions to install the package from the source, i.e. need compilation of the package binaries. A good example is samtools and its associated package dependencies bcftools and htslibs which you can find instruction commands to install these packages [here](03-software_setup.md)
+### Conda/Mamba Package Manager
 
+Often you may want to use software packages that are not available on the `apt` repositories.
+A popular alternative in bioinformatics is to use the **package manager _Mamba_**, which is a successor to another package manager called _Conda_.
+
+_Conda_ and _Mamba_ are package managers commonly used in data science, scientific computing, and bioinformatics. 
+_Conda_, originally developed by [Anaconda](https://anaconda.org/), is a package manager and environment manager that simplifies the creation, distribution, and management of software environments containing different packages and dependencies. 
+It is known for its cross-platform compatibility and ease of use. 
+**_Mamba_** is a more recent and high-performance alternative to _Conda_. 
+While it maintains compatibility with Conda's package and environment management capabilities, _Mamba_ is designed for faster dependency resolution and installation, making it a better choice nowadays. 
+
+One of the strengths of using _Mamba_ to manage your software is that you can have different versions of your software installed alongside each other, organised in **environments**. 
+Organising software packages into environments is extremely useful, as it allows to have a _reproducible_ set of software versions that you can use and resuse in your projects. 
+
+For example, imagine you are working on two projects with different software requirements:
+
+- Project A: requires Python 3.7, NumPy 1.15, and scikit-learn 0.20, among other libraries.
+- Project B: requires Python 3.9, the latest version of NumPy, and TensorFlow 2.0.
+
+If you don't use environments, you would need to install and maintain these packages globally on your system. 
+This can lead to several issues:
+
+- Version conflicts: different projects may require different versions of the same library. For example, Project A might not be compatible with the latest NumPy, while Project B needs it.
+- Dependency chaos: as your projects grow, you might install numerous packages, and they could interfere with each other, causing unexpected errors or instability.
+- Difficulty collaborating: sharing your code with colleagues or collaborators becomes complex because they may have different versions of packages installed, leading to compatibility issues.
+
+![Illustration of _Conda_/_Mamba_ environments. Each environment is isolated from the others (effectively in its own folder), so different versions of the packages can be installed for distinct projects or parts of a long analysis pipeline.](images/conda_environments.svg)
+
+**Environments allow you to create isolated, self-contained environments for each project**, addressing these issues:
+
+- Isolation: you can create a separate environment for each project using tools like _Conda_/_Mamba_. This ensures that the dependencies for one project don't affect another.
+- Version control: you can specify the exact versions of libraries and packages required for each project within its environment. This eliminates version conflicts and ensures reproducibility.
+- Ease of collaboration: sharing your code and environment file (e.g., requirements.txt for Python) makes it easy for collaborators to replicate your environment and run your project without worrying about conflicts.
+- Simplified maintenance: if you need to update a library for one project, it won't impact others. You can manage environments separately, making maintenance more straightforward.
+
+Another advantage of using _Mamba_ is that the **software is installed locally** (by default in your home directory), without the need for admin (`sudo`) permissions. 
+
+You can search for available packages from the [anaconda.org](https://anaconda.org/) website. 
+Packages are organised into "channels", which represent communities that main the software installation recipes for each software. 
+The most popular channels for bioinformatics and data analysis are "_bioconda_" and "conda-forge". 
+There are three main commands to use with _Mamba_:
+
+- `mamba create -n ENVIRONMENT-NAME`: this command creates a new software environment, which can be named as you want. Usually people name their environments to either match the name of the main package they are installating there (e.g. an environment called `pangolin` if it's to install the _Pangolin_ software). Or, if you are installing several packages in the same environment, then you can name it as a topic (e.g. an environment called `rnaseq` if it contains several packages for RNA-seq data analysis).
+- `mamba install -n ENVIRONMENT-NAME  NAME-OF-PACKAGE`: this command installs the desired package in the specified environment. 
+- `mamba activate ENVIRONMENT-NAME`: this command "activates" the environment, which means the software installed there becomes available from the terminal. 
+
+Let's see a concrete example. 
+If we wanted to install packages for phylogenetic analysis, we could do: 
+
+
+```bash
+# create an environment named "phylo"
+mamba create -n phylo
+ 
+# install some software in that environment
+mamba install -n phylo  iqtree mafft
+```
+
+If we run the command: 
+
+```bash
+mamba env list
+```
+
+We will get a list of environments we created, and "phylo" should be listed there. 
+If we want to use the software we installed in that environment, then we can activate it: 
+
+```bash
+mamba activate phylo
+```
+
+And usually this changes your terminal to have the word `(phylo)` at the start of your prompt. 
+
+
+## Software Containers
+
+Software containerization is a way to package software and its dependencies in a single file. 
+A software container can be thought of as a very small virtual machine, with everything needed to run that software stored inside that file. 
+For this reason, software containerization solutions, such as [_Docker_](https://www.docker.com/) and [_Singularity_](https://docs.sylabs.io/guides/latest/user-guide/), are widely used in bioinformatics.
+
+Software containers ensure reproducibility, allowing the same analysis to run on different systems. 
+They can run on a local computer or on a high-performance computing cluster, producing the same result.
+The software within a container is isolated from other software, addressing the issue of incompatible dependencies between tools (similarly to _Mamba_ environments).
+
+As we already saw, analysis pipelines can be very complex, using many tools, each with their own dependencies. 
+Therefore, worflow managers such as _Nextflow_ use software containers to run their analysis (both _Singularity_ and _Docker_ are supported). 
+This is what we've been doing throughout these materials, when running the `nf-core/viralrecon` pipeline, where we used the option `-profile singularity`. 
+With this option, _Nextflow_ will download the necessary software containers to run each step of the pipeline, which are available in public repositories online. 
+
+To use Singularity and Docker containers, the respective programs have to be installed, which we detail in our [software setup page](03-software_setup.md#software-image-containers).
+
+
+:::{.callout-note}
+#### Package managers or containers?
+
+As we've seen, the _Mamba_ package manager and the containerisation solutions such as _Docker_ and _Singularity_ are trying to achieve similar things: enabling the reproducible instalation of software and its dependencies in an isolated environment. 
+So, why use one or the other? 
+
+_Mamba_ is more user-friendly, allowing you to easily install packages of your choice. 
+However, _Mamba_ often works less well for more complex environments and can become extremely inneficient for environments with too many packages and conflicting versions. 
+The recommendation is to keep your _Mamba_ environments relatively small and atomic (e.g. an environment for each software package or for small sets of related packages).
+
+_Singularity_ and _Docker_, on the other hand, allow for more complex environments. 
+However, to create your own container requires more advanced knowledge and a steep learning curve. 
+Fortunately, there are many existing containers available for bioinformatics, which _Nextflow_ uses in its pipelines.
+:::
+
+
+## Summary
+
+:::{.callout-tip}
+#### Key Points
+
+
+- Linux is used in bioinformatics due to its open-source nature, powerful command-line interface, and compatibility with bioinformatics tools.
+- Package managers such as `apt` enable global software installations on Linux systems, simplifying the process of obtaining and managing software at the system level.
+- Local package managers such as `mamba` allow users to install and manage software within user-specific environments, avoiding conflicts with system-level packages.
+- Software containers, such as Docker and Singularity, encapsulate entire environments in a file and can be used to manage more complex software enviroments.
+- Bioinformatics workflow managers such as _Nextflow_ can make use of software containers to run complex bioinformatic pipelines.
+:::

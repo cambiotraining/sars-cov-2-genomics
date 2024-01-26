@@ -22,7 +22,7 @@ book:
     - part: "Software"
       chapters:
         - materials/05-software/01-managing_software.md
-        - materials/05-software/02-virtualbox.md
+        # - materials/05-software/02-virtualbox.md
         - materials/05-software/03-software_setup.md
   appendices: 
     - materials/appendices/file_formats.md

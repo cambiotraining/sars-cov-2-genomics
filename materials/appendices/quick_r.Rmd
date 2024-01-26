@@ -29,29 +29,29 @@ If you want to learn more about this topic, we recommend:
 ## RStudio
 
 R is the software and programming language itself, but the R interface is quite basic and not very user-friendly. 
-Fortunately, there is a companion piece of software called _RStudio_, which makes working with R a little bit easier. 
+Fortunately, there is a companion piece of software called **_RStudio_**, which makes working with R a little bit easier. 
 
 There are 4 basic panels in RStudio (see image below):
 
-- The “script” panel is essentially a text editor, where we can write code and save it as a text file, which in this case, because it contains R code, we call it an R script (but remember, a script is just a text file with some code in it. We’ve been creating shell scripts that run on the command line, here we have some R scripts, which contain R code)
-- The “console” panel is where the code actually runs, or is executed. This is equivalent to the terminal, on the command line. If we want to execute a line of code, then we need to run it on the console. 
+- The **script** panel is essentially a text editor, where we can write code and save it as a text file, which in this case, because it contains R code, we call it an R script (but remember, a script is just a text file with some code in it. We've been creating shell scripts that run on the command line, here we have some R scripts, which contain R code)
+- The **console** panel is where the code actually runs, or is executed. This is equivalent to the terminal, on the command line. If we want to execute a line of code, then we need to run it on the console. 
   - One nice feature of RStudio is that we can edit our code on the script panel and then run a line of code from the script on the console - it's like copy/pasting that line of code from the script to the console. This makes working interactively with RStudio much easier, because we can edit our code in the script and run it as we go along. 
-- On the top-right we have the “Environment”, which shows us objects that we create, that store information such as tables of data that we read into R. 
-- Finally we have the bottom-right quadrant, which contains a few tabs: a file browser (allowing us to see files in our computer), a plot display panel (for plots we generate) and a help panel to look at documentation of R functions.
+- On the top-right we have the **Environment** panel, which shows us objects that we create, that store information such as tables of data that we read into R. 
+- Finally, on the bottom-right there are a few tabs: a **file browser** (allowing us to see files in our computer), a **plot display** tab (for plots we generate) and a **help** tab to look at documentation.
 
 ![](images/rstudio_panels.png)
 
 
 ### Setting RStudio
 
-Before we start working with RStudio, it’s a good idea to change one of its default options. 
+Before we start working with RStudio, it's a good idea to change one of its default options. 
 Go to <kbd>Tools</kbd> → <kbd>Global Options...</kbd> and change the following:
 
 ![](images/rstudio_setup.png)
 
 This will tell RStudio to NOT automatically save and load things that we have done in the past. 
-You may think this is a helpful thing, but actually it’s very inconvenient, because if you are doing multiple analysis, it might get very very confusing what the objects that you created are! 
-So, it’s always best to start R with a fresh session, and setting these options makes sure we do this. 
+You may think this is a helpful thing, but actually it's very inconvenient, because if you are doing multiple analysis, it might get very very confusing what the objects that you created are! 
+So, it's always best to start R with a fresh session, and setting these options makes sure we do this. 
 
 
 ### Starting a Project
@@ -87,7 +87,7 @@ library(readr)
 library(ggplot2)
 ```
 
-If you get an error like `Error in library(tidyverse) : there is no package called ‘tidyverse’`, that means that you didn't install the package. 
+If you get an error like `Error in library(tidyverse) : there is no package called 'tidyverse'`, that means that you didn't install the package. 
 To install packages you can run: 
 
 ```{r, eval=FALSE}

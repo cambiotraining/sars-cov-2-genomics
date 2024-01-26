@@ -8,6 +8,8 @@ If you are attending one of our workshops, we will provide a virtual training en
 If you want to setup your own computer to run the analysis demonstrated on this course, you can follow the instructions below. 
 
 :::{.callout-note}
+#### Hardware specifications
+
 The `viralrecon` pipeline that we cover in this workshop can run on a regular desktop (e.g. with 4 CPUs and 16GB RAM). 
 However, if you are processing hundreds of samples, it may take several hours or even days. 
 
@@ -15,8 +17,7 @@ For general bioinformatic applications, we recommend investing in a high-perform
 The exact specifications depend on the application, but as a minimum at least 32 threads and 64GB RAM.
 :::
 
-
-## Install Linux
+## Install Linux {#sec-install-linux}
 
 :::{.panel-tabset}
 ### Fresh Installation
@@ -77,8 +78,7 @@ You may also want to **configure the Windows terminal to automatically open _WSL
 Another way to run Linux within Windows (or macOS) is to install a Virtual Machine.
 However, this is mostly suitable for practicing and **not suitable for real data analysis**.
 
-We give instructions to install a VM using Oracle's Virtual Box on [our tutorial](01-managing_software.md).
-
+Details for installing Ubuntu on VirtualBox is given on [this page](https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview).
 :::
 
 
