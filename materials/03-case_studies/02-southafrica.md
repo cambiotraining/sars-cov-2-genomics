@@ -122,6 +122,10 @@ Here is some of the information we have available for these samples:
 
 ## Consensus Assembly
 
+:::{.callout-note}
+See @sec-consensus, if you need to revise how the `nf-core/viralrecon` pipeline works.
+:::
+
 The first step in the bioinformatic analysis is to run the `nf-core/viralrecon` pipeline. 
 But first we need to prepare our input files. 
 
@@ -263,6 +267,10 @@ We will investigate this further in the next section.
 
 ## Consensus Quality
 
+:::{.callout-note}
+See @sec-consensus-qc, if you need to revise how to assess the quality of consensus sequences.
+:::
+
 ### General Metrics
 
 We used the _MultiqQC_ report to assess the initial quality of our samples. 
@@ -403,6 +411,10 @@ Based on the clean consensus sequences, we then perform several downstream analy
 
 ### Lineage Assignment
 
+:::{.callout-note}
+See @sec-lineages, if you need to revise how lineage assignment works.
+:::
+
 Although the _Viralrecon_ pipeline runs _Pangolin_ and _Nextclade_, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
 An up-to-date run of both of these tools can be done using each of their web applications:
 
@@ -470,6 +482,10 @@ Like before, we will do further analysis (and visualisation) of these data using
 
 
 ### Phylogeny
+
+:::{.callout-note}
+See @sec-phylogeny, if you need to revise how to build phylogenetic trees.
+:::
 
 Although a tool such as _Nextclade_ can place our samples in a global phylogeny context, sometimes it may be convient to build our own phylogenies.
 This requires three steps: 

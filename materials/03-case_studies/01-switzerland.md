@@ -121,11 +121,16 @@ Here is some of the information we have available for these samples:
 
 ## Consensus Assembly
 
+:::{.callout-note}
+See @sec-consensus, if you need to revise how the `nf-core/viralrecon` pipeline works.
+:::
+
 The first step in the bioinformatic analysis is to run the `nf-core/viralrecon` pipeline. 
-But first we need to prepare our input files. 
+
 
 ### Samplesheet
 
+But first we need to prepare our input files. 
 For _Nanopore_ data, we need a **samplesheet CSV file** with two columns, indicating sample name (first column) and the respective barcode number (second column). 
 
 We produced this table in _Excel_ and saved it as a CSV file. 
@@ -205,6 +210,10 @@ This is very useful when commands are very long, because it makes the code more 
 
 
 ## Consensus Quality
+
+:::{.callout-note}
+See @sec-consensus-qc, if you need to revise how to assess the quality of consensus sequences.
+:::
 
 ### General Metrics
 
@@ -315,6 +324,10 @@ Based on the clean consensus sequences, we then perform several downstream analy
 
 ### Lineage Assignment
 
+:::{.callout-note}
+See @sec-lineages, if you need to revise how lineage assignment works.
+:::
+
 Although the _Viralrecon_ pipeline runs _Pangolin_ and _Nextclade_, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
 An up-to-date run of both of these tools can be done using each of their web applications:
 
@@ -378,6 +391,10 @@ Like before, we will do further analysis (and visualisation) of these data using
 
 
 ### Phylogeny
+
+:::{.callout-note}
+See @sec-phylogeny, if you need to revise how to build phylogenetic trees.
+:::
 
 Although a tool such as _Nextclade_ can place our samples in a global phylogeny context, sometimes it may be convient to build our own phylogenies.
 This requires three steps: 

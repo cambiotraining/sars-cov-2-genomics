@@ -20,7 +20,7 @@ This section has an accompanying <a href="https://docs.google.com/presentation/d
 ::: -->
 
 
-## SARS-CoV-2 Variants
+## SARS-CoV-2 Variants {#sec-lineages}
 
 As viruses (or any other organism) evolve, random DNA changes occur in the population, for example due to replication errors.
 Many of these changes are likely to be _neutral_, meaning that they do not change the characteristics of the virus in any significant way. 

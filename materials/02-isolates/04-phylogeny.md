@@ -88,7 +88,7 @@ This tool was developed to be very efficient at working with millions of samples
 -  
 -->
 
-## SARS-CoV-2 Phylogeny
+## SARS-CoV-2 Phylogeny {#sec-phylogeny}
 
 <img src="https://raw.githubusercontent.com/roblanf/sarscov2phylo/master/tree_image.jpg" alt="Global Phylogeny" style="float:right;width:20%">
 

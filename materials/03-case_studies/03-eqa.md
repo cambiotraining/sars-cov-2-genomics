@@ -212,7 +212,7 @@ At this point we are ready to start our analysis with the first step: generating
 We will use a standardised pipeline called _viralrecon_, which automates most of this process for us, helping us be more efficient and reproducible in our analysis. 
 
 :::{.callout-note}
-If you need to revise how the `nf-core/viralrecon` pipeline works, please consult the [Consensus Assembly](../02-isolates/01-consensus.md) section of the materials.
+See @sec-consensus, if you need to revise how the `nf-core/viralrecon` pipeline works.
 :::
 
 ### Samplesheet
@@ -348,7 +348,7 @@ However, make sure to set these options to the maximum resources available on th
 Once your workflow is complete, it's time to assess the quality of the assembly. 
 
 :::{.callout-note}
-If you need to revise how to interpret the quality control report, please consult the [Quality Control](../02-isolates/02-qc.md) section of the materials.
+See @sec-consensus-qc, if you need to revise how to assess the quality of consensus sequences.
 :::
 
 ### Coverage
@@ -502,11 +502,12 @@ We will focus on these:
 - **Clustering:** assess how many clusters of sequences we have, based on a phylogenetic analysis.
 - **Integration & Visualisation:** cross-reference different results tables and produce visualisations of how variants changed over time.
 
-:::{.callout-note}
-If you need to revise these topics, please consult the [Lineage Assignment](../02-isolates/03-lineages.md) and [Phylogenetics](../02-isolates/04-phylogeny.md) sections of the materials.
-:::
 
 ### Lineage Assignment
+
+:::{.callout-note}
+See @sec-lineages, if you need to revise how lineage assignment works.
+:::
 
 Although the _Viralrecon_ pipeline can run _Pangolin_ and _Nextclade_, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
 Although it is possible to [configure _viralrecon_](https://nf-co.re/viralrecon/2.6.0/docs/usage#updating-containers-advanced-users) to use more recent versions of these tools, it requires more advanced use of configuration files with the pipeline. 
@@ -613,6 +614,10 @@ Then:
 
 
 ### Phylogeny
+
+:::{.callout-note}
+See @sec-phylogeny, if you need to revise how to build phylogenetic trees.
+:::
 
 Although tools such as _Nextclade_ and _civet_ can place our samples in a phylogeny, sometimes it may be convenient to build our own phylogenies.
 This requires three steps: 
@@ -777,7 +782,7 @@ Conversely, if you have a low-coverage genome (say <50%) but very high-quality s
 ![](images/precision_sensitivity.svg)
 
 If you are submiting your samples to _GenQA_'s platform, they will also provide with a general accuracy score called _F-score_. 
-This is calculated as the harmonic mean of precision and sensitivity: 
+This is calculated as the [harmonic mean](https://en.wikipedia.org/wiki/Harmonic_mean#Two_numbers) of precision and sensitivity: 
 
 $F_{score} = \frac{2 \times Precision \times Sensitivity}{Precision + Sensitivity}$
 

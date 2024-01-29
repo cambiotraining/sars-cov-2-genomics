@@ -20,7 +20,7 @@ This section has an accompanying <a href="https://docs.google.com/presentation/d
 ::: -->
 
 
-## SARS-CoV-2 Consensus Assembly
+## SARS-CoV-2 Consensus Assembly {#sec-consensus}
 
 As we discussed [earlier in the course](../01-intro/01-surveillance.md), the starting material for sequencing SARS-CoV-2 samples from infected patients is PCR-amplified DNA generated with a panel of primers that covers the whole SARS-CoV-2 genome (for example the primers developed by the ARTIC network). 
 This material can then be sequenced using either _Illumina_ or _Nanopore_ platforms. 
