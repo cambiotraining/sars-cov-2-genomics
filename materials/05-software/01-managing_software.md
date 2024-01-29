@@ -46,7 +46,7 @@ The package manager takes care of automatically downloading and installing the s
 ### Ubuntu `apt`
 
 On Ubuntu, the default package manager is called `apt`. 
-This software can be used to do system-wide updates, upgrades and installation of software packages. 
+This software can be used to do **system-wide** updates, upgrades and installation of software packages. 
 There are several commands available: 
 
 - `apt update` updates the database of available packages, to check the latest versions available. This command doesn't actually install anything.
@@ -77,7 +77,7 @@ Sometimes, software is not available through the `apt` repositories, but instead
 Ubuntu uses the _Debian_ package format. 
 To install _Debian_ packages, you can use the `dpkg` command. 
 
-For example, the [RStudio](https://posit.co/download/rstudio-desktop/) application for Linus is distributed as a `.deb` file.
+For example, the [RStudio](https://posit.co/download/rstudio-desktop/) application for Linux is distributed as a `.deb` file.
 After you download it, you can install it as follows:
 
 ```bash
@@ -87,7 +87,7 @@ sudo dpkg -i rstudio-2023.12.0-369-amd64.deb
 As with `apt` this is a system installation and so requires admin privileges (`sudo`). 
 
 
-### Conda/Mamba Package Manager
+### _Conda_/_Mamba_ Package Manager
 
 Often you may want to use software packages that are not available on the `apt` repositories.
 A popular alternative in bioinformatics is to use the **package manager _Mamba_**, which is a successor to another package manager called _Conda_.
@@ -95,23 +95,23 @@ A popular alternative in bioinformatics is to use the **package manager _Mamba_*
 _Conda_ and _Mamba_ are package managers commonly used in data science, scientific computing, and bioinformatics. 
 _Conda_, originally developed by [Anaconda](https://anaconda.org/), is a package manager and environment manager that simplifies the creation, distribution, and management of software environments containing different packages and dependencies. 
 It is known for its cross-platform compatibility and ease of use. 
-**_Mamba_** is a more recent and high-performance alternative to _Conda_. 
-While it maintains compatibility with Conda's package and environment management capabilities, _Mamba_ is designed for faster dependency resolution and installation, making it a better choice nowadays. 
+_Mamba_ is a more recent and high-performance alternative to _Conda_. 
+While it maintains compatibility with _Conda_'s package and environment management capabilities, _Mamba_ is designed for faster dependency resolution and installation, making it a better choice nowadays. 
 
 One of the strengths of using _Mamba_ to manage your software is that you can have different versions of your software installed alongside each other, organised in **environments**. 
-Organising software packages into environments is extremely useful, as it allows to have a _reproducible_ set of software versions that you can use and resuse in your projects. 
+Organising software packages into environments is extremely useful, as it allows to have a _reproducible_ set of software versions that you can use and reuse in your projects. 
 
 For example, imagine you are working on two projects with different software requirements:
 
-- Project A: requires Python 3.7, NumPy 1.15, and scikit-learn 0.20, among other libraries.
+- Project A: requires Python 3.7, NumPy 1.15, and scikit-learn 0.20.
 - Project B: requires Python 3.9, the latest version of NumPy, and TensorFlow 2.0.
 
 If you don't use environments, you would need to install and maintain these packages globally on your system. 
 This can lead to several issues:
 
-- Version conflicts: different projects may require different versions of the same library. For example, Project A might not be compatible with the latest NumPy, while Project B needs it.
-- Dependency chaos: as your projects grow, you might install numerous packages, and they could interfere with each other, causing unexpected errors or instability.
-- Difficulty collaborating: sharing your code with colleagues or collaborators becomes complex because they may have different versions of packages installed, leading to compatibility issues.
+- **Version conflicts:** different projects may require different versions of the same library. For example, Project A might not be compatible with the latest NumPy, while Project B needs it.
+- **Dependency chaos:** as your projects grow, you might install numerous packages, and they could interfere with each other, causing unexpected errors or instability.
+- **Difficulty collaborating:** sharing your code with colleagues or collaborators becomes complex because they may have different versions of packages installed, leading to compatibility issues.
 
 ![Illustration of _Conda_/_Mamba_ environments. Each environment is isolated from the others (effectively in its own folder), so different versions of the packages can be installed for distinct projects or parts of a long analysis pipeline.](images/conda_environments.svg)
 
@@ -119,14 +119,15 @@ This can lead to several issues:
 
 - Isolation: you can create a separate environment for each project using tools like _Conda_/_Mamba_. This ensures that the dependencies for one project don't affect another.
 - Version control: you can specify the exact versions of libraries and packages required for each project within its environment. This eliminates version conflicts and ensures reproducibility.
-- Ease of collaboration: sharing your code and environment file (e.g., requirements.txt for Python) makes it easy for collaborators to replicate your environment and run your project without worrying about conflicts.
+- Ease of collaboration: sharing your code and environment file makes it easy for collaborators to replicate your environment and run your project without worrying about conflicts.
 - Simplified maintenance: if you need to update a library for one project, it won't impact others. You can manage environments separately, making maintenance more straightforward.
 
 Another advantage of using _Mamba_ is that the **software is installed locally** (by default in your home directory), without the need for admin (`sudo`) permissions. 
 
 You can search for available packages from the [anaconda.org](https://anaconda.org/) website. 
-Packages are organised into "channels", which represent communities that main the software installation recipes for each software. 
-The most popular channels for bioinformatics and data analysis are "_bioconda_" and "conda-forge". 
+Packages are organised into "channels", which represent communities that develop and maintain the installation "recipes" for each software. 
+The most popular channels for bioinformatics and data analysis are "_bioconda_" and "_conda-forge_". 
+
 There are three main commands to use with _Mamba_:
 
 - `mamba create -n ENVIRONMENT-NAME`: this command creates a new software environment, which can be named as you want. Usually people name their environments to either match the name of the main package they are installating there (e.g. an environment called `pangolin` if it's to install the _Pangolin_ software). Or, if you are installing several packages in the same environment, then you can name it as a topic (e.g. an environment called `rnaseq` if it contains several packages for RNA-seq data analysis).
@@ -176,13 +177,13 @@ Therefore, worflow managers such as _Nextflow_ use software containers to run th
 This is what we've been doing throughout these materials, when running the `nf-core/viralrecon` pipeline, where we used the option `-profile singularity`. 
 With this option, _Nextflow_ will download the necessary software containers to run each step of the pipeline, which are available in public repositories online. 
 
-To use Singularity and Docker containers, the respective programs have to be installed, which we detail in our [software setup page](03-software_setup.md#software-image-containers).
+To use _Singularity_ and _Docker_ containers, the respective programs have to be installed, which we detail in our [software setup page](03-software_setup.md#software-image-containers).
 
 
 :::{.callout-note}
 #### Package managers or containers?
 
-As we've seen, the _Mamba_ package manager and the containerisation solutions such as _Docker_ and _Singularity_ are trying to achieve similar things: enabling the reproducible instalation of software and its dependencies in an isolated environment. 
+As we've seen, the _Mamba_ package manager and the containerisation solutions such as _Docker_ and _Singularity_ are trying to achieve similar things: enabling the reproducible installation of software and its dependencies in an isolated environment. 
 So, why use one or the other? 
 
 _Mamba_ is more user-friendly, allowing you to easily install packages of your choice. 
