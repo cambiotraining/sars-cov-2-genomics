@@ -79,6 +79,22 @@ Another way to run Linux within Windows (or macOS) is to install a Virtual Machi
 However, this is mostly suitable for practicing and **not suitable for real data analysis**.
 
 Details for installing Ubuntu on VirtualBox is given on [this page](https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview).
+Make sure to do these things, while you are setting it up:
+
+- In Step 2 "Create a user profile": make sure to tick the Guest Additions option.
+- In Step 2 "Define the Virtual Machine’s resources": 
+  - Assign at least 4 CPUs and 16000MB of RAM. At the very minimum you need 2 CPUs to run an Ubuntu VM.
+  - Set at least 100GB as disk size, more if you have it available (note, this will not take 100GB of space on your computer, but it will allow using up to a maximum of that value, which is useful as we are working with sequencing data).
+
+Once the installation completes, login to the Ubuntu Virtual machine, open a terminal and run the following commands: 
+
+```bash
+sudo -
+usermod -a -G sudo YOUR-USERNAME-HERE
+```
+
+Then close the terminal and restart the virtual machine. 
+These commands will add your newly created user to the "sudo" (admin) group. 
 :::
 
 

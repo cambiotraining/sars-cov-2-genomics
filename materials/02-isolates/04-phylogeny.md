@@ -504,9 +504,11 @@ To highlight these:
 - Select the branch corresponding to the base of the group of samples classified as _Alpha_. This should highlight all those branches. 
 - Click the "Highlight" button at the top and choose a colour. 
 
+<!-- 
 The final result should look similar to what is shown here.
 
-![TODO]()
+![TODO]() 
+-->
 
 **Question 4**
 
@@ -518,9 +520,12 @@ treetime --tree results/iqtree/india.treefile --dates sample_annotation.tsv --al
 
 Once complete, we can open the `india.nexus` tree with _FigTree_.
 We can annotate the internal nodes of the tree with the dates inferred by `treetime` by clicking on the <kbd>Node Labels</kbd> menu on the left and selecting "Display" to be "date". 
+
+<!-- 
 This should result in a tree similar to the one shown here.
 
 ![TODO]()
+-->
 
 **Question 5**
 

@@ -382,21 +382,19 @@ seqkit locate -i -P -G -M -r -p "N+" report/consensus.fa > results/missing_inter
 ```
 
 This software outputs a tab-delimited table, which we saved as `results/missing_intervals.tsv`. 
-The table looks like this: 
+The table looks like this (only the top few rows are shown): 
 
 ```
-seqID	patternName	pattern	strand	start	end
-ZA01	N+	N+	+	1	54
-ZA01	N+	N+	+	22771	22926
-ZA01	N+	N+	+	23603	23835
-ZA01	N+	N+	+	26948	26948
-ZA01	N+	N+	+	26968	27137
-ZA01	N+	N+	+	29801	29867
-ZA02	N+	N+	+	1	54
-ZA02	N+	N+	+	22771	22921
-ZA02	N+	N+	+	23603	23835
-
-... MORE LINES OMITTED ...
+seqID  patternName  pattern  strand  start  end
+ZA01   N+           N+       +       1      54
+ZA01   N+           N+       +       22771  22926
+ZA01   N+           N+       +       23603  23835
+ZA01   N+           N+       +       26948  26948
+ZA01   N+           N+       +       26968  27137
+ZA01   N+           N+       +       29801  29867
+ZA02   N+           N+       +       1      54
+ZA02   N+           N+       +       22771  22921
+ZA02   N+           N+       +       23603  23835
 ```
 
 We opened this file `missing_intervals.tsv` in _Excel_ and quickly calculated the length of each interval. 
