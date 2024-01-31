@@ -86,14 +86,13 @@ Make sure to do these things, while you are setting it up:
   - Assign at least 4 CPUs and 16000MB of RAM. At the very minimum you need 2 CPUs to run an Ubuntu VM.
   - Set at least 100GB as disk size, more if you have it available (note, this will not take 100GB of space on your computer, but it will allow using up to a maximum of that value, which is useful as we are working with sequencing data).
 
-Once the installation completes, login to the Ubuntu Virtual machine, open a terminal and run the following commands: 
+Once the installation completes, login to the Ubuntu Virtual machine, open a terminal and do the following: 
 
-```bash
-sudo -
-usermod -a -G sudo YOUR-USERNAME-HERE
-```
+- Run `su` command.
+- Enter your user password. Your terminal should change to start with `root@`
+- Type the command: `usermod -a -G sudo YOUR-USERNAME-HERE`.
+- Close the terminal and restart the virtual machine. 
 
-Then close the terminal and restart the virtual machine. 
 These commands will add your newly created user to the "sudo" (admin) group. 
 :::
 
