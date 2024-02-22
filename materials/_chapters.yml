@@ -18,7 +18,7 @@ book:
         - materials/03-case_studies/03-eqa.md
     - part: "Wastewater Samples"
       chapters:
-        - materials/04-wastewater/01-wastewater_surveillance.md
+        - materials/04-wastewater/00-ww_temp.md
     - part: "Software"
       chapters:
         - materials/05-software/01-managing_software.md
