@@ -129,7 +129,7 @@ zcat sequences.fq.gz | wc -l
 If we want to know how many sequences there are in the file, we can divide the result by 4 (since each sequence is always represented across four lines).
 
 
-### FASTQ Quality Control
+### FASTQ Quality Control {#sec-fastqc}
 
 One of the most basic tasks in Illumina sequence analysis is to run a quality control step on the FASTQ files we obtained from the sequencing machine. 
 

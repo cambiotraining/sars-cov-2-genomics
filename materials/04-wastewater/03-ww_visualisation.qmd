@@ -1,0 +1,188 @@
+---
+pagetitle: "SARS Genomic Surveillance"
+---
+
+# Abundance Visualisation
+
+```{r setup, echo=False}
+knitr::opts_chunk$set(echo = TRUE, root.dir = "../../course_files/r_demo/")
+knitr::opts_knit$set(root.dir = "../../course_files/r_demo/")
+```
+
+:::{.callout-tip}
+## Learning Objectives
+
+Under development
+
+:::
+
+
+## Custom visualisation with R
+
+In the previous section we have generated a CSV file that aggregated all the lineage/variant abundances into a single table. 
+Although we have done some exploration of the data in _Excel_, we can perform more advanced and customised visualisations using the _R_ software (see the [R fundamentals](../appendices/quick_r.Rmd) appendix for a quick introduction to this software).
+
+We start by loading the `tidyverse` package, which contains several functions for data manipulation and visualisation:
+
+```{r}
+library(tidyverse)
+theme_set(theme_classic())
+```
+
+We have also set a simpler theme for our `ggplot` plots, instead of the default greyed-background theme.
+
+The next step is to read our data in:
+
+```{r, eval=FALSE}
+vocs <- read_csv("results/tidyfreyja/vocs_abundances.csv")
+```
+
+```{r, include=FALSE}
+vocs <- read_csv("vocs_abundances.csv")
+lineages <- read_csv("lineage_abundances.csv")
+```
+
+We can check the first few rows of our data, to check that is was imported correctly:
+
+```{r}
+head(vocs)
+```
+
+We can also do some basic exploration of our data, answering some simple questions.
+Some examples are given here.
+
+How many VOCs have >75% frequency?
+
+```{r}
+vocs |> 
+  # keep rows with >= 75% abundance
+  filter(abundance >= 0.75) |> 
+  # sort them by date
+  arrange(date)
+```
+
+What was the count of each detected variant?
+
+```{r}
+vocs |> 
+  count(name)
+```
+
+We can also start doing some visualisations. 
+For example, the previous question can be better visualised with a barplot: 
+
+```{r}
+vocs |> 
+  count(name) |> 
+  ggplot(aes(x = n, y = name)) +
+  geom_col()
+```
+
+Even better, we can sort our variants by count rather than alphabetically: 
+
+```{r}
+vocs |> 
+  count(name) |> 
+  # reorder the names by their count
+  mutate(name = fct_reorder(name, n)) |> 
+  ggplot(aes(x = n, y = name)) +
+  geom_col()
+```
+
+We may also want to break this down by city: 
+
+```{r}
+vocs |> 
+  # count by city and name
+  count(city, name) |> 
+  # reorder the names by their count
+  mutate(name = fct_reorder(name, n)) |> 
+  ggplot(aes(x = n, y = name)) +
+  geom_col(aes(fill = city))
+```
+
+It seems like Omicron was only detected in San Diego. 
+Could this be because of the dates when the samples were collected in each city?
+
+```{r}
+vocs |> 
+  # create a variable with the start of the week for each sample
+  mutate(week = floor_date(date, "week")) |> 
+  # count how many samples per week and city
+  count(week, city) |> 
+  # barplot
+  ggplot(aes(week, n)) +
+  geom_col() +
+  facet_grid(~ city)
+```
+
+Yes, it seems like San Diego has a wider coverage across time. 
+Let's create a new table for some downstream visualisations:
+
+- Retain samples from San Diego only.
+- Add a new column with the start of the month that each sample was collected in.
+- Add an ordering to the sample IDs by their date of colection.
+- Add an ordering to the variants IDs by their average date of occurrence.
+
+```{r}
+sandiego <- vocs |> 
+  filter(city == "San Diego") |> 
+  mutate(month = floor_date(date, "month"),
+         sample = fct_reorder(sample, date),
+         name = fct_reorder(name, date))
+```
+
+
+Using `ggplot`, we can create a barplot of VOCs over time: 
+
+```{r}
+sandiego |> 
+  ggplot(aes(x = sample, y = abundance)) +
+  geom_col(aes(fill = name)) +
+  scale_x_discrete(guide = guide_axis(angle = 45))
+```
+
+If you want, you can also visualise this as a heatmap-style plot: 
+
+```{r}
+sandiego |> 
+  ggplot(aes(sample, name)) +
+  geom_tile(aes(fill = abundance)) +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  scale_x_discrete(guide = guide_axis(angle = 45)) +
+  facet_grid(~ month, scales = "free_x", space = "free_x")
+```
+
+We can clearly see the transition between Delta and Omicron. 
+Delta is clearly dominant in Sep and Nov, then samples start to appear more mixed in Dec, and finally replaced by Omicron by Jan.
+
+
+```{r}
+# distribution of lineage abundances
+lineages |> 
+  ggplot(aes(abundance)) +
+  geom_histogram(binwidth = 0.01)
+
+lineages |> 
+  # order the samples by date
+  mutate(sample = fct_reorder(sample, date),
+         name = fct_reorder(name, date)) |> 
+  ggplot(aes(sample, name)) +
+  geom_tile(aes(fill = abundance)) +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  theme_classic() +
+  scale_x_discrete(guide = guide_axis(angle = 45))
+```
+
+## Freyja dashboard
+
+```bash
+freyja dash
+```
+
+- Freyja requires a metadata file in a strange format - it might be better to simply use the tidy script and R
+
+Custom visualisation with R:
+
+- Note that abundances don't always add up to 1. This is a rounding issue from Freyja output.
+- 

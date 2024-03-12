@@ -79,7 +79,7 @@ p4 <- example |>
 
 # uncertainty in the estimated frequencies
 # using Jeffreys interval estimation using the Beta
-crossing(freq = c(0.01, 0.05, 0.1, 0.5, 0.9), depth = seq(10, 1000, 1)) |> 
+crossing(freq = c(0.01, 0.05, 0.1, 0.5, 0.9), depth = seq(10, 500, 1)) |> 
   mutate(lo = qbeta(0.025, depth*freq+0.5, depth*(1-freq)+0.5),
          hi = qbeta(0.975, depth*freq+0.5, depth*(1-freq)+0.5)) |> 
   ggplot(aes(depth, freq)) +
@@ -87,36 +87,37 @@ crossing(freq = c(0.01, 0.05, 0.1, 0.5, 0.9), depth = seq(10, 1000, 1)) |>
   geom_ribbon(aes(ymin = lo, ymax = hi, fill = factor(freq)), alpha = 0.3) +
   theme_bw() +
   scale_fill_viridis_d() + scale_colour_viridis_d() +
-  scale_x_continuous(breaks = seq(0, 10000, 200)) +
+  scale_x_continuous(breaks = seq(0, 10000, 100)) +
   scale_y_continuous(breaks = seq(0, 1, 0.2)) +
   labs(x = "Sequencing depth", y = "Estimated frequency\n(95% confidence interval)",
        subtitle = "Decrease in uncertainty as sequencing depth increases",
        colour = "Starting\nfrequency", fill = "Starting\nfrequency")
 
 # uncertainty interval for a variant at 50% frequency
-crossing(freq = 0.5, depth = seq(10, 2000, 1)) |> 
+crossing(freq = 0.5, depth = seq(10, 500, 1)) |> 
   mutate(lo = qbeta(0.025, depth*freq+0.5, depth*(1-freq)+0.5),
          hi = qbeta(0.975, depth*freq+0.5, depth*(1-freq)+0.5)) |> #View()
   ggplot(aes(depth, hi - lo)) +
   geom_line(aes(group = factor(freq)), linewidth = 2) +
   theme_bw() +
   scale_colour_viridis_d() +
-  scale_x_continuous(breaks = seq(0, 10000, 200)) +
+  scale_x_continuous(breaks = seq(0, 10000, 100)) +
+  scale_y_continuous(limits = c(0, 0.6)) +
   labs(x = "Sequencing depth", y = "Uncertainty\n(95% interval range)",
        subtitle = "Non-linear decrease in uncertainty as sequencing depth increases")
 
-# probability of detecting a variant with at least 5 reads
+# probability of detecting a variant with at least 1 read
 # assuming different starting frequencies and total read depth
-crossing(freq = c(0.01, 0.05, 0.1, 0.5, 0.9), depth = seq(10, 2000, 1)) |> 
-  mutate(detect = 1 - pbinom(4, depth, freq)) |> 
+crossing(freq = c(0.01, 0.05, 0.1, 0.5, 0.9), depth = seq(10, 500, 1)) |> 
+  mutate(detect = 1 - pbinom(0, depth, freq)) |> 
   # filter(depth < 400) |> 
   ggplot(aes(depth, detect)) +
   geom_line(aes(colour = factor(freq)), linewidth = 2) +
   theme_bw() +
   scale_colour_viridis_d() +
-  scale_x_continuous(breaks = seq(0, 2000, 200)) +
+  scale_x_continuous(breaks = seq(0, 2000, 100)) +
   scale_y_continuous(breaks = seq(0, 1, 0.2)) +
-  labs(x = "Sequencing depth", y = "Probability of detection\n(minimum 5 reads)",
+  labs(x = "Sequencing depth", y = "Probability of detection\n(minimum 1 read)",
        subtitle = "High sequencing depth is required to detect rare variants",
        colour = "Starting\nfrequency")
 
@@ -186,3 +187,18 @@ sim |>
                 position = "dodge") +
   geom_hline(yintercept = freqs, colour = "grey") +
   theme_classic()
+
+
+# UShER
+
+muts <- read_csv("https://github.com/andersen-lab/Freyja/raw/main/freyja/data/usher_barcodes.csv")
+colnames(muts)[1] <- "lineage"
+
+mut_mat <- as.matrix(muts[, -1])
+rownames(mut_mat) <- muts[[1]]
+
+dist(mut_mat[1:30, ])
+
+# distinguishing mutations in some UK lineages at the moment
+temp <- mut_mat[c("JN.1", "JN.1.1", "JN.2", "BA.2.86.1"), ]
+temp[ , colSums(temp) != 0 & colSums(temp) != nrow(temp)]

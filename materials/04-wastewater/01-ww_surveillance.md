@@ -55,6 +55,11 @@ Different methods may work better or worse for different samples and situations.
 Also depends on resources available (equipment and reagents). 
 
 
+## Metadata
+
+See https://github.com/pha4ge/Wastewater_Contextual_Data_Specification?tab=readme-ov-file
+
+
 ## Glossary
 
 - WBE - wastewater-based epidemiology

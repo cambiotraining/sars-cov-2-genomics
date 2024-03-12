@@ -64,7 +64,7 @@ def parse_arguments():
 
   parser.add_argument("--viralrecon_results", required=True, help="Path to the directory with the viralrecon results. The script will automatically read the files from their relevant sub-directories.")
 
-  parser.add_argument("--outdir", required=True, help="Output directory name, which will be created if it does not exist. Two files will be saved, named 'lineage_abundances.csv' and 'vocs_summaries.csv'")
+  parser.add_argument("--outdir", required=True, help="Output directory name, which will be created if it does not exist. Two files will be saved, named 'lineage_abundances.csv' and 'vocs_abundances.csv'")
 
   parser.add_argument("--prefix", default="", help="Optional prefix for output file names.")
 
