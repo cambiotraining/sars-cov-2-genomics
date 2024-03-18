@@ -9,7 +9,7 @@ pagetitle: "SARS Genomic Surveillance"
 Under development
 
 :::
-
+<!-- 
 Several studies demonstrate a high correlation between wastewater incidence and clinical sampling:
 
 - [Predicting COVID-19 Incidence Using Wastewater Surveillance Data, Denmark, October 2021–June 2022](https://doi.org/10.3201/eid2908.221634)
@@ -64,4 +64,4 @@ See https://github.com/pha4ge/Wastewater_Contextual_Data_Specification?tab=readm
 
 - WBE - wastewater-based epidemiology
 - WWTP - wastewater treatment plants
-- WGS - whole-genome sequencing
+- WGS - whole-genome sequencing -->
