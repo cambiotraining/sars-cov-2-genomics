@@ -4,7 +4,8 @@ pagetitle: "SARS Genomic Surveillance"
 
 # Abundance Visualisation
 
-```{r setup, echo=False}
+```{r setup}
+#| echo: false
 knitr::opts_chunk$set(echo = TRUE, root.dir = "../../course_files/r_demo/")
 knitr::opts_knit$set(root.dir = "../../course_files/r_demo/")
 ```
@@ -12,34 +13,57 @@ knitr::opts_knit$set(root.dir = "../../course_files/r_demo/")
 :::{.callout-tip}
 ## Learning Objectives
 
-Under development
-
+- Perform basic exploratory analysis of variant/lineage abundance data using the software _R_.
+- Generate several plots showing the change in variant abundance over time.
+- Explore which lineages are detected and assess the uncertainty in their estimates due to sequencing.
+- Recognise the pros and cons of analysing data from individual lineages or summarised across variants of concern.
 :::
 
 
-## Custom visualisation with R
+## Data exploration with R
 
 In the previous section we have generated a CSV file that aggregated all the lineage/variant abundances into a single table. 
-Although we have done some exploration of the data in _Excel_, we can perform more advanced and customised visualisations using the _R_ software (see the [R fundamentals](../appendices/quick_r.Rmd) appendix for a quick introduction to this software).
+Although some basic exploration of these data can be done in _Excel_, we can perform more advanced and customised visualisations using the _R_ software (see the [R fundamentals](../appendices/quick_r.Rmd) appendix for a quick introduction to this software).
+
+:::{.callout-note collapse=true}
+#### Summary of R functions used
+
+The main functions used in this section are: 
+
+- Data import ([Posit cheatsheet](https://rstudio.github.io/cheatsheets/html/data-import.html)):
+  - `read_csv()` to import a CSV file as a data.frame/tibble object.
+- Data manipulation ([Posit cheatsheet](https://rstudio.github.io/cheatsheets/html/data-transformation.html)):
+  - `filter()` to subset rows of the table that match a particular condition.
+  - `arrange()` to sort the table by the values of selected columns.
+  - `count()` to count the unique values of selected columns.
+  - `mutate()` to add new columns to the table or modify the values of existing ones. 
+- Working with categorical variables ([Posit cheatsheet](https://rstudio.github.io/cheatsheets/html/factors.html)):
+  - `fct_reorder()` to order categorical values based on a numeric variable (rather than the default alphabetical ordering).
+- Working with dates ([Posit cheatsheet](https://rstudio.github.io/cheatsheets/html/lubridate.html)):
+  - `floor_date()` to round a date down to the time unit specified (e.g. "week" or "month").
+- Visualisation with `ggplot2` ([Posit cheatsheet](https://rstudio.github.io/cheatsheets/html/data-visualization.html)).
+:::
 
 We start by loading the `tidyverse` package, which contains several functions for data manipulation and visualisation:
 
 ```{r}
+#| message: false
 library(tidyverse)
-theme_set(theme_classic())
+theme_set(theme_bw())
 ```
 
-We have also set a simpler theme for our `ggplot` plots, instead of the default greyed-background theme.
+We have also set a "black-and-white" theme for our `ggplot` plots, instead of the default "grey" theme.
 
 The next step is to read our data in:
 
-```{r, eval=FALSE}
+```{r}
+#| eval: false
 vocs <- read_csv("results/tidyfreyja/vocs_abundances.csv")
 ```
 
-```{r, include=FALSE}
+```{r}
+#| include: false
 vocs <- read_csv("vocs_abundances.csv")
-lineages <- read_csv("lineage_abundances.csv")
 ```
 
 We can check the first few rows of our data, to check that is was imported correctly:
@@ -48,7 +72,7 @@ We can check the first few rows of our data, to check that is was imported corre
 head(vocs)
 ```
 
-We can also do some basic exploration of our data, answering some simple questions.
+We can start with some basic exploration of our data, answering some simple questions.
 Some examples are given here.
 
 How many VOCs have >75% frequency?
@@ -69,11 +93,13 @@ vocs |>
 ```
 
 We can also start doing some visualisations. 
-For example, the previous question can be better visualised with a barplot: 
+For example, the previous question can be visualised with a barplot: 
 
 ```{r}
 vocs |> 
+  # count occurrence of each VOC
   count(name) |> 
+  # visualise
   ggplot(aes(x = n, y = name)) +
   geom_col()
 ```
@@ -82,9 +108,11 @@ Even better, we can sort our variants by count rather than alphabetically:
 
 ```{r}
 vocs |> 
+  # count occurrence of each VOC
   count(name) |> 
   # reorder the names by their count
-  mutate(name = fct_reorder(name, n)) |> 
+  mutate(name = fct_reorder(name, n)) |>
+  # visualise
   ggplot(aes(x = n, y = name)) +
   geom_col()
 ```
@@ -97,6 +125,7 @@ vocs |>
   count(city, name) |> 
   # reorder the names by their count
   mutate(name = fct_reorder(name, n)) |> 
+  # visualise
   ggplot(aes(x = n, y = name)) +
   geom_col(aes(fill = city))
 ```
@@ -113,16 +142,33 @@ vocs |>
   # barplot
   ggplot(aes(week, n)) +
   geom_col() +
-  facet_grid(~ city)
+  facet_grid(rows = vars(city))
 ```
 
-Yes, it seems like San Diego has a wider coverage across time. 
-Let's create a new table for some downstream visualisations:
+Indeed, it seems like San Diego has a wider coverage across time. 
+It is also clear from this plot that we have a time gap in our sampling, missing samples in Oct and Nov. 
 
-- Retain samples from San Diego only.
-- Add a new column with the start of the month that each sample was collected in.
-- Add an ordering to the sample IDs by their date of colection.
-- Add an ordering to the variants IDs by their average date of occurrence.
+:::{.callout-exercise}
+
+Given that San Diego has better sampling through time, let's create a new table for our downstream visualisations.
+
+1. Create a new table called `sandiego`:
+   - Retain observations from San Diego only.
+   - Add a new column with the start of the month that each sample was collected in.
+   - Order the sample IDs and variant IDs by their date of collection.
+2. Make a new barplot with the counts of each variant observed in this city.
+
+:::{.callout-hint}
+For the first task, the following functions can be used: 
+
+- `filter()` to subset rows
+- `mutate()` to add or modify columns
+- `fct_reorder()` to order categorical variables based on the date
+:::
+
+:::{.callout-answer}
+
+The following code creates a new table as requested:
 
 ```{r}
 sandiego <- vocs |> 
@@ -132,8 +178,23 @@ sandiego <- vocs |>
          name = fct_reorder(name, date))
 ```
 
+We can produce a barplot of variant counts as we did before:
 
-Using `ggplot`, we can create a barplot of VOCs over time: 
+```{r}
+sandiego |> 
+  count(name) |> 
+  mutate(name = fct_reorder(name, n)) |> 
+  ggplot(aes(n, name)) +
+  geom_col()
+```
+
+:::
+:::
+
+## Variant abundances
+
+Relative lineage abundances can be visualised as a barplot, where the samples are ordered by their date of collection.
+Using `ggplot`: 
 
 ```{r}
 sandiego |> 
@@ -142,7 +203,20 @@ sandiego |>
   scale_x_discrete(guide = guide_axis(angle = 45))
 ```
 
-If you want, you can also visualise this as a heatmap-style plot: 
+To add further information about the date of collection, we can also "facet" the plot by the month when the samples were collected:
+
+```{r}
+sandiego |> 
+  ggplot(aes(x = sample, y = abundance)) +
+  geom_col(aes(fill = name)) +
+  scale_x_discrete(guide = guide_axis(angle = 45)) +
+  facet_grid(cols = vars(month), scales = "free_x", space = "free_x")
+```
+
+You may notice that some of the bars don't quite add up to 1. 
+This is simply a rounding issue from Freyja output.
+
+We can also visualise the abundances in a heatmap-style plot, which may be useful if the number of samples is very large: 
 
 ```{r}
 sandiego |> 
@@ -154,35 +228,206 @@ sandiego |>
 ```
 
 We can clearly see the transition between Delta and Omicron. 
-Delta is clearly dominant in Sep and Nov, then samples start to appear more mixed in Dec, and finally replaced by Omicron by Jan.
+Delta is dominant in Sep and Nov, then samples start to appear more mixed in Dec, and finally replaced by Omicron by Jan.
 
+Another way to visualise these data is using a line plot, with a line for each variant: 
 
 ```{r}
-# distribution of lineage abundances
-lineages |> 
-  ggplot(aes(abundance)) +
-  geom_histogram(binwidth = 0.01)
+sandiego |> 
+  ggplot(aes(date, abundance, colour = name)) +
+  geom_point(size = 2) +
+  geom_line(linewidth = 1)
+```
 
+This plot also shows the clear shift between Delta and Omicron. 
+We can also see the other variants are much less frequent in these samples. 
+
+## Lineage abundances
+
+So far, we have been analysing the frequencies summarised by Variant of Concern (VOC).
+We could do similar analyses using the individual lineages, however these tend to be less clear.
+
+Let's start by importing our data:
+
+```{r}
+#| eval: false
+lineages <- read_csv("results/tidyfreyja/lineage_abundances.csv")
+```
+
+```{r}
+#| include: false
+lineages <- read_csv("lineage_abundances.csv")
+```
+
+Here is an example of the heatmap-style visualisation for the San Diego samples: 
+
+```{r}
 lineages |> 
-  # order the samples by date
+  # keep only samples from San Diego
+  filter(city == "San Diego") |> 
+  # order the samples and lineages by date
   mutate(sample = fct_reorder(sample, date),
          name = fct_reorder(name, date)) |> 
+  # visualise
   ggplot(aes(sample, name)) +
   geom_tile(aes(fill = abundance)) +
   scale_fill_viridis_c(limits = c(0, 1)) +
   theme_classic() +
-  scale_x_discrete(guide = guide_axis(angle = 45))
+  scale_x_discrete(guide = guide_axis(angle = 45)) +
+  scale_y_discrete(guide = guide_axis(check.overlap = TRUE))
 ```
+
+In this case, there are too many lineages to be easily visible on a plot like this (not all lineage names are shown on the y-axis, as they were overlapping each other).
+Therefore, using the VOCs summaries is more suited for these types of visualisations. 
+
+We can also see that the abundance of these lineages is generally very low, most lineages have a low frequency.
+This may be due to a mixture of sub-lineages being present in the sample, or even due to imprecisions in the estimates from our data.
+This can happen for lineages that have very similar mutation profiles. 
+
+Here is a histogram showing the distribution of lineage abundances:
+
+```{r}
+lineages |> 
+  ggplot(aes(abundance)) +
+  geom_histogram(binwidth = 0.01)
+```
+
+As we can see, most lineages have an abundance of less than 1% (the first bar in the plot). 
+Since many of these lineages are, in fact, part of the same clade, the summarised VOCs table gives a clearler picture for these types of visualisation.
+
+However, the lineage data may be useful to **investigate specific samples in more detail**. 
+For example, what were the lineages present in the latest sample collected?
+
+```{r}
+lineages |> 
+  filter(sample == "SRR18541030")
+```
+
+We can plot their frequency and bootstrap uncertainty interval:
+
+```{r}
+lineages |> 
+  # keep rows for sample of interest only
+  filter(sample == "SRR18541030") |> 
+  # sort lineage by abundance
+  mutate(name = fct_reorder(name, abundance)) |> 
+  # make the plot
+  ggplot(aes(x = name, y = abundance, colour = abundance < 0.05)) +
+  geom_pointrange(aes(ymin = boot_lo, ymax = boot_hi)) +
+  labs(x = "Lineage", y = "Abundance (95% CI)", colour = "< 5%")
+```
+
+We can see several lineages with low frequency (less than 5%), which we should interpret carefully as those tend to less precise (see [Sutcliffe et al. 2023](https://doi.org/10.1101/2023.12.20.572426)). 
+For higher frequency lineages the confidence intervals are relatively narrow, suggesting the uncertainty due to sequencing depth is not problematic for this sample. 
+
+
+### Exercise
+
+:::{.callout-exercise}
+#### Lineages abundance uncertainty
+
+- Based on the code just shown above, make a similar lineage abundance plot for the each of the following samples: "SRR18541092" and "SRR18541114". 
+- What do you think about the uncertainty in the lineage estimates of these two samples? Can you hypothesise the reason for this difference? (Hint: go back to the _MultiQC_ report and check these samples' quality).
+- For both samples, make a similar plot but for the summaried VOC abundances. What do you think about the uncertainty in this case? Discuss with your neighbours.
+
+
+:::{.callout-answer}
+
+Here is the code for these two variants:
+
+```{r}
+lineages |> 
+  filter(sample == "SRR18541092") |> 
+  mutate(name = fct_reorder(name, abundance)) |> 
+  ggplot(aes(x = name, y = abundance, colour = abundance < 0.05)) +
+  geom_pointrange(aes(ymin = boot_lo, ymax = boot_hi)) +
+  scale_x_discrete(guide = guide_axis(angle = 45)) +
+  labs(x = "Lineage", y = "Abundance (95% CI)", colour = "< 5%", 
+       main = "Sample: SRR18541092")
+
+lineages |> 
+  filter(sample == "SRR18541114") |> 
+  mutate(name = fct_reorder(name, abundance)) |> 
+  ggplot(aes(x = name, y = abundance, colour = abundance < 0.05)) +
+  geom_pointrange(aes(ymin = boot_lo, ymax = boot_hi)) +
+  scale_x_discrete(guide = guide_axis(angle = 45)) +
+  labs(x = "Lineage", y = "Abundance (95% CI)", colour = "< 5%",
+       main = "Sample: SRR18541114")
+```
+
+We can see that the uncertainty in sample _SRR18541114_ is substantially higher compared to _SRR18541092_. 
+
+The reason is possibly the **difference in sequencing depth** between these samples.
+If we go back to the _MultiQC_ report from `viralrecon` we will see that the median coverage for _SRR18541114_ is only 94x, compared to 377x for the other sample. 
+Looking at the _Mosdepth_ cumulative coverage graph on the report is even more illustrative: 
+
+![](images/ww_mosdepth.png)
+
+We can see from this plot that, for example, only ~50% of the genome in _SRR18541114_ is covered at >100x, compared to ~70% on the other sample.
+This likely leads to several mutations that are missed during sequencing, leading to less stable abundance estimates.
+
+A similar code could be used to visualise the abundance of the VOCs in these two samples. 
+However, we show a modified version of the code, combining both samples in the same plot:
+
+```{r}
+sandiego |> 
+  # keep rows for sample of interest only
+  filter(sample %in% c("SRR18541092", "SRR18541114")) |> 
+  # make the plot
+  ggplot(aes(x = name, y = abundance, colour = sample)) +
+  geom_pointrange(aes(ymin = boot_lo, ymax = boot_hi), 
+                  position = position_dodge(width = 0.5))
+```
+
+We've used a few tricks for this visualisation: 
+
+- The `%in%` operator is used to select rows that match either of those samples.
+- We've added `colour = sample` aesthetic, to colour points based on the sample.
+- `position_dodge()` is used to shift the points of the two samples so they are not overlapping.
+
+This visualisation reveals much less uncertainty when summarising the lineages into variants of concern. 
+This makes some sense, as multiple lineages are combined together for a given VOC, so even though the uncertainty of individual lineages may be high, this uncertainty is reduced when looking at the summarised results. 
+
+This reveals a clear tradeoff between looking at individual lineages compared to summarised VOC abundances. 
+On the one hand we get more information about specific lineages detected, but their abundances may have high uncertainty due to sequencing. 
+On the other hand we get more precise abundance estimates for VOCs, but loose the detail of which specific lineages of those variants were present in our samples. 
+
+In conclusion, looking at both results is useful. 
+We can start with an analysis of VOCs to get the bigger picture of which variants are circulating, and later explore individual lineages detected in the samples. 
+When looking at individual lineages, we should be mindful of considering samples with higher sequencing depth, to get a more precise picture.
+:::
+:::
+
 
 ## Freyja dashboard
 
-```bash
-freyja dash
-```
+In this chapter we covered the use of _R_ to generate these visualisations. 
+This is because of the flexibility of this language, which allows us to perform many different types of visualisation and data exploration. 
 
-- Freyja requires a metadata file in a strange format - it might be better to simply use the tidy script and R
+However, the _Freyja_ developers provide a command to generate a dashboard with a barplot of VOC abundances. 
+We have found this solution less flexible, and it requires configuring the metadata file in a very specific format.
 
-Custom visualisation with R:
+There are two steps involved: 
 
-- Note that abundances don't always add up to 1. This is a rounding issue from Freyja output.
-- 
+- `freyja aggregate` is used to combine the results of multiple samples into a single file. 
+- `freyja dash` is then used to create the dashboard.
+
+The [_Freyja_ documentation](https://github.com/andersen-lab/Freyja#additional-options) gives more details about how to use these commands. 
+You will need to pay attention to the specific file format for metadata, which requires certain columns to be present in order for the commands to work. 
+
+
+## Summary 
+
+:::{.callout-tip}
+## Key points
+
+- There are several useful exploratory analyses that can be done on variant abundances:
+  - Which variants were detected at high frequency.
+  - How many times each variant was detected across all samples.
+  - How many samples were collected weekly in different regions.
+- Variant abundance over time can be displayed as barplots, heatmaps or line plots.
+- Samples with higher sequencing depth usually have narrower confidence intervals compared to those with low sequencing depth. 
+- Analysis of both lineage and VOC abundance is useful:
+  - VOC abundance gives more stable estimates and provides a "big picture" of the variants circulating the population. 
+  - Lineage abundance gives more detail about which exact lineages of a variant are circulating in the population, however the estimates are less precise with wider confidence intervals. 
+:::

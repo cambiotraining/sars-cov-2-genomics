@@ -2,19 +2,7 @@
 pagetitle: "SARS Genomic Surveillance"
 ---
 
-# Mutation Analysis
-
-:::{.callout-caution}
-
-Under development
-
-:::
-
-
-## Mutation Frequency Visualisation
-
-TODO - using R to read the mutations long table and make some heatmap-style visualisations
-
+# Covariants
 
 ## Mutation co-occurrence
 

@@ -7,7 +7,7 @@ pagetitle: "SARS Genomic Surveillance"
 This page summarises several additional resources and software applications useful for SARS surveillance.
 
 
-## Amplicon Primer Schemes
+## Amplicon Primer Schemes {#sec-primer-schemes}
 
 For amplicon sequencing, there are several protocols and commercial kits available.
 We try to summarise some of the common ones below. 
