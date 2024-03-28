@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SARS Genomic Surveillance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/04-wastewater/02-ww_abundance.html" rel="next">
+<link href="../../materials/03-case_studies/03-eqa.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university_crest_reversed.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Bioinformatics for SARS Genomic Surveillance</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/cambiotraining/sars-cov-2-genomics" rel="" target=""><i class="bi bi-github" role="img" aria-label="Bioinformatics Training Facility GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/bioinfocambs" rel="" target=""><i class="bi bi-twitter" role="img" aria-label="Bioinformatics Training Facility Twitter">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://genomic.social/@BioInfoCambs" rel="" target=""><i class="bi bi-mastodon" role="img" aria-label="Bioinformatics Training Facility Mastodon">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../materials/04-wastewater/01-ww_surveillance.html">Wastewater Samples</a></li><li class="breadcrumb-item"><a href="../../materials/04-wastewater/01-ww_surveillance.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wastewater Surveillance</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Welcome</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data &amp; Software</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/01-surveillance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SARS-CoV-2 genomic surveillance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/02-ngs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to NGS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/03-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bioinformatic workflows</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Clinical Isolates</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/01-consensus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Consensus assembly</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/02-qc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/03-lineages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lineages and variants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/04-phylogeny.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Building phylogenetic trees</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Case Studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/01-switzerland.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Switzerland (Nanopore)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/02-southafrica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">South Africa (Illumina)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/03-eqa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">EQA (Exercise)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Wastewater Samples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/01-ww_surveillance.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wastewater Surveillance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/02-ww_abundance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lineage Abundance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/03-ww_visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Abundance Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/04-ww_mutations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Mutation Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-software/01-managing_software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Managing Bioinformatics Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-software/03-software_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Software setup</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/file_formats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Common file formats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/unix_cheatsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unix cheat sheet</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/quick_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/tools_and_resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tools and Resources</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">11.1</span> Overview</a></li>
+  <li><a href="#wastewater-vs-clinical-surveillance" id="toc-wastewater-vs-clinical-surveillance" class="nav-link" data-scroll-target="#wastewater-vs-clinical-surveillance"><span class="header-section-number">11.2</span> Wastewater vs clinical surveillance</a></li>
+  <li><a href="#sample-preparation" id="toc-sample-preparation" class="nav-link" data-scroll-target="#sample-preparation"><span class="header-section-number">11.3</span> Sample preparation</a></li>
+  <li><a href="#viral-prevalence-with-rt-qpcr" id="toc-viral-prevalence-with-rt-qpcr" class="nav-link" data-scroll-target="#viral-prevalence-with-rt-qpcr"><span class="header-section-number">11.4</span> Viral prevalence with RT-qPCR</a></li>
+  <li><a href="#lineage-abundance-with-sequencing" id="toc-lineage-abundance-with-sequencing" class="nav-link" data-scroll-target="#lineage-abundance-with-sequencing"><span class="header-section-number">11.5</span> Lineage abundance with sequencing</a></li>
+  <li><a href="#metadata" id="toc-metadata" class="nav-link" data-scroll-target="#metadata"><span class="header-section-number">11.6</span> Metadata</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">11.7</span> Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wastewater Surveillance</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Define what wastewater surveillance is and how it can complement surveillance from clinical cases.</li>
+<li>List the different approaches to wastewater surveillance and some of their advantages and disadvantages.</li>
+<li>Summarise the steps in sample preparation and recognise the critical importance of sample concentration protocols.</li>
+<li>Differentiate between RT-qPCR and sequencing-based methods, namely on what information each type of approach gives.</li>
+<li>Recognise the importance of metadata collection and list critical information that should be recorded for every sample.</li>
+</ul>
+</div>
+</div>
+<section id="overview" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">11.1</span> Overview</h2>
+<p>Wastewater surveillance is an important method of pathogen surveillance, which can complement the surveillance achieved by sampling clinical cases (reviewed in <a href="https://doi.org/10.1038/s41591-022-01940-x">Diamond et al.&nbsp;2022</a> and <a href="https://doi.org/10.3389/fceng.2022.1112876">Gitter et al.&nbsp;2023</a>). Wastewater surveillance has been successfully applied to monitor different pathogens such as poliovirus, <em>Salmonella</em>, influenza and respiratory syncytial virus (e.g.&nbsp;<a href="https://doi.org/10.1016/S0140-6736(22)01804-9">Klapsa et al.&nbsp;2022</a>, <a href="https://doi.org/10.3390%2Fpathogens9010052">Yanagimoto et al.&nbsp;2020</a>, <a href="https://doi.org/10.1016/j.scitotenv.2023.169551">Faherty et al.&nbsp;2024</a>, <a href="https://doi.org/10.3390%2Fijerph20065219">Koureas et al.&nbsp;2023</a>). With the COVID-19 pandemic, wastewater surveillance has also rapidily developed to monitor SARS-CoV-2 (<a href="https://doi.org/10.1038/s41564-022-01201-0">Nature Microbiology editorial 2022</a>).</p>
+<p>Different methodologies can be employed, which are complementary to each other and achieve different outcomes:</p>
+<ul>
+<li><strong>Metagenomics</strong> can be used to characterise the <strong>diversity</strong> of pathogens circulating in the population. One of its main advantages is that it does not require prior knowledge of the pathogens circulating the population. However, this is an expensive method, with low sensitivity to detect low-abundance pathogens.</li>
+<li><strong>Targetted RT-qPCR</strong> can be used to estimate the <strong>prevalence</strong> of a pathogen in the population. This is a relatively cheap and quick method that can be applied to monitor the incidence of the pathogen across time and geographic regions. However, this method requires prior knowledge of the target genome and it does not give an indication of which strains are circulating in the population.</li>
+<li><strong>Amplicon-based Sequencing</strong> can be used to infer the <strong>relative abundance of lineages and mutations</strong> circulating in the population. This method also requires knowledge of the target genome, and cannot be used to estimate the prevalence of the virus in the population.</li>
+</ul>
+<p>Which of these methods to use depends on the objectives of the surveillance and it is important to be aware of the strenghts and limitations of each. We refer to <a href="https://doi.org/10.1128/mbio.01468-23">Child et al.&nbsp;2023</a> for a comparison of metagenomic and targetted approaches for monitoring of respiratory viruses. For example, while a shotgun metagenomics approach may seem attractive (as it does not target any specific pathogen), it is very expensive and may fail to detect low-abundance viruses in wastewater samples, despite very deep sequencing.</p>
+<p>These materials focus mainly on the bioinformatic analysis of amplicon-based whole genome sequencing approach, specifically for SARS-CoV-2.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ww_overview.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Diagram summarising the steps in wastewater collection, processing and downstream analyses for SARS-CoV-2. Collection of samples typically occurs in wastewater treatment plants (although other wastewater can be sampled). The raw wastewater is concentrated and cleaned, to enrich for viral particles. RNA is extracted and converted to cDNA for downstream analyses. Two typical methods used are RT-qPCR, which allows estimating viral prevalence in the population or high-throughput sequencing, which allows estimating relative lineage abundances and mutation frequencies.</figcaption>
+</figure>
+</div>
+</section>
+<section id="wastewater-vs-clinical-surveillance" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="wastewater-vs-clinical-surveillance"><span class="header-section-number">11.2</span> Wastewater vs clinical surveillance</h2>
+<p>Both wastewater and clinical surveillance are relevant for public health monitoring of pathogens, having their respective advantages and disadvantages.</p>
+<p>Some of the advantages of wastewater surveillance, compared to clinical sampling, are:</p>
+<ul>
+<li><strong>Cheaper:</strong> a single wastewater sample can capture the diversity in a population of individuals, making it cheaper than sampling the equivalent number of clinical cases.</li>
+<li><strong>Faster:</strong> with the correct infrastructure in place, wastewater samples can be faster to process compared to clinical samples, which involve working with medical staff and manage sensitive patient data.</li>
+<li><strong>Flexible:</strong> wastewater sampling can be used to monitor broader population trends (e.g.&nbsp;sampling from sewage treatment plants) or monitor local outbreaks (e.g.&nbsp;sampling wastewater in hospitals or other caring facilities).</li>
+<li><strong>Wider pathogen coverage:</strong> although we focus on SARS-CoV-2, multiple pathogens can potentially be surveilled from the same wastewater sample.</li>
+<li><strong>Better population representation:</strong> wastewater sampling does not depend on clinical cases or testing acceptance. Therefore, it can capture under-represented groups, isolated populations and asymptomatic cases.</li>
+<li><strong>Laboratory infrastructure:</strong> as wastewater sampling does not rely on clinical sampling of cases, there is no need for local molecular testing facilities. Wastewater samples can be processed in a central laboratory, provided their storage and transport is done in time.</li>
+</ul>
+<p>However, it also comes with some disadvantages and challenges:</p>
+<ul>
+<li><strong>Heterogenous samples:</strong> there is a high variation in the physiochemical properties of wastewater samples. Variation can occur between geographic regions and seasons, with factors such as the amount of organic matter, salt, pH, and retention time of water in the sewage system.</li>
+<li><strong>Sample preparation:</strong> Related to the previous point, wastewater sample processing requires optimised protocols for concentrating and cleaning the material.</li>
+<li><strong>Pathogen coverage:</strong> wastewater surveillance is only suitable for pathogens whose genetic material is stable in wastewater and that are shed in human faeces or urine.</li>
+<li><strong>Low concentrations:</strong> the amount of virus particles present in the wastewater sample is typically very low, leading to challenges in detecting their presence in the samples.</li>
+<li><strong>RNA degradation:</strong> for RNA-based viruses degradation can exarcebate the challenge of obtaining enough material for sequencing, as well as potentially leading to incomplete genomes in the sample. Degradation can vary depending on the travel time in the pipework, the physiochemical properties of the wastewater, as well as the time to process the samples and their storage conditions.</li>
+<li><strong>Centralised wastewater systems:</strong> population-level wastewater surveillance requires access to central wastewater collection systems (wastewater treatment plants). Therefore, it is not suitable for populations using septic tanks or lacking access to sewage systems.</li>
+<li><strong>Sampling infrastructure:</strong> although potentially more affordable than clinical sampling, wastewater surveillance still requires sampling stations to be in place across the sewage network, if a representative picture of the population trends is desired.</li>
+<li><strong>Interpretation of results:</strong> a measure such as the number of cases or number of variants circulating in the population is easy to communicate and interpret, however wastewater results provide only with correlational measures of these numbers of interest. Therefore, they can be more challenging to communicate with other professionals or the general public.</li>
+<li><strong>Disease status:</strong> as wastewater samples contain a mixture of viruses from different individuals, is not possible to associate the viral strains circulating in the population with the disease severity of individual patients.</li>
+<li><strong>Validation:</strong> the results from wastewater surveillance should be interpreted with care, in particular lineage abundance estimations, which may be biased for several reasons. Therefore, follow-up validation is required, for example to confirm new mutations being detected.</li>
+</ul>
+</section>
+<section id="sample-preparation" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="sample-preparation"><span class="header-section-number">11.3</span> Sample preparation</h2>
+<p>As we are focusing on bioinformatics, this is not a topic we will go into much detail. However, see the ECDC course “<a href="https://eva.ecdc.europa.eu/enrol/index.php?id=860">Introduction to SARS-CoV-2 wastewater analysis</a>”, which thoroughly covers this topic.</p>
+<p>Briefly, one of the main challenges in wastewater surveillance is preparing the samples to obtain good quality DNA/RNA suitable for downstream steps. The raw wastewater sample contains many solid residues and the viral material will be extremely diluted. Therefore, an important first step in processing samples is <strong>sample concentration and cleaning</strong>. There are several methods to achieve this, none of which is universaly better than the others. This is because of the heterogeneity of the samples, mentioned earlier, which means that different methods may work better or worse for different samples.</p>
+<p>Typical concentration methods involve precipitation (e.g.&nbsp;with polyethylene-glycol), ultra-centrifugation, adsorption–precipitation methods or even direct capture (e.g.&nbsp;with silica column membranes or magnetic beads). After the material is concentrated, RNA (or DNA) can be extracted using standard protocols, which typically involve the lysis of the viral particles, capturing the RNA using beads or membranes, followed by washing and elution in a suitable buffer. A critical step in the preparation protocols is the <strong>removal of PCR inhibitors</strong>, which hinder downstream steps relying on amplifying the target genome of interest.</p>
+<p>The choice of which method is used should be considered by trialling different methods, to assess which one works best for the samples received in the surveillance lab. Samples from different geographic regions and samples across the year should be tested, and the use of internal controls can be used to assess the effectiveness of the protocols being used (e.g.&nbsp;spiking the samples with a known virus at a known concentration).</p>
+</section>
+<section id="viral-prevalence-with-rt-qpcr" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="viral-prevalence-with-rt-qpcr"><span class="header-section-number">11.4</span> Viral prevalence with RT-qPCR</h2>
+<p>Even though these materials focus on the bioinformatic analysis of amplicon whole-genome sequencing data, we briefly detail the use of RT-qPCR to assess the prevalence of the virus in the population. If you want to know more about this topic, including the considerations in data normalisation, see the ECDC course “<a href="https://eva.ecdc.europa.eu/enrol/index.php?id=860">Introduction to SARS-CoV-2 wastewater analysis</a>”.</p>
+<p>This method relies on using RT-qPCR to assess the abundance of virus material in the sample. Standard curves are used to convert the Ct values from the qPCR to RNA concentration for each sample. Typically, the qPCR is done for two to three genes, to obtain a more robust average estimation of the viral abundance in the sample.</p>
+<p>A critical consideration in estimating prevalence of the virus in wastewater samples is <strong>sample normalisation</strong>. Without normalisation, it is not possible to compare samples across time and geographic regions. This is due to differences in population density (which can also vary seasonaly), sample dilution (e.g.&nbsp;due to rain), amongst others. One of the main methods for normalising qPCR values across samples is to use molecular markers that naturally occur in wastewater samples and that provide a good proxy for the population size captured in that wastewater sample. Some common molecular markers used are:</p>
+<ul>
+<li>Pepper mild mottle virus (PMMoV), which is a virus that commonly infects peppers. As this fruit is only consumed by humans, the presence of this virus should be proportional to the population density captured in the wastewater sample.</li>
+<li>Genetic material associated with the human gut, such as CrAssphage or enterobacteria.</li>
+<li>Human mitochondrial DNA, which is commonly shed in large enough quantities to be detected by qPCR.</li>
+</ul>
+<p>The qPCR results from any of these molecular markers can be used to normalise the qPCR for the viral amplicons, thus allowing comparisons across time and space. Therefore, the final results are typically shown as the concentration of virus relative to the normalising control. Critically, several studies demonstrate a high correlation between wastewater incidence estimates and clinical sampling (e.g.&nbsp;<a href="https://doi.org/10.3201/eid2908.221634">McManus et al.&nbsp;2022</a>, <a href="https://doi.org/10.1021%2Facsestwater.2c00143">Pang et al.&nbsp;2022</a>, <a href="https://doi.org/10.1016/j.scitotenv.2020.138875">Hart and Halden 2020</a>).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wwwnc.cdc.gov/eid/images/22-1634-F1.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure 1 from <a href="https://doi.org/10.3201/eid2908.221634">McManus et al.&nbsp;2022</a>, illustrating the agreement between wastewater prevalence estimates and cases from testing.</figcaption>
+</figure>
+</div>
+</section>
+<section id="lineage-abundance-with-sequencing" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="lineage-abundance-with-sequencing"><span class="header-section-number">11.5</span> Lineage abundance with sequencing</h2>
+<p>While RT-qPCR methods allow us to estimate the prevalence of a virus in the population, they do not provide information about the specific genetic diversity of viruses found in that sample. This can be achieved using sequencing-based methods, which is the focus of these materials.</p>
+<p>For SARS-CoV-2, sequencing can be used to infer which lineages are present in a sample, as well as their relative abundances. Furthermore, sequencing can be used to estimate the frequencies of individual mutations, potentially allowing the detection of new emerging mutations or so-called cryptic lineages (<a href="https://doi.org/10.1371/journal.ppat.1010636">Gregory et al.&nbsp;2022</a>).</p>
+<p>Important to note is that lineage abundance inference from wastewater samples can be quite noisy and therefore care should be taken when interpreting the results, in particular for low-abundance lineages/variants (<a href="https://doi.org/10.1101/2023.12.20.572426">Sutcliffe et al.&nbsp;2023</a>, <a href="http://dx.doi.org/10.7717/peerj.14596">Kayikcioglu et al.&nbsp;2023</a>). Despite this, studies have found a good correlation between the abundance estimated from wastewater samples and clinical samples (e.g.&nbsp;<a href="https://doi.org/10.3201%2Feid2809.220938">Kaya et al.&nbsp;2022</a>).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://wwwnc.cdc.gov/eid/images/22-0938-F1.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure from <a href="https://doi.org/10.3201%2Feid2809.220938">Kaya et al.&nbsp;2022</a>, showing a high correlation between the relative abundance of SARS-CoV-2 variants estimated from wastewater versus clinical samples.</figcaption>
+</figure>
+</div>
+<p>The following chapters of this section will go into further details about this method, how to process the sequencing data and perform downstream analyses and visualisations.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+RT-qPCR or sequencing?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As should have become clear, these two methods are complementary to each other. On the one hand, there is no easy way to estimate the prevelance of the virus based on sequencing data alone. Conversely, there is no way to determine the variants present in a sample by just using RT-qPCR.</p>
+<p>Either method can be used independently or in combination with each other, and this depends on the objectives of the surveillance.</p>
+</div>
+</div>
+</section>
+<section id="metadata" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="metadata"><span class="header-section-number">11.6</span> Metadata</h2>
+<p>This is one of the most critical points in surveillance: <strong>good data is completely useless without good metadata</strong>. For wastewater samples, we critically need the <strong>location</strong> and <strong>date</strong> of when the sample was collected. Without these two pieces of information, interpretation of the results is very limited and of no use for public health decisions. In addition, other contextual information should be recorded, such as the wastewater collection procedure and conditions, the flow rates in the treatment plant, the sample preparation protocols used, the sequencing methods, amongst others.</p>
+<p>The PHA4GE consortium provide several recommendations for <a href="https://github.com/pha4ge/Wastewater_Contextual_Data_Specification">wastewater metadata colection</a> in a standardised way. We highly recommend reading through those recommendations and establishing standards in your institution/lab.</p>
+</section>
+<section id="summary" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">11.7</span> Summary</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key points
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Wastewater surveillance involves the monitoring of sewage samples for traces of pathogens or biomarkers, providing complementary information to clinical case data.</li>
+<li>Pathogen surveillance can be non-targetted (using metagenomics) or targetted to a pathogen of interest (using RT-qPCR or amplicon-based sequencing). Partially targetted approaches are also possible, such as using kits to enrich for a group of pathogens (e.g.&nbsp;the <em>Respiratory Virus Oligos Panel</em>).</li>
+<li>Compared to clinical sampling, wastewater surveillance has some advantages, such as a reduced cost and better population coverage, with the possibility of early detection of outbreaks or emerging pathogens/lineages/mutations.</li>
+<li>Some of the challenges involve very heterogeneous samples, low concentration of pathogenic material and RNA degradation, all of which may affect the downstream results.</li>
+<li>Sample preparation involves concentration of the genetic material, DNA/RNA extraction, removal of PCR inhibitors, followed by downstream methods such as RT-qPCR or amplicon-based sequencing.</li>
+<li>RT-qPCR methods allow estimating the prevalence of the virus in the samples, which may correlate with the number of infected individuals in the population. Normalisation of the qPCR results is critical to account for differences between sampling locations and times.</li>
+<li>Sequencing allows estimating the relative abundance of lineages/strains/genotypes in the sample, as well as investigating mutation frequency.</li>
+<li>Metadata is critical for interpreation of the results. Details about sampling location, date and time, as well as environmental factors should all be recorded.</li>
+</ul>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/03-case_studies/03-eqa.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">EQA (Exercise)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/04-wastewater/02-ww_abundance.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lineage Abundance</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Bioinformatics Training Facility</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

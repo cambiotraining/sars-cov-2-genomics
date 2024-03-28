@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="171.92453mm"
+   height="83.865623mm"
+   viewBox="0 0 171.92453 83.865623"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="precision_sensitivity.svg"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.829812"
+     inkscape:cx="237.45608"
+     inkscape:cy="314.23993"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="73.778069"
+       y="318.61197"
+       width="260.13602"
+       height="53.010902"
+       id="rect1739" />
+    <rect
+       x="73.778069"
+       y="318.61197"
+       width="192.91599"
+       height="64.487495"
+       id="rect2421" />
+    <rect
+       x="73.778069"
+       y="318.61197"
+       width="255.76398"
+       height="54.103912"
+       id="rect3153" />
+    <rect
+       x="73.778069"
+       y="318.61197"
+       width="192.91599"
+       height="64.487495"
+       id="rect3159" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-14.45959,-13.013632)">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.7;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3732"
+       width="171.92453"
+       height="83.865623"
+       x="14.45959"
+       y="13.013632" />
+    <path
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.2;stroke-linecap:round"
+       d="m 101.21714,16.773126 v 50.89776"
+       id="path186" />
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,85.456183,-58.70594)"
+       id="text1737"
+       style="font-weight:bold;font-size:18.6667px;font-family:monospace;-inkscape-font-specification:'monospace Bold';text-align:center;white-space:pre;shape-inside:url(#rect1739);display:inline;fill:#2e782c;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"><tspan
+         x="131.03372"
+         y="334.97986"
+         id="tspan15665">High Coverage
+</tspan><tspan
+         x="125.4328"
+         y="358.31323"
+         id="tspan15667">Low Error Rate</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,18.608523,-27.907011)"
+       id="text2419"
+       style="font-weight:bold;font-size:18.6667px;font-family:monospace;-inkscape-font-specification:'monospace Bold';text-align:center;white-space:pre;shape-inside:url(#rect2421);display:inline;fill:#b83d3d;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"><tspan
+         x="103.02429"
+         y="334.97986"
+         id="tspan15669">Low Coverage
+</tspan><tspan
+         x="86.221528"
+         y="358.31323"
+         id="tspan15671">High Error Rate</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,10.26631,-58.70594)"
+       id="text3151"
+       style="font-weight:bold;font-size:18.6667px;font-family:monospace;-inkscape-font-specification:'monospace Bold';text-align:center;white-space:pre;shape-inside:url(#rect3153);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"><tspan
+         x="134.4491"
+         y="334.97986"
+         id="tspan15675"><tspan
+   style="fill:#b83d3d"
+   id="tspan15673">Low Coverage</tspan>
+</tspan><tspan
+         x="123.24725"
+         y="358.31323"
+         id="tspan15679"><tspan
+           style="fill:#2e782c"
+           id="tspan15677">Low Error Rate</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,94.376655,-27.907011)"
+       id="text3157"
+       style="font-weight:bold;font-size:18.6667px;font-family:monospace;-inkscape-font-specification:'monospace Bold';text-align:center;white-space:pre;shape-inside:url(#rect3159);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.77953;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"><tspan
+         x="97.423371"
+         y="334.97986"
+         id="tspan15683"><tspan
+   style="fill:#2e782c"
+   id="tspan15681">Good Coverage</tspan>
+</tspan><tspan
+         x="86.221528"
+         y="358.31323"
+         id="tspan15687"><tspan
+           style="fill:#b83d3d"
+           id="tspan15685">High Error Rate</tspan></tspan></text>
+    <path
+       style="fill:#b83d3d;fill-opacity:1;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;marker-end:"
+       d="m 26.316454,85.12271 c 0,-64.753102 0,-65.235136 0,-65.235136"
+       id="path3430" />
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:4.9389px;font-family:monospace;-inkscape-font-specification:'monospace Bold';text-align:center;text-anchor:middle;fill:#b83d3d;fill-opacity:1;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+       x="-29.415508"
+       y="19.391403"
+       id="text3660"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan3658"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.7"
+         x="-29.415508"
+         y="19.391403">Precision</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-weight:bold;font-size:4.9389px;font-family:monospace;-inkscape-font-specification:'monospace Bold';text-align:center;text-anchor:middle;fill:#b83d3d;fill-opacity:1;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1"
+       x="160.9823"
+       y="93.119759"
+       id="text3664"><tspan
+         sodipodi:role="line"
+         id="tspan3662"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.7"
+         x="160.9823"
+         y="93.119759">Sensitivity</tspan></text>
+    <path
+       style="fill:#b83d3d;fill-opacity:1;stroke:#000000;stroke-width:0.699999;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1;marker-end:"
+       d="m 26.319283,85.166987 c 146.400867,0 147.490707,0 147.490707,0"
+       id="path3668" />
+    <g
+       id="g15619"
+       transform="translate(0.034815,0.21407494)">
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-opacity:1"
+         d="m 24.172841,21.090967 c 2.070456,-2.070456 2.070456,-2.070456 2.070456,-2.070456"
+         id="path15609" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-opacity:1"
+         d="M 28.390437,21.090967 C 26.319981,19.020511 26.319981,19.020511 26.319981,19.020511"
+         id="path15611" />
+    </g>
+    <g
+       id="g15625"
+       transform="rotate(90,67.178633,126.06398)">
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-opacity:1"
+         d="m 24.172841,21.090967 c 2.070456,-2.070456 2.070456,-2.070456 2.070456,-2.070456"
+         id="path15621" />
+      <path
+         style="fill:#ffffff;stroke:#000000;stroke-width:0.7;stroke-linecap:round;stroke-opacity:1"
+         d="M 28.390437,21.090967 C 26.319981,19.020511 26.319981,19.020511 26.319981,19.020511"
+         id="path15623" />
+    </g>
+  </g>
+</svg>

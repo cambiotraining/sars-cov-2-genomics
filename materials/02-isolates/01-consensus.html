@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SARS Genomic Surveillance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/02-isolates/02-qc.html" rel="next">
+<link href="../../materials/01-intro/03-workflows.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university_crest_reversed.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Bioinformatics for SARS Genomic Surveillance</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/cambiotraining/sars-cov-2-genomics" rel="" target=""><i class="bi bi-github" role="img" aria-label="Bioinformatics Training Facility GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/bioinfocambs" rel="" target=""><i class="bi bi-twitter" role="img" aria-label="Bioinformatics Training Facility Twitter">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://genomic.social/@BioInfoCambs" rel="" target=""><i class="bi bi-mastodon" role="img" aria-label="Bioinformatics Training Facility Mastodon">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../materials/02-isolates/01-consensus.html">Clinical Isolates</a></li><li class="breadcrumb-item"><a href="../../materials/02-isolates/01-consensus.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Consensus assembly</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Welcome</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data &amp; Software</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/01-surveillance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SARS-CoV-2 genomic surveillance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/02-ngs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to NGS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/03-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bioinformatic workflows</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Clinical Isolates</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/01-consensus.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Consensus assembly</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/02-qc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/03-lineages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lineages and variants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/04-phylogeny.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Building phylogenetic trees</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Case Studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/01-switzerland.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Switzerland (Nanopore)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/02-southafrica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">South Africa (Illumina)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/03-eqa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">EQA (Exercise)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Wastewater Samples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/01-ww_surveillance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wastewater Surveillance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/02-ww_abundance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lineage Abundance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/03-ww_visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Abundance Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/04-ww_mutations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Mutation Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-software/01-managing_software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Managing Bioinformatics Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-software/03-software_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Software setup</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/file_formats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Common file formats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/unix_cheatsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unix cheat sheet</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/quick_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/tools_and_resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tools and Resources</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-consensus" id="toc-sec-consensus" class="nav-link active" data-scroll-target="#sec-consensus"><span class="header-section-number">4.1</span> SARS-CoV-2 Consensus Assembly</a></li>
+  <li><a href="#bioinformatic-workflowspipelines" id="toc-bioinformatic-workflowspipelines" class="nav-link" data-scroll-target="#bioinformatic-workflowspipelines"><span class="header-section-number">4.2</span> Bioinformatic Workflows/Pipelines</a></li>
+  <li><a href="#sec-viralrecon" id="toc-sec-viralrecon" class="nav-link" data-scroll-target="#sec-viralrecon"><span class="header-section-number">4.3</span> SARS-CoV-2 Pipeline</a>
+  <ul class="collapse">
+  <li><a href="#running-the-workflow" id="toc-running-the-workflow" class="nav-link" data-scroll-target="#running-the-workflow"><span class="header-section-number">4.3.1</span> Running the Workflow</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.4</span> Exercises</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.5</span> Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Consensus assembly</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Recognise what the main steps are in processing raw sequencing data to generate consensus genome sequences, including sequence alignment, primer trimming and consensus generation.</li>
+<li>Recognise the differences between Illumina and Nanopore pipelines.</li>
+<li>Apply the <code>nf-core/viralrecon</code> <em>Nextflow</em> pipeline to generate a consensus sequence from Illumina and Nanopore data.</li>
+</ul>
+</div>
+</div>
+<!-- :::{.callout-note}
+#### Slides
+
+This section has an accompanying <a href="https://docs.google.com/presentation/d/1EbuH6KjK3oW5BUfSU43rVH_b-tPTKtubDWl86eAH47U/edit?usp=sharing" target="_blank">slide deck</a>.
+::: -->
+<section id="sec-consensus" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-consensus"><span class="header-section-number">4.1</span> SARS-CoV-2 Consensus Assembly</h2>
+<p>As we discussed <a href="../../materials/01-intro/01-surveillance.html">earlier in the course</a>, the starting material for sequencing SARS-CoV-2 samples from infected patients is PCR-amplified DNA generated with a panel of primers that covers the whole SARS-CoV-2 genome (for example the primers developed by the ARTIC network). This material can then be sequenced using either <em>Illumina</em> or <em>Nanopore</em> platforms.</p>
+<p>Although different sotware tools are used depending on which kind of sequencing platform was used, the main goal is the same: to align the sequencing reads to the reference genome, and identify any DNA changes (SNPs or Indels) relative to the reference genome (<em>Wuhan-Hu-1</em>). This is called <strong>consensus assembly</strong>, since we are <em>assembling</em> the genome of our sample from the PCR-amplified fragments and generating a <em>consensus</em> sequence based on changes present in several reads covering a particular position of the genome.</p>
+<p>The general data processing steps are:</p>
+<ul>
+<li>Filter high-quality sequencing reads.</li>
+<li>Map the reads to the <em>Wuhan-Hu-1</em> reference genome.</li>
+<li>Trim the primers from the aligned reads based on the primer location file (BED file).</li>
+<li>Perform variant calling (SNPs and indels) to identify changes relative to the reference sequence.</li>
+<li>Generate a consensus sequence for the sample based on those variants.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/workflow_overview.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Overview of the consensus assembly procedure from amplicon sequencing reads. In this schematic, each read spans the whole length of a PCR amplicon, which is what is expected from Nanopore reads. With Illumina data, there would be two pairs of reads starting at each end of the PCR amplicon.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Primer trimming
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Primer trimming</strong> is a key step of the data processing, otherwise SNPs might be missed at the primer sites, on the final consensus sequence. This is because the primer sequence is retained during PCR instead of the original sequence of the sample. Because the PCR amplicons overlap with each other, we can trim the primers from each read and do variant calling after trimming. An example of this is shown in the Figure above.</p>
+<!--
+Consider adding some notes about sequence length (for Illumina), whether it spans the whole amplicon or not, whether reads without primers can be retained.
+
+Depends on the library prep method:
+- Ligation-based (e.g. Kappa kit from [this paper](https://www.biorxiv.org/content/10.1101/2020.06.16.154286v1.full)). See this [ligation illustration](https://sfvideo.blob.core.windows.net/sitefinity/images/default-source/default-album/decoded-temp-image-storage/19_ng_lib-prep-frag.png?sfvrsn=9e0a1b07_4).
+- Tagmentation-based (e.g. Nextera kits from the same paper). See this [tagmentation illustration](https://upcvmda-pl480.weebly.com/uploads/8/3/9/0/83900706/tagmentation_1_orig.png).
+
+As I understand it, with ligation-based method there is no fragmentation, adapters are ligated directly to the amplicon.
+With tagmentation-based methods the fragment may sometimes not contain the primer, if the transposome cuts the amplicon in half or something like that. 
+-->
+</div>
+</div>
+</section>
+<section id="bioinformatic-workflowspipelines" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="bioinformatic-workflowspipelines"><span class="header-section-number">4.2</span> Bioinformatic Workflows/Pipelines</h2>
+<p>As can already be seen from the brief description above, bioinformatic analyses always involve multiple steps where data is gathered, cleaned and integrated to give a final set of processed files of interest to the user. These sequences of steps are called a <strong>workflow</strong> or <strong>pipeline</strong>. As analyses become more complex, pipelines may include the use of many different software tools, each requiring a specific set of inputs and options to be defined. Furthermore, as we want to chain multiple tools together, the inputs of one tool may be the output of another, which can become challenging to manage.</p>
+<p>Although it is possible to code such workflows using <em>shell</em> scripts, these often don’t scale well across different users and compute setups. To overcome these limitations, dedicated <a href="https://en.wikipedia.org/wiki/Workflow_management_system"><em>workflow/pipeline management software</em></a> packages have been developed to help standardise pipelines and make it easier for the user to process their data.</p>
+<p><img src="https://raw.githubusercontent.com/nextflow-io/trademark/master/nextflow2014_no-bg.png" alt="Nextflow" style="float:right;width:20%"></p>
+<p>Two of the most popular <em>workflow software</em> packages are <a href="https://snakemake.readthedocs.io/en/stable/"><em>Snakemake</em></a> and <a href="https://www.nextflow.io/"><em>Nextflow</em></a>. We will not cover how to develop workflows with these packages, but rather how to use an existing workflow to generate consensus sequences from SARS-CoV-2 data.</p>
+<section id="why-use-a-standardised-workflow" class="level3 unlisted unnumbered">
+<h3 class="unlisted unnumbered anchored" data-anchor-id="why-use-a-standardised-workflow">Why Use a Standardised Workflow?</h3>
+<p>These are some of the key advantages of using a standardised workflow for our analysis:</p>
+<ul>
+<li><strong>Fewer errors</strong> - because the workflow automates the process of managing input/output files, there are less chances for errors or bugs in the code to occur.</li>
+<li><strong>Consistency and reproducibility</strong> - analysis ran by different people should result in the same output, regardless of their computational setup.</li>
+<li><strong>Software installation</strong> - all software dependencies are automatically installed for the user using solutions such as <em>Conda</em>, <em>Docker</em> and <em>Singularity</em> (more about these in a later section of the course).</li>
+<li><strong>Scalability</strong> - workflows can run on a local desktop or scale up to run on <em>high performance compute clusters</em>.</li>
+<li><strong>Checkpoint and resume</strong> - if a workflow fails in one of the tasks, it can be resumed at a later time.</li>
+</ul>
+</section>
+</section>
+<section id="sec-viralrecon" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-viralrecon"><span class="header-section-number">4.3</span> SARS-CoV-2 Pipeline</h2>
+<p>To generate consensus SARS-CoV-2 genomes from these data, we will use a pipeline that was developed by the <em>Nextflow</em> core team called <a href="https://nf-co.re/viralrecon"><code>nf-core/viralrecon</code></a> (which was itself inspired by a <a href="https://github.com/connor-lab/ncov2019-artic-nf">previous pipeline from the Connor Lab</a>). Its objective is to harmonise the assembly of SARS-CoV-2 genomes from both Illumina and Nanopore amplicon sequencing data. It can also work with metagenomic data, which we will not cover in this workshop. This pipeline therefore includes different sub-pipelines, which are launched depending on the type of sequence data we have. Watch the video below to learn more about the development of this pipeline.</p>
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7BfuAOjFCFw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
+</iframe>
+</p><p align="center">
+</p><p>Generally speaking, <em>Nextflow</em> pipelines are run with the command <code>nextflow run PIPELINE_NAME</code>, where “PIPELINE_NAME” is the name of the pipeline. Pipelines are usually shared in a public repository such as GitHub, and <code>nextflow</code> will automatically download the pipeline if it hasn’t been downloaded already to your computer.</p>
+<p>Let’s test our pipeline by looking at its help documentation:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="at">-r</span> 2.6.0 <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The command should print a long list of options available with this pipeline. For pipelines developed by the <em>Nextflow</em> core team you can also consult the documentation available online, which is easier to read: <a href="https://nf-co.re/viralrecon">nf-co.re/viralrecon</a>. This page includes many details about the pipeline: which tools are used in different steps of the data processing, how to use the pipeline for different types of data, a detailed documentation of all the options of the pipeline and explanation of the output files generated by it.</p>
+<p>Below, we give an overview of the pipelines used for Illumina and Nanopore amplicon data.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reference Genome and Primer Locations
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <em>Wuhan-Hu-1</em> reference genome sequence and the amplicon primer locations (in BED file format) can all be found on the ARTIC <a href="https://github.com/artic-network/primer-schemes/tree/master/nCoV-2019">Primer Schemes repository</a>. The pipeline we are using takes care of downloading these files for us automatically, however it can be useful to know where to find them, in case you want to use other tools that require these files.</p>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="platform">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Illumina</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Nanopore (FASTQ)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Nanopore (FAST5)</a></li></ul>
+<div class="tab-content" data-group="platform">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>The Illumina sub-workflow is based on several standard bioinformatic tools and, importantly, on the <a href="https://andersen-lab.github.io/ivar/html/">iVar</a> software, which was developed for analysing amplicon-based sequencing data.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/viralrecon_workflow_illumina.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Schematic of the key steps in the Illumina sub-workflow.</figcaption>
+</figure>
+</div>
+<p>To run the pipeline on Illumina data, we use the following general command:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-r</span> 2.6.0 <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--platform</span> illumina <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> SAMPLESHEET_CSV <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> OUTPUT_DIRECTORY <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--protocol</span> amplicon <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome</span> <span class="st">'MN908947.3'</span> <span class="dt">\</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set</span> artic <span class="dt">\</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set_version</span> PRIMER_VERSION <span class="dt">\</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_assembly</span> <span class="at">--skip_asciigenome</span> <span class="dt">\</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_pangolin</span> <span class="at">--skip_nextclade</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>One of the key options is <code>--platform illumina</code>, which makes sure that the correct sub-workflow will be used.</p>
+<details>
+<summary>
+Click to see more details about this sub-workflow
+</summary>
+<p>In summary, the steps performed by the Illumina sub-workflow are:</p>
+<ul>
+<li>Adapter trimming - this consists of trimming (or “cutting”) the sequences to remove low-quality bases and any Illumina adapter sequences that are present in the sequences.</li>
+<li>Removing human (host) reads - when doing the sequencing it is possible that many reads are still from human material and this step removes them from the rest of the analysis.</li>
+<li>Read mapping - aligning (or mapping) the reads to the <em>Wuhan-Hu-1</em> reference genome.
+<ul>
+<li>The software used for mapping is <code>bowtie2</code>.</li>
+<li>The software <code>samtools</code> is used to convert the mapped file to BAM (instead of SAM) and sort the reads by coordinate (which is necessary for downstream steps).</li>
+</ul></li>
+<li>Trim Primers - primers are removed from the aligned reads using <code>ivar trim</code> (using the primer BED file).</li>
+<li>Call variants - identify SNPs and indels using <code>ivar variants</code>.</li>
+<li>Annotate variants - the called variants are annotated according to their potential effect on the genes/proteins they are located in. For example, if a mutation introduces a new stop codon, or causes a frameshift.</li>
+<li>Make consensus - apply the SNPs and indels from the previous step to the reference FASTA file.
+<ul>
+<li>There are two tools that can be used in this step: <code>bcftools consensus</code> (default) or <code>ivar consensus</code> (can be set with the option <code>--consensus_caller ivar</code>).</li>
+</ul></li>
+<li>Lineage assignment - the consensus sequences are assigned to lineages or clades using the <code>pangolin</code> and <code>nextclade</code> programs. These are two of the main lineage/clade nomenclature systems in use. They also identify <em>variants of concern</em> from the consensus sequences.</li>
+<li>Quality control - at several steps in the pipeline different tools are used to collect quality metrics and these are compiled into a report using <code>multiqc</code>.</li>
+</ul>
+</details>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>The nanopore sub-workflow is based on the <a href="https://artic.network/ncov-2019/ncov2019-bioinformatics-sop.html">ARTIC bioinformatics protocol</a> and uses several of the tools from the accompanying <a href="https://artic.readthedocs.io/en/latest/"><code>artic</code> software package</a>.</p>
+<p>This sub-workflow is similar to the other nanopore sub-workflow, the main difference is the software used for generating a consensus sequence (<code>medaka</code> instead of <code>nanopolish</code>).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/viralrecon_workflow_medaka.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Schematic of the key steps in the Medaka sub-workflow.</figcaption>
+</figure>
+</div>
+<p>To run our pipeline on basecalled data (FASTQ files), we use the following command:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-r</span> 2.6.0 <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--platform</span> nanopore <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> SAMPLESHEET_CSV <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fastq_dir</span> fastq_pass/ <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> OUTPUT_DIRECTORY <span class="dt">\</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--protocol</span> amplicon <span class="dt">\</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome</span> <span class="st">'MN908947.3'</span> <span class="dt">\</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set</span> artic <span class="dt">\</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set_version</span> PRIMER_VERSION <span class="dt">\</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--artic_minion_caller</span> medaka <span class="dt">\</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--artic_minion_medaka_model</span> MEDAKA_MODEL <span class="dt">\</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_assembly</span> <span class="at">--skip_asciigenome</span> <span class="dt">\</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_pangolin</span> <span class="at">--skip_nextclade</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Some of the key options are:</p>
+<ul>
+<li><code>--platform nanopore</code> makes sure that the correct sub-workflow will be used.</li>
+<li><code>--artic_minion_caller medaka</code> indicates we want to use the <code>medaka</code> program to do the variant/consensus calling (directly from the basecalled FASTQ files, rather than from the raw signal in the FAST5 files).</li>
+<li><code>--artic_minion_medaka_model</code> specifies the model used by the <code>guppy_basecaller</code> software to do the basecalling. The model name follows the structure <code>{pore}_{device}_{caller variant}_{caller version}</code>. See more details about this in the <a href="https://github.com/nanoporetech/medaka#models">medaka models documentation</a>. <strong>Note:</strong> for recent versions of Guppy (&gt;6) there is no exact matching model from <code>medaka</code>. The recommendation is to use the model for the latest version available; a list of supported models can be found on the <a href="https://github.com/nanoporetech/medaka/tree/master/medaka/data"><code>medaka</code> GitHub repository</a>.</li>
+<li><code>--fastq_dir</code> specifies the directory containing the FASTQ files. This directory should contain sub-directories for each barcoded sample following the naming convention <code>barcodeXXXX</code> (where X is a number between 0 and 9). By default, the <code>guppy_basecaller</code> software from Nanopore generates a folder called “fastq_pass” which follows this convention.</li>
+</ul>
+<details>
+<summary>
+Click to see more details about this sub-workflow
+</summary>
+<p>In summary, the steps performed by the Medaka sub-workflow are:</p>
+<ul>
+<li>Aggregate reads from each sequencing barcode (when multiple files are availble for each barcode)</li>
+<li>Run the <code>artic minion</code> tool, which internally does several steps:
+<ul>
+<li>Map reads to the reference genome using <code>minimap2</code> (can be changed to use <code>bwa mem</code> with the option <code>--artic_minion_aligner bwa</code>).</li>
+<li>Trim primers from the aligned reads based on the known primer positions in the BED file (using a custom python script called <code>align_trim.py</code>).</li>
+<li>Call consensus sequences and SNP/indel variants using <code>medaka consensus</code> and <code>medaka variant</code>:
+<ul>
+<li>Positions with less than 20x depth are treated as missing data and converted to the ambiguous base ‘N’. It is not advised to go below this threshold as the models used to call variants do not perform as well.</li>
+</ul></li>
+</ul></li>
+<li>Annotate variants - the called variants are annotated according to their potential effect on the genes/proteins they are located in. For example, if a mutation introduces a new stop codon, or causes a frameshift.</li>
+<li>Lineage assignment - the consensus sequences are assigned to lineages or clades using the <code>pangolin</code> and <code>nextclade</code> programs. These are two of the main lineage/clade nomenclature systems in use. They also identify <em>variants of concern</em> from the consensus sequences.</li>
+<li>Quality control - at several steps in the pipeline different tools are used to collect quality metrics and these are compiled into a report using <code>multiqc</code>.</li>
+</ul>
+</details>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>The nanopore sub-workflow is based on the <a href="https://artic.network/ncov-2019/ncov2019-bioinformatics-sop.html">ARTIC bioinformatics protocol</a> and uses several of the tools from the accompanying <a href="https://artic.readthedocs.io/en/latest/"><code>artic</code> software package</a>.</p>
+<p>This sub-workflow is similar to the other nanopore sub-workflow, the main difference is the software used for generating a consensus sequence (<code>nanopolish</code> instead of <code>medaka</code>).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/viralrecon_workflow_nanopolish.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Schematic of the key steps in the Nanopolish sub-workflow. (Under development)</figcaption>
+</figure>
+</div>
+<details>
+<summary>
+Click to see more details about this sub-workflow
+</summary>
+<p>In summary, the steps performed by the Nanopolish sub-workflow are:</p>
+<ul>
+<li>Filter reads to ensure they pass minimum read length thresholds:
+<ul>
+<li>minimum length 400bp (can be changed with <code>--min_length</code> option)</li>
+<li>maximum length 700bp (can be changed with <code>--max_length</code> option)</li>
+</ul></li>
+<li>Run the <code>artic minion</code> tool, which internally does:
+<ul>
+<li>Read alignment to reference genome using <code>minimap2</code> (can be changed to use <code>bwa mem</code> with the <code>--bwa</code> option).</li>
+<li>Trim primers from the aligned reads (based on the known primer positions in the BED file).</li>
+<li>Call consensus sequences and variants using <code>nanopolish variants</code> if using signal-level FAST5 files.
+<ul>
+<li>Positions with less than 20x depth are assigned the ambiguous base ‘N’. It is not advised to go below this threshold as the models used to call variants do not perform as well.</li>
+</ul></li>
+</ul></li>
+<li>Annotate variants - the called variants are annotated according to their potential effect on the genes/proteins they are located in. For example, if a mutation introduces a new stop codon, or causes a frameshift.</li>
+<li>Lineage assignment - the consensus sequences are assigned to lineages or clades using the <code>pangolin</code> and <code>nextclade</code> programs. These are two of the main lineage/clade nomenclature systems in use. They also identify <em>variants of concern</em> from the consensus sequences.</li>
+<li>Quality control - at several steps in the pipeline different tools are used to collect quality metrics and these are compiled into a report using <code>multiqc</code>.</li>
+</ul>
+</details>
+<p>To run our pipeline on signal-level data (FAST5 files), we use the following command:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> SAMPLESHEET_CSV <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> OUTPUT_DIRECTORY <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--protocol</span> amplicon <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome</span> <span class="st">'MN908947.3'</span> <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set</span> artic <span class="dt">\</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set_version</span> PRIMER_VERSION <span class="dt">\</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_assembly</span> <span class="dt">\</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--platform</span> nanopore <span class="dt">\</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fastq_dir</span> fastq_pass/ <span class="dt">\</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fast5_dir</span> fast5_pass/ <span class="dt">\</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--sequencing_summary</span> sequencing_summary.txt <span class="dt">\</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">-profile</span> conda,singularity,docker</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Some of the key options are:</p>
+<ul>
+<li><code>--platform nanopore</code> makes sure that the correct sub-workflow will be used.</li>
+<li><code>--fastq_dir</code> specifies the directory containing the FASTQ files generated by the <code>guppy_basecaller</code> program (this is the standard software from Nanopore that processes the raw signal data from the sequencing device). This directory should contain sub-directories for each barcoded sample following the naming convention <code>barcodeXXXX</code> (where X is a number between 0 and 9). By default, <code>guppy_basecaller</code> generates a folder called “fastq_pass” which follows this convention.</li>
+<li><code>--fast5_dir</code> specifies the directory containing the FAST5 files generated by <code>guppy_basecaller</code>. This directory follows the same naming convention as above and is usually in a folder called “fast5_pass”.</li>
+<li><code>--sequencing_summary</code> is a path to the “sequencing_summary.txt” text file generated by <code>guppy_basecaller</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Apart from the specific options used by each sub-workflow, there are some general options that are used:</p>
+<ul>
+<li><code>--input</code> specifies a CSV file with details about our samples. The format of this file depends on the specific sub-workflow you are using. See the details in the <a href="https://nf-co.re/viralrecon/2.6.0/docs/usage#samplesheet-format">samplesheet documentation page</a>.</li>
+<li><code>--outdir</code> specifies the output directory to store all our results.</li>
+<li><code>--protocol amplicon</code> sets the pipeline for PCR amplicon data (the other option is <code>--protocol metagenomic</code>, which we do not cover in this course).</li>
+<li><code>--genome 'MN908947.3'</code> this is the standard name of the <a href="https://www.ncbi.nlm.nih.gov/nuccore/MN908947.3">Wuhan-Hu-1 reference genome</a>.</li>
+<li><code>--primer_set artic</code> at the moment only “artic” primers are available by default. It is possible to use custom primers with the Illumina workflow (see details <a href="https://nf-co.re/viralrecon/2.6.0/parameters#primer_bed">here</a>).</li>
+<li><code>--primer_set_version</code> the version of the <a href="https://github.com/artic-network/primer-schemes">ARTIC primer scheme</a> used. The <a href="https://github.com/nf-core/configs/blob/master/conf/pipeline/viralrecon/genomes.config">viralrecon primer config file</a> indicates the available primer shemes are: <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>4.1</code>, <code>5.3.2</code> and also <code>1200</code> (the 1200bp amplicon protocol, also known as “midnight”).</li>
+<li><code>--skip_assembly</code> this is used to skip de-novo assembly of the genome. This step is unnecessary in amplicon protocols, which instead rely on mapping reads to the reference genome (reference-based assembly). De-novo assembly is necessary for metagenomic protocols.</li>
+<li><code>--skip_pangolin</code> and <code>--skip_nextclade</code> is used to skip the lineage assignment. The reason is that <code>viralrecon</code> does not use the latest version of the SARS lineage databases, so we skip this step for now, and run it separately in a later step of the analysis.</li>
+</ul>
+<p>There are two more generic options we used:</p>
+<ul>
+<li><code>-r 2.6.0</code> indicates the version of the pipeline we want to use. It’s always good to check what the latest version is on the <a href="https://nf-co.re/viralrecon"><code>viralrecon</code> website</a>. <code>-profile singularity</code> indicates how we want to manage the software required by the pipeline. In our case, we are using a software called <em>Singularity</em>, which creates a “virtual operating system” (called a container) where all the necessary software is run from. This ensures that all of the software is automatically installed and runs on any Linux computer.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conda, Singularity, Docker?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Generally speaking, workflow management software such as <em>Nextflow</em> or <em>Snakemake</em> support three solutions for managing software dependencies:</p>
+<ul>
+<li><a href="https://docs.docker.com/"><em>Docker</em></a> is a software that allows to package a small virtual operating system (or a “container”) containing all the software and data necessary for running an analysis.</li>
+<li><a href="https://sylabs.io/guides/3.5/user-guide/index.html"><em>Singularity</em></a> also creates software containers, similarly to <em>Docker</em>. However, it can more easily interface with the user’s filesystem, without the need to have special permissions.</li>
+<li><a href="https://docs.conda.io/en/latest/"><em>Conda</em></a> is a package manager, also very popular in bioinformatics. Instead of creating virtual OS containers, <em>Conda</em> instead creates software environments (think of them as directories) where all the software is locally installed, including all its dependencies. The use of individual environments ensures that software packages with incompatible dependencies can still be used within the same pipeline.</li>
+</ul>
+<p>Of the three, <strong><em>Singularity</em> is the recommended choice</strong>, although <em>Conda</em> is also a good alternative.</p>
+</div>
+</div>
+<section id="running-the-workflow" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="running-the-workflow"><span class="header-section-number">4.3.1</span> Running the Workflow</h3>
+<p>Let’s see an example in action by using some example data. If you go to the directory <code>uk_illumina/</code> in the course materials, you will find several FASTQ files in the <code>data</code> directory. There is also a <em>shell script</em> (<code>scripts/run_illumina_workflow.sh</code>) that contains the commands we will use to run the workflow on these data.</p>
+<p>Opening the script, we can see the following commands:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create output directory</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the workflow</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="dt">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-r</span> 2.6.0 <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--platform</span> illumina <span class="dt">\</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> samplesheet.csv <span class="dt">\</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> results/viralrecon <span class="dt">\</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--protocol</span> amplicon <span class="dt">\</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome</span> <span class="st">'MN908947.3'</span> <span class="dt">\</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set</span> artic <span class="dt">\</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set_version</span> 3 <span class="dt">\</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_assembly</span> <span class="at">--skip_asciigenome</span> <span class="dt">\</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_pangolin</span> <span class="at">--skip_nextclade</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It first creates a results directory (to store our output files) and then runs the <code>nextflow</code> command using the Illumina sub-workflow. We could run these commands one at a time by copy/pasting them to the terminal. Or alternatively, we can run the entire script using <code>bash scripts/run_illumina_workflow.sh</code></p>
+<p>When you start running the workflow, you will get a list of the workflow steps and their progress. This may take quite a while to run, depending on the computer resources you have available. Once the workflow is complete, you should see a message similar to the following:</p>
+<pre><code>-[nf-core/viralrecon] 8/8 samples passed Bowtie2 1000 mapped read threshold:
+    280038: GB16
+    2946614: GB28
+    252871: GB09
+    3269412: GB21
+    103742: GB23
+    3016474: GB36
+    ..see pipeline reports for full list
+-
+-[nf-core/viralrecon] Pipeline completed successfully-
+Completed at: 18-May-2022 08:08:25
+Duration    : 1h 13m
+CPU hours   : 8.1
+Succeeded   : 343</code></pre>
+<p>You should also get several output files in the results folder specified with our <code>nextflow</code> command. We will detail what these files are in the next section.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Running the pipeline on our training computers
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Our training computers don’t have the high specifications needed for routine bioinformatic analysis, so the <em>Illumina</em> pipeline takes up to 1h to complete.</p>
+<p>We provide already pre-processed results for 48 samples in the folder <code>uk_illumina/preprocessed</code>, which you can use to follow the next section.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.4</span> Exercises</h2>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Running nf-core/viralrecon: ONT data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>Go to the course materials directory <code>india_nanopore</code>. This contains <strong>Nanopore sequencing</strong> data for several samples collected in India. Nanopore data is organised in directories named as <code>barcodeXX</code> (where <code>XX</code> is a number) - this is the standard output from the <em>Guppy</em> software used to do basecalling and generate FASTQ files.</p>
+<p>The Nanopore <em>Medaka</em> workflow expects to be given as an input a CSV file with two columns: sample name and barcode number. We already provide this file in <code>samplesheet.csv</code>.</p>
+<p>Your task now is to process these samples using the <code>nf-core/viralrecon</code> pipeline:</p>
+<ul>
+<li>Using <code>nano</code>, open the script found in <code>scripts/run_medaka_workflow.sh</code>.</li>
+<li>Fix the code in the script where you see the word “<em>FIXME</em>”:
+<ul>
+<li>Output the results to a directory called <code>results/viralrecon/</code>.</li>
+<li>The input sample sheet is in the file <code>samplesheet.csv</code> (check the <a href="https://nf-co.re/viralrecon/2.6.0/usage#nanopore-input-format">pipeline documentation</a> to review what the format of this samplesheet should be for the Nanopore pipeline).</li>
+<li>The FASTQ files are in a folder <code>data/fastq_pass</code>.</li>
+</ul></li>
+<li>Run the script using <code>bash</code>. This may take ~15 minutes to complete.</li>
+</ul>
+<div class="callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-answer">
+<p>We can open the script with <em>Nano</em> using the command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> scripts/run_medaka_workflow.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The fixed code is:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create output directory</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the workflow</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="dt">\</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-r</span> 2.6.0 <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max_cpus</span> 8 <span class="at">--max_memory</span> <span class="st">"24.GB"</span> <span class="dt">\</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> samplesheet.csv <span class="dt">\</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> results/viralrecon <span class="dt">\</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--platform</span> nanopore <span class="dt">\</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--protocol</span> amplicon <span class="dt">\</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome</span> <span class="st">'MN908947.3'</span> <span class="dt">\</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set</span> artic <span class="dt">\</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set_version</span> 3 <span class="dt">\</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_assembly</span> <span class="dt">\</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fastq_dir</span> data/fastq_pass/ <span class="dt">\</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">--artic_minion_caller</span> medaka <span class="dt">\</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">--artic_minion_medaka_model</span> r941_min_high_g360</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>What we did to fix the code was:</p>
+<ul>
+<li>Set <code>--input</code> as <code>samplesheet.csv</code>, which is the CSV file with two columns: sample name and Nanopore barcode number. The format of this file is detailed in the <a href="https://nf-co.re/viralrecon/2.6.0/usage#samplesheet-format"><code>nf-core/viralrecon</code> documentation</a>.</li>
+<li>Set <code>--outdir</code> as <code>results/viralrecon/</code>, which is the directory where we want to output our results.</li>
+<li>Set <code>--fastq_dir</code> as <code>data/fastq_pass</code>, which is the directory containing the FASTQ file folders named as <code>barcodeXX</code> (where <code>XX</code> is a number). This is the standard output from the <em>Guppy</em> software used to do basecalling of Nanopore data to produce FASTQ files.</li>
+</ul>
+<p>When we finish editing the file we can hit <kbd>Ctrl</kbd> + <kbd>X</kbd> to exit <em>Nano</em>. Before it closes it will ask us if we want to save the file and we can type “Y” for yes.</p>
+<p>To run the script we can do <code>bash scripts/run_medaka_workflow.sh</code>. After the workflow completes, we get a message similar to this one:</p>
+<pre><code>-[nf-core/viralrecon] Pipeline completed successfully-
+Completed at: 18-May-2022 08:08:25
+Duration    : 13m 22s
+CPU hours   : 1.6
+Succeeded   : 167</code></pre>
+<p>Note that the exact time that the workflow takes to run may differ from what we show here. The time depends on how many samples you are processing and how big the computer you are using is.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.5</span> Summary</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Points
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The main steps to generate SARS-CoV-2 consensus sequences are: filter high-quality reads, map reads to reference genome, trim PCR primers and variant/mutation calling, which is finally used to produce a consensus sequence.</li>
+<li>Other steps that can be done include annotating the variants/mutations (what their effects in each gene might be) and assigning sequencences to known lineages/clades.</li>
+<li><em>Nextflow</em> is a software used for building workflows/pipelines involving multiple tools and data processing steps. Using established pipelines helps with automation, reproducibility, consistency of results and reduces the chances of data processing errors.</li>
+<li>The <code>nf-core/viralrecon</code> pipeline implements the steps to generate SARS-CoV-2 consensus sequences from <em>Illumina</em> or <em>Nanopore</em> data.</li>
+<li>The command <code>nextflow run nf-core/viralrecon</code> is used to run the pipeline, using specific options depending on the data we have.</li>
+</ul>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/01-intro/03-workflows.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bioinformatic workflows</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/02-isolates/02-qc.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Bioinformatics Training Facility</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

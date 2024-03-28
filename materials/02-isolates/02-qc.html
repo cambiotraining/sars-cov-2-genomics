@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SARS Genomic Surveillance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/02-isolates/03-lineages.html" rel="next">
+<link href="../../materials/02-isolates/01-consensus.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university_crest_reversed.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Bioinformatics for SARS Genomic Surveillance</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/cambiotraining/sars-cov-2-genomics" rel="" target=""><i class="bi bi-github" role="img" aria-label="Bioinformatics Training Facility GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/bioinfocambs" rel="" target=""><i class="bi bi-twitter" role="img" aria-label="Bioinformatics Training Facility Twitter">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://genomic.social/@BioInfoCambs" rel="" target=""><i class="bi bi-mastodon" role="img" aria-label="Bioinformatics Training Facility Mastodon">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../materials/02-isolates/01-consensus.html">Clinical Isolates</a></li><li class="breadcrumb-item"><a href="../../materials/02-isolates/02-qc.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Welcome</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data &amp; Software</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/01-surveillance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SARS-CoV-2 genomic surveillance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/02-ngs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to NGS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/03-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bioinformatic workflows</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Clinical Isolates</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/01-consensus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Consensus assembly</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/02-qc.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/03-lineages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lineages and variants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/04-phylogeny.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Building phylogenetic trees</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Case Studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/01-switzerland.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Switzerland (Nanopore)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/02-southafrica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">South Africa (Illumina)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/03-eqa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">EQA (Exercise)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Wastewater Samples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/01-ww_surveillance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wastewater Surveillance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/02-ww_abundance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lineage Abundance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/03-ww_visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Abundance Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/04-ww_mutations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Mutation Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-software/01-managing_software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Managing Bioinformatics Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-software/03-software_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Software setup</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/file_formats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Common file formats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/unix_cheatsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unix cheat sheet</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/quick_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/tools_and_resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tools and Resources</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#output-files" id="toc-output-files" class="nav-link active" data-scroll-target="#output-files"><span class="header-section-number">5.1</span> Output Files</a></li>
+  <li><a href="#sec-consensus-qc" id="toc-sec-consensus-qc" class="nav-link" data-scroll-target="#sec-consensus-qc"><span class="header-section-number">5.2</span> Quality Control</a>
+  <ul class="collapse">
+  <li><a href="#variant-calling-metrics" id="toc-variant-calling-metrics" class="nav-link" data-scroll-target="#variant-calling-metrics"><span class="header-section-number">5.2.1</span> Variant Calling Metrics</a></li>
+  <li><a href="#sec-amplicon-coverage" id="toc-sec-amplicon-coverage" class="nav-link" data-scroll-target="#sec-amplicon-coverage"><span class="header-section-number">5.2.2</span> Amplicon Depth of Coverage</a></li>
+  </ul></li>
+  <li><a href="#sec-mutations" id="toc-sec-mutations" class="nav-link" data-scroll-target="#sec-mutations"><span class="header-section-number">5.3</span> Mutation/Variant Analysis</a></li>
+  <li><a href="#cleaning-fasta-files-optional" id="toc-cleaning-fasta-files-optional" class="nav-link" data-scroll-target="#cleaning-fasta-files-optional"><span class="header-section-number">5.4</span> Cleaning FASTA Files (Optional)</a></li>
+  <li><a href="#missing-data-intervals" id="toc-missing-data-intervals" class="nav-link" data-scroll-target="#missing-data-intervals"><span class="header-section-number">5.5</span> Missing data intervals</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.6</span> Exercises</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.7</span> Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Interpret and critically evaluate data quality reports from the assembled sequences and identify sequences suitable for downstream analyses.</li>
+</ul>
+</div>
+</div>
+<section id="output-files" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="output-files"><span class="header-section-number">5.1</span> Output Files</h2>
+<p>After running our pipeline, we get several output directories and files. The directories we get depend on which version of the workflow was used (Illumina or Nanopore). The description of the output is detailed in the <a href="https://nf-co.re/viralrecon/2.6.0/docs/output">pipeline documentation</a>. Although there are many output files, most of these contain results that are aggregated in an interactive <em>MultiQC</em> report, which makes their analysis easier. We highlight some of the main files of interest below.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="platform">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Illumina</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Nanopore (FASTQ)</a></li></ul>
+<div class="tab-content" data-group="platform">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ul>
+<li>The file <code>multiqc/multiqc_report.html</code> contains a MultiQC quality and analysis report for the consensus assemblies generated by the pipeline.</li>
+<li>The folder <code>variants/bowtie2/</code> contains individual BAM files, which can be visualised with <em>IGV</em> if we want to look at the reads mapped to the reference genome.</li>
+<li>The folder <code>variants/ivar/consensus/bcftools</code> contains individual FASTA files (named <code>*.consensus.fa</code>) for each sample’s consensus genome sequence.</li>
+<li>The file <code>variants/ivar/variants_long_table.csv</code> contains a table with the aggregated results of all the variants detected in each sample.</li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li>The file <code>multiqc/medaka/multiqc_report.html</code> contains a MultiQC quality and analysis report for the consensus assemblies generated by the pipeline.</li>
+<li>The folder <code>medaka/</code> contains:
+<ul>
+<li>Individual BAM files (named <code>*.primertrimmed.rg.sorted.bam</code>), which can be visualised with <em>IGV</em> if we want to look at the reads mapped to the reference genome.</li>
+<li>Individual FASTA files (named <code>*.consensus.fasta</code>) for each sample’s consensus genome sequence.</li>
+<li>A file called <code>variants_long_table.csv</code> with a table of all the variants detected in each sample.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-consensus-qc" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-consensus-qc"><span class="header-section-number">5.2</span> Quality Control</h2>
+<p>The <code>viralrecon</code> pipeline produces many quality control metrics, which are conveniently compiled in an interactive report with <em>MultiQC</em>, as mentioned above. We will not detail here every section of the report (check the <a href="https://nf-co.re/viralrecon/2.6.0/docs/output">pipeline documentation</a> for a full description), but only highlight some of the sections that can be used for a first assessment of the quality of our samples.</p>
+<section id="variant-calling-metrics" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="variant-calling-metrics"><span class="header-section-number">5.2.1</span> Variant Calling Metrics</h3>
+<p>The first section or the report - <strong>Variant Calling Metrics</strong> - contains a summary table with several statistics for each sample, including the total number of reads, the number/percentage of reads mapped to the reference genome, the depth of coverage, the number of SNPs (single-nucleotide polymorphisms) and INDELs (insertions/deletions), the number of missense variants (mutations that result in an aminoacid change) and the fraction of ambiguous bases ‘N’ per 100kb.</p>
+<p>Looking at these basic metrics gives us a good first idea of whether some of the samples have a high fraction of missing bases (marked as <code>N</code> in the FASTA file), leading to a poorer assembly. We can quickly check this by sorting the table by the column named “# Ns per 100kb consensus” (you can convert the values in this column to a percentage by dividing the numbers by 100). There is also the ability to produce simple scatterplots from the data in this table, which can be useful to look at the relationship between the different metrics (see an example in the figure below).</p>
+<p>This table also contains information about the lineage/clade assigned to each sample by the programs <em>Pangolin</em> and <em>Nextclade</em>. This gives us an idea of which samples may be more similar to each other, and where they fit in the global context of other sequences available publicly. We will talk more about this topic in the <a href="../../materials/02-isolates/03-lineages.html">lineage assignment section</a>.</p>
+<!-- :::{.callout-warning}
+#### Lineage Versions
+
+Although the _Viralrecon_ pipeline runs _Pangolin_ and _Nextclade_ to perform lineage assignment, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). 
+Therefore, this information should mostly be ignored at this stage, and instead we should run our analysis on the most up-to-date versions of these programs. 
+We will detail this in the [Lineages and Variants](03-lineages.md) section of the materials. 
+::: -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/viralrecon_multiqc_variant_metrics.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Snapshot of the “Variant Metrics” section of the <code>viralrecon</code> <em>MultiQC</em> report. Simple scatterplots can be made from the data on this table using the <kbd>Plot</kbd> button. For example, at the bottom we show a scatterplot showing the relationship between the median depth of coverage and the number of ambiguous bases ‘N’ per 100kb. For the data in this example, we can see that when the average depth of coverage drops below around 200 reads we start getting higher number of missing bases in the assembly.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Terminology Alert!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The word <strong>coverage</strong> is sometimes used in an ambiguous way by bioinformaticians. It can mean two things:</p>
+<ul>
+<li>The number of reads aligning to a position of the genome. This is sometimes called <strong>sequencing depth</strong> or <strong>depth of coverage</strong> (we will use these terms in the materials to avoid confusion). For example, we may say that the average depth of coverage of the genome is 20x, meaning that on average there are 20 reads aligned to a position of the genome.</li>
+<li>The fraction of a genome that has a sufficient number of reads for analysis. For example, if 90% of the genome has a sufficient number of reads to be analysed (for example, at a threshold of 10x), we would say it has 90% coverage (we “covered” 90% of the genome with enough data). In the context of genome assembly, we sometimes use the word “coverage” to refer to the percentage of the consensus genome without ambiguous ‘N’ bases.</li>
+</ul>
+<p><strong>In the <code>viralrecon</code> <em>MultiQC</em> report the word “coverage” is used to mean “depth of coverage”.</strong></p>
+</div>
+</div>
+</section>
+<section id="sec-amplicon-coverage" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="sec-amplicon-coverage"><span class="header-section-number">5.2.2</span> Amplicon Depth of Coverage</h3>
+<p>The next section of the report - <strong>Amplicon Coverage Heatmap</strong> - contains a graphical representation of the average depth of coverage for each PCR amplicon in the ARTIC protocol (i.e.&nbsp;the average number of reads mapped to each amplicon interval). This plot is extremely useful to identify common PCR dropouts occurring across many samples. This may be an indication that our PCR primer scheme is not working for some of the forms of the virus circulating in our population (for example due to mutations that accumulate in the primer site).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/viralrecon_coverage_heatmap.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Example heatmap showing the depth of coverage for a set of samples. The failure of an amplicon to be sequenced in several samples can be seen as a “column” of dark cells in the heatmap.</figcaption>
+</figure>
+</div>
+<p>We can investigate primer dropout in more detail, for example by looking at the BAM files with mapped reads using <em>IGV</em>.</p>
+<p>From our heatmap (shown in the Figure above) we can see one of the PCR fragments - <em>ncov-2019_83</em> - seems to have poor amplification across many of our samples. Let’s investigate this in more detail by looking at the alignment file:</p>
+<ul>
+<li>Open <em>IGV</em> and go to <kbd>File → Load from file…</kbd>.</li>
+<li>In the file browser that opens go to the folder <code>results/viralrecon/variants/bowtie2/</code> and select the file <code>GB36.ivar_trim.sorted.bam</code> to open it.</li>
+<li>Go back to <kbd>File → Load from file…</kbd> and this time load the BED files containing the primer locations. These can be found in <code>resources/primers/artic_primers_pool1.bed</code> and <code>resources/primers/artic_primers_pool2.bed</code>.</li>
+</ul>
+<p>Once you have IGV open, you can navigate to the region where this amplicon is located by searching for the name of one of the primers - “ncov-2019_83_LEFT” - in the search box at the top. By zooming in to the region where this primer is located, we can see there is a mutation right at the start of this primer, which suggests that this may be the reason why this PCR fragment fails to amplify in this sample.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/igv_amplicon_dropout.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Screenshot from the IGV program showing an example of a region with PCR amplicon dropout. This is shown by a lack of reads mapped to this region of the genome. Because the PCR fragments from the ARTIC protocol overlap between the two pools, we can see if there are mutations occurring at the primer sites. In this example, a mutation in the left primer of amplicon 83 suggests this may be the reason for the dropout in this sample.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="sec-mutations" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-mutations"><span class="header-section-number">5.3</span> Mutation/Variant Analysis</h2>
+<p>One of the output files produced by the pipeline is a <strong>table SNP and indel variants detected in our samples</strong> saved as a CSV file in <strong><code>variants/ivar/variants_long_table.csv</code></strong>. This table can be useful to investigate if particular mutations are particularly frequent in our samples and what their likely effects are.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/switzerland_variants.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Variants table output by <em>viralrecon</em>, with a summary of the main columns of interest. Note that this table also includes a column with lineage assignment (not shown in this snapshot). Remember that at this stage we mostly ignore this column, as <em>viralrecon</em> does not use the most up-to-date version of the lineage databases.</figcaption>
+</figure>
+</div>
+<p>The columns in this table are:</p>
+<ul>
+<li><code>SAMPLE</code> is the name of our sequenced sample.</li>
+<li><code>CHROM</code> is the name of the “chromosome”, which in our case is just the name of the reference genome (“MN908947.3”).</li>
+<li><code>POS</code> is the position of the genome where the mutation occurs.</li>
+<li><code>REF</code> is the reference nucleotide.</li>
+<li><code>ALT</code> is the alternative nucleotide, that is the nucleotide that was observed in our sample.</li>
+<li><code>FILTER</code> indicates whether the SNP passed quality filters from the variant calling software (“PASS”) or whether some other issue was observed (for example “dp” means that the depth of sequencing was unusually high or low).</li>
+<li><code>DP</code> is the total depth of sequencing at this position, meaning how many reads in total were aligned there.</li>
+<li><code>REF_DP</code> is the depth of sequencing of the reference allele, meaning how many reads contained the reference nucleotide.</li>
+<li><code>ALT_DP</code> is the depth of sequencing of the alternative allele, meaning how many reads contained the alternative nucleotide.</li>
+<li><code>AF</code> is the allele frequence of the alternative allele, meaning the proportion of reads that contained the alternative nucleotide (this column is equivalent to <code>ALT_DP</code>/(<code>ALT_DP</code> + <code>REF_DP</code>)).</li>
+<li><code>GENE</code> is the name of the gene in the SARS-CoV-2 annotation.</li>
+<li><code>EFFECT</code> this is the predicted effect of the mutation in the gene. This output comes from the <code>snpeff</code> software and uses <a href="http://www.sequenceontology.org/browser/obob.cgi">The Sequence Ontology</a> nomenclature (follow the link to search for each term).</li>
+<li><code>HGVS_C</code>, <code>HGVS_P</code> and <code>HGVS_P_1LETTER</code> is the DNA or amino acid change using <a href="https://hgvs-nomenclature.org/stable/">HGVS nomenclature</a>. For example, “c.1112C&gt;T” means a C changed to a T at position 1112 of the genome; and “p.Pro371Leu” would mean that a Proline changed to a Leucine at position 371 of the respective protein.</li>
+<li><code>CALLER</code> is the software used for variant calling.</li>
+<li><code>LINEAGE</code> is the Pangolin lineage that the sample was assigned to. Note that this column should usually be ignored, since <code>viralrecon</code> doesn’t use the latest <em>Pangolin</em> data version by default.</li>
+</ul>
+<p>This table can be opened in a spreadsheet program such as <em>Excel</em> to look at particular features. In terms of quality-control, we can filter the table:</p>
+<ul>
+<li>for mutations with <strong>intermediate allele frequency</strong> (say &lt; 70%) – if a sample has too many such mutations, that could indicate cross-contamination between samples.</li>
+<li>for <strong>frameshift mutations</strong> – these mutations should be rare because they are highly disruptive to the functioning of the virus, and their occurrence is more often due to errors. The presence of these mutations are usually not critical for downstream analysis (such as lineage assignment and phylogenetics), but we should make a note that these mutations may be false-positives in our data.</li>
+</ul>
+<p>This variants/mutations table can also be used to explore reasons for amplicon dropout. For example, we can identify how many samples contain the mutation we previously saw in the “<em>ncov-2019_83_LEFT</em>” primer (we saw this was in position 25,003 of the genome). We can do this by sorting our table by the column “POS” (position) and then scrolling down to find the samples with this mutation. We will find that only 3 of the samples contain this mutation, suggesting some other additional causes are leading to the dropout in this PCR fragment.</p>
+<p>Finally, for the <strong>Illumina pipeline</strong> (<code>--platform illumina</code>), it is important to note that not all of the mutations on this table are included in the final consensus. Only mutations with allele frequency &gt;75% (<code>AF</code> &gt;= 0.75) and minimum depth of 10 (<code>DP</code> &gt;= 10) are retained in the final consensus. Therefore, to see which mutations are actually present in our consensus sequences, we need to filter this table for these criteria. Again, we note that this only applies to the Illumina pipeline. For the <strong>Nanopore pipeline</strong> (<code>--platform nanopore</code>) all the mutations included in this table are retained in the consensus sequence.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+ORF1b Annotation Issues
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The annotation of the <em>ORF1b</em> gene had some changes between the first original assembly and newer versions of this annotation. In particular, there is a frameshift that is not considered in the annotation used by most software, and this causes a discrepancy in the results between <code>viralrecon</code> and other tools such as <em>Nextclade</em> (which we will cover in the next section).</p>
+<p>This issue is <a href="https://github.com/nf-core/viralrecon/issues/263">under investigation</a> by the developers of <code>viralrecon</code> and may be corrected in future versions of the pipeline.</p>
+<p>For now, the advice is to <strong>ignore the variant effects of ORF1b</strong> as these correspond to an older version of the annotated gene.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Keep Original Files Intact
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you analyse the results of a CSV file in a spreadsheet software (such as Excel), it may be a good idea to create a copy of your file to avoid accidentally modifying the original table. For example, if you accidentally sort one column of the table but forget to sort other columns, of if you accidentally filter the results and delete some of the rows from the table, etc.</p>
+<p>You can save a copy of the file by going to <kbd>File → Save As…</kbd>. You may want to save the copy as an Excel file format, to include graphs and colours. (Remember that the CSV format is a plain text file - it does not support graphs or coloured cells.)</p>
+</div>
+</div>
+</section>
+<section id="cleaning-fasta-files-optional" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="cleaning-fasta-files-optional"><span class="header-section-number">5.4</span> Cleaning FASTA Files (Optional)</h2>
+<p>To proceed with our analysis, we need a FASTA file containing <em>all</em> of our consensus sequences. However, our <code>viralrecon</code> pipeline outputs <em>separate</em> FASTA files for each sample. We can see this by running (from within the <code>uk_illumina/</code> directory):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/viralrecon/variants/ivar/consensus/bcftools/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Also, the workflow modifies our original sample names in the FASTA file, by adding extra information to the sequence name. For example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 1 results/viralrecon/variants/ivar/consensus/bcftools/ERR5728910.consensus.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;ERR5728910 MN908947.3</code></pre>
+<p>What we want to do is clean these sample names, so that we end up with:</p>
+<pre><code>&gt;ERR5728910</code></pre>
+<p>We also want to make sure to combine all the samples into a single FASTA file.</p>
+<p>We can the command <code>cat</code> to combine (<em>concatenate</em>) the individual files and the <code>sed</code> command to substitute text and clean our sample names. Let’s do this step by step.</p>
+<p>First, we can use the <code>*</code> <em>wildcard</em> to combine all the FASTA files with the <code>cat</code> command:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/viralrecon/variants/ivar/consensus/bcftools/<span class="pp">*</span>.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Running this command will print all of the sequences on the screen! To see what happened a little better, we could <em>pipe</em> this command to <code>less</code> to browse up-and-down through the file:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/viralrecon/variants/ivar/consensus/bcftools/<span class="pp">*</span>.fa <span class="kw">|</span> <span class="fu">less</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We could also check that we now have all our samples combined, we could pass the results to <code>grep</code> and search for the word <code>&gt;</code>, which in the FASTA format indicates the sequence name:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/viralrecon/variants/ivar/consensus/bcftools/<span class="pp">*</span>.fa <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"&gt;"</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This should give us 7 as the result (which makes sense, since we have 7 samples).</p>
+<p>We can now proceed with cleaning the names of the sequences, by using <code>sed</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/viralrecon/variants/ivar/consensus/bcftools/<span class="pp">*</span>.fa <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s| MN908947.3||'</span> <span class="op">&gt;</span> results/clean_sequences.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that in this last command we make sure to redirect the result to a new file using <code>&gt;</code>.</p>
+</section>
+<section id="missing-data-intervals" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="missing-data-intervals"><span class="header-section-number">5.5</span> Missing data intervals</h2>
+<p>When we align reads to the reference genome, there may be regions that we were not able to sequence (e.g.&nbsp;due to amplicon dropout, discussed above) and therefore cannot tell what the base sequence in those positions is. In those cases, the <code>viralrecon</code> pipeline includes the missing character ‘N’ in the sequence.</p>
+<p>As a further quality check, it is useful to check how many contiguous intervals of missing bases we have in each of our assemblies, as well as how long those intervals are. For example, for this small sequence:</p>
+<pre><code>T A N N N G C T N N A T</code></pre>
+<p>We have two missing intervals, from positions 3-5 and from positions 9-10.</p>
+<p>To obtain a list of missing intervals in a sequence, we can use the software <code>seqkit</code>, which is a toolkit of commands to do many operations on FASTA/FASTQ files (<a href="https://bioinf.shenwei.me/seqkit/usage/">check out its documentation</a>). In particular, we can use the following command:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> locate <span class="at">-i</span> <span class="at">-P</span> <span class="at">-G</span> <span class="at">-M</span> <span class="at">-r</span> <span class="at">-p</span> <span class="st">"N+"</span> results/clean_sequences.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>seqID  patternName  pattern  strand  start  end
+GB09   N+           N+       +       1      342
+GB09   N+           N+       +       9246   9502
+GB09   N+           N+       +       10738  11331
+GB09   N+           N+       +       21428  21543
+GB09   N+           N+       +       27400  27462
+GB09   N+           N+       +       27618  27644
+GB09   N+           N+       +       29827  29893
+
+... more output omitted...</code></pre>
+<p>The output is a tabular file specifying the consensus sequence name (first column) and the location of intervals in the genome where the pattern of one or more “N” were found.</p>
+<p>To see what all the options we used with this command are, see the <a href="https://bioinf.shenwei.me/seqkit/usage/#locate">tool’s documentation</a>.</p>
+</section>
+<section id="exercises" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.6</span> Exercises</h2>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quality control for India (ONT) samples
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>Now it’s your turn to check the quality of the assembled genomes from our India samples, sequenced using Nanopore. For this exercise, we will use the results produced by <code>viralrecon</code> on 48 pre-processed samples:</p>
+<ol type="1">
+<li>Use the file explorer <i class="fa-solid fa-folder"></i> to open the folder <code>preprocessed</code>, and then:
+<ul>
+<li>Open the file in <code>pipeline_info/execution_report_DATE.html</code> (where “DATE” is the date when the files were processed).</li>
+<li>How long did the workflow take to run?</li>
+<li>Which step of the pipeline took the longest to run?</li>
+</ul></li>
+<li>Open the <em>MultiQC</em> report found in <code>preprocessed/multiqc/medaka/multiqc_report.html</code> and answer the following questions:
+<ul>
+<li>Produce a plot between median depth of coverage (x-axis) and #Ns (y-axis). What do you think is the average coverage needed for &lt;10% of missing data.</li>
+<li>Were there any PCR amplicons with a dropout (i.e.&nbsp;very low depth of coverage) across multiple samples?</li>
+<li>Do any of these dropout amplicons coincide with gene “S” (Spike protein gene)? Note: you can see the ARTIC PCR primer location from the <a href="https://github.com/artic-network/artic-ncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV-2019.bed">online repository</a> and the gene locations in the <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512">SARS-CoV-2 NCBI genome browser</a>.</li>
+</ul></li>
+<li>Based on any amplicons that you identified in the previous question, find if there are any mutations coinciding with their primer locations. You can use the mutation variant table in <code>preprocessed/medaka/variants_long_table.csv</code>.</li>
+<li>With the mutation variants table open in a spreadsheet program (LibreOffice on our training machines):
+<ul>
+<li>Use the filter button <svg stroke="grey" fill="grey" stroke-width="0" viewbox="0 0 512 512" height="15" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M487.976 0H24.028C2.71 0-8.047 25.866 7.058 40.971L192 225.941V432c0 7.831 3.821 15.17 10.237 19.662l80 55.98C298.02 518.69 320 507.493 320 487.98V225.941l184.947-184.97C520.021 25.896 509.338 0 487.976 0z"></path></svg> to look for mutations in gene “S” (encodes for the Spike protein).</li>
+<li>Identify the samples and positions of mutations of the type “disruptive_inframe_deletion”.</li>
+<li>Using IGV, open the BAM file for one of those samples. Note: BAM files are located in <code>preprocessed/medaka/SAMPLE.primertrimmed.rg.sorted.bam</code> (were ‘SAMPLE’ is the sample name).</li>
+<li>Go to the location of those mutations. From the read alignment, how confident are you about it? What could you do to confirm it?</li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-answer">
+<p><strong>Question 1</strong></p>
+<p>We open the file found in <code>preprocessed/pipeline_info/execution_report_2022-05-04_12-41-12.html</code>, which contains information about the pipeline that was run on a set of 48 samples. We can see at the top of the report that it took ~15 minutes to run. This report also gives us information about how long each individual step of the pipeline took the longest to run (and other information such as which used more CPU or RAM memory). For example, in the section “Job Duration” we can see a graph that looks like this:</p>
+<p><img src="images/viralrecon_pipeline_info_duration.png" class="img-fluid"></p>
+<p>This indicates that the step running the <code>artic minion</code> tool takes the longest. This is not surprising as this is the step where most of the work is happening (mapping, primer trimming and making a consensus sequence). You can revise the steps of the workflow in the respective section above.</p>
+<hr>
+<p><strong>Question 2</strong></p>
+<p>When opening the <em>MultiQC</em> report, we can see the first section contains a table with several statistics about the quality of each sample. We can produce a plot from this table, by pressing the “Plot” button above the table. The plot we were asked for is the following:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/viralrecon_multiqc_plot.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">This plot can be produced by clicking the <kbd>Plot</kbd> button on top of the table and then selecting the variables “Coverage median” and “# Ns per 100kb consensus”.</figcaption>
+</figure>
+</div>
+<p>The y-axis of the plot tells us the number of ‘N’ per 100kb of sequence. If we divide those numbers by 100 we get a percentage and from these samples it seems like a median depth of coverage of around 200 reads generates samples with less than 10% of missing bases.</p>
+<p>From the section of the report “Amplicon coverage heatmap” we can see the average depth of coverage for each PCR amplicon from the ARTIC protocol. There are 3 amplicons in particular that have very low depth of coverage: nCoV-2019_51, nCoV-2019_62 and nCoV-2019_95.</p>
+<p>We can check the <a href="https://github.com/artic-network/artic-ncov2019/blob/master/primer_schemes/nCoV-2019/V3/nCoV-2019.bed">ARTIC V3 primer BED file online</a> to look at the location of these primers, or we could look for it using command-line tools. Here is an example:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> resources/primers/artic_version3_pool<span class="pp">*</span>.bed <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"_51_"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>MN908947.3      15171   15193   nCoV-2019_51_LEFT       1       +
+MN908947.3      15538   15560   nCoV-2019_51_RIGHT      1       -</code></pre>
+<p>For this example, we can see the amplicon is between positions 15171 - 15560 of the genome. Looking at the <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512">SARS-CoV-2 NCBI genome browser</a>, we can see this coincides with <em>ORF1ab</em>. If we do the same analysis for the other primers, we will see that none of them coincides with gene S.</p>
+<hr>
+<p><strong>Question 3</strong></p>
+<p>To investigate whether this amplicon dropout is due to mutations in the primer regions we can open the mutations table <code>preprocessed/medaka/variants_long_table.csv</code>. If we sort the table by the column “POS”, we can scroll to the location of each primer pair.</p>
+<p>We can see that in only one case there is a mutation coinciding one of the primers: in sample “IN33” position 28687 there is a <code>C &gt; T</code> mutation, which coincides with primer nCoV-2019_95_LEFT. However, this only occurs for one of the samples, suggesting the reason for the PCR dropout might be related to other factors.</p>
+<hr>
+<p><strong>Question 4</strong></p>
+<p>After filtering our table for gene <em>S</em> (Spike gene), we can see only a couple of mutations of type “disruptive_inframe_deletion” in some of the samples at positions 21764 and 21990. To look at the reads with this mutation, we open the BAM file for one of these samples in <em>IGV</em> (for example sample IN22):</p>
+<ul>
+<li>Go to <kbd>File → Load from file…</kbd>.</li>
+<li>In the file browser that opens go to the folder <code>preprocessed/medaka</code> and select the file <code>IN22.primertrimmed.rg.sorted.bam</code> to open it.</li>
+<li>In the search box we can type “NC_045512.2:21990” which will zoom-in on the region around the deletion.</li>
+</ul>
+<p>From looking at the reads aligned to this position of the genome, we can see several of them containing a 3bp deletion. However, we can also see some reads that do not contain the deletion, and others that seem to be mis-aligned. If we were interested in confirming this mutation, we could do an independent PCR followed by Sanger sequencing, for example.</p>
+<p>Although this was not part of the question, it is also worth noting that the primer “nCoV-2019_73_LEFT” starts very near this deletion. In the MultiQC report, we can see that this PCR amplicon had very poor amplification in this sample. One possibility is that the deletion interfered with the primer efficiency in this sample.</p>
+<p>Generally, we don’t need to confirm every single mutation obtained from our analysis. But if we see a mutation occurring many times, then it may be worth further investigation, especially if it is disruptive and in an important gene such as the Spike gene.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Clean FASTA file: ONT data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>In this exercise we will create a clean FASTA file for the samples collected in India.</p>
+<p>In this case, the output FASTA files are in the folder <code>results/viralrecon/medaka</code> and have the file extension <code>.fasta</code>. If we look at one of the files:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 1 results/viralrecon/medaka/IN42.consensus.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>&gt;IN42/ARTIC/medaka MN908947.3</code></pre>
+<p>We can see that the name has a lot of extra information attached to it. We want to clean the name of the sequences so that the result is:</p>
+<pre><code>&gt;IN42</code></pre>
+<p>The following <code>sed</code> command can be used to <em>substitute</em> the text “/ARTIC/medaka MN908947.3” with nothing:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s|/ARTIC/medaka MN908947.3||'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Pipe the tools <code>cat</code> and <code>sed</code> to construct a command that generates a new file called <code>results/clean_sequences.fa</code> containing all the sequences with “clean” sequence names.</li>
+</ul>
+<div class="callout callout-style-default callout-answer no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-answer">
+<p>The complete code to achieve the desired outcome is:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/viralrecon/medaka/<span class="pp">*</span>.consensus.fasta <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s|/ARTIC/medaka MN908947.3||'</span> <span class="op">&gt;</span> results/clean_sequences.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Look at our <a href="https://cambiotraining.github.io/unix-shell/materials/04-misc/01-sed.html">companion Unix course materials</a> for more information about how the <code>sed</code> command works.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.7</span> Summary</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Points
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>The output of the pipeline includes, among others:
+<ul>
+<li>A detailed <em>MultiQC</em> report, including information about genome coverage, the depth of sequencing for each amplicon, as well as other quality metrics that can help to troubleshoot problematic samples.</li>
+<li>A table with SNP and indel mutation variants identified in each sample.</li>
+<li>Information about SARS-CoV-2 lineages/clades/variants, which is detailed in the <a href="../../materials/02-isolates/03-lineages.html">next section</a>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/02-isolates/01-consensus.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Consensus assembly</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/02-isolates/03-lineages.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lineages and variants</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Bioinformatics Training Facility</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
