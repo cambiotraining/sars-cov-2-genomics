@@ -361,7 +361,7 @@ Finally, you can optionally provide a metadata CSV file, which will be joined wi
 Here is an example of the `vocs_abundance.csv` file from the script:
 
 ```
-sample       name     abundance              boot_lo               boot_hi               date        country        city       latitude   longitude
+sample       name     abundance              boot_lo               boot_up               date        country        city       latitude   longitude
 SRR18541074  Delta    0.9640087907444956     0.9596984293917038    0.9682214940819226    2021-12-01  United States  San Diego  32.719875  -117.170082
 SRR18541074  Omicron  0.019682409750709555   0.013233836060878133  0.02276906228234253   2021-12-01  United States  San Diego  32.719875  -117.170082
 SRR18541074  Other    0.0012202492036713667  0.0                   0.008722550206162935  2021-12-01  United States  San Diego  32.719875  -117.170082
@@ -374,7 +374,7 @@ The first 5 columns come from _Freyja_:
 - `name` is the lineage or variant name
 - `abundance` is the abundance estimate
 - `boot_lo` is the lower bound of the bootstrap 95% confidence interval
-- `boot_hi` is the higher bound of the confidence interval
+- `boot_up` is the upper bound of the confidence interval
 
 The remaining columns are part of our metadata, which in this case includes date of collection and location information.
 
