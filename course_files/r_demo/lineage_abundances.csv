@@ -1,4 +1,4 @@
-sample,name,abundance,boot_lo,boot_hi,date,country,city,latitude,longitude
+sample,name,abundance,boot_lo,boot_up,date,country,city,latitude,longitude
 SRR18541074,AY.44,0.26583286,0.22062022336636045,0.2971052371373705,2021-12-01,United States,San Diego,32.719875,-117.170082
 SRR18541074,AY.3,0.17287380,0.15684817412629423,0.19134365770536377,2021-12-01,United States,San Diego,32.719875,-117.170082
 SRR18541074,AY.100,0.06591169,0.0621177963944036,0.07690953917545072,2021-12-01,United States,San Diego,32.719875,-117.170082

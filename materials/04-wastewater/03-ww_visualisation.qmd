@@ -313,7 +313,7 @@ lineages |>
   mutate(name = fct_reorder(name, abundance)) |> 
   # make the plot
   ggplot(aes(x = name, y = abundance, colour = abundance < 0.05)) +
-  geom_pointrange(aes(ymin = boot_lo, ymax = boot_hi)) +
+  geom_pointrange(aes(ymin = boot_lo, ymax = boot_up)) +
   labs(x = "Lineage", y = "Abundance (95% CI)", colour = "< 5%")
 ```
 
@@ -340,7 +340,7 @@ lineages |>
   filter(sample == "SRR18541092") |> 
   mutate(name = fct_reorder(name, abundance)) |> 
   ggplot(aes(x = name, y = abundance, colour = abundance < 0.05)) +
-  geom_pointrange(aes(ymin = boot_lo, ymax = boot_hi)) +
+  geom_pointrange(aes(ymin = boot_lo, ymax = boot_up)) +
   scale_x_discrete(guide = guide_axis(angle = 45)) +
   labs(x = "Lineage", y = "Abundance (95% CI)", colour = "< 5%", 
        main = "Sample: SRR18541092")
@@ -349,7 +349,7 @@ lineages |>
   filter(sample == "SRR18541114") |> 
   mutate(name = fct_reorder(name, abundance)) |> 
   ggplot(aes(x = name, y = abundance, colour = abundance < 0.05)) +
-  geom_pointrange(aes(ymin = boot_lo, ymax = boot_hi)) +
+  geom_pointrange(aes(ymin = boot_lo, ymax = boot_up)) +
   scale_x_discrete(guide = guide_axis(angle = 45)) +
   labs(x = "Lineage", y = "Abundance (95% CI)", colour = "< 5%",
        main = "Sample: SRR18541114")
@@ -375,7 +375,7 @@ sandiego |>
   filter(sample %in% c("SRR18541092", "SRR18541114")) |> 
   # make the plot
   ggplot(aes(x = name, y = abundance, colour = sample)) +
-  geom_pointrange(aes(ymin = boot_lo, ymax = boot_hi), 
+  geom_pointrange(aes(ymin = boot_lo, ymax = boot_up), 
                   position = position_dodge(width = 0.5))
 ```
 

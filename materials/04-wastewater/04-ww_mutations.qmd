@@ -236,7 +236,7 @@ In R, we can calculate this as follows:
 ```{r}
 missense <- missense |> 
   mutate(af_lo = qbeta(0.025, alt_dp + 0.5, (dp - alt_dp) + 0.5),
-         af_hi = qbeta(0.975, alt_dp + 0.5, (dp - alt_dp) + 0.5))
+         af_up = qbeta(0.975, alt_dp + 0.5, (dp - alt_dp) + 0.5))
 ```
 
 One possible visualisation is to consider the mutations in individual samples, shown as a plot across the genome:
@@ -245,7 +245,7 @@ One possible visualisation is to consider the mutations in individual samples, s
 missense |> 
   filter(sample == "SRR18541114") |> 
   ggplot(aes(pos, af, colour = gene)) + 
-  geom_pointrange(aes(ymin = af_lo, ymax = af_hi)) +
+  geom_pointrange(aes(ymin = af_lo, ymax = af_up)) +
   scale_y_continuous(limits = c(0, 1))
 ```
 
@@ -255,7 +255,7 @@ Or, we can focus on an individual mutation and plot it over time:
 missense |> 
   filter(aa_change == "p.K856R") |> 
   ggplot(aes(date, af)) +
-  geom_pointrange(aes(ymin = af_lo, ymax = af_hi)) +
+  geom_pointrange(aes(ymin = af_lo, ymax = af_up)) +
   scale_y_continuous(limits = c(0, 1))
 ```
 

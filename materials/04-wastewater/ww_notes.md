@@ -199,4 +199,4 @@ pagetitle: "SARS Genomic Surveillance"
 Trainers:
 
 - Amanda Qvesel (bioinformatics) - amqv@ssi.dk
-- 
+

@@ -135,7 +135,7 @@ def parse_bootstrap(file_path):
     # zip them up
     boot = list(zip(lineage_names, q1, q7))
     # convert to data frame
-    boot_df = pd.DataFrame(boot, columns=["name", "boot_lo", "boot_hi"])
+    boot_df = pd.DataFrame(boot, columns=["name", "boot_lo", "boot_up"])
     
     return boot_df
 

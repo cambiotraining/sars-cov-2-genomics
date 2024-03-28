@@ -1,4 +1,4 @@
-sample,name,abundance,boot_lo,boot_hi,date,country,city,latitude,longitude
+sample,name,abundance,boot_lo,boot_up,date,country,city,latitude,longitude
 SRR18541074,Delta,0.9640087907444956,0.9596984293917038,0.9682214940819226,2021-12-01,United States,San Diego,32.719875,-117.170082
 SRR18541074,Omicron,0.019682409750709555,0.013233836060878133,0.02276906228234253,2021-12-01,United States,San Diego,32.719875,-117.170082
 SRR18541074,Other,0.0012202492036713667,0.0,0.008722550206162935,2021-12-01,United States,San Diego,32.719875,-117.170082
