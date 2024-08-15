@@ -47,21 +47,21 @@ An elementary knowledge of molecular and viral biology is assumed (concepts such
 Please cite these materials if:
 
 - You adapted or used any of them in your own teaching.
-- These materials were useful for your research work. For example, you can cite us in the methods section of your paper: "We carried our analyses based on the recommendations in Tavares et al (2022).".
+- These materials were useful for your research work. For example, you can cite us in the methods section of your paper: "We carried our analyses based on the recommendations in Tavares et al. (2022).".
 
 You can reference these materials as: 
 
-> Tavares H, Salehe B, Kumar A, Castle M & UKHSA New Variant Assessment Platform Team (2022) "cambiotraining/sars-cov-2-genomics: Introduction to Sars-CoV-2 Genomics", https://cambiotraining.github.io/sars-cov-2-genomics
+> Tavares H., Salehe B., Kumar A., Castle M., UKHSA New Variant Assessment Platform (2024). SARS Genomic Surveillance URL: https://cambiotraining.github.io/sars-cov-2-genomics/
 
 Or, in BibTeX format:
 
 ```
-@Misc{,
-  author = {Tavares, Hugo and Salehe, Bajuna and Kumar, Ankit and Castle, Matt and UKHSA New Variant Assessment Platform Team},
-  title = {cambiotraining/sars-cov-2-genomics: Introduction to Sars-CoV-2 Genomics},
-  month = {March},
-  year = {2022},
-  url = {https://cambiotraining.github.io/sars-cov-2-genomics},
+@misc{YourReferenceHere,
+author = {Tavares, Hugo and Salehe, Bajuna and Kumar, Ankit and Castle, Matt and UKHSA New Variant Assessment Platform},
+month = {3},
+title = {SARS Genomic Surveillance},
+url = {https://cambiotraining.github.io/sars-cov-2-genomics/},
+year = {2024}
 }
 ```
 
@@ -74,10 +74,11 @@ The contributing members from University of Cambridge Bioinformatics Training Fa
 - Bajuna Salehe, Teaching Associate
 - Ankit Kumar, Teaching Assistant
 
-The UKHSA's NVAP Team members that supported these materials are:
+The UKHSA New Variant Assessment Platform team members that supported these materials are:
 
-- Dr Leena Inamdar, NVAP Programme Lead and Global Health Lead
-- Dr Babak Afrough, Senior Project Manager
+- Leena Inamdar, NVAP Programme Lead and Global Health Lead
+- Babak Afrough, Senior Project Manager
+- Angelika Kritz, Senior Bioinformatician
 - Aude Wilhelm, Senior Epidemiology Scientist
 - Richard Myers, Data Analytics Surveillance Head Bioinformatician
 - Sam Sims, Bioinformatician

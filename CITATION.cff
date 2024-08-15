@@ -1,0 +1,35 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: SARS Genomic Surveillance
+message: >-
+  You may cite these materials using the metadata in this
+  file. Please cite our materials if you publish materials
+  derived from these, run a workshop using them, or use the
+  information in your own work.
+type: dataset
+authors:
+  - given-names: Hugo
+    family-names: Tavares
+    affiliation: Cambridge Centre for Research Informatics Training
+    orcid: 'https://orcid.org/0000-0001-9373-2726'
+  - given-names: Bajuna
+    family-names: Salehe
+    affiliation: Cambridge Centre for Research Informatics Training
+  - given-names: Ankit
+    family-names: Kumar
+    affiliation: Cambridge Centre for Research Informatics Training
+  - given-names: Matt
+    family-names: Castle
+    affiliation: Cambridge Centre for Research Informatics Training
+  - name: UKHSA New Variant Assessment Platform
+    city: London
+    country: GB
+    website: >-
+      https://www.gov.uk/guidance/new-variant-assessment-platform
+repository-code: 'https://github.com/cambiotraining/sars-cov-2-genomics'
+url: 'https://cambiotraining.github.io/sars-cov-2-genomics/'
+license: CC-BY-4.0
+commit: 39ae065607c201b861b3fa17ea133d8345493c4a
+date-released: '2024-03-28'
