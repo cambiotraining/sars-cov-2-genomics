@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>SARS Genomic Surveillance</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../materials/04-wastewater/01-ww_surveillance.html" rel="next">
+<link href="../../materials/03-case_studies/02-southafrica.html" rel="prev">
+<link href="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university-of-cambridge-favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../site_libs/quarto-contrib/quarto-project/cambiotraining/courseformat/img/university_crest_reversed.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Bioinformatics for SARS Genomic Surveillance</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/cambiotraining/sars-cov-2-genomics" rel="" target=""><i class="bi bi-github" role="img" aria-label="Bioinformatics Training Facility GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/bioinfocambs" rel="" target=""><i class="bi bi-twitter" role="img" aria-label="Bioinformatics Training Facility Twitter">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://genomic.social/@BioInfoCambs" rel="" target=""><i class="bi bi-mastodon" role="img" aria-label="Bioinformatics Training Facility Mastodon">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../materials/03-case_studies/01-switzerland.html">Case Studies</a></li><li class="breadcrumb-item"><a href="../../materials/03-case_studies/03-eqa.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">EQA (Exercise)</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Welcome</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data &amp; Software</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/01-surveillance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">SARS-CoV-2 genomic surveillance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/02-ngs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to NGS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/01-intro/03-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bioinformatic workflows</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Clinical Isolates</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/01-consensus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Consensus assembly</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/02-qc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/03-lineages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lineages and variants</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/02-isolates/04-phylogeny.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Building phylogenetic trees</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Case Studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/01-switzerland.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Switzerland (Nanopore)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/02-southafrica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">South Africa (Illumina)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/03-case_studies/03-eqa.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">EQA (Exercise)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Wastewater Samples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/01-ww_surveillance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wastewater Surveillance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/02-ww_abundance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lineage Abundance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/03-ww_visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Abundance Visualisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/04-wastewater/04-ww_mutations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Mutation Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-software/01-managing_software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Managing Bioinformatics Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/05-software/03-software_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Software setup</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/file_formats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Common file formats</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/unix_cheatsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unix cheat sheet</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/quick_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R fundamentals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../materials/appendices/tools_and_resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tools and Resources</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#pipeline-overview" id="toc-pipeline-overview" class="nav-link active" data-scroll-target="#pipeline-overview"><span class="header-section-number">10.1</span> Pipeline Overview</a></li>
+  <li><a href="#preparing-files" id="toc-preparing-files" class="nav-link" data-scroll-target="#preparing-files"><span class="header-section-number">10.2</span> Preparing Files</a>
+  <ul class="collapse">
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">10.2.1</span> Data</a></li>
+  <li><a href="#metadata" id="toc-metadata" class="nav-link" data-scroll-target="#metadata"><span class="header-section-number">10.2.2</span> Metadata</a></li>
+  </ul></li>
+  <li><a href="#consensus-assembly" id="toc-consensus-assembly" class="nav-link" data-scroll-target="#consensus-assembly"><span class="header-section-number">10.3</span> Consensus Assembly</a>
+  <ul class="collapse">
+  <li><a href="#samplesheet" id="toc-samplesheet" class="nav-link" data-scroll-target="#samplesheet"><span class="header-section-number">10.3.1</span> Samplesheet</a></li>
+  <li><a href="#running-viralrecon" id="toc-running-viralrecon" class="nav-link" data-scroll-target="#running-viralrecon"><span class="header-section-number">10.3.2</span> Running Viralrecon</a></li>
+  </ul></li>
+  <li><a href="#consensus-quality" id="toc-consensus-quality" class="nav-link" data-scroll-target="#consensus-quality"><span class="header-section-number">10.4</span> Consensus Quality</a>
+  <ul class="collapse">
+  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">10.4.1</span> Coverage</a></li>
+  <li><a href="#variants" id="toc-variants" class="nav-link" data-scroll-target="#variants"><span class="header-section-number">10.4.2</span> Variants</a></li>
+  <li><a href="#clean-fasta" id="toc-clean-fasta" class="nav-link" data-scroll-target="#clean-fasta"><span class="header-section-number">10.4.3</span> Clean FASTA</a></li>
+  <li><a href="#missing-intervals" id="toc-missing-intervals" class="nav-link" data-scroll-target="#missing-intervals"><span class="header-section-number">10.4.4</span> Missing Intervals</a></li>
+  </ul></li>
+  <li><a href="#downstream-analyses" id="toc-downstream-analyses" class="nav-link" data-scroll-target="#downstream-analyses"><span class="header-section-number">10.5</span> Downstream Analyses</a>
+  <ul class="collapse">
+  <li><a href="#lineage-assignment" id="toc-lineage-assignment" class="nav-link" data-scroll-target="#lineage-assignment"><span class="header-section-number">10.5.1</span> Lineage Assignment</a></li>
+  <li><a href="#phylogeny" id="toc-phylogeny" class="nav-link" data-scroll-target="#phylogeny"><span class="header-section-number">10.5.2</span> Phylogeny</a></li>
+  <li><a href="#clustering-optional-section" id="toc-clustering-optional-section" class="nav-link" data-scroll-target="#clustering-optional-section"><span class="header-section-number">10.5.3</span> Clustering (Optional Section)</a></li>
+  </ul></li>
+  <li><a href="#integration-visualisation" id="toc-integration-visualisation" class="nav-link" data-scroll-target="#integration-visualisation"><span class="header-section-number">10.6</span> Integration &amp; Visualisation</a></li>
+  <li><a href="#eqa-panels" id="toc-eqa-panels" class="nav-link" data-scroll-target="#eqa-panels"><span class="header-section-number">10.7</span> EQA Panels</a></li>
+  <li><a href="#reporting" id="toc-reporting" class="nav-link" data-scroll-target="#reporting"><span class="header-section-number">10.8</span> Reporting</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">EQA (Exercise)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This section is an <strong>extended self-paced practice</strong> applying the concepts covered in previous sections.</p>
+<p>By the end of this practice, you should be able to:</p>
+<ul>
+<li>Prepare all the files necessary to run the consensus pipeline.</li>
+<li>Run the <em>viralrecon</em> pipeline to generate FASTA consensus from raw FASTQ files.</li>
+<li>Assess and collect several quality metrics for the consensus sequences.</li>
+<li>Clean output files, in preparation for other downstream analysis.</li>
+<li>Assign sequences to lineages.</li>
+<li>Contextualise your sequences in other background data and cluster them based on phylogenetic analysis.</li>
+<li>Integrate the metadata and analysis results to generate timeseries visualisations of your data.</li>
+</ul>
+</div>
+</div>
+<p><img src="https://genqa.org/userfiles/logo.png" alt="GenQA logo" style="float:right;width:20%"></p>
+<p><em>External Quality Assessment</em> (EQA) is a procedure that allows laboratories to assess the quality of the data they produce, including its analysis. For genomic analysis of SARS-CoV-2, a standard panel of samples has been developed by the <a href="https://genqa.org/">GenQA</a> consortium, which is part of <a href="https://ukneqas.org.uk/">UK NEQAS</a>, a non-profit that designs EQA protocols for a range of applications. <em>GenQA</em>’s panel of samples includes lab-cultured SARS-CoV-2 samples of known origin, enabling laboratories to assess whether their sequencing and bioinformatic pipelines correctly identify expected mutations and lineage assignments for each of the samples in the panel.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+More about EQA
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>EQA programs such as this one help to provide assurance of the diagnostic testing results obtained by a lab. One of the key things to consider is that, for reliable assessment, <strong>samples should be processed in the same way as patient samples</strong>. Since these samples are for quality assessment, it may be tempting to assign the samples to more experienced staff, include extra checks, increase sequencing, etc. However, doing that would give a false impression of the performance of your own lab.</p>
+<p>Evaluating the results of EQA sample processing is critical for labs to understand where their procedures can be improved. This may include staff training, purchase of new equipment, or updating the reagents and kits used for sample processing.</p>
+<p>EQA panels are often updated, to reflect any new and emerging pathogens, allowing the labs to assess the suitability of the protocols used to detect them. It also helps raise awareness of any atypical variants of pathogens that may exist in the environment.</p>
+</div>
+</div>
+</div>
+<p>In this case study, we are going to analyse samples from the <em>GenQA</em> panel, to helps us assess the quality of our bioinformatic analysis and extract key pieces of information to be reported. Two panels are available, which include the following variants:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">UKNEQAS22**</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">UKNEQAS23**</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ul>
+<li>1x Alpha</li>
+<li>1x Beta</li>
+<li>1x Delta</li>
+<li>2x Gamma</li>
+<li>1x Omicron</li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li>2x Omicron BA.1</li>
+<li>1x Omicron BA.2</li>
+<li>2x Delta</li>
+<li>1x Gamma</li>
+</ul>
+</div>
+</div>
+</div>
+<p>From the sequencing data analysis, we will address the following:</p>
+<ul>
+<li>What was the quality of the consensus sequence obtained?</li>
+<li>What lineage/clade was each of our samples assigned to? Did we identify the correct (expected) lineage?</li>
+<li>Which of the expected mutations were we able to detect? Where there any “false positives” or “false negatives”?</li>
+</ul>
+<p>We should also produce several essential output files, which would usually be necessary to upload our data to public repositories:</p>
+<ul>
+<li>Consensus sequences (FASTA)</li>
+<li>Metadata and consensus sequence quality metrics (TSV)</li>
+<li>Variants (TSV)</li>
+</ul>
+<section id="pipeline-overview" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="pipeline-overview"><span class="header-section-number">10.1</span> Pipeline Overview</h2>
+<p>We will start our analysis with <strong>FASTQ files</strong> produced by our sequencing platforms (Illumina and Nanopore are considered here). These FASTQ files will be used with the <strong><code>nf-core/viralrecon</code> <em>Nextflow</em> pipeline</strong>, allowing us to automate the generation of consensus sequences and produce several <strong>quality control</strong> metrics essential for our downstream analysis and reporting.</p>
+<p>Critical files output by the pipeline will need to be further processed, including combining and cleaning our <strong>consensus FASTA files</strong>. Using these clean files, we can then proceed to downstream analysis, which includes assigning each sample to the most up-to-date <strong>Pango lineage</strong>, <strong>Nextclade clade</strong> and <strong>WHO designation</strong>. Finally, we can do more advanced analysis, including the idenfication of <strong>sample clusters</strong> based on phylogenetic analysis, or produce timeseries visualisations of variants of concern. With all this information together, we will have the necessary pieces to submit our results to <strong>public repositories</strong> and write <strong>reports</strong> to inform public health decisions.</p>
+<p><img src="images/analysis_overview.png" class="img-fluid"></p>
+</section>
+<section id="preparing-files" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="preparing-files"><span class="header-section-number">10.2</span> Preparing Files</h2>
+<p>Before we start our work, it’s always a good idea to setup our directory structure, so we keep our files organised as the analysis progresses. There is no standard way to do this, but here are some suggested directories:</p>
+<ul>
+<li><code>data</code> → contains the sequencing data for the particular run or project you are working on. Data may sometimes be stored in a separate server, in which case you may not need to create this directory. Generally, you should <em>leave the original data unmodified</em>, in case something goes wrong during your analysis, you can always re-run it from the start.</li>
+<li><code>results</code> → to save results of the analysis.</li>
+<li><code>scripts</code> → to save scripts used to run the analysis. You should always try to save all the commands you run in a script, this way you will have a record of what was done to produce the results, and it makes your life easier if you want to run the analysis again on a new set of data.</li>
+<li><code>report</code> → to save the final files and documents that we report to our colleagues or upload to public repositories.</li>
+<li><code>resources</code> → files that you download from the internet could be saved here. For example, the reference genome sequence, background data used for phylogenetics, etc. Sometimes you may share these resources across multiple projects, in which case you could have this folder somewhere else that you can access across multiple projects.</li>
+</ul>
+<p>On our computers, we have a directory in <code>~/Documents/eqa_workshop</code>, where we will do all our analysis. We already include the following:</p>
+<ul>
+<li><code>data</code> → with the results of the EQA sample sequencing.</li>
+<li><code>resources</code> → where we include the SARS-CoV-2 reference genome, and some background datasets that will be used with some of the tools we will cover.</li>
+<li><code>scripts</code> → where we include some scripts that we will use towards the end of the workshop. You should also create several scripts during the workshop, which you will save here.</li>
+<li><code>sample_info.csv</code> → a table with some metadata for our samples.</li>
+</ul>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>Your first task is to <strong>create two new directories</strong> in the project folder called <code>report</code> and <code>results</code>. You can do this either using the file explorer <i class="fa-solid fa-folder"></i> or from the command line (using the <code>mkdir</code> command).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="data" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="data"><span class="header-section-number">10.2.1</span> Data</h3>
+<p>Regardless of which platform you used to sequence your samples, the analysis starts with FASTQ files (if you need a reminder of what a FASTQ file is, look at the <a href="../../materials/01-intro/02-ngs.html#fasta-files">Introduction to NGS</a> section). However, the organisation of these files is slightly different depending on the platform, and is detailed below.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="platform">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Nanopore</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Illumina</a></li></ul>
+<div class="tab-content" data-group="platform">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Typically, Nanopore data is converted to FASTQ format using the program <em>Guppy</em>. This software outputs the files to a directory called <strong><code>fastq_pass</code></strong>. Within this directory, it creates further sub-directories for each sample barcode, which are named <code>barcodeXX</code> (<code>XX</code> is the barcode number). Finally, within each barcode directory there is one (or sometimes more) FASTQ files corresponding to that sample.</p>
+<p>You can look at the files you have available from the command line using:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data/fastq_pass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>The Illumina files come as compressed FASTQ files (<code>.fq.gz</code> format) and there’s two files per sample, corresponding to read 1 and read 2. This is indicated by the file name suffix:</p>
+<ul>
+<li><code>*_1.fq.gz</code> for read 1</li>
+<li><code>*_2.fq.gz</code> for read 2</li>
+</ul>
+<p>You can look at the files you have available from the command line using:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="metadata" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="metadata"><span class="header-section-number">10.2.2</span> Metadata</h3>
+<p>A critical step in any analysis is to make sure that our samples have all the relevant metadata associated with them. This is important to make sense of our results and produce informative reports at the end. There are many types of information that can be collected from each sample (revise the <a href="01-intro.html#Metadata">Genomic Surveillance &gt; Metadata</a> section of the materials to learn more about this). For effective genomic surveillance, we need at the very minimum three pieces of information:</p>
+<ul>
+<li><strong>When</strong>: date when the sample was collected (not when it was sequenced!).</li>
+<li><strong>Where</strong>: the location where the sample was collected (not where it was sequenced!).</li>
+<li><strong>How</strong>: how the sample was sequenced (sequencing platform and protocol used).</li>
+</ul>
+<p>Of course, this is the <em>minimum</em> metadata we need for a useful analysis. However, the more information you collect about each sample, the more questions you can ask from your data – so always remember to record as much information as possible for each sample.</p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p><strong>Note: If you are using our pre-sequenced data, you can skip this exercise.</strong></p>
+<p>We already provide some basic metadata for these samples in the file <code>sample_info.csv</code>:</p>
+<ul>
+<li><code>sample</code> → the sample ID.</li>
+<li><code>collection_date</code> → the date of collection for the sample in the format YYYY-MM-DD.</li>
+<li><code>country</code> → the country of origin for this sample.</li>
+<li><code>expected_lineage</code> and <code>expected_voc</code> → because we are using the EQA panel, we know what lineage and variant-of-concern (VOC) each sample belongs to. We will use this later to assess the quality of our analysis.</li>
+</ul>
+<p>There is however some information missing from this table, which you may have available at this point. Open this file in <em>Excel</em> and create the following columns:</p>
+<ul>
+<li><code>ct</code> → Ct value from qPCR viral load quantification.</li>
+<li><code>sequencing_instrument</code> → the model for the sequencing instrument used (e.g.&nbsp;NovaSeq 6000, MinION, etc.).</li>
+<li><code>sequencing_protocol_name</code> → the type of protocol used to prepare the samples (e.g.&nbsp;ARTIC).</li>
+<li><code>amplicon_primer_scheme</code> → for amplicon protocols, what version of the primers was used (e.g.&nbsp;V3, V4.1)</li>
+<li>Specific columns for Oxford Nanopore data, which are essential for the bioinformatic analysis:
+<ul>
+<li><code>ont_nanopore</code> → the version of the pores used (e.g.&nbsp;<code>9.4.1</code> or <code>10.4.1</code>).</li>
+<li><code>ont_guppy_version</code> → the version of the <em>Guppy</em> software used for basecalling.</li>
+<li><code>ont_guppy_mode</code> → the basecalling mode used with <em>Guppy</em> (usually “fast”, “high”, “sup” or “hac”).</li>
+</ul></li>
+</ul>
+<p>This will ensure that in the future people have sufficient information to re-run the analysis on your data.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dates in Spreadsheet Programs
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that programs such as <em>Excel</em> often convert date columns to their own format, and this can cause problems when analysing data later on. For example, GISAID wants dates in the format YYYY-MM-DD, but by default <em>Excel</em> displays dates as DD/MM/YYYY.<br>
+You can change how <em>Excel</em> displays dates by highlighting the date column, right-clicking and selecting <kbd>Format cells</kbd>, then select “Date” and pick the format that matches YYYY-MM-DD. However, every time you open the CSV file, <em>Excel</em> annoyingly converts it back to its default format!</p>
+<p>To make sure no date information is lost due to <em>Excel</em>’s behaviour, it’s a good idea to store information about year, month and day in separate columns (stored just as regular numbers).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="consensus-assembly" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="consensus-assembly"><span class="header-section-number">10.3</span> Consensus Assembly</h2>
+<p>At this point we are ready to start our analysis with the first step: generating a consensus genome for our samples. We will use a standardised pipeline called <em>viralrecon</em>, which automates most of this process for us, helping us be more efficient and reproducible in our analysis.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See <a href="../02-isolates/01-consensus.html#sec-consensus"><span>Section&nbsp;4.1</span></a>, if you need to revise how the <code>nf-core/viralrecon</code> pipeline works.</p>
+</div>
+</div>
+<section id="samplesheet" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="samplesheet"><span class="header-section-number">10.3.1</span> Samplesheet</h3>
+<p>The first step in this process is to prepare a CSV file with information about our sequencing files, which will be used as the input to the <em>viralrecon</em> pipeline.<br>
+The <a href="https://nf-co.re/viralrecon/2.6.0/usage">pipeline’s documentation</a> gives details about the format of this samplesheet, depending on whether you are working with Illumina or Nanopore data.</p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p><strong>Note: If you are using our pre-sequenced data, you can skip this exercise.</strong></p>
+<p>Using <em>Excel</em>, produce the input samplesheet for <code>nf-core/viralrecon</code>, making sure that you save it as a CSV file (<kbd>File</kbd> → <kbd>Save As…</kbd> and choose “CSV” as the file format).</p>
+<p><strong>Note:</strong> make sure that the sample names you use in this samplesheet match those in the metadata <code>sample_info.csv</code> file (pay attention to things like spaces, uppercase/lowercase, etc. – make sure the names used match <em>exactly</em>).</p>
+<p>If you are working with Illumina data, you should check the tip below.</p>
+<details>
+<summary>
+Illumina samplesheet: saving time with the command line!
+</summary>
+<p>You can save some time (and a lot of typing!) in making the Illumina samplesheet using the command line to get a list of file paths. For example, if your files are saved in a folder called <code>data</code>, you could do:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># list read 1 files and save output in a temporary file</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data/<span class="pp">*</span>_1.fq.gz <span class="op">&gt;</span> read1_filenames.txt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># list read 2 files and save output in a temporary file</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data/<span class="pp">*</span>_2.fq.gz <span class="op">&gt;</span> read2_filenames.txt</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># initiate a file with column names</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"fastq_1,fastq_2"</span> <span class="op">&gt;</span> samplesheet.csv</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># paste the two temporary files together, using comma as a delimiter</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span> <span class="at">-d</span> <span class="st">","</span> read1_filenames.txt read2_filenames.txt <span class="op">&gt;&gt;</span> samplesheet.csv</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the two temporary files</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> read1_filenames.txt read2_filenames.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, you can open this file in <em>Excel</em> and continue editing it to add a new column of sample names.</p>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="running-viralrecon" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="running-viralrecon"><span class="header-section-number">10.3.2</span> Running Viralrecon</h3>
+<p>The next step in our analysis is to run the <code>nf-core/viralrecon</code> pipeline. The way the command is structured depends on which kind of data we are working with. There are <a href="https://nf-co.re/viralrecon/2.6.0/parameters">many options</a> that can be used to customise the pipeline, but typical commands are shown below for each platform.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="platform">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Nanopore</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Illumina</a></li></ul>
+<div class="tab-content" data-group="platform">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-r</span> 2.6.0 <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max_memory</span> <span class="st">'15.GB'</span> <span class="at">--max_cpus</span> 4 <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--platform</span> nanopore <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> SAMPLESHEET_CSV <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--fastq_dir</span> data/fastq_pass/ <span class="dt">\</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> results/viralrecon <span class="dt">\</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--protocol</span> amplicon <span class="dt">\</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome</span> <span class="st">'MN908947.3'</span> <span class="dt">\</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set</span> artic <span class="dt">\</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set_version</span> PRIMER_VERSION <span class="dt">\</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--artic_minion_caller</span> medaka <span class="dt">\</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--artic_minion_medaka_model</span> MEDAKA_MODEL <span class="dt">\</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_assembly</span> <span class="at">--skip_asciigenome</span> <span class="dt">\</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_pangolin</span> <span class="at">--skip_nextclade</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You need to check which model the <em>medaka</em> software should use to process the data. You need three pieces of information to determine this:</p>
+<ul>
+<li>The version of the nanopores used (usually 9.4.1 or 10.4.1).</li>
+<li>The sequencing device model (MinION, GridION or PromethION).</li>
+<li>The mode used in the <em>Guppy</em> software for basecalling (“fast”, “high”, “sup” or “hac”).</li>
+<li>The version of the <em>Guppy</em> software.</li>
+</ul>
+<p>Once you have these pieces of information, you can see how the model is specified based on the model files available on the <a href="https://github.com/nanoporetech/medaka/tree/master/medaka/data"><code>medaka</code> GitHub repository</a>. For example, if you used a flowcell with chemistry 9.4.1, sequenced on a <em>MinION</em> using the “fast” algorithm on <em>Guppy</em> version 5.0.7, the model used should be <code>r941_min_fast_g507</code>.<br>
+Note that in some cases there is no model for recent versions of <em>Guppy</em>, in which case you use the version for the latest version available. In our example, if our version of <em>Guppy</em> was 6.1.5 we would use the same model above, since that’s the most recent one available.</p>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/viralrecon <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-r</span> 2.6.0 <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--max_memory</span> <span class="st">'15.GB'</span> <span class="at">--max_cpus</span> 4 <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--platform</span> illumina <span class="dt">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> SAMPLESHEET_CSV <span class="dt">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> results/viralrecon <span class="dt">\</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--protocol</span> amplicon <span class="dt">\</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome</span> <span class="st">'MN908947.3'</span> <span class="dt">\</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set</span> artic <span class="dt">\</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">--primer_set_version</span> PRIMER_VERSION <span class="dt">\</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_assembly</span> <span class="at">--skip_asciigenome</span> <span class="dt">\</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--skip_pangolin</span> <span class="at">--skip_nextclade</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>Your next task is to run the pipeline on your data. However, rather than run the command directly from the command line, let’s save it in a <strong>shell script</strong> – for reproducibility and as a form of documenting our analysis.</p>
+<ul>
+<li>First, open the <code>README.txt</code> file found in your folder, which has some details about your samples, including the amplicon primer scheme used.</li>
+<li>Using a text editor, create a new shell script and save it in <code>scripts/01-run_viralrecon.sh</code>. You can either use the command-line text editor <code>nano</code> or use <em>Gedit</em>, which comes installed with Ubuntu.</li>
+<li>Copy the command shown above (either Illumina or Nanopore, depending on your data) to your new script.</li>
+<li>Adjust the code, to use the correct input samplesheet file, primer scheme and, in the case of ONT, the medaka model. For information about primer scheme options see the “<a href="../appendices/tools_and_resources.html#sec-primer-schemes">Amplicon Primer Schemes</a>” appendix.</li>
+<li>Activate the software environment to use Nextflow: <code>mamba activate nextflow</code>.</li>
+<li>Save the script and run it from the command line using <code>bash scripts/01-run_viralrecon.sh</code>.</li>
+</ul>
+<p>If you need a reminder of how to work with shell scripts, revise the <a href="https://cambiotraining.github.io/unix-shell/materials/02-programming/01-scripts.html">Shell Scripts</a> section of the accompanying Unix materials.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Maximum Memory and CPUs
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In our <em>Nextflow</em> command above we have set <code>--max_memory '15.GB' --max_cpus 8</code> to limit the resources used in the analysis. This is suitable for the computers we are using in this workshop. However, make sure to set these options to the maximum resources available on the computer where you process your data.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="consensus-quality" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="consensus-quality"><span class="header-section-number">10.4</span> Consensus Quality</h2>
+<p>Once your workflow is complete, it’s time to assess the quality of the assembly.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See <a href="../02-isolates/02-qc.html#sec-consensus-qc"><span>Section&nbsp;5.2</span></a>, if you need to revise how to assess the quality of consensus sequences.</p>
+</div>
+</div>
+<section id="coverage" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="coverage"><span class="header-section-number">10.4.1</span> Coverage</h3>
+<p>At this stage we want to identify issues such as:</p>
+<ul>
+<li>Any samples which have critically low coverage. There is no defined threshold, but samples with less than 85% coverage should be considered carefully.</li>
+<li>Any problematic regions that systematically did not get amplified (amplicon dropout).</li>
+</ul>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>To assess the quality of our assemblies, we can use the <strong><em>MultiQC</em> report</strong> generated by the pipeline, which compiles several pieces of information about our samples. If you need a reminder of where to find this file, consult the “<a href="../../materials/02-isolates/01-consensus.html#output-files">Consensus assembly</a>” section of the materials, or the <a href="https://nf-co.re/viralrecon/2.6.0/output">Viralrecon output documentation</a>.</p>
+<p>Open the quality report and try to answer the following questions:</p>
+<ul>
+<li>Were there any samples with more than 15% missing bases (’N’s)?</li>
+<li>Were there any samples with a median depth of coverage &lt;20x?</li>
+<li>Were there any problematic amplicons with low depth of coverage across multiple samples?</li>
+</ul>
+<p>Make a note of any samples that you think are problematic. You can discuss with your colleagues and compare your results/conclusions to see if you reach similar conclusions.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="variants" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="variants"><span class="header-section-number">10.4.2</span> Variants</h3>
+<p>The <em>viralrecon</em> pipeline outputs a table with information about SNP/Indel variants as a CSV file named <code>variants_long_table.csv</code>. It is important to inspect the results of this file, to identify any mutations with severe effects on annotated proteins, or identify samples with an abnormal high number of “mixed” bases.</p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>Open the <code>variants_long_table.csv</code> file and answer the following questions. If you need a reminder of where to find this file, consult the “<a href="../../materials/02-isolates/01-consensus.html#output-files">Consensus assembly</a>” section of the materials, or the <a href="https://nf-co.re/viralrecon/2.6.0/output">Viralrecon output documentation</a>.</p>
+<ul>
+<li>How many variants have allele frequency &lt; 75%?</li>
+<li>Does any of the samples have a particularly high number of these low-frequency variants, compared to other samples? (This could indicate cross-contamination of samples)</li>
+<li>Investigate if there are any samples with frameshift mutations. These mutations should be rare because they are highly disruptive to the functioning of the virus. So, their occurrence may be due to errors rather than a true mutation and it’s good to make a note of this.</li>
+</ul>
+<p>If you need a reminder of the meaning of the columns in this file, consult the <a href="04-consensus.html#MutationVariant_Analysis">Consensus &gt; Mutation/Variant Analysis</a> section of the materials.</p>
+<p>Make a note of any samples that you think may be problematic, either because they have a high number of low-frequency variants or because they have frameshift mutations.</p>
+<p><strong>(Optional)</strong><br>
+If you identify samples with frameshift mutations, open the <em>BAM</em> file of the sample using the software <em>IGV</em>. Go to the position where the mutation is located, and try to see if there is evidence that this mutation is an error (for example, if it’s near an homopolymer).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>The samples we are using in this analysis come from a standard EQA panel. As such, we already know what lineages we expect to find in these samples.</p>
+<ul>
+<li>Open IGV and load one (or more) of the alignment BAM files into it. If you need a reminder of where to find this file, consult the “<a href="../../materials/02-isolates/01-consensus.html#output-files">Consensus assembly</a>” section of the materials, or the <a href="https://nf-co.re/viralrecon/2.6.0/output">Viralrecon output documentation</a>.</li>
+<li>Open your metadata table (<code>sample_info.csv</code>) and check which lineages your loaded samples belong to.</li>
+<li>Do a web search to find what mutations characterise those lineages.</li>
+<li>On IGV, go to the location of some of the expected mutations, and see if you can see it in the respective samples.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="clean-fasta" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="clean-fasta"><span class="header-section-number">10.4.3</span> Clean FASTA</h3>
+<p>The <em>viralrecon</em> pipeline outputs each of our consensus sequences as individual FASTA files for each sample (look at the <a href="03-intro_ngs.html#FASTA_Files">FASTA Files</a> section if you need a reminder of what these files are). However, by default, the sample names in this file have extra information added to them, which makes some downstream analysis less friendly (because the names will be too long and complicated).</p>
+<p>To clean up these files, we will do two things:</p>
+<ul>
+<li>Combine all the individual FASTA files together.</li>
+<li>Remove the extra text from the sequence names.</li>
+</ul>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>We will use the programs <code>cat</code> (concatenate) and <code>sed</code> (text replacement) to clean our FASTA files. Consider the commands given below:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="platform">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Nanopore</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Illumina</a></li></ul>
+<div class="tab-content" data-group="platform">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&lt;</span>INPUT<span class="op">&gt;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s|/ARTIC/medaka MN908947.3||'</span> <span class="op">&gt;</span> report/consensus.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&lt;</span>INPUT<span class="op">&gt;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s| MN908947.3||'</span> <span class="op">&gt;</span> report/consensus.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>The <code>sed</code> command shown is used to remove the extra pieces of text added by the pipeline to each sample name. This is a slightly more advanced program to use, so we already give you the code. If you want to learn more about it, check the “<a href="[02c-unix_text_manipulation.html#Text_Replacement](https://cambiotraining.github.io/unix-shell/materials/04-misc/01-sed.html)">Text Replacement</a>” section of the accompanying Unix materials.</p>
+<p>Copy the command above to a new shell script called <code>scripts/02-clean_fasta.sh</code>. Fix the code by replacing <code>&lt;INPUT&gt;</code> with the path to all the FASTA files generated by the pipeline (remember you can use the <code>*</code> wildcard).<br>
+If you need a reminder of where to find the FASTA consensus files from <em>viralrecon</em>, consult the “<a href="../../materials/02-isolates/01-consensus.html#output-files">Consensus assembly</a>” section of the materials, or the <a href="https://nf-co.re/viralrecon/2.6.0/output">Viralrecon output documentation</a>.</p>
+<p>Once you fixed the script, run it with <code>bash</code> and check that the output file is generated.</p>
+<p><strong>Bonus:</strong><br>
+Check that you have all expected sequences in your FASTA file using <code>grep</code> to find the lines of the file with <code>&gt;</code> (which is used to indicate sample names).</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="missing-intervals" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="missing-intervals"><span class="header-section-number">10.4.4</span> Missing Intervals</h3>
+<p>When we generate our consensus assembly, there are regions for which we did not have enough information (e.g.&nbsp;due to amplicon dropout) or where there were mixed bases. These regions are missing data, and are denoted as ‘N’ in our sequences. Although we already determined the percentage of each sequence that is missing from the <em>MultiQC</em> report, we don’t have the <strong>intervals of missing data</strong>, which can be a useful quality metric to have. In particular, we may want to know what is the largest continuous stretch of missing data in each sample.</p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>We will use the software tool <code>seqkit</code> to find intervals where the ‘N’ character occurs. This tool has several functions available, one of which is called <code>locate</code>.</p>
+<p>Here is the command that would be used to locate intervals containing <em>one or more</em> ‘N’ characters:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> locate <span class="at">-i</span> <span class="at">-P</span> <span class="at">-G</span> <span class="at">-M</span> <span class="at">-r</span> <span class="at">-p</span> <span class="st">"N+"</span> report/consensus.fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The meaning of the options is detailed in <a href="https://bioinf.shenwei.me/seqkit/usage/#locate"><code>seqkit</code>’s documentation</a>.</p>
+<ul>
+<li>Create a new shell script called <code>scripts/03-missing_intervals.sh</code>.</li>
+<li>Copy the command shown above to the script and <strong>modify it to <em>redirect</em> the output</strong> (using <code>&gt;</code>) to a file called <code>results/missing_intervals.tsv</code>.</li>
+<li>Activate the software environment: <code>mamba activate seqkit</code>.</li>
+<li>Run the script you created using <code>bash</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>Open the file you created in the previous step (<code>results/missing_intervals.tsv</code>) in a spreadsheet program. Create a new column with the length of each interval (<code>end - start + 1</code>).</p>
+<p>Note if any missing intervals are larger than 1Kb, and whether they overlap with the <em>Spike</em> gene. (Note: you can use the <a href="https://www.ncbi.nlm.nih.gov/projects/sviewer/?id=NC_045512&amp;tracks=%5Bkey:sequence_track,name:Sequence,display_name:Sequence,id:STD649220238,annots:Sequence,ShowLabel:false,ColorGaps:false,shown:true,order:1%5D%5Bkey:gene_model_track,name:Genes,display_name:Genes,id:STD3194982005,annots:Unnamed,Options:ShowAllButGenes,CDSProductFeats:true,NtRuler:true,AaRuler:true,HighlightMode:2,ShowLabel:true,shown:true,order:9%5D&amp;v=1:29903&amp;c=null&amp;select=null&amp;slim=0">Sars-CoV-2 genome browser</a> to help you see the location of the annotated genes.)</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="downstream-analyses" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="downstream-analyses"><span class="header-section-number">10.5</span> Downstream Analyses</h2>
+<p>Now that we have cleaned our FASTA file, we can use it for several downstream analysis. We will focus on these:</p>
+<ul>
+<li><strong>Lineage assignment:</strong> identify if our samples come from known lineages from the <em>Pangolin</em> consortium.</li>
+<li><strong>Phylogeny:</strong> produce an annotated phylogenetic tree of our samples.</li>
+<li><strong>Clustering:</strong> assess how many clusters of sequences we have, based on a phylogenetic analysis.</li>
+<li><strong>Integration &amp; Visualisation:</strong> cross-reference different results tables and produce visualisations of how variants changed over time.</li>
+</ul>
+<section id="lineage-assignment" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="lineage-assignment"><span class="header-section-number">10.5.1</span> Lineage Assignment</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See <a href="../02-isolates/03-lineages.html#sec-lineages"><span>Section&nbsp;6.1</span></a>, if you need to revise how lineage assignment works.</p>
+</div>
+</div>
+<p>Although the <em>Viralrecon</em> pipeline can run <em>Pangolin</em> and <em>Nextclade</em>, it does not use the latest version of these programs (because lineages evolve so fast, the nomenclature constantly changes). Although it is possible to <a href="https://nf-co.re/viralrecon/2.6.0/docs/usage#updating-containers-advanced-users">configure <em>viralrecon</em></a> to use more recent versions of these tools, it requires more advanced use of configuration files with the pipeline.</p>
+<p>Alternatively, we can run our consensus sequences through the latest versions of <em>Nextclade</em> and <em>Pangolin</em>. There are two ways to do this: using their respective web applications, or their command-line versions. For this task, we <strong>recommend that you use the command line tools</strong> (this will ensure our downstream analysis works well), but we also provide the option to use the web apps for your reference.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Command line</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Web Apps</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>To run the command-line version of these tools, there are two steps:</p>
+<ul>
+<li>Update the datasets of each software (to ensure they are using the latest lineage/clade nomenclature available).</li>
+<li>Run the actual analysis on your samples.</li>
+</ul>
+<p>We will use the exercises below to see what the commands to achieve this are.</p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>We will start doing the <strong>Nextclade</strong> analysis.</p>
+<ul>
+<li><p>Create a new script file called <code>scripts/04-nextclade.sh</code> and copy this code into it:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># update nextclade data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">nextclade</span> dataset get <span class="at">--name</span> sars-cov-2 <span class="at">--output-dir</span> resources/nextclade_background_data</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run nextclade</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nextclade</span> run <span class="at">--input-dataset</span> resources/nextclade_background_data/ <span class="at">--output-all</span> results/nextclade/ <span class="op">&lt;</span>INPUT<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Fix the code, replacing <code>&lt;INPUT&gt;</code> with the path to your consensus sequence file. Save the file.</p></li>
+<li><p>Activate the software environment: <code>mamba activate nextclade</code>.</p></li>
+<li><p>Run your script using <code>bash</code>.</p></li>
+<li><p>Once the analysis completes, open the file <code>results/nextclade/nextclade.tsv</code> in <em>Excel</em> and see what problems your samples may have (in particular those classified as “bad” quality).</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>For the <strong>Pangolin</strong> analysis:</p>
+<ul>
+<li><p>Create a new script file called <code>scripts/04-pangolin.sh</code> and copy this code into it:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># update pangolin data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>DATA_UPDATE_COMMAND<span class="op">&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run pangolin</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">pangolin</span> <span class="at">--outdir</span> results/pangolin/ <span class="at">--outfile</span> pango_report.csv <span class="op">&lt;</span>INPUT<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Fix the code:</p>
+<ul>
+<li>Replace <code>&lt;INPUT&gt;</code> with the path to your consensus sequence file.</li>
+<li>Replace <code>&lt;DATA_UPDATE_COMMAND&gt;</code> with the pangolin command used to update its data. Check the documentation of the tool with <code>pangolin --help</code> to see if you can find what this option is called. Alternatively, look at the <a href="https://cov-lineages.org/resources/pangolin/updating.html">documentation online</a>.</li>
+</ul></li>
+<li><p>Save the file.</p></li>
+<li><p>Activate the software environment: <code>mamba activate pangolin</code>.</p></li>
+<li><p>Run your script using <code>bash</code>.</p></li>
+<li><p>Once the analysis completes, open the file <code>results/pangolin/pango_report.csv</code> in <em>Excel</em> and see if there were any samples for which the analysis failed. If there were any failed samples, check if they match the report from <em>Nextclade</em>.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<p><strong>These exercises are optional - during the workshop please use the command line version of the tools.</strong></p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p><strong>Running Nextclade</strong></p>
+<p>Go to <a href="https://clades.nextstrain.org/">clades.nextstrain.org</a> and run <em>Nextclade</em> on the clean FASTA file you created earlier (<code>report/consensus.fa</code>).<br>
+If you need a reminder about this tool, see the “<a href="../../materials/02-isolates/03-lineages.html#nextclade">Lineages and variants</a>” section of the materials.</p>
+<p>Once the analysis completes, pay particular attention to the quality control column, to see what problems your samples may have (in particular those classified as “bad” quality).</p>
+<p>Then:</p>
+<ul>
+<li>Create a new folder in your project directory: <code>results/nextclade</code>.</li>
+<li>Use the “download” button (top-right) and download the file <code>nextclade.tsv</code> (tab-delimited file), which contains the results of the analysis. <strong>Important:</strong> please download the TSV file (not the CSV file, as it uses <code>;</code> to separate columns, and will not work later with the “Data Integration” section).</li>
+<li>Save this file in the <code>results/nextclade</code> folder you created.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p><strong>Running Pangolin</strong></p>
+<p>Go to <a href="https://pangolin.cog-uk.io/">pangolin.cog-uk.io</a> and run <em>Pangolin</em> on the clean FASTA file you created earlier (<code>report/consensus.fa</code>).<br>
+If you need a reminder about this tool, see the “<a href="../../materials/02-isolates/03-lineages.html#nextclade">Lineages and variants</a>” section of the materials.</p>
+<p>Once the analysis completes, pay particular attention to any samples that failed. If there were any failed samples, check if they match the report from <em>Nextclade</em>.</p>
+<p>Then:</p>
+<ul>
+<li>Create a new folder in your project directory: <code>results/pangolin</code>.</li>
+<li>Use the “download” button (the “arrow down” symbol on the results table) and download the file <code>results.csv</code>. Rename this file to <code>report.csv</code> (<strong>important:</strong> make sure to rename the file like this, otherwise it will not work later with the “Data Integration” section).</li>
+<li>Save this file in the <code>results/pangolin</code> folder you created.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="phylogeny" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="phylogeny"><span class="header-section-number">10.5.2</span> Phylogeny</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See <a href="../02-isolates/04-phylogeny.html#sec-phylogeny"><span>Section&nbsp;7.1</span></a>, if you need to revise how to build phylogenetic trees.</p>
+</div>
+</div>
+<p>Although tools such as <em>Nextclade</em> and <em>civet</em> can place our samples in a phylogeny, sometimes it may be convenient to build our own phylogenies. This requires three steps:</p>
+<ul>
+<li>Producing a multiple sequence alignment from all consensus sequences.</li>
+<li>Tree inference.</li>
+<li>Tree visualisation.</li>
+</ul>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<ul>
+<li>Start by creating two directories to store the output of our analysis: <code>results/mafft</code> and <code>results/iqtree</code>.</li>
+<li>Activate the software environment: <code>mamba activate phylo</code> (this environment includes both <code>mafft</code> and <code>iqtree</code>).</li>
+<li>To make our analysis more interesting, we will combine our sequences with sequences from previous workshops. Use the <code>cat</code> program to concatenate your sequences (<code>report/consensus.fa</code>) with the sequences from our collaborators (<code>resources/eqa_collaborators/eqa_consensus.fa</code>). Using <code>&gt;</code>, save the output in a new file <code>results/mafft/unaligned_consensus.fa</code>.</li>
+<li>Perform a multiple sequence alignment of the combined consensus sequences using the program <code>mafft</code> (see <a href="../02-isolates/04-phylogeny.html#sec-mafft"><span>Section&nbsp;7.2</span></a> for how to use this program). Save the output in a file called <code>results/mafft/aligned_consensus.fa</code>.</li>
+<li>Infer a phylogenetic tree using the <code>iqtree2</code> program (see <a href="../02-isolates/04-phylogeny.html#sec-iqtree"><span>Section&nbsp;7.3</span></a>).</li>
+<li>Once you have both of these commands working, make sure to save them in a new shell script (as a record of your analysis). Save the script as <code>scripts/05-phylogeny.sh</code>.</li>
+<li>Visualise the tree using FigTree (see <a href="../02-isolates/04-phylogeny.html#sec-figtree"><span>Section&nbsp;7.4</span></a>).</li>
+</ul>
+<p>What substitution model was chosen as the best for your data by IQ-Tree?</p>
+<p>Do your samples group with samples from previous workshops in the way that is expected, or are there any outliers?</p>
+<p>Are there any obvious differences between sequencing technologies?</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="clustering-optional-section" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="clustering-optional-section"><span class="header-section-number">10.5.3</span> Clustering (Optional Section)</h3>
+<!-- 
+TODO - move this to its own (new) section.
+-->
+<p>The software <em>civet</em> (Cluster Investigation and Virus Epidemiology Tool) can be used to produce a report on the phylogenetic relationship between viral samples, using a background dataset to contextualise them (e.g.&nbsp;a global or regional sample of sequences) as well as metadata information to enable the identification of emerging clusters of samples.</p>
+<p><em>Civet</em> works in several stages, in summary:</p>
+<ul>
+<li>Each input sequence is assigned to a “catchment” group. These are groups of samples that occur at a given genetic distance (number of SNP differences) from each other.</li>
+<li>Within each catchment group, a phylogeny is built (using the <code>iqtree2</code> software with the HKY substitution model).</li>
+<li>The phylogeny is annotated with user-input metadata (e.g.&nbsp;location, collection date, etc.). The results are displayed in an interactive HTML report.</li>
+</ul>
+<p>One of the critical pieces of information needed by <em>civet</em> is the background data, to which the input samples will be compared with. These background data could be anything the user wants, but typically it’s a good idea to use samples from the local geographic area from where the samples were collected. For example, a national centre may choose to have their background data composed of all the samples that have been sequenced in the country so far. Or perhaps all the samples in its country and other neighbouring countries.</p>
+<p>One way to obtain background data is to download it from GISAID. An example of how to do this is detailed in the <a href="https://cov-lineages.org/resources/civet/walkthrough.html#background_dataset"><em>civet</em> documentation</a>. We have already downloaded the data from GISAID, so we can go straight to running our <em>civet</em> analysis.</p>
+<!-- 
+:::{.callout-exercise}
+As background data for _civet_, we have pre-downloaded samples from GISAID for all major world regions, which is stored in `resources/background_data/`. 
+Before running our samples through _civet_, we need to prepare this background data. 
+
+1. Inspect the files in `resources/background_data/`, looking at the sub-directory that fits your country of residence. 
+  In particular, look at the metadata file that comes with the background data, to identify the column name that contains the sample IDs and collection date. 
+2. Using the information from the previous step, adjust the following _civet_ command (save this command in a new script in `scripts/02-prepare_civet_data.sh`):
+  ```bash
+  civet -bd align_curate \
+    -bd-seqs <PATH_TO_BACKGROUND_FASTA> \
+    -bd-metadata <PATH_TO_BACKGROUND_METADATA> \
+    --sequence-id-column <METADATA_COLUMN_WITH_IDS>
+  ```
+3. Once you've created your new script, run it using `bash`. 
+
+Note: you only need to do this step once for each version of the background data. 
+If you have a new version of the background data (for example, revised monthly), then you need to run the `civet -bd align_curate` command again. 
+::: 
+-->
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<ul>
+<li><p>Create a new script in <code>scripts/06-civet.sh</code>, with the following command, adjusted to fit your files:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">civet</span> <span class="at">-i</span> <span class="op">&lt;</span>PATH_TO_YOUR_SAMPLE_METADATA<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-f</span> <span class="op">&lt;</span>PATH_TO_YOUR_CONSENSUS_FASTA<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-icol</span> <span class="op">&lt;</span>COLUMN_NAME_FOR_YOUR_SAMPLE_IDS<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-idate</span> <span class="op">&lt;</span>COLUMN_NAME_FOR_YOUR_COLLECTION_DATE<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="op">&lt;</span>PATH_TO_CIVET_BACKGROUND_DATA<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span> results/civet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Activate the software environment: <code>mamba activate civet</code>.</p></li>
+<li><p>Once your script is ready, run it with <code>bash</code>.</p></li>
+<li><p>After the analysis completes, open the HTML output file in <code>results/civet</code> and examine into how many catchments your samples were grouped into.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="integration-visualisation" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="integration-visualisation"><span class="header-section-number">10.6</span> Integration &amp; Visualisation</h2>
+<p>At this point in our analysis, we have several tables with different pieces of information:</p>
+<ul>
+<li><code>sample_info.csv</code> → the original table with metadata for our samples.</li>
+<li><code>results/viralrecon/multiqc/medaka/summary_variants_metrics_mqc.csv</code> → quality metrics from the <em>MultiQC</em> report generated by the <em>viralrecon</em> pipeline.</li>
+<li><code>results/nextclade/nextclade.tsv</code> → the results from <em>Nextclade</em>.</li>
+<li><code>results/pangolin/pango_report.csv</code> → the results from <em>Pangolin</em>.</li>
+<li>(optional) <code>results/civet/master_metadata.csv</code> → the results from the <em>civet</em> analysis, namely the catchment (or cluster) that each of our samples was grouped into.</li>
+</ul>
+<p>Each of these tables stores different pieces of information, and it would be great if we could <em>integrate</em> them together, to facilitate their interpration and generate some visualisations.</p>
+<p>We will demonstrate how this analysis can be done using the <em>R</em> software, which is a popular programming language used for data analysis and visualisation. Check the <a href="../../materials/appendices/quick_r.html">Quick R Intro</a> appendix for the basics of how to work with R and RStudio.</p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p><strong>Data Integration</strong></p>
+<p>From RStudio, open the script in <code>scripts/07-data_integration.R</code>. Run the code in the script, going line by line (remember in RStudio you can run code from the script panel using <kbd>Ctrl</kbd> + <kbd>Enter</kbd>). As you run the code check the tables that are created (in your “Environment” panel on the top-right) and see if they were correctly imported.</p>
+<p>Once you reach the end of the script, you should have two tab-delimited files named <code>report/consensus_metrics.tsv</code> and <code>report/variants.tsv</code>. Open both files in <em>Excel</em> to check their content and confirm they contain information from across the multiple tables.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-26" class="callout-26-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p><strong>Data Visualisation</strong></p>
+<p>After integrating the data, it’s time to produce some visualisations. From RStudio, open the script in <code>scripts/08-visualisation.R</code>. Run the code in the script, going line by line.</p>
+<p>As you run the code, several plots will be created. You can export these plots from within RStudio using the “Export” button on the plotting panel – these will be useful when you write your report later.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-27" class="callout-27-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p><strong>Annotating Phylogenetic Tree</strong></p>
+<p>Using FigTree, import two annotation files (<strong>File</strong> &gt; <strong>Import Annotations…</strong>):</p>
+<ul>
+<li><code>report/consensus_metrics.tsv</code>, which was created in the Data Integration exercise.</li>
+<li><code>resources/eqa_collaborators/metadata.tsv</code>, which has lineage assignment for EQA samples sequenced by other labs.</li>
+</ul>
+<p>After importing both files, annotate your phylogenetic tree to display the lineages assigned to each sample as the tip labels. See <a href="../02-isolates/04-phylogeny.html#sec-figtree"><span>Section&nbsp;7.4</span></a>, if you need a reminder of how to annotate trees using FigTree.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="eqa-panels" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="eqa-panels"><span class="header-section-number">10.7</span> EQA Panels</h2>
+<p>The analysis we have done so far is applicable to any new sequences that you want to process. However, we have also been using a pre-defined panel of samples to be used as part of an <em>External Quality Assessment</em> (EQA) process. This allows us to assess whether our bioinformatic analysis identified all the expected mutations in these samples, as well as assigned them to the correct lineages.</p>
+<p>To do this, requires to compare the mutations we detected in our EQA samples to the expected mutations provided to us. From this, we will be able to calculate True Positives (TP), False Positives (FP) and False Negatives (FN), and calculate two performance metrics:</p>
+<ul>
+<li>Precision = TP / (TP + FP) → what fraction of the mutations we detected are true?</li>
+<li>Sensitivity = TP / (TP + FN) → what fraction of all true mutations did we detect?</li>
+</ul>
+<p>There can be cases where one of these metrics is high and the other one lower. For example, if you have a high-coverage genome (say &gt;95%) but lots of sequencing errors, you may have a high sensitivity (you manage to detect all true mutations), but low precision (you also detect lots of false positives, due to sequencing errors). Conversely, if you have a low-coverage genome (say &lt;50%) but very high-quality sequencing, you may have low sensitivity (you missed lots of true mutations, because of missing data), but high precision (those mutations that you did manage to identify were all true, you didn’t have many false positives).</p>
+<p><img src="images/precision_sensitivity.svg" class="img-fluid"></p>
+<p>If you are submiting your samples to <em>GenQA</em>’s platform, they will also provide with a general accuracy score called <em>F-score</em>. This is calculated as the <a href="https://en.wikipedia.org/wiki/Harmonic_mean#Two_numbers">harmonic mean</a> of precision and sensitivity:</p>
+<p><span class="math inline">\(F_{score} = \frac{2 \times Precision \times Sensitivity}{Precision + Sensitivity}\)</span></p>
+<p>A high F-score is indicative of both high precision and sensitivity, whereas a lower score indicates that at least one of those metrics are low.</p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-28" class="callout-28-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>From RStudio, open the script in <code>scripts/09-eqa_validation.R</code>. Run the code in the script, going line by line.</p>
+<p>This script will save a new tab-delimited file in <code>report/eqa_performance_metrics.tsv</code>. Open this file in <em>Excel</em> and check what the precision and sensitivity of your analysis was. Are you happy with the results?</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-29" class="callout-29-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p><strong>(Optional)</strong></p>
+<p>While you run the R script, you will have an object called <code>all_mutations</code> in your environment (check the top-right panel). From RStudio, click on the name of this object to open it in the table viewer.</p>
+<p>Look at mutations that were not detected in your samples, but were present in the expected mutations (i.e.&nbsp;false negatives). Open the BAM file for one of those samples in <em>IGV</em> and navigate to the position where that mutation should occur. Investigate what the reason may have been for missing that mutation.</p>
+<p>If you need a reminder of where to find the BAM file, consult the <a href="04-consensus.html#Output_Files">Consensus &gt; Output Files</a> section of the materials, or the <a href="https://nf-co.re/viralrecon/2.6.0/output">Viralrecon output documentation</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="reporting" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="reporting"><span class="header-section-number">10.8</span> Reporting</h2>
+<p>Finally, we have come to the end of our analysis. So, all that is left is to report our results in the most informative way to our colleagues and decision-makers. You may already have established reporting templates in your institution, and if that’s the case, you should use those. Alternatively, we will look at a suggested template, based on the reports done by the UK Health Security Agency (UKHSA).</p>
+<div class="callout callout-style-default callout-exercise no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-30" class="callout-30-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<div class="callout-exercise">
+<p>Open our shared <a href="https://docs.google.com/document/d/10StS8Sd7DzKpB6yjjOhb14R2-jkpNAF4UQfPhTuVuVU/edit?usp=sharing">report template</a> document and download it as a <em>Word</em> document (<kbd>File</kbd> → <kbd>Download</kbd> → <kbd>Microsoft Word (.docx)</kbd>). Save the file in <code>report/YYYY-MM-DD_analysis_report.docx</code> (replace <code>YYYY-MM-DD</code> by today’s date).</p>
+<p>Open the file and complete it with the information you collected throughout your analysis. You should be able to get all this information from the files in your <code>report/</code> directory.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../materials/03-case_studies/02-southafrica.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">South Africa (Illumina)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../materials/04-wastewater/01-ww_surveillance.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Wastewater Surveillance</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">Licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://creativecommons.org/images/deed/cc_icon_black_x2.png" class="img-fluid" width="25"> Bioinformatics Training Facility</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
